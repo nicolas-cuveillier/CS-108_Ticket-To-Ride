@@ -3,15 +3,16 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 
 public final class Station {
+
+    private final int id;
+    private final String name;
+
     Station(int id, String name){
-        Preconditions.checkArgument(id>0);
+        Preconditions.checkArgument(id >= 0);
         this.id = id;
         this.name = name;
     }
-    
-    private final int id;
-    private final String name;
-    
+
     public int id() {
         return id;
     }
