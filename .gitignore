@@ -3,6 +3,6 @@
 /.idea/workspace.xml
 # Supplemental ignored files
 /bin/
-/.idea/
+/.idea
 .classpath
 .project
