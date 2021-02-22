@@ -1,8 +1,8 @@
 # Default ignored files
-/.idea/shelf/
-/.idea/workspace.xml
+.idea/shelf/
+.idea/workspace.xml
 # Supplemental ignored files
 /bin/
-/.idea/.name
+.idea/
 .classpath
 .project
