@@ -14,20 +14,20 @@ public enum Card {
     WHITE(Color.WHITE),  //(wagon blanc)
     LOCOMOTIVE(null);  //(locomotive)
 
-    Card(Color color){
-        this.color = color;
+    Card(Color c){
+        this.color = c;
     }
 
-    public Color color; //private?
-    public static List<Card> ALL = List.of(Card.values());
-    public static int COUNT = ALL.size();
-    public final static List<Card> CARS = List.of(Card.BLACK,Card.VIOLET,Card.BLUE,Card.GREEN,Card.YELLOW,Card.ORANGE,Card.RED,Card.WHITE);
+    private Color color;
+    public static final List<Card> ALL = List.of(Card.values());
+    public static final int COUNT = ALL.size();
+    public static final List<Card> CARS = List.of(Card.BLACK,Card.VIOLET,Card.BLUE,Card.GREEN,Card.YELLOW,Card.ORANGE,Card.RED,Card.WHITE);
 
     public static Card of(Color color){
        return CARS.get(color.ordinal());
     }
 
     public Color color(){
-        return null;// à completer
+        return this.color;
     }
 }
