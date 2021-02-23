@@ -1,7 +1,6 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

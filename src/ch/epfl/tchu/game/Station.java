@@ -8,7 +8,7 @@ public final class Station {
     private final String name;
 
     Station(int id, String name){
-        Preconditions.checkArgument(id >= 0);
+        Preconditions.checkArgument(id >= 0 );
         this.id = id;
         this.name = name;
     }
