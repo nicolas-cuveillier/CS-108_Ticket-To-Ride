@@ -32,16 +32,16 @@ public class Trip {
         return allTrip;
     }
 
-    //la classe doit etre immuable donc il faut retourner des copies des Stations ?
-    public Station getFrom() {
+
+    public Station from() {
         return from;
     }
 
-    public Station getTo() {
+    public Station to() {
         return to;
     }
 
-    public int getPoints() {
+    public int points() {
         return points;
     }
 
