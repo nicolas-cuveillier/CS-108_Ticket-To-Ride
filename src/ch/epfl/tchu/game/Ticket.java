@@ -13,7 +13,7 @@ public final class Ticket implements Comparable<Ticket> {
         Preconditions.checkArgument(trips1.isEmpty());
 
         for (int i = 1; i < (trips1.size()-1); i++) {
-            Preconditions.checkArgument(trips1.get(i-1).getFrom().name().equalsIgnoreCase(trips1.get(i).getFrom().name()));
+            Preconditions.checkArgument(trips1.get(i-1).from().name().equalsIgnoreCase(trips1.get(i).from().name()));
         }
 
         this.trips = trips1;
@@ -26,7 +26,8 @@ public final class Ticket implements Comparable<Ticket> {
     }
 
     private static String computeText(){
-        return null;//to be completed
+        
+        return "";//to be completed
     }
 
     public int points(StationConnectivity connectivity){
