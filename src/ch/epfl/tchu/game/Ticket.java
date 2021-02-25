@@ -5,11 +5,21 @@ import ch.epfl.tchu.Preconditions;
 import java.util.List;
 import java.util.TreeSet;
 
+/**
+ * @author Grégory Preisig & Nicolas Cuveillier
+ * <p>
+ * Simulate a ticket from the tchu game
+ */
 public final class Ticket implements Comparable<Ticket> {
 
     private final List<Trip> trips;
     private final String name;
 
+    /**
+     * Principal constructor for a Ticket, building it with a List of trips
+     *
+     * @param trips1
+     */
     public Ticket(List<Trip> trips1) {
 
         Preconditions.checkArgument(!trips1.isEmpty());
@@ -23,6 +33,13 @@ public final class Ticket implements Comparable<Ticket> {
 
     }
 
+    /**
+     * Second constructor, for building a Ticket with only one trip
+     *
+     * @param from   (Station)
+     * @param to     (Station)
+     * @param points
+     */
     public Ticket(Station from, Station to, int points) {
         this(List.of(new Trip(from, to, points)));
     }
@@ -47,6 +64,12 @@ public final class Ticket implements Comparable<Ticket> {
         return text;
     }
 
+    /**
+     * Compute how many points will be earned with this ticket according to its connectivity
+     *
+     * @param connectivity (StationConnectivity)
+     * @return (int) points
+     */
     public int points(StationConnectivity connectivity) {
         int p = 0;
         int maxPoint = 0;
@@ -74,6 +97,9 @@ public final class Ticket implements Comparable<Ticket> {
         return p;
     }
 
+    /**
+     * @return (string) the textual representation of a tickets
+     */
     public String text() {
         return name;
     }
