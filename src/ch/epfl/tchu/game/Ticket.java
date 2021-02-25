@@ -33,7 +33,7 @@ public final class Ticket implements Comparable<Ticket> {
 
         text += trips.get(0).from().name() + " - ";
 
-        if(trips.size() == 1 ) {
+        if (trips.size() == 1) {
             s.add(String.format("%s (%s)", trips.get(0).to().name(), trips.get(0).points()));
             text += String.join("", s);
         } else {
@@ -49,10 +49,27 @@ public final class Ticket implements Comparable<Ticket> {
 
     public int points(StationConnectivity connectivity) {
         int p = 0;
+        int maxPoint = 0;
+        boolean reached = false;
 
-        for (Trip t : trips){
-            p += t.points(connectivity);
-            System.out.println(p);
+        if (trips.size() == 1) {
+            p += trips.get(0).points(connectivity);
+        } else {
+
+            for (Trip t : trips) {
+                if (connectivity.connected(t.from(), t.to())) {
+                    if (t.points(connectivity) > maxPoint) {
+                        maxPoint = t.points(connectivity);
+                        reached = true;
+                    }
+                }
+            }
+
+            if (reached) {
+                p += maxPoint;
+            } else {
+                p += -5;
+            }
         }
         return p;
     }
