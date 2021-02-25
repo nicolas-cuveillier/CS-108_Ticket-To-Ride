@@ -2,6 +2,7 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 import java.util.List;
+import java.util.TreeSet;
 
 public final class Ticket implements Comparable<Ticket> {
 
@@ -17,7 +18,7 @@ public final class Ticket implements Comparable<Ticket> {
         }
 
         this.trips = trips1;
-        this.name = computeText();
+        this.name = computeText(this.trips);
 
     }
 
@@ -25,13 +26,20 @@ public final class Ticket implements Comparable<Ticket> {
         this(List.of(new Trip(from, to, points)));
     }
 
-    private static String computeText(){
+    private static String computeText(List<Trip> trips){
+        TreeSet<String> s = new TreeSet<String>();
+         for(Trip t : trips) {
+             s.add(String.format("%s - %s (%s)", t.from().name(),t.to().name(),t.points()));
+         }
         
-        return "";//to be completed
+        return String.join("\n", s);
     }
-
+    
     public int points(StationConnectivity connectivity){
-        return 0;//to be completed
+        int p = 0;
+        for(Trip t : trips)
+            p+= t.points(connectivity);
+        return p;
     }
 
     public String text(){
