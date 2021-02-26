@@ -55,8 +55,8 @@ public final class Route {
         Preconditions.checkArgument(drawnCards.size() == 3 && this.level == Level.UNDERGROUND);
         int additionalCard = 0;
 
-        for (Card cc : claimCards) {
-            if (drawnCards.contains(cc) || drawnCards.contains(Card.LOCOMOTIVE)){
+        for (Card dc : drawnCards) {
+            if (claimCards.contains(dc) || dc.color().equals(Card.LOCOMOTIVE.color())){
                 ++additionalCard;
             }
         }
