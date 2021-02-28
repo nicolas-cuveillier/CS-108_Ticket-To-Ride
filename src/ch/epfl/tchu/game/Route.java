@@ -19,8 +19,8 @@ public final class Route {
     private final int length;
 
     public Route(String id, Station station1, Station station2, int length, Level level, Color color) {
-        Preconditions.checkArgument(!station1.equals(station2) || length < Constants.MIN_ROUTE_LENGTH
-                || length > Constants.MAX_ROUTE_LENGTH);
+        Preconditions.checkArgument(!station1.name().equals(station2.name()) && length <= Constants.MAX_ROUTE_LENGTH
+                && length >= Constants.MIN_ROUTE_LENGTH);
 
         if (station1 == null || station2 == null || level == null) {
             throw new NullPointerException("Station | Level | both is null");
@@ -48,6 +48,9 @@ public final class Route {
     }
 
     public List<SortedBag<Card>> possibleClaimCards() {
+        SortedBag.Builder sBuilder = new SortedBag.Builder();
+        
+
         return null;
     }//to be completed
 
@@ -56,7 +59,7 @@ public final class Route {
         int additionalCard = 0;
 
         for (Card dc : drawnCards) {
-            if (claimCards.contains(dc) || dc.color().equals(Card.LOCOMOTIVE.color())){
+            if (claimCards.contains(dc) || dc.color().equals(Card.LOCOMOTIVE.color())) {
                 ++additionalCard;
             }
         }
