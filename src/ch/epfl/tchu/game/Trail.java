@@ -13,7 +13,8 @@ public final class Trail {
     private final Station station1;
     private final Station station2;
 
-    private Trail(List<Route> routes) {
+    //TODO : add st from,st to
+    private Trail(List<Route> routes, Station station1, Station station2) {
         this.routes = routes;
 
         if (routes.size() == 0) {
@@ -21,8 +22,8 @@ public final class Trail {
             this.station2 = null;
             this.length = 0;
         } else {
-            this.station1 = routes.get(0).station1();
-            this.station2 = routes.get(routes.size() - 1).station2();
+            this.station1 = station1;
+            this.station2 = station2;
             int length1 = 0;
             for (Route r : this.routes) {
                 length1 += r.length();
@@ -33,42 +34,54 @@ public final class Trail {
 
     }
 
-    //TODO
+
     public static Trail longest(List<Route> routes) {
         List<Trail> cs = new ArrayList<>();
         Trail longestTrail = null;
         int length = 0;
 
-
         for (Route r : routes) {
             List<Route> r1 = List.of(r);
-            cs.add(new Trail(r1));
+            cs.add(new Trail(r1, r.station1(), r.station2()));
+            cs.add(new Trail(r1, r.station2(), r.station1()));
         }
 
         while (!cs.isEmpty()) {
 
             List<Trail> cs2 = new ArrayList<>();
-            List<Route> rs = new ArrayList<>();
 
             for (Trail c : cs) {
                 for (Route r : routes) {
-                    if (!c.routes().contains(r) && (c.station2().id() == r.station1().id() || c.station2().id() == r.station2().id())) {
-                        rs.add(r);
+                    if (!c.routes().contains(r)) {
+
+                        if (c.station2().equals(r.station1())) {
+                            List<Route> routeList = new ArrayList<>(c.routes);
+                            routeList.add(r);
+                            Trail t = new Trail(routeList, c.station1, r.station2());
+                            cs2.add(t);
+
+                            if (length < t.length()) {
+                                length = t.length();
+                                longestTrail = t;
+                            }
+                        } else if (c.station2().equals(r.station2())) {
+                            List<Route> routeList = new ArrayList<>(c.routes);
+                            routeList.add(r);
+                            Trail t = new Trail(routeList, c.station1, r.station1());
+                            cs2.add(t);
+
+                            if (length < t.length()) {
+                                length = t.length();
+                                longestTrail = t;
+                            }
+
+                        }
                     }
                 }
-                for (Route r : rs) {
-                   c.routes().add(r);
-                }
-                cs2.add(c);
 
-                if (length < c.length()) {
-                    length = c.length();
-                    longestTrail = c;
-                }
             }
             cs = cs2;
         }
-
         return longestTrail;
     }//to be completed
 

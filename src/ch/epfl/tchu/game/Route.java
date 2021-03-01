@@ -54,16 +54,25 @@ public final class Route {
         List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
 
         if (color == null) {
-            for (Color c : Color.ALL) {
-                sBuilder = new SortedBag.Builder();
-                sBuilder.add(length, c);
-                possibleClaimCards.add(sBuilder.build());
+            if (level.equals(Level.UNDERGROUND)) {
+                for (Color c : Color.ALL) {
+                    sBuilder = new SortedBag.Builder();
+                    sBuilder.add(length, c);
+                    possibleClaimCards.add(sBuilder.build());
+                }
+            } else {
+
             }
         } else {
-
-            for (int i = 0; i <= length; i++) {
+            if (level.equals(Level.UNDERGROUND)) {
+                for (int i = 0; i <= length; i++) {
+                    sBuilder = new SortedBag.Builder();
+                    sBuilder.add(length - i, Card.of(color)).add(i, Card.LOCOMOTIVE);
+                    possibleClaimCards.add(sBuilder.build());
+                }
+            } else {
                 sBuilder = new SortedBag.Builder();
-                sBuilder.add(length - i, Card.of(color)).add(i, Card.LOCOMOTIVE);
+                sBuilder.add(length, Card.of(color));
                 possibleClaimCards.add(sBuilder.build());
             }
             return possibleClaimCards;

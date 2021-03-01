@@ -61,7 +61,7 @@ public class TrailTest {
 
         List<Route> routes = List.of(r1,r2,r3,r4,r5);
         Trail t = new Trail(routes);
-        Assertions.assertEquals(t,ch.epfl.tchu.game.Trail.longest(routes).length());
+        Assertions.assertEquals(t,ch.epfl.tchu.game.Trail.longest(routes));
         //to be completed
     }
 
