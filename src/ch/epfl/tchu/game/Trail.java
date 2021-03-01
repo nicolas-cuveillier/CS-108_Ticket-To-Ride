@@ -1,5 +1,6 @@
 package ch.epfl.tchu.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,8 +33,43 @@ public final class Trail {
 
     }
 
+    //TODO
     public static Trail longest(List<Route> routes) {
-        return null;
+        List<Trail> cs = new ArrayList<>();
+        Trail longestTrail = null;
+        int length = 0;
+
+
+        for (Route r : routes) {
+            List<Route> r1 = List.of(r);
+            cs.add(new Trail(r1));
+        }
+
+        while (!cs.isEmpty()) {
+
+            List<Trail> cs2 = new ArrayList<>();
+            List<Route> rs = new ArrayList<>();
+
+            for (Trail c : cs) {
+                for (Route r : routes) {
+                    if (!c.routes().contains(r) && (c.station2().id() == r.station1().id() || c.station2().id() == r.station2().id())) {
+                        rs.add(r);
+                    }
+                }
+                for (Route r : rs) {
+                   c.routes().add(r);
+                }
+                cs2.add(c);
+
+                if (length < c.length()) {
+                    length = c.length();
+                    longestTrail = c;
+                }
+            }
+            cs = cs2;
+        }
+
+        return longestTrail;
     }//to be completed
 
     @Override

@@ -46,7 +46,7 @@ public final class Route {
     public int claimPoints() {
         return Constants.ROUTE_CLAIM_POINTS.get(length);
     }
-
+    //TODO
     public List<SortedBag<Card>> possibleClaimCards() {
         SortedBag.Builder sBuilder = new SortedBag.Builder();
         
@@ -59,7 +59,7 @@ public final class Route {
         int additionalCard = 0;
 
         for (Card dc : drawnCards) {
-            if (claimCards.contains(dc) || dc.color().equals(Card.LOCOMOTIVE.color())) {
+            if (claimCards.contains(dc) || dc.color() == (Card.LOCOMOTIVE.color())) {
                 ++additionalCard;
             }
         }
