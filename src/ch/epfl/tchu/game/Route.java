@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Route {
@@ -46,10 +47,27 @@ public final class Route {
     public int claimPoints() {
         return Constants.ROUTE_CLAIM_POINTS.get(length);
     }
-    //TODO
+
+    //TODO : complete the if statement for route neutre
     public List<SortedBag<Card>> possibleClaimCards() {
-        SortedBag.Builder sBuilder = new SortedBag.Builder();
-        
+        SortedBag.Builder sBuilder;
+        List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
+
+        if (color == null) {
+            for (Color c : Color.ALL) {
+                sBuilder = new SortedBag.Builder();
+                sBuilder.add(length, c);
+                possibleClaimCards.add(sBuilder.build());
+            }
+        } else {
+
+            for (int i = 0; i <= length; i++) {
+                sBuilder = new SortedBag.Builder();
+                sBuilder.add(length - i, Card.of(color)).add(i, Card.LOCOMOTIVE);
+                possibleClaimCards.add(sBuilder.build());
+            }
+            return possibleClaimCards;
+        }
 
         return null;
     }//to be completed
