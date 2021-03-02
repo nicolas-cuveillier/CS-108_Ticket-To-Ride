@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig & Nicolas Cuveillie
+ * <p>
+ * implement the notion of Trail in the game
  */
 public final class Trail {
 
@@ -13,7 +15,7 @@ public final class Trail {
     private final Station station1;
     private final Station station2;
 
-    //TODO : add st from,st to
+
     private Trail(List<Route> routes, Station station1, Station station2) {
         this.routes = routes;
 
@@ -34,7 +36,12 @@ public final class Trail {
 
     }
 
-
+    /**
+     * compute the longest or one of the longest Trail you can make with a given List of Route
+     *
+     * @param routes (List<Route>)
+     * @return (Trail)
+     */
     public static Trail longest(List<Route> routes) {
         List<Trail> cs = new ArrayList<>();
         Trail longestTrail = null;
@@ -108,18 +115,38 @@ public final class Trail {
         return text;
     }
 
+    /**
+     * getter for Trail's length
+     *
+     * @return (int)
+     */
     public int length() {
         return length;
     }
 
+    /**
+     * getter for Trail's routes
+     *
+     * @return (List < Route >)
+     */
     public List<Route> routes() {
         return routes;
     }
 
+    /**
+     * getter for the Trail's first Station
+     *
+     * @return (Station)
+     */
     public Station station1() {
         return station1;
     }
 
+    /**
+     * getter for the Trail's last Station
+     *
+     * @return (Station)
+     */
     public Station station2() {
         return station2;
     }
