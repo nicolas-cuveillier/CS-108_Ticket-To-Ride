@@ -66,7 +66,7 @@ public class RouteTest {
         SortedBag<Card> drawnCards2 = b.build();
         SortedBag<Card> drawnCards3 = b2.build();
         Assertions.assertEquals(3,r.additionalClaimCardsCount(claimCards,drawnCards));
-        Assertions.assertEquals(1,r.additionalClaimCardsCount(claimCards,drawnCards2));
+        Assertions.assertEquals(2,r.additionalClaimCardsCount(claimCards,drawnCards2));
         Assertions.assertEquals(0,r.additionalClaimCardsCount(claimCards,drawnCards3));
         Assertions.assertEquals(1,r.additionalClaimCardsCount(claimCards2,drawnCards));
     }
