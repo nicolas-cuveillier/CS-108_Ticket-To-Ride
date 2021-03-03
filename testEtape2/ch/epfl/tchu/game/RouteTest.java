@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Nicolas Cuveillier
+ * @author Grégory Preisig & Nicolas Cuveillier
  */
 public class RouteTest {
     @Test
