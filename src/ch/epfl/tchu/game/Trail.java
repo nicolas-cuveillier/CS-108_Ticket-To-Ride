@@ -50,22 +50,14 @@ public final class Trail {
         
         //filling the trail list cs with all the possible single route trails
         for (Route r : routes) {
-            //List<Route> r1 = List.of(r);
             Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
 
-//System.out.println("t1.station1() - t1.station2(): " + t1.station1() + " - " + t1.station2());
-//System.out.println("t1: " + t1);
             cs.add(t1);
             Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
-//System.out.println("t2.station1() - t2.station2(): " + t2.station1() + " - " + t2.station2());
-//System.out.println("t2: " + t2);
-            cs.add(t2);
+           cs.add(t2);
         }
-        
-//for(Trail t : cs) {System.out.println(t);}        
 
         while (!cs.isEmpty()) {
-//for(Trail testtrail : cs) {System.out.println(testtrail);}
             List<Trail> cs2 = new ArrayList<>();
 
             for (Trail c : cs) {
