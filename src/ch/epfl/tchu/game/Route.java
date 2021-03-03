@@ -90,45 +90,62 @@ public final class Route {
      * @return (List < SortedBag < Card > >)
      */
     public List<SortedBag<Card>> possibleClaimCards() {
-        SortedBag.Builder sBuilder;
         List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
 
         if (color == null) {
             if (level.equals(Level.UNDERGROUND)) {
-                for (int i = 0; i < length; i++) {
-                    for (Color c : Color.ALL) {
-                        sBuilder = new SortedBag.Builder();
-                        sBuilder.add(length - i, Card.of(c)).add(i, Card.LOCOMOTIVE);
-                        possibleClaimCards.add(sBuilder.build());
-                    }
-                }
-                sBuilder = new SortedBag.Builder();
-                sBuilder.add(length, Card.LOCOMOTIVE);
-                possibleClaimCards.add(sBuilder.build());
-
-
+                unColorUnderGroundPossibleClaimCards(possibleClaimCards);
             } else {
-                for (Color c : Color.ALL) {
-                    sBuilder = new SortedBag.Builder();
-                    sBuilder.add(length, c);
-                    possibleClaimCards.add(sBuilder.build());
-                }
+                unColorOverGroundPossibleClaimCards(possibleClaimCards);
             }
         } else {
             if (level.equals(Level.UNDERGROUND)) {
-                for (int i = 0; i <= length; i++) {
-                    sBuilder = new SortedBag.Builder();
-                    sBuilder.add(length - i, Card.of(color)).add(i, Card.LOCOMOTIVE);
-                    possibleClaimCards.add(sBuilder.build());
-                }
+                colorUndergroundPossibleClaimCards(possibleClaimCards);
             } else {
-                sBuilder = new SortedBag.Builder();
-                sBuilder.add(length, Card.of(color));
-                possibleClaimCards.add(sBuilder.build());
+                colorOvergroundPossibleClaimCards(possibleClaimCards);
             }
 
         }
         return possibleClaimCards;
+    }
+
+    private void unColorUnderGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
+        SortedBag.Builder sBuilder;
+        for (int i = 0; i < length; i++) {
+            for (Color c : Color.ALL) {
+                sBuilder = new SortedBag.Builder();
+                sBuilder.add(length - i, Card.of(c)).add(i, Card.LOCOMOTIVE);
+                possibleClaimCards.add(sBuilder.build());
+            }
+        }
+        sBuilder = new SortedBag.Builder();
+        sBuilder.add(length, Card.LOCOMOTIVE);
+        possibleClaimCards.add(sBuilder.build());
+    }
+
+    private void unColorOverGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
+        SortedBag.Builder sBuilder;
+        for (Color c : Color.ALL) {
+            sBuilder = new SortedBag.Builder();
+            sBuilder.add(length, c);
+            possibleClaimCards.add(sBuilder.build());
+        }
+
+    }
+
+    private void colorUndergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
+        SortedBag.Builder sBuilder;
+        for (int i = 0; i <= length; i++) {
+            sBuilder = new SortedBag.Builder();
+            sBuilder.add(length - i, Card.of(color)).add(i, Card.LOCOMOTIVE);
+            possibleClaimCards.add(sBuilder.build());
+        }
+    }
+
+    private void colorOvergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
+        SortedBag.Builder sBuilder = new SortedBag.Builder();
+        sBuilder.add(length, Card.of(color));
+        possibleClaimCards.add(sBuilder.build());
     }
 
     /**

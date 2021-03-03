@@ -47,15 +47,8 @@ public final class Trail {
         List<Trail> cs = new ArrayList<>();
         Trail longestTrail = null;
         int length = 0;
-        
-        //filling the trail list cs with all the possible single route trails
-        for (Route r : routes) {
-            Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
 
-            cs.add(t1);
-            Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
-           cs.add(t2);
-        }
+        fillingCsWithSingleRoute(routes, cs);
 
         while (!cs.isEmpty()) {
             List<Trail> cs2 = new ArrayList<>();
@@ -92,6 +85,17 @@ public final class Trail {
         return longestTrail;
     }
 
+    private static void fillingCsWithSingleRoute(List<Route> routes, List<Trail> cs) {
+        //filling the trail list cs with all the possible single route trails
+        for (Route r : routes) {
+            Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
+
+            cs.add(t1);
+            Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
+            cs.add(t2);
+        }
+    }
+
     @Override
     public String toString() {
         String text = "";
@@ -106,7 +110,7 @@ public final class Trail {
                 text += " - " + name;
                 totalLength += r.length();
             }
-            
+
             text += " - " + routes.get(routes.size() - 1).station2().name();
             text += " (" + totalLength + ")";
         } else {
