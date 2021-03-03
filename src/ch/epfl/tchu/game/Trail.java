@@ -27,7 +27,7 @@ public final class Trail {
             this.station1 = station1;
             this.station2 = station2;
             int length1 = 0;
-            for (Route r : this.routes) {
+            for (Route r : routes) {
                 length1 += r.length();
             }
             this.length = length1;
@@ -37,60 +37,68 @@ public final class Trail {
     }
 
     /**
-     * compute the longest or one of the longest Trail you can make with a given List of Route
+     * compute the longest or one of the longest Trail for a given List of Route
      *
      * @param routes (List<Route>)
      * @return (Trail)
      */
     public static Trail longest(List<Route> routes) {
+        //private vars
         List<Trail> cs = new ArrayList<>();
         Trail longestTrail = null;
         int length = 0;
-
+        
+        //filling the trail list cs with all the possible single route trails
         for (Route r : routes) {
-            List<Route> r1 = List.of(r);
-            cs.add(new Trail(r1, r.station1(), r.station2()));
-            cs.add(new Trail(r1, r.station2(), r.station1()));
+            //List<Route> r1 = List.of(r);
+            Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
+
+//System.out.println("t1.station1() - t1.station2(): " + t1.station1() + " - " + t1.station2());
+//System.out.println("t1: " + t1);
+            cs.add(t1);
+            Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
+//System.out.println("t2.station1() - t2.station2(): " + t2.station1() + " - " + t2.station2());
+//System.out.println("t2: " + t2);
+            cs.add(t2);
         }
+        
+//for(Trail t : cs) {System.out.println(t);}        
 
         while (!cs.isEmpty()) {
-
+//for(Trail testtrail : cs) {System.out.println(testtrail);}
             List<Trail> cs2 = new ArrayList<>();
 
             for (Trail c : cs) {
                 for (Route r : routes) {
                     if (!c.routes().contains(r)) {
-
-                        if (c.station2().equals(r.station1())) {
-                            List<Route> routeList = new ArrayList<>(c.routes);
+                        if ((c.station2().id() == r.station1().id()) && (c.station2().name() == r.station1().name())) {
+                            List<Route> routeList = new ArrayList<>(c.routes());
                             routeList.add(r);
-                            Trail t = new Trail(routeList, c.station1, r.station2());
+                            Trail t = new Trail(routeList, c.station1(), r.station2());
                             cs2.add(t);
 
                             if (length < t.length()) {
                                 length = t.length();
                                 longestTrail = t;
                             }
-                        } else if (c.station2().equals(r.station2())) {
-                            List<Route> routeList = new ArrayList<>(c.routes);
+                        } else if ((c.station2().id() == r.station2().id()) && (c.station2().name() == r.station2().name())) {
+                            List<Route> routeList = new ArrayList<>(c.routes());
                             routeList.add(r);
-                            Trail t = new Trail(routeList, c.station1, r.station1());
+                            Trail t = new Trail(routeList, c.station1(), r.station1());
                             cs2.add(t);
 
                             if (length < t.length()) {
                                 length = t.length();
                                 longestTrail = t;
                             }
-
                         }
                     }
                 }
-
             }
             cs = cs2;
         }
         return longestTrail;
-    }//to be completed
+    }
 
     @Override
     public String toString() {
@@ -106,6 +114,7 @@ public final class Trail {
                 text += " - " + name;
                 totalLength += r.length();
             }
+            
             text += " - " + routes.get(routes.size() - 1).station2().name();
             text += " (" + totalLength + ")";
         } else {
