@@ -49,8 +49,6 @@ public final class Trail {
         int length = 0;
 
         cs = getSingleRoutes(routes);
-        
-        for(Trail t : cs)System.out.println(t);
 
         while (!cs.isEmpty()) {
             List<Trail> cs2 = new ArrayList<>();
@@ -96,7 +94,7 @@ public final class Trail {
             Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
             trails.add(t2);
         }
-        
+
         return trails;
     }
 
@@ -106,21 +104,21 @@ public final class Trail {
         int totalLength = 0;
 
         if (routes.size() != 0) {
-            if(this.station1() == routes.get(0).station1()) {
-                for(int i = 0; i < routes.size(); i++) {
+            if (this.station1() == routes.get(0).station1()) {
+                for (int i = 0; i < routes.size(); i++) {
                     text += " - " + routes.get(i).station1().name();
-                    totalLength +=routes.get(i).length();
-                    if(i==0)text = routes.get(i).station1().name();
+                    totalLength += routes.get(i).length();
+                    if (i == 0) text = routes.get(i).station1().name();
                 }
-                
+
                 text += " - " + routes.get(routes.size() - 1).station2().name();
-            }else if(this.station1().name() == routes.get(routes.size()-1).station2().name()) {
-                for(int i = routes.size()-1; i >= 0; i--) {
+            } else if (this.station1().name() == routes.get(routes.size() - 1).station2().name()) {
+                for (int i = routes.size() - 1; i >= 0; i--) {
                     text += " - " + routes.get(i).station2().name();
-                    totalLength +=routes.get(i).length();
-                    if(i == routes.size()-1)text = routes.get(i).station2().name();
+                    totalLength += routes.get(i).length();
+                    if (i == routes.size() - 1) text = routes.get(i).station2().name();
                 }
-                
+
                 text += " - " + routes.get(0).station1().name();
             }
             text += " (" + totalLength + ")";
