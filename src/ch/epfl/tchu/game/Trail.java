@@ -48,7 +48,9 @@ public final class Trail {
         Trail longestTrail = null;
         int length = 0;
 
-        fillingCsWithSingleRoute(routes, cs);
+        cs = getSingleRoutes(routes);
+        
+        for(Trail t : cs)System.out.println(t);
 
         while (!cs.isEmpty()) {
             List<Trail> cs2 = new ArrayList<>();
@@ -85,15 +87,17 @@ public final class Trail {
         return longestTrail;
     }
 
-    private static void fillingCsWithSingleRoute(List<Route> routes, List<Trail> cs) {
-        //filling the trail list cs with all the possible single route trails
+    private static List<Trail> getSingleRoutes(List<Route> routes) {
+        List<Trail> trails = new ArrayList<>();
         for (Route r : routes) {
             Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
 
-            cs.add(t1);
+            trails.add(t1);
             Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
-            cs.add(t2);
+            trails.add(t2);
         }
+        
+        return trails;
     }
 
     @Override
@@ -102,16 +106,23 @@ public final class Trail {
         int totalLength = 0;
 
         if (routes.size() != 0) {
-            text += routes.get(0).station1().name();
-            totalLength += routes.get(0).length();
-
-            for (Route r : routes.subList(1, routes.size())) {
-                String name = r.station1().name();
-                text += " - " + name;
-                totalLength += r.length();
+            if(this.station1() == routes.get(0).station1()) {
+                for(int i = 0; i < routes.size(); i++) {
+                    text += " - " + routes.get(i).station1().name();
+                    totalLength +=routes.get(i).length();
+                    if(i==0)text = routes.get(i).station1().name();
+                }
+                
+                text += " - " + routes.get(routes.size() - 1).station2().name();
+            }else if(this.station1().name() == routes.get(routes.size()-1).station2().name()) {
+                for(int i = routes.size()-1; i >= 0; i--) {
+                    text += " - " + routes.get(i).station2().name();
+                    totalLength +=routes.get(i).length();
+                    if(i == routes.size()-1)text = routes.get(i).station2().name();
+                }
+                
+                text += " - " + routes.get(0).station1().name();
             }
-
-            text += " - " + routes.get(routes.size() - 1).station2().name();
             text += " (" + totalLength + ")";
         } else {
             text = "Empty Trail";
