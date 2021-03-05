@@ -19,7 +19,7 @@ public final class Route {
      */
     public enum Level {
         OVERGROUND,
-        UNDERGROUND;
+        UNDERGROUND
     }
 
     private final String id;
@@ -37,7 +37,8 @@ public final class Route {
      * @param length   (int)
      * @param level    (Level)
      * @param color    (Color)
-     * @throws NullPointerException,IllegalArgumentException
+     * @throws NullPointerException,IllegalArgumentException if station are null,level is null, length is more than 6
+     * and less than 1, if the two station are the same
      */
     public Route(String id, Station station1, Station station2, int length, Level level, Color color) {
         Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH
@@ -68,7 +69,7 @@ public final class Route {
      * give the second station of a route according to the given one
      *
      * @param station (Station)
-     * @return
+     * @return (Station)
      */
     public Station stationOpposite(Station station) {
         Preconditions.checkArgument(station.id() == station1.id() || station.id() == station2.id());
@@ -110,40 +111,40 @@ public final class Route {
     }
 
     private void unColorUnderGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        SortedBag.Builder sBuilder;
+        SortedBag.Builder<Card> sBuilder;
         for (int i = 0; i < length; i++) {
             for (Color c : Color.ALL) {
-                sBuilder = new SortedBag.Builder();
+                sBuilder = new SortedBag.Builder<>();
                 sBuilder.add(length - i, Card.of(c)).add(i, Card.LOCOMOTIVE);
                 possibleClaimCards.add(sBuilder.build());
             }
         }
-        sBuilder = new SortedBag.Builder();
+        sBuilder = new SortedBag.Builder<>();
         sBuilder.add(length, Card.LOCOMOTIVE);
         possibleClaimCards.add(sBuilder.build());
     }
 
     private void unColorOverGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        SortedBag.Builder sBuilder;
+        SortedBag.Builder<Card> sBuilder;
         for (Color c : Color.ALL) {
-            sBuilder = new SortedBag.Builder();
-            sBuilder.add(length, c);
+            sBuilder = new SortedBag.Builder<>();
+            sBuilder.add(length, Card.of(c));
             possibleClaimCards.add(sBuilder.build());
         }
 
     }
 
     private void colorUndergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        SortedBag.Builder sBuilder;
+        SortedBag.Builder<Card> sBuilder;
         for (int i = 0; i <= length; i++) {
-            sBuilder = new SortedBag.Builder();
+            sBuilder = new SortedBag.Builder<>();
             sBuilder.add(length - i, Card.of(color)).add(i, Card.LOCOMOTIVE);
             possibleClaimCards.add(sBuilder.build());
         }
     }
 
     private void colorOvergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        SortedBag.Builder sBuilder = new SortedBag.Builder();
+        SortedBag.Builder<Card> sBuilder = new SortedBag.Builder<>();
         sBuilder.add(length, Card.of(color));
         possibleClaimCards.add(sBuilder.build());
     }
