@@ -2,7 +2,6 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.Card;
-import ch.epfl.tchu.game.Color;
 import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Trail;
 
@@ -34,25 +33,29 @@ public final class Info {
      */
     public static String cardName(Card card, int count) {
 
-        if (card.color().equals(Color.BLACK)) {
-            return StringsFr.BLACK_CARD + StringsFr.plural(count);
-        } else if (card.color().equals(Color.VIOLET)) {
-            return StringsFr.VIOLET_CARD + StringsFr.plural(count);
-        } else if (card.color().equals(Color.BLUE)) {
-            return StringsFr.BLUE_CARD + StringsFr.plural(count);
-        } else if (card.color().equals(Color.GREEN)) {
-            return StringsFr.GREEN_CARD + StringsFr.plural(count);
-        } else if (card.color().equals(Color.YELLOW)) {
-            return StringsFr.YELLOW_CARD + StringsFr.plural(count);
-        } else if (card.color().equals(Color.ORANGE)) {
-            return StringsFr.ORANGE_CARD + StringsFr.plural(count);
-        } else if (card.color().equals(Color.RED)) {
-            return StringsFr.RED_CARD + StringsFr.plural(count);
-        } else if (card.color().equals(Color.WHITE)) {
-            return StringsFr.WHITE_CARD + StringsFr.plural(count);
-        } else {
-            return StringsFr.LOCOMOTIVE_CARD + StringsFr.plural(count);
+        switch (card) {
+            case BLACK:
+                return StringsFr.BLACK_CARD + StringsFr.plural(count);
+            case VIOLET:
+                return StringsFr.VIOLET_CARD + StringsFr.plural(count);
+            case BLUE:
+                return StringsFr.BLUE_CARD + StringsFr.plural(count);
+            case GREEN:
+                return StringsFr.GREEN_CARD + StringsFr.plural(count);
+            case YELLOW:
+                return StringsFr.YELLOW_CARD + StringsFr.plural(count);
+            case ORANGE:
+                return StringsFr.ORANGE_CARD + StringsFr.plural(count);
+            case RED:
+                return StringsFr.RED_CARD + StringsFr.plural(count);
+            case WHITE:
+                return StringsFr.WHITE_CARD + StringsFr.plural(count);
+            case LOCOMOTIVE:
+                return StringsFr.LOCOMOTIVE_CARD + StringsFr.plural(count);
+            default:
+                return "";
         }
+
 
     }
 
