@@ -1,5 +1,7 @@
 package ch.epfl.tchu.game;
 
+import ch.epfl.tchu.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +45,11 @@ public final class Trail {
      * @return (Trail)
      */
     public static Trail longest(List<Route> routes) {
+        if(routes.isEmpty()){
+            return new Trail(List.of(),null,null);
+        }
         //private vars
-        List<Trail> cs = new ArrayList<>();
+        List<Trail> cs;
         Trail longestTrail = null;
         int length = 0;
 
@@ -75,6 +80,11 @@ public final class Trail {
                             if (length < t.length()) {
                                 length = t.length();
                                 longestTrail = t;
+                            }
+                        } else {
+                            if (length < c.length()) {
+                                length = c.length();
+                                longestTrail = c;
                             }
                         }
                     }

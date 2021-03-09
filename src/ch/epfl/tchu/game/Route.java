@@ -44,7 +44,7 @@ public final class Route {
         Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH
                 && length >= Constants.MIN_ROUTE_LENGTH);
 
-        if (station1 == null || station2 == null || level == null) {
+        if (station1 == null || station2 == null || level == null || id == null) {
             throw new NullPointerException("Station | Level | both is null");
         }
 

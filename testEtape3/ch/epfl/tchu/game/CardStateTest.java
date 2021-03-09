@@ -11,7 +11,7 @@ import java.util.List;
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 public class CardStateTest {
-    
+
     private static Deck<Card> createNormalDeck() {
         SortedBag.Builder<Card> b = new SortedBag.Builder<>();
         b.add(Card.BLACK).add(Card.LOCOMOTIVE).add(2, Card.ORANGE).add(Card.WHITE).add(Card.BLUE);
