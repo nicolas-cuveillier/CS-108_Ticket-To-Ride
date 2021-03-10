@@ -55,8 +55,7 @@ public final class Deck<C extends Comparable<C>> {
      * @return the first object of the deck
      */
     public C topCard() {
-        Preconditions.checkArgument(!cards.isEmpty());
-        return cards.get(0);
+        return topCards(1).get(0);
     }
 
     /**
