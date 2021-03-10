@@ -72,7 +72,7 @@ public final class Route {
      * @return (Station)
      */
     public Station stationOpposite(Station station) {
-        Preconditions.checkArgument(station.id() == station1.id() || station.id() == station2.id());
+        Preconditions.checkArgument(station.equals(station1)||station.equals(station2));
         return (station.id() == station1.id() ? station2 : station1);
     }
 
