@@ -5,6 +5,7 @@ import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Trail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -205,16 +206,24 @@ public final class Info {
     }
 
     private static String cardText(SortedBag<Card> cards) {
+        List<Card> trashList = new ArrayList<>();
         List<Card> cardsList = cards.toList().subList(1, cards.size());
-        String s = "";
-        String text = cardName(cards.get(0), cards.countOf(cards.get(0)));
+
+        String s = cards.countOf(cards.get(0)) + " " + cardName(cards.get(0), cards.countOf(cards.get(0)));
+        trashList.add(cards.get(0));
+
         for (Card c : cardsList) {
-            int n = cards.countOf(c);
-            s += String.format("%s %s", n, cardName(c, n));
-            text += String.join(", ", s);
+
+            if (!trashList.contains(c)) {
+                int n = cards.countOf(c);
+                s += String.format(", %s %s", n, cardName(c, n));
+                trashList.add(c);
+            }
         }
-        return text;
+
+        return s;
     }
+
 
 
 }
