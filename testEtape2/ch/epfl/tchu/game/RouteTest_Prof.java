@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RouteTest2 {
+class RouteTest_Prof {
     private static final List<Color> COLORS =
             List.of(
                     Color.BLACK,
