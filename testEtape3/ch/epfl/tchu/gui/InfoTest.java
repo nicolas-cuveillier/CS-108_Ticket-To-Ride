@@ -13,7 +13,6 @@ import ch.epfl.tchu.game.ChMap;
 import ch.epfl.tchu.game.Color;
 import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Station;
-import sun.rmi.server.WeakClassHashMap;
 
 class InfoTest {
 
