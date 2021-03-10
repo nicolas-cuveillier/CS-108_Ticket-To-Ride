@@ -87,13 +87,13 @@ class InfoTest {
     
     @Test
     void checkClaimedRoute() {
-        Route routeTest = new Route("routeTest", new Station(0, "From"),
+        /*Route routeTest = new Route("routeTest", new Station(0, "From"),
                 new Station(1, "To"), 2, Route.Level.OVERGROUND, Color.BLACK);
 
         Assertions.assertEquals("Player 1 a pris possession de la route From" + StringsFr.EN_DASH_SEPARATOR + "To au moyen de 2 noires.\n", infoP1.claimedRoute(routeTest, SortedBag.of(2, Card.BLACK)));
-
+*/
         //ton test passe pas chez moi car ca met la ref de la route
-        /*Route r1 = new Route("r1", new Station(0,"A"), new Station(1,"B"), i1, Route.Level.OVERGROUND, Color.BLACK);
+        Route r1 = new Route("r1", new Station(0,"A"), new Station(1,"B"), i1, Route.Level.OVERGROUND, Color.BLACK);
 
         SortedBag<Card> c1 = SortedBag.of(2, Card.BLACK, 1, Card.LOCOMOTIVE);
         String s = "";
@@ -107,9 +107,9 @@ class InfoTest {
                 }
                 s += n + " " + getFrName(c, n);
             }
-        Assertions.assertEquals(String.format(StringsFr.CLAIMED_ROUTE, p1, r1, s), infoP1.claimedRoute(r1, c1));
+        Assertions.assertEquals(String.format(StringsFr.CLAIMED_ROUTE, p1, String.format("%s%s%s", r1.station1(), StringsFr.EN_DASH_SEPARATOR,r1.station2()), s), infoP1.claimedRoute(r1, c1));
 
-         */
+         
     }
 
     @Test
@@ -120,7 +120,7 @@ class InfoTest {
         SortedBag.Builder<Card> b = new SortedBag.Builder<>();
         b.add(2, Card.BLACK).add(1, Card.LOCOMOTIVE);
 
-        Assertions.assertEquals("Player 1 tente de s'emparer du tunnel From" + StringsFr.EN_DASH_SEPARATOR + "To au moyen de 2 noires, 1 locomotive !\n",
+        Assertions.assertEquals("Player 1 tente de s'emparer du tunnel From" + StringsFr.EN_DASH_SEPARATOR + "To au moyen de 2 noires et 1 locomotive !\n",
                 infoP1.attemptsTunnelClaim(routeTest, b.build()));
     }
 
@@ -129,11 +129,11 @@ class InfoTest {
         SortedBag.Builder<Card> b = new SortedBag.Builder<>();
         b.add(1, Card.YELLOW).add(1, Card.RED).add(1, Card.BLACK);
 
-        Assertions.assertEquals("Les cartes supplémentaires sont 1 noire, 1 jaune, 1 rouge. Elles n'impliquent aucun coût additionnel.\n"
+        Assertions.assertEquals("Les cartes supplémentaires sont 1 noire, 1 jaune et 1 rouge. Elles n'impliquent aucun coût additionnel.\n"
                 , infoP1.drewAdditionalCards(b.build(), 0));
-        Assertions.assertEquals("Les cartes supplémentaires sont 1 noire, 1 jaune, 1 rouge. Elles impliquent un coût additionnel de 2 cartes.\n"
+        Assertions.assertEquals("Les cartes supplémentaires sont 1 noire, 1 jaune et 1 rouge. Elles impliquent un coût additionnel de 2 cartes.\n"
                 , infoP1.drewAdditionalCards(b.build(), 2));
-        Assertions.assertEquals("Les cartes supplémentaires sont 1 noire, 1 jaune, 1 rouge. Elles impliquent un coût additionnel de 1 carte.\n"
+        Assertions.assertEquals("Les cartes supplémentaires sont 1 noire, 1 jaune et 1 rouge. Elles impliquent un coût additionnel de 1 carte.\n"
                 , infoP1.drewAdditionalCards(b.build(), 1));
 
     }
