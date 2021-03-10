@@ -66,9 +66,14 @@ public final class Info {
      * @param points      (int)
      * @return (String)
      */
-    //TODO
     public static String draw(List<String> playerNames, int points) {
-        String draw = "";
+        String s = "";
+        for(int i = 0; i<playerNames.size();i++) {
+            s += playerNames.get(i);
+            if(i != playerNames.size()-1)
+                s += StringsFr.AND_SEPARATOR;
+        }
+        String draw = String.format(StringsFr.DRAW, s, points);
         return draw;
     }
 
