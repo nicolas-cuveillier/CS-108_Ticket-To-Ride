@@ -87,12 +87,6 @@ class InfoTest {
     
     @Test
     void checkClaimedRoute() {
-        /*Route routeTest = new Route("routeTest", new Station(0, "From"),
-                new Station(1, "To"), 2, Route.Level.OVERGROUND, Color.BLACK);
-
-        Assertions.assertEquals("Player 1 a pris possession de la route From" + StringsFr.EN_DASH_SEPARATOR + "To au moyen de 2 noires.\n", infoP1.claimedRoute(routeTest, SortedBag.of(2, Card.BLACK)));
-*/
-        //ton test passe pas chez moi car ca met la ref de la route
         Route r1 = new Route("r1", new Station(0,"A"), new Station(1,"B"), i1, Route.Level.OVERGROUND, Color.BLACK);
 
         SortedBag<Card> c1 = SortedBag.of(2, Card.BLACK, 1, Card.LOCOMOTIVE);
