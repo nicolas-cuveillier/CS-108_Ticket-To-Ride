@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -32,6 +33,8 @@ public final class CardState extends PublicCardState {
         Preconditions.checkArgument(deck.size() >= 5);
 
         List<Card> faceUpCards = deck.topCards(5).toList();
+        Collections.shuffle(faceUpCards);//because they are sorted by the sortedBag from deck.topCards(5)
+
         SortedBag.Builder<Card> discardBuilder = new SortedBag.Builder<>();
         deck = deck.withoutTopCards(5);
 
