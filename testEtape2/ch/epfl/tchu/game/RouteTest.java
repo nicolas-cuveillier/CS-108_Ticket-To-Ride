@@ -105,7 +105,7 @@ public class RouteTest {
 
         for (Color c : Color.ALL) {
             b4 = new SortedBag.Builder();
-            b4.add(2, c);
+            b4.add(2, Card.of(c));
             possibleClaimCards3.add(b4.build());
         }
 
