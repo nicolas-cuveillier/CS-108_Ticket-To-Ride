@@ -1,7 +1,6 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -11,9 +10,9 @@ import java.util.Objects;
  * represent the Card status which are known by players
  */
 public class PublicCardState {
-    private List<Card> faceUpCards;
-    private int deckSize;
-    private int discardsSize;
+    private final List<Card> faceUpCards;
+    private final int deckSize;
+    private final int discardsSize;
 
     /**
      * Constructor for a PublicCardState with face-up cards, the size of the deck and the discard
