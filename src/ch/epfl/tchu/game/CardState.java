@@ -3,7 +3,6 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -50,18 +49,11 @@ public final class CardState extends PublicCardState {
         Preconditions.checkArgument(!deck.isEmpty());
         Objects.checkIndex(slot, faceUpCards().size());
 
-        //discard
-        List<Card> discardCards = discard.toList();
-        discardCards.add(faceUpCard(slot));
-        SortedBag.Builder<Card> discardBuilder = new SortedBag.Builder<>();
-        for (Card c : discardCards) {
-            discardBuilder.add(c);
-        }
         //faceUpCards
         faceUpCards().remove(slot);
         faceUpCards().add(slot, deck.topCard());
         List<Card> newFaceUpCards = List.copyOf(faceUpCards());
-        return new CardState(newFaceUpCards, deck.withoutTopCard().size(), discardsSize() + 1, deck.withoutTopCard(), discardBuilder.build());
+        return new CardState(newFaceUpCards, deck.withoutTopCard().size(), discardsSize() + 1, deck.withoutTopCard(), discard);
     }
 
     /**

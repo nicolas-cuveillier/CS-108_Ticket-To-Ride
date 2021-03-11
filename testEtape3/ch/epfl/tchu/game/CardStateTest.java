@@ -98,8 +98,13 @@ public class CardStateTest {
 
     }
 
+
     @Test
-    void checkWithDeckRecreatedFromDiscards(){}
+    void checkWithDeckRecreatedFromDiscards(){
+        CardState c = CardState.of(createNormalDeck());
+        Assertions.assertThrows(IllegalArgumentException.class,()-> c.withDeckRecreatedFromDiscards(TestRandomizer.newRandom()));
+
+    }
 
     @Test
     void checkWithMoreDiscardedCards(){
