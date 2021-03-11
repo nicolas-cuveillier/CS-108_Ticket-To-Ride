@@ -48,14 +48,15 @@ public class CardStateTest {
     void checkWithDrawnFaceUpCard() {
         //deck1
         CardState c = CardState.of(createNormalDeck());
+
         //deck2
         SortedBag.Builder<Card> b2 = new SortedBag.Builder<>();
-        b2.add(Card.BLACK).add(Card.LOCOMOTIVE).add(Card.WHITE).add(Card.BLUE).add(Card.ORANGE);
+        b2.add(Card.BLACK).add(Card.ORANGE).add(Card.ORANGE).add(Card.BLUE).add(Card.LOCOMOTIVE);
         SortedBag<Card> faceUpCards2 = b2.build();
         Deck<Card> deck2 = Deck.of(faceUpCards2, TestRandomizer.newRandom());
         CardState c2 = CardState.of(deck2);
 
-        Assertions.assertEquals(List.of(Card.BLACK,Card.WHITE,Card.LOCOMOTIVE,Card.BLUE,Card.ORANGE), c.withDrawnFaceUpCard(3).faceUpCards());
+        Assertions.assertEquals(List.of(Card.BLACK,Card.ORANGE,Card.ORANGE,Card.BLUE,Card.LOCOMOTIVE), c.withDrawnFaceUpCard(3).faceUpCards());
         Assertions.assertFalse(c.withDrawnFaceUpCard(3).topDeckCard().equals(Card.BLUE));
         Assertions.assertThrows(IndexOutOfBoundsException.class,
                 () -> c.withDrawnFaceUpCard(-5));
