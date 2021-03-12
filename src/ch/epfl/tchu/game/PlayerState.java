@@ -24,7 +24,7 @@ public final class PlayerState extends PublicPlayerState {
         this.routes = routes;
     }
 
-    public PlayerState initial(SortedBag<Card> initialCards) {
+    public static PlayerState initial(SortedBag<Card> initialCards) {
         Preconditions.checkArgument(initialCards.size() == Constants.INITIAL_CARDS_COUNT);
 
         SortedBag.Builder<Ticket> tickets = new SortedBag.Builder<>();
