@@ -80,18 +80,85 @@ public class PlayerStateTest {
 
     @Test
     void checkPossibleClaimCards(){
+        SortedBag.Builder<Card> b = new SortedBag.Builder<>();
+        b.add(Card.BLACK).add(Card.LOCOMOTIVE).add(2, Card.ORANGE);
+        SortedBag<Card> cards = b.build();
+        PlayerState p = PlayerState.initial(cards);
+        Route r = new Route("test",new Station(0,"From"),
+                new Station(1,"To"),2, Route.Level.OVERGROUND,Color.ORANGE);
+        //test
+        SortedBag.Builder<Card> b2 = new SortedBag.Builder<>();
+        b2.add(2, Card.ORANGE);
+        SortedBag<Card> cards2 = b2.build();
+        //b2 = new SortedBag.Builder<>();
+        //b2.add(Card.ORANGE).add(Card.LOCOMOTIVE);
+        //SortedBag<Card> cards3 = b2.build();
+        List<SortedBag<Card>> neededList = List.of(cards2);
+
+        Assertions.assertEquals(neededList,p.possibleClaimCards(r));
 
     }
     @Test
     void checkPossibleAdditionalCards(){
+        //checkException
+        SortedBag.Builder<Card> initialCards1 = new SortedBag.Builder<>();
+        initialCards1.add(2,Card.BLACK);
 
+        SortedBag.Builder<Card> toLargeDrawnCards = new SortedBag.Builder<>();
+        toLargeDrawnCards.add(4,Card.LOCOMOTIVE);
+        SortedBag.Builder<Card> normalDrawnCards = new SortedBag.Builder<>();
+        normalDrawnCards.add(3,Card.LOCOMOTIVE);
+
+        SortedBag.Builder<Card> cardsBuilder = new SortedBag.Builder<>();
+        cardsBuilder.add(Card.BLACK).add(Card.LOCOMOTIVE).add(2, Card.ORANGE);
+        SortedBag<Card> cards = cardsBuilder.build();
+        PlayerState p = PlayerState.initial(cards);
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                ()->p.possibleAdditionalCards(2,initialCards1.build(),toLargeDrawnCards.build()));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                ()->p.possibleAdditionalCards(4,initialCards1.build(),normalDrawnCards.build()));
+
+        //concrete check up
+        SortedBag.Builder<Card> Cards = new SortedBag.Builder<>();
+        Cards.add(3,Card.GREEN).add(2,Card.BLUE).add(2,Card.LOCOMOTIVE);
+
+        PlayerState p2 = new PlayerState(SortedBag.of(),Cards.build(),List.of());
+        SortedBag.Builder<Card> initialCards = new SortedBag.Builder<>();
+        initialCards.add(Card.GREEN);
+
+        SortedBag.Builder<Card> neededCards = new SortedBag.Builder<>();
+        neededCards.add(2,Card.GREEN);
+        SortedBag.Builder<Card> neededCards1 = new SortedBag.Builder<>();
+        neededCards1.add(1,Card.GREEN).add(Card.LOCOMOTIVE);
+        SortedBag.Builder<Card> neededCards2 = new SortedBag.Builder<>();
+        neededCards2.add(2,Card.LOCOMOTIVE);
+
+        Assertions.assertEquals(List.of(neededCards.build(),neededCards1.build(),neededCards2.build()),
+                p2.possibleAdditionalCards(2,initialCards.build(),normalDrawnCards.build()));
     }
     @Test
     void checkWithClaimedRoute(){
+        SortedBag.Builder<Card> b = new SortedBag.Builder<>();
+        b.add(Card.BLACK).add(Card.LOCOMOTIVE).add(2, Card.ORANGE);
+        SortedBag<Card> cards = b.build();
+        PlayerState p = PlayerState.initial(cards);
+        Route r = new Route("test",new Station(0,"From"),
+                new Station(1,"To"),2, Route.Level.OVERGROUND,Color.ORANGE);
+        //test
+        SortedBag.Builder<Card> b2 = new SortedBag.Builder<>();
+        b2.add(2, Card.ORANGE);
+        SortedBag<Card> cards2 = b2.build();
 
+        SortedBag.Builder<Card> b3 = new SortedBag.Builder<>();
+        b3.add(Card.BLACK).add(Card.LOCOMOTIVE);
+        SortedBag<Card> cards3 = b3.build();
+        Assertions.assertEquals(List.of(r),p.withClaimedRoute(r,cards2).routes());
+        Assertions.assertEquals(cards3,p.withClaimedRoute(r,cards2).cards());
     }
     @Test
     void checkTicketPoints(){
+
 
     }
     @Test

@@ -28,7 +28,8 @@ public final class PlayerState extends PublicPlayerState {
         Preconditions.checkArgument(initialCards.size() == Constants.INITIAL_CARDS_COUNT);
 
         SortedBag.Builder<Ticket> tickets = new SortedBag.Builder<>();
-        return new PlayerState(tickets.build(), initialCards, List.of());
+        List<Route> routes = new ArrayList<>();
+        return new PlayerState(tickets.build(), initialCards, routes);
     }
 
     public SortedBag<Ticket> tickets() {
@@ -60,33 +61,29 @@ public final class PlayerState extends PublicPlayerState {
 
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
         Preconditions.checkArgument(this.carCount() >= route.length());
+        List<SortedBag<Card>> allCards = route.possibleClaimCards();
+        List<SortedBag<Card>> possibleCards = new ArrayList<>();
 
-        return route.possibleClaimCards();
+        for (SortedBag<Card> sbc : allCards) {
+            if (cards.contains(sbc)) {
+                possibleCards.add(sbc);
+            }
+        }
+        return possibleCards;
     }
 
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards) {
-        Preconditions.checkArgument(additionalCardsCount >= 1 && additionalCardsCount <=3);
-        Preconditions.checkArgument(!initialCards.isEmpty());//ne contient pas plus de 2 types de cartes différents.
+        Preconditions.checkArgument(additionalCardsCount >= 1 && additionalCardsCount <= 3);
+        Preconditions.checkArgument(!initialCards.isEmpty());//+ ne contient pas plus de 2 types de cartes différents.
         Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
 
         List<Card> usableCard = SortedBag.of(cards).toList();
-        usableCard.removeAll(initialCards.toList());
+        usableCard.remove(initialCards.toList());
+        usableCard.removeIf(card -> !card.equals(initialCards.get(0)) && !card.equals(Card.LOCOMOTIVE));
 
-        for (Card c:usableCard) {
-            if(!(c.equals(initialCards.get(0)) || c.equals(Card.LOCOMOTIVE))){
-                usableCard.remove(c);
-            }
-        }
-
-        Set<SortedBag<Card>> s = SortedBag.of(usableCard).subsetsOfSize(2);
-        List<SortedBag<Card>> sortedBagCardList = new ArrayList<>();
-
-        for (SortedBag<Card> c:s) {
-            sortedBagCardList.add(c);
-        }
-
-       sortedBagCardList.sort(Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
-
+        Set<SortedBag<Card>> s = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
+        List<SortedBag<Card>> sortedBagCardList = new ArrayList<>(s);
+        sortedBagCardList.sort(Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
 
         return sortedBagCardList;
     }
@@ -97,9 +94,24 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     public int ticketPoints() {
+        int id = 0;
+        for (Route r : routes) {
+
+            if (r.station1().id() > id) {
+                id = r.station1().id();
+            }
+
+            if (r.station2().id() > id) {
+                id = r.station1().id();
+            }
+
+        }
+
+        StationPartition.Builder b = new StationPartition.Builder(id + 1);
+
         int points = 0;
         for (Ticket t : tickets) {
-            //points+= t.points(add station partition);
+            points += t.points(b.build());
         }
         return points;
     }
