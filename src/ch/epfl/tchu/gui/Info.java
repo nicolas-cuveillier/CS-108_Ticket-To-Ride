@@ -207,21 +207,25 @@ public final class Info {
 
     private static String cardText(SortedBag<Card> cards) {
         String s = "";
+        List<Card> trashList = new ArrayList<>();
+        List<Card> cardsList = cards.toList().subList(1, cards.size());
 
-        for(Card c : cards.toSet()) {
-            int n = cards.countOf(c);
-                if(cards.get(cards.size()-1).equals(c)) {
+        s = cards.countOf(cards.get(0)) + " " + cardName(cards.get(0), cards.countOf(cards.get(0)));
+        trashList.add(cards.get(0));
+
+        for (Card c : cardsList) {
+
+            if (!trashList.contains(c)) {
+                int n = cards.countOf(c);
+                if(cards.get(cards.size()-1).equals(c) && !cards.get(0).equals(c)) {
                     s += " et ";
                 }
-                else if(!cards.get(0).equals(c)){
-                    s+= ", ";
-                }
-                s += n + " " + cardName(c, n);
+                s += String.format("%s %s", n, cardName(c, n));
+                trashList.add(c);
             }
+        }
 
         return s;
     }
-
-
 
 }
