@@ -59,6 +59,7 @@ public final class Trail {
             List<Trail> cs2 = new ArrayList<>();
 
             for (Trail c : cs) {
+
                 for (Route r : routes) {
                     if (!c.routes().contains(r)) {
                         if ((c.station2().id() == r.station1().id()) && (c.station2().name() == r.station1().name())) {
@@ -86,6 +87,11 @@ public final class Trail {
                                 length = c.length();
                                 longestTrail = c;
                             }
+                        }
+                    } else if(c.routes().containsAll(routes)){
+                        if (length < c.length()) {
+                            length = c.length();
+                            longestTrail = c;
                         }
                     }
                 }
