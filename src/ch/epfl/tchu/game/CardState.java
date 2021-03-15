@@ -17,8 +17,8 @@ public final class CardState extends PublicCardState {
     private final Deck<Card> deck;
     private final SortedBag<Card> discard;
 
-    private CardState(List<Card> faceUpCards, int deckSize, int discardsSize, Deck<Card> deck, SortedBag<Card> discard) {
-        super(faceUpCards, deckSize, discardsSize);
+    private CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discard) {
+        super(faceUpCards, deck.size(), discard.size());
         this.deck = deck;
         this.discard = discard;
     }
@@ -34,10 +34,9 @@ public final class CardState extends PublicCardState {
 
         List<Card> faceUpCards = deck.topCards(Constants.FACE_UP_CARDS_COUNT).toList();
 
-        SortedBag.Builder<Card> discardBuilder = new SortedBag.Builder<>();
         deck = deck.withoutTopCards(Constants.FACE_UP_CARDS_COUNT);
 
-        return new CardState(faceUpCards, deck.size() , 0, deck, discardBuilder.build());
+        return new CardState(faceUpCards, deck, SortedBag.of());
     }
 
     /**
@@ -55,7 +54,7 @@ public final class CardState extends PublicCardState {
         faceUpCards.remove(slot);
         faceUpCards.add(slot, deck.topCard());
         List<Card> newFaceUpCards = List.copyOf(faceUpCards);
-        return new CardState(newFaceUpCards, deck.withoutTopCard().size(), discardsSize() + 1, deck.withoutTopCard(), discard);
+        return new CardState(newFaceUpCards, deck.withoutTopCard(), discard);
     }
 
     /**
@@ -75,7 +74,7 @@ public final class CardState extends PublicCardState {
      */
     public CardState withoutTopDeckCard() {
         Preconditions.checkArgument(!deck.isEmpty());
-        return new CardState(faceUpCards(), deck.withoutTopCard().size(), discardsSize(), deck.withoutTopCard(), discard);
+        return new CardState(faceUpCards(),deck.withoutTopCard(), discard);
     }
 
     /**
@@ -89,7 +88,7 @@ public final class CardState extends PublicCardState {
 
         SortedBag.Builder<Card> discardBuilder = new SortedBag.Builder<>();
 
-        return new CardState(faceUpCards(), discard.size(), 0, Deck.of(discard, rng), discardBuilder.build());
+        return new CardState(faceUpCards(),Deck.of(discard, rng), discardBuilder.build());
     }
 
     /**
@@ -107,7 +106,7 @@ public final class CardState extends PublicCardState {
             discardBuilder.add(c);
         }
         SortedBag<Card> moreDiscard = discardBuilder.build();
-        return new CardState(faceUpCards(), deck.size(), moreDiscard.size(), deck, moreDiscard);
+        return new CardState(faceUpCards(), deck, moreDiscard);
     }
 
 }
