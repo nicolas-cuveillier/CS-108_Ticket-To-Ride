@@ -87,8 +87,6 @@ public final class Trail {
                                 longestTrail = c;
                             }
                         }
-                    }else{
-                        longestTrail = c;
                     }
                 }
             }

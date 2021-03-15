@@ -20,6 +20,7 @@ class DeckTest_Prof {
             var rng = new Random(i);
             var deck = Deck.of(cardsBag, rng);
             var deckList = deckToList(deck);
+
             // The shuffled deck *could* be equal to the non-shuffled one,
             // but with 100 elements this is extremely unlikely
             // (and doesn't happen with the random seeds we're using).

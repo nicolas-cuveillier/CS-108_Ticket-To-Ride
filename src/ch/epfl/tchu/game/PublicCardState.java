@@ -1,6 +1,9 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +26,7 @@ public class PublicCardState {
      */
     public PublicCardState(List<Card> faceUpCards, int deckSize, int discardsSize) {
         Preconditions.checkArgument(faceUpCards.size() == Constants.FACE_UP_CARDS_COUNT && deckSize >= 0 && discardsSize >= 0);
-        this.faceUpCards = faceUpCards;
+        this.faceUpCards = new ArrayList<>(faceUpCards);
         this.deckSize = deckSize;
         this.discardsSize = discardsSize;
     }
@@ -43,7 +46,7 @@ public class PublicCardState {
      * @return (List < Card >)
      */
     public List<Card> faceUpCards() {
-        return faceUpCards;
+        return Collections.unmodifiableList(faceUpCards);
     }
 
     /**

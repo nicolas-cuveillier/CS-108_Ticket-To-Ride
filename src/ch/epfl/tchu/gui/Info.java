@@ -219,6 +219,8 @@ public final class Info {
                 int n = cards.countOf(c);
                 if(cards.get(cards.size()-1).equals(c) && !cards.get(0).equals(c)) {
                     s += " et ";
+                } else {
+                    s+=", ";
                 }
                 s += String.format("%s %s", n, cardName(c, n));
                 trashList.add(c);
