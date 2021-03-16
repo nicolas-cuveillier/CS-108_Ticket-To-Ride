@@ -6,5 +6,10 @@ package ch.epfl.tchu.game;
  * implement the notion of connecitvity between station
  */
 public interface StationConnectivity {
-    boolean connected(Station st1,Station st2);
+    /**
+     * @param st1 (Station)
+     * @param st2 (Station)
+     * @return (boolean) return true iff the two station are connected with a player's Route
+     */
+    boolean connected(Station st1, Station st2);
 }
