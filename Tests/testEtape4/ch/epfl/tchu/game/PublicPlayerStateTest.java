@@ -22,5 +22,13 @@ public class PublicPlayerStateTest {
     }
     @Test
     void checkClaimPoints(){}
+    //enum playerId
+    @Test
+    void checkPlayerId(){
+
+        Assertions.assertEquals(PlayerId.PLAYER_1,PlayerId.PLAYER_2.next());
+        Assertions.assertEquals(PlayerId.PLAYER_2,PlayerId.PLAYER_1.next());
+    }
+
 
 }

@@ -61,7 +61,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * getter for the number of car the player has
+     * getter for the number of car the player still has
      *
      * @return (int)
      */

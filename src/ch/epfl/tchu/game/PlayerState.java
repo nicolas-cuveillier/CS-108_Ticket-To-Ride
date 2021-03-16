@@ -101,8 +101,7 @@ public final class PlayerState extends PublicPlayerState {
      * @return (boolean) true iff the player can take possession of the given Route according to his car and cards
      */
     public boolean canClaimRoute(Route route) {
-        SortedBag<Card> s = SortedBag.of(route.length(), Card.of(route.color()));
-        return (this.carCount() >= route.length() && cards.contains(s));
+        return (this.carCount() >= route.length() ? !possibleClaimCards(route).isEmpty() : false);
     }
 
     /**
@@ -113,6 +112,7 @@ public final class PlayerState extends PublicPlayerState {
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
         Preconditions.checkArgument(this.carCount() >= route.length());
+
         List<SortedBag<Card>> allCards = route.possibleClaimCards();
         List<SortedBag<Card>> possibleCards = new ArrayList<>();
 
@@ -138,7 +138,7 @@ public final class PlayerState extends PublicPlayerState {
         Preconditions.checkArgument(!initialCards.isEmpty());//+ ne contient pas plus de 2 types de cartes différents.
         Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
 
-        List<Card> usableCard = SortedBag.of(cards).toList();
+        List<Card> usableCard = cards.toList();
         usableCard.remove(initialCards.toList());
         usableCard.removeIf(card -> !card.equals(initialCards.get(0)) && !card.equals(Card.LOCOMOTIVE));
 
