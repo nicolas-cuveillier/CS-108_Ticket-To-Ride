@@ -19,6 +19,8 @@ public final class StationPartition implements StationConnectivity {
     @Override
     public boolean connected(Station st1, Station st2) {
         Preconditions.checkArgument(st1.id() >= 0 && st2.id() >= 0);
+
+
         return (st1.id() < representativeId.length && st2.id() < representativeId.length) ? representativeId[st1.id()] == representativeId[st2.id()] : st1.id() == st2.id();
     }
 
@@ -26,7 +28,7 @@ public final class StationPartition implements StationConnectivity {
      * Builder for a StationPartition
      */
     public static final class Builder {
-        private int stationCount = 0;
+        private final int stationCount;
         private final int[] representativeId;
 
         private int representative(int id) {
@@ -48,7 +50,7 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * join set containing the tout Station and make one representative id
+         * join set containing the two Stations and make one representative id
          * @param s1 (Station)
          * @param s2 (Station)
          * @return (Builder)
@@ -64,6 +66,15 @@ public final class StationPartition implements StationConnectivity {
          * @return a new StationPartition with the built table
          */
         public StationPartition build() {
+
+            for (int i = 0; i < representativeId.length; i++) {
+                int representant = i;
+
+                while(representative(representant) != representant){
+                    representant = representative(representant);
+                }
+                representativeId[i] = representant;
+            }
             return new StationPartition(representativeId);
         }
     }

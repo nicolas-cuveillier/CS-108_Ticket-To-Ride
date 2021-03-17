@@ -158,6 +158,18 @@ public class PlayerStateTest {
     }
     @Test
     void checkTicketPoints(){
+        Station BER = new Station(3, "Berne");
+        Station LUC = new Station(16, "Lucerne");
+        Station ZOU = new Station(32, "Zoug");
+        Station ZUR = new Station(33, "Zürich");
+        Ticket t = new Ticket(BER, ZUR, 6);
+        Route r1 = new Route("BER_LUC_2", BER, LUC, 4, Route.Level.OVERGROUND, null);
+        Route r2 = new Route("LUC_ZOU_1", LUC, ZOU, 1, Route.Level.OVERGROUND, Color.ORANGE);
+        Route r3 = new Route("ZOU_ZUR_1", ZOU, ZUR, 1, Route.Level.OVERGROUND, Color.GREEN);
+
+        PlayerState p = new PlayerState(SortedBag.of(t),SortedBag.of(),List.of(r1,r2,r3));
+
+        Assertions.assertEquals(6,p.ticketPoints());
 
 
     }

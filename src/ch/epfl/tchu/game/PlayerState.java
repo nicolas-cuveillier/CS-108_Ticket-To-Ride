@@ -168,6 +168,7 @@ public final class PlayerState extends PublicPlayerState {
      */
     public int ticketPoints() {
         int id = 0;
+
         for (Route r : routes) {
 
             if (r.station1().id() > id) {
@@ -175,16 +176,22 @@ public final class PlayerState extends PublicPlayerState {
             }
 
             if (r.station2().id() > id) {
-                id = r.station1().id();
+                id = r.station2().id();
             }
 
         }
-
         StationPartition.Builder b = new StationPartition.Builder(id + 1);
+
+        for (Route r :routes) {
+            b.connect(r.station1(), r.station2());
+            System.out.println(r.station1());
+            System.out.println(r.station2());
+        }
+        StationPartition connectivity = b.build();
 
         int points = 0;
         for (Ticket t : tickets) {
-            points += t.points(b.build());
+            points += t.points(connectivity);
         }
         return points;
     }
