@@ -17,7 +17,7 @@ public final class Deck<C extends Comparable<C>> {
     private final List<C> cards;
 
     private Deck(List<C> cards) {
-        this.cards = cards;
+        this.cards = new ArrayList<>(cards);
     }
 
     /**
@@ -92,12 +92,11 @@ public final class Deck<C extends Comparable<C>> {
      */
     public Deck<C> withoutTopCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        SortedBag.Builder<C> builder = new SortedBag.Builder<>();
-
+        List<C> ListOfC = new ArrayList<>(cards.size()-count);
         for (int i = count; i < cards.size(); i++) {
-            builder.add(1, cards.get(i));
+            ListOfC.add(cards.get(i));
         }
-        return new Deck<>(builder.build().toList());
+        return new Deck<>(ListOfC);
     }
 
 }
