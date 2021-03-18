@@ -53,8 +53,7 @@ public final class CardState extends PublicCardState {
         List<Card> faceUpCards = new ArrayList<>(faceUpCards());
         faceUpCards.remove(slot);
         faceUpCards.add(slot, deck.topCard());
-        List<Card> newFaceUpCards = List.copyOf(faceUpCards);
-        return new CardState(newFaceUpCards, deck.withoutTopCard(), discard);
+        return new CardState(faceUpCards, deck.withoutTopCard(), discard);
     }
 
     /**
