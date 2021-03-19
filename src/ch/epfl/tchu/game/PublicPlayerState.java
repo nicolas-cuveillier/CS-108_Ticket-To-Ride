@@ -15,7 +15,7 @@ public class PublicPlayerState {
     private final int ticketCount;
     private final int cardCount;
     private final List<Route> routes;
-    private int carCount;
+    private final int carCount;
     private int claimPoints;
 
     /**
@@ -29,8 +29,17 @@ public class PublicPlayerState {
         Preconditions.checkArgument(ticketCount >= 0 && cardCount >= 0);
         this.ticketCount = ticketCount;
         this.cardCount = cardCount;
-        this.routes = routes;
-
+        this.routes = new ArrayList<>(routes);
+        int length = 0;
+        for (Route r : routes) {
+            length += r.length();
+        }
+        carCount = (Constants.INITIAL_CAR_COUNT - length);
+        int buildPoints = 0;
+        for (Route r : routes) {
+            buildPoints += r.claimPoints();
+        }
+        claimPoints = buildPoints;
     }
 
     /**
@@ -57,7 +66,7 @@ public class PublicPlayerState {
      * @return (List < Route >)
      */
     public List<Route> routes() {
-        return new ArrayList<>(routes);
+        return List.copyOf(routes);
     }
 
     /**
@@ -66,11 +75,6 @@ public class PublicPlayerState {
      * @return (int)
      */
     public int carCount() {
-        int length = 0;
-        for (Route r : routes) {
-            length += r.length();
-        }
-        carCount = (Constants.INITIAL_CAR_COUNT - length);
         return carCount;
     }
 
@@ -80,11 +84,6 @@ public class PublicPlayerState {
      * @return (int)
      */
     public int claimPoints() {
-        int buildPoints = 0;
-        for (Route r : routes) {
-            buildPoints += r.claimPoints();
-        }
-        claimPoints = buildPoints;
         return claimPoints;
     }
 }

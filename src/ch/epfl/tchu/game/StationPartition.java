@@ -1,6 +1,7 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
+
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  * <p>
@@ -19,8 +20,6 @@ public final class StationPartition implements StationConnectivity {
     @Override
     public boolean connected(Station st1, Station st2) {
         Preconditions.checkArgument(st1.id() >= 0 && st2.id() >= 0);
-
-
         return (st1.id() < representativeId.length && st2.id() < representativeId.length) ? representativeId[st1.id()] == representativeId[st2.id()] : st1.id() == st2.id();
     }
 
@@ -38,6 +37,7 @@ public final class StationPartition implements StationConnectivity {
         /**
          * constructor for the StationPartition Builder
          * build the representative id table of size stationCount
+         *
          * @param stationCount (int)
          */
         public Builder(int stationCount) {
@@ -50,7 +50,8 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * join set containing the two Stations and make one representative id
+         * join "set" containing the two Stations and make one representative id for both Stations
+         *
          * @param s1 (Station)
          * @param s2 (Station)
          * @return (Builder)
@@ -63,14 +64,14 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * @return a new StationPartition with the built table
+         * @return a new StationPartition with the built table and flattened the partition
          */
         public StationPartition build() {
 
             for (int i = 0; i < representativeId.length; i++) {
                 int representant = i;
 
-                while(representative(representant) != representant){
+                while (representative(representant) != representant) {
                     representant = representative(representant);
                 }
                 representativeId[i] = representant;

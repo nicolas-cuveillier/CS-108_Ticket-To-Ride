@@ -21,7 +21,11 @@ public class PublicPlayerStateTest {
        Assertions.assertEquals(36,p.carCount());
     }
     @Test
-    void checkClaimPoints(){}
+    void checkClaimPoints(){
+        PublicPlayerState p = new PublicPlayerState(2,22,
+                List.of(new Route("test",new Station(0,"From"),new Station(1,"To"),4, Route.Level.OVERGROUND,Color.BLACK)));
+        Assertions.assertEquals(7,p.claimPoints());
+    }
     //enum playerId
     @Test
     void checkPlayerId(){

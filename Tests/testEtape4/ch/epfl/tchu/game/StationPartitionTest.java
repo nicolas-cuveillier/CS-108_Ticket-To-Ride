@@ -15,7 +15,9 @@ class StationPartitionTest {
     @Test
     void notConnectedWithNotConnectedStations() {
         StationPartition.Builder sp = new StationPartition.Builder(5);
+        sp.connect(ChMap.stations().get(1),ChMap.stations().get(2));
         assertFalse(sp.build().connected(ChMap.stations().get(0), ChMap.stations().get(1)));
+        assertTrue(sp.build().connected(ChMap.stations().get(1),ChMap.stations().get(2)));
     }
     
     @Test

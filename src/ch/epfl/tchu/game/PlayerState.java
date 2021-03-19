@@ -28,9 +28,9 @@ public final class PlayerState extends PublicPlayerState {
      */
     public PlayerState(SortedBag<Ticket> tickets, SortedBag<Card> cards, List<Route> routes) {
         super(tickets.size(), cards.size(), routes);
-        this.tickets = tickets;
-        this.cards = cards;
-        this.routes = routes;
+        this.tickets = SortedBag.of(tickets);
+        this.cards = SortedBag.of(cards);
+        this.routes = List.copyOf(routes);
     }
 
     /**
@@ -41,7 +41,6 @@ public final class PlayerState extends PublicPlayerState {
      */
     public static PlayerState initial(SortedBag<Card> initialCards) {
         Preconditions.checkArgument(initialCards.size() == Constants.INITIAL_CARDS_COUNT);
-
         SortedBag.Builder<Ticket> tickets = new SortedBag.Builder<>();
         List<Route> routes = new ArrayList<>();
         return new PlayerState(tickets.build(), initialCards, routes);
@@ -81,9 +80,7 @@ public final class PlayerState extends PublicPlayerState {
      * @return (PlayerState)
      */
     public PlayerState withAddedCard(Card card) {
-        SortedBag.Builder<Card> newCards = new SortedBag.Builder<>();
-        newCards.add(cards).add(card);
-        return new PlayerState(tickets, newCards.build(), routes);
+        return withAddedCards(SortedBag.of(card));
     }
 
     /**
@@ -157,8 +154,9 @@ public final class PlayerState extends PublicPlayerState {
      * @return (PlayerState)
      */
     public PlayerState withClaimedRoute(Route route, SortedBag<Card> claimCards) {
-        routes.add(route);
-        return new PlayerState(tickets, cards.difference(claimCards), routes);
+        List<Route> newRoutes = new ArrayList<>(routes);
+        newRoutes.add(route);
+        return new PlayerState(tickets, cards.difference(claimCards), newRoutes);
     }
 
     /**
@@ -180,14 +178,14 @@ public final class PlayerState extends PublicPlayerState {
             }
 
         }
-        StationPartition.Builder b = new StationPartition.Builder(id + 1);
 
-        for (Route r :routes) {
-            b.connect(r.station1(), r.station2());
-            System.out.println(r.station1());
-            System.out.println(r.station2());
+        StationPartition.Builder spb = new StationPartition.Builder(id + 1);
+
+        for (Route r : routes) {
+            spb.connect(r.station1(), r.station2());
         }
-        StationPartition connectivity = b.build();
+
+        StationPartition connectivity = spb.build();
 
         int points = 0;
         for (Ticket t : tickets) {
