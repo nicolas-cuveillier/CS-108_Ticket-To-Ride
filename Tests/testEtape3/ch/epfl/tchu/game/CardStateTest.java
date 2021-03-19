@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -56,8 +57,8 @@ public class CardStateTest {
         Deck<Card> deck2 = Deck.of(faceUpCards2, TestRandomizer.newRandom());
         CardState c2 = CardState.of(deck2);
 
-        Assertions.assertEquals(List.of(Card.BLACK,Card.ORANGE,Card.ORANGE,Card.BLUE,Card.LOCOMOTIVE), c.withDrawnFaceUpCard(3).faceUpCards());
-        Assertions.assertFalse(c.withDrawnFaceUpCard(3).topDeckCard().equals(Card.BLUE));
+        Assertions.assertEquals(List.of(Card.BLACK,Card.ORANGE,Card.ORANGE,Card.GREEN,Card.LOCOMOTIVE), c.withDrawnFaceUpCard(3).faceUpCards());
+        Assertions.assertFalse(c.withDrawnFaceUpCard(3).topDeckCard().equals(Card.GREEN));
         Assertions.assertThrows(IndexOutOfBoundsException.class,
                 () -> c.withDrawnFaceUpCard(-5));
         Assertions.assertThrows(IndexOutOfBoundsException.class,
@@ -78,7 +79,7 @@ public class CardStateTest {
         Deck<Card> deck2 = Deck.of(faceUpCards2, TestRandomizer.newRandom());
         CardState c2 = CardState.of(deck2);
 
-        Assertions.assertEquals(Card.BLUE, c.topDeckCard());
+        Assertions.assertEquals(Card.GREEN, c.topDeckCard());
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> c2.topDeckCard());
     }
