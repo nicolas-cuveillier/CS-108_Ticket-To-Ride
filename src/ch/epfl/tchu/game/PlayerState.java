@@ -103,7 +103,7 @@ public final class PlayerState extends PublicPlayerState {
 
     /**
      * compute the list of all possible cards the player can play to take possession of the given Route
-     *
+     * @see #possibleClaimCards(Route) 
      * @param route (Route)
      * @return (List < SortedBag < Card > >)
      */
