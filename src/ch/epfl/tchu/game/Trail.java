@@ -1,9 +1,9 @@
 package ch.epfl.tchu.game;
 
-import ch.epfl.tchu.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillie
@@ -41,14 +41,13 @@ public final class Trail {
     /**
      * compute the longest or one of the longest Trail for a given List of Route
      *
-     * @param routes (List<Route>)
-     * @return (Trail)
+     * @param routes the list of all Route(s) to make the Trail
+     * @return (Trail) the longest trail given all Route(s)
      */
     public static Trail longest(List<Route> routes) {
-        if(routes.isEmpty()){
-            return new Trail(List.of(),null,null);
+        if (routes.isEmpty()) {
+            return new Trail(List.of(), null, null);
         }
-        //private vars
         List<Trail> cs;
         Trail longestTrail = null;
         int length = 0;
@@ -62,7 +61,7 @@ public final class Trail {
 
                 for (Route r : routes) {
                     if (!c.routes().contains(r)) {
-                        if ((c.station2().id() == r.station1().id()) && (c.station2().name() == r.station1().name())) {
+                        if ((c.station2().id() == r.station1().id()) && (Objects.equals(c.station2().name(), r.station1().name()))) {
                             List<Route> routeList = new ArrayList<>(c.routes());
                             routeList.add(r);
                             Trail t = new Trail(routeList, c.station1(), r.station2());
@@ -72,7 +71,7 @@ public final class Trail {
                                 length = t.length();
                                 longestTrail = t;
                             }
-                        } else if ((c.station2().id() == r.station2().id()) && (c.station2().name() == r.station2().name())) {
+                        } else if ((c.station2().id() == r.station2().id()) && (Objects.equals(c.station2().name(), r.station2().name()))) {
                             List<Route> routeList = new ArrayList<>(c.routes());
                             routeList.add(r);
                             Trail t = new Trail(routeList, c.station1(), r.station1());
@@ -88,7 +87,7 @@ public final class Trail {
                                 longestTrail = c;
                             }
                         }
-                    } else if(c.routes().containsAll(routes)){
+                    } else if (c.routes().containsAll(routes)) {
                         if (length < c.length()) {
                             length = c.length();
                             longestTrail = c;
@@ -114,41 +113,46 @@ public final class Trail {
         return trails;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return textual representation of a trail
+     */
     @Override
     public String toString() {
-        String text = "";
+        StringBuilder text = new StringBuilder();
         int totalLength = 0;
 
         if (routes.size() != 0) {
             if (this.station1() == routes.get(0).station1()) {
                 for (int i = 0; i < routes.size(); i++) {
-                    text += " - " + routes.get(i).station1().name();
+                    text.append(" - ").append(routes.get(i).station1().name());
                     totalLength += routes.get(i).length();
-                    if (i == 0) text = routes.get(i).station1().name();
+                    if (i == 0) text = new StringBuilder(routes.get(i).station1().name());
                 }
 
-                text += " - " + routes.get(routes.size() - 1).station2().name();
-            } else if (this.station1().name() == routes.get(routes.size() - 1).station2().name()) {
+                text.append(" - ").append(routes.get(routes.size() - 1).station2().name());
+            } else if (Objects.equals(this.station1().name(), routes.get(routes.size() - 1).station2().name())) {
                 for (int i = routes.size() - 1; i >= 0; i--) {
-                    text += " - " + routes.get(i).station2().name();
+                    text.append(" - ").append(routes.get(i).station2().name());
                     totalLength += routes.get(i).length();
-                    if (i == routes.size() - 1) text = routes.get(i).station2().name();
+                    if (i == routes.size() - 1) text = new StringBuilder(routes.get(i).station2().name());
                 }
 
-                text += " - " + routes.get(0).station1().name();
+                text.append(" - ").append(routes.get(0).station1().name());
             }
-            text += " (" + totalLength + ")";
+            text.append(" (").append(totalLength).append(")");
         } else {
-            text = "Empty Trail";
+            text = new StringBuilder("Empty Trail");
         }
 
-        return text;
+        return text.toString();
     }
 
     /**
      * getter for Trail's length
      *
-     * @return (int)
+     * @return (int) the length
      */
     public int length() {
         return length;
@@ -157,7 +161,7 @@ public final class Trail {
     /**
      * getter for Trail's routes
      *
-     * @return (List < Route >)
+     * @return (List < Route >) the list of all Route(s)
      */
     public List<Route> routes() {
         return routes;
@@ -166,7 +170,7 @@ public final class Trail {
     /**
      * getter for the Trail's first Station
      *
-     * @return (Station)
+     * @return (Station) the first Station
      */
     public Station station1() {
         return station1;
@@ -175,7 +179,7 @@ public final class Trail {
     /**
      * getter for the Trail's last Station
      *
-     * @return (Station)
+     * @return (Station) the second Station
      */
     public Station station2() {
         return station2;

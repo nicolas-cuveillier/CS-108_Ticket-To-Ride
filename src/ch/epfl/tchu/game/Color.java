@@ -33,4 +33,4 @@ public enum Color {
      */
     public static final int COUNT = ALL.size();
 
-    }
+}

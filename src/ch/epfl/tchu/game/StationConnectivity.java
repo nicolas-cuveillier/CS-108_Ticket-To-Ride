@@ -7,8 +7,8 @@ package ch.epfl.tchu.game;
  */
 public interface StationConnectivity {
     /**
-     * @param st1 (Station)
-     * @param st2 (Station)
+     * @param st1 (Station) the first Station
+     * @param st2 (Station) the second Station
      * @return (boolean) return true iff the two station are connected with a player's Route
      */
     boolean connected(Station st1, Station st2);

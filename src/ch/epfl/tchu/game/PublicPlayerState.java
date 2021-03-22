@@ -21,9 +21,10 @@ public class PublicPlayerState {
     /**
      * single constructor for PublicPlayerState
      *
-     * @param ticketCount (int)
-     * @param cardCount   (int)
-     * @param routes      (List<Route>)
+     * @param ticketCount the number of tickets
+     * @param cardCount   the number of card(s)
+     * @param routes      the Route(s) that the player claimed
+     * @throws IllegalArgumentException if ticketsCount or cardCount are negative
      */
     public PublicPlayerState(int ticketCount, int cardCount, List<Route> routes) {
         Preconditions.checkArgument(ticketCount >= 0 && cardCount >= 0);
@@ -45,7 +46,7 @@ public class PublicPlayerState {
     /**
      * getter for the number of tickets
      *
-     * @return (int)
+     * @return (int) the number of tickets
      */
     public int ticketCount() {
         return ticketCount;
@@ -54,7 +55,7 @@ public class PublicPlayerState {
     /**
      * getter for the number of cards
      *
-     * @return (int)
+     * @return (int) the number of card(s)
      */
     public int cardCount() {
         return cardCount;
@@ -63,7 +64,7 @@ public class PublicPlayerState {
     /**
      * getter for the routes
      *
-     * @return (List < Route >)
+     * @return (List < Route >) the list of all player's Route(s)
      */
     public List<Route> routes() {
         return List.copyOf(routes);
@@ -72,7 +73,7 @@ public class PublicPlayerState {
     /**
      * getter for the number of car the player still has
      *
-     * @return (int)
+     * @return (int) the number of car of the player
      */
     public int carCount() {
         return carCount;
@@ -81,7 +82,7 @@ public class PublicPlayerState {
     /**
      * getter for the claim points according to the player Route
      *
-     * @return (int)
+     * @return (int) the number of points that the player received from claiming Route(s)
      */
     public int claimPoints() {
         return claimPoints;

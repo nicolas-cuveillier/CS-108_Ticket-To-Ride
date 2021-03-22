@@ -27,8 +27,8 @@ public final class CardState extends PublicCardState {
      * build a card state with five face-up cards, a deck and a discard given a deck
      *
      * @param deck (Deck<Card>)
-     * @throws IllegalArgumentException if the deck contains less than 5 cards
      * @return (CardState)
+     * @throws IllegalArgumentException if the deck contains less than 5 cards
      */
     public static CardState of(Deck<Card> deck) {
         Preconditions.checkArgument(deck.size() >= Constants.FACE_UP_CARDS_COUNT);
@@ -44,8 +44,8 @@ public final class CardState extends PublicCardState {
      * compute a card state where the slot-th card in the face_up cards has been replace by the first card in the deck
      *
      * @param slot (int)
-     * @throws IllegalArgumentException if the deck is empty
      * @return (CardState)
+     * @throws IllegalArgumentException if the deck is empty
      */
     public CardState withDrawnFaceUpCard(int slot) {
         Preconditions.checkArgument(!deck.isEmpty());
@@ -60,8 +60,9 @@ public final class CardState extends PublicCardState {
 
     /**
      * return the first Card of the deck
-     * @throws IllegalArgumentException if the deck is empty
+     *
      * @return (Card)
+     * @throws IllegalArgumentException if the deck is empty
      */
     public Card topDeckCard() {
         Preconditions.checkArgument(!deck.isEmpty());
@@ -70,27 +71,28 @@ public final class CardState extends PublicCardState {
 
     /**
      * return the same CardState without the first card (top card)
-     * @throws IllegalArgumentException if the deck is empty
+     *
      * @return (CardState)
+     * @throws IllegalArgumentException if the deck is empty
      */
     public CardState withoutTopDeckCard() {
         Preconditions.checkArgument(!deck.isEmpty());
-        return new CardState(faceUpCards(),deck.withoutTopCard(), discard);
+        return new CardState(faceUpCards(), deck.withoutTopCard(), discard);
     }
 
     /**
      * compute a new CardState where the deck is reform from the shuffled discard
      *
      * @param rng (Random)
-     * @throws IllegalArgumentException if the deck isn't empty
      * @return (CardState)
+     * @throws IllegalArgumentException if the deck isn't empty
      */
     public CardState withDeckRecreatedFromDiscards(Random rng) {
         Preconditions.checkArgument(deck.isEmpty());
 
         SortedBag.Builder<Card> discardBuilder = new SortedBag.Builder<>();
 
-        return new CardState(faceUpCards(),Deck.of(discard, rng), discardBuilder.build());
+        return new CardState(faceUpCards(), Deck.of(discard, rng), discardBuilder.build());
     }
 
     /**

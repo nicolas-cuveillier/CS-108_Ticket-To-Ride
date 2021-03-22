@@ -23,9 +23,8 @@ public class PublicCardState {
      * @param faceUpCards  (List<Card>)
      * @param deckSize     (int)
      * @param discardsSize (int)
-     * @throws IllegalArgumentException
-     *                          if there aren't five face up cards
-     *                          if deck and discard are negative
+     * @throws IllegalArgumentException if there aren't five face up cards
+     *                                  if deck and discard are negative
      */
     public PublicCardState(List<Card> faceUpCards, int deckSize, int discardsSize) {
         Preconditions.checkArgument(faceUpCards.size() == Constants.FACE_UP_CARDS_COUNT && deckSize >= 0 && discardsSize >= 0);

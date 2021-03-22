@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
- *
+ * <p>
  * implements the public part of the notion of game state
  */
 public class PublicGameState {
@@ -22,11 +22,13 @@ public class PublicGameState {
     /**
      * Only constructor for a Public Game State, define the game state with the public part of its attribute
      *
-     * @param ticketsCount (int)
-     * @param cardState (PublicCardState)
-     * @param currentPlayerId (PlayerId)
-     * @param playerState (Map<PlayerId, PublicPlayerState>)
-     * @param lastPlayer (PlayerId)
+     * @param ticketsCount    the number of tickets
+     * @param cardState       the public state of the cards
+     * @param currentPlayerId the current player
+     * @param playerState     the public player's state for each player
+     * @param lastPlayer      the last player of the game, can be null
+     * @throws IllegalArgumentException if ticketsCount is negative
+     *                                  if there is more than two player
      */
     public PublicGameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
         Preconditions.checkArgument(ticketsCount >= 0);
@@ -43,6 +45,7 @@ public class PublicGameState {
 
     /**
      * getter for ticketsCount
+     *
      * @return the number of tickets
      */
     public int ticketsCount() {
@@ -58,6 +61,7 @@ public class PublicGameState {
 
     /**
      * getter for the PublicCardState attribute
+     *
      * @return the PublicCardState
      */
     public PublicCardState cardState() {
@@ -73,6 +77,7 @@ public class PublicGameState {
 
     /**
      * getter for the currentPlayerId
+     *
      * @return a playerId
      */
     public PlayerId currentPlayerId() {
@@ -81,7 +86,8 @@ public class PublicGameState {
 
     /**
      * getter for the PublicPlayerState of the PlayerId
-     * @param playerId (PlayerId)
+     *
+     * @param playerId the player for which it will return its PublicPLayerState
      * @return a PublicPlayerState
      */
     public PublicPlayerState playerState(PlayerId playerId) {
@@ -90,7 +96,9 @@ public class PublicGameState {
 
     /**
      * getter for the PublicPlayerState of currentPlayer
+     *
      * @return a PublicPlayerState
+     * @see #playerState(PlayerId)
      */
     public PublicPlayerState currentPlayerState() {
         return playerState(currentPlayerId);
@@ -98,6 +106,7 @@ public class PublicGameState {
 
     /**
      * getter for the overall Route claimed by one or the other player
+     *
      * @return all claimed Route
      */
     public List<Route> claimedRoutes() {
@@ -108,6 +117,7 @@ public class PublicGameState {
 
     /**
      * getter for the Id of the last player
+     *
      * @return a PlayerId
      */
     public PlayerId lastPlayer() {

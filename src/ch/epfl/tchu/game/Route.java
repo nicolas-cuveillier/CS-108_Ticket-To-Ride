@@ -31,14 +31,14 @@ public final class Route {
     /**
      * principal and only constructor for a Route
      *
-     * @param id       (String)
-     * @param station1 (Station)
-     * @param station2 (Station)
-     * @param length   (int)
-     * @param level    (Level)
-     * @param color    (Color)
-     * @throws NullPointerException,IllegalArgumentException if station are null,level is null, length is more than 6
-     * and less than 1, if the two station are the same
+     * @param id       name of the Route
+     * @param station1 first Station (from)
+     * @param station2 second Station (To)
+     * @param length   size of the Route
+     * @param level    make the difference between Overground and Underground Route
+     * @param color    color of the Route, define which card will be needed to claim it
+     * @throws NullPointerException     if station are null,level is null or id is null
+     * @throws IllegalArgumentException if length is more than 6 and less than 1, if the two station are the same
      */
     public Route(String id, Station station1, Station station2, int length, Level level, Color color) {
         Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH
@@ -59,7 +59,7 @@ public final class Route {
     /**
      * give a List of the two route's station
      *
-     * @return (List < Station >)
+     * @return (List < Station >) the list of the two Station
      */
     public List<Station> stations() {
         return List.of(station1, station2);
@@ -68,18 +68,19 @@ public final class Route {
     /**
      * give the second station of a route according to the given one
      *
-     * @param station (Station)
-     * @return (Station)
+     * @param station one of the two Station of the Route
+     * @return (Station) the other Station than the one given
+     * @throws IllegalArgumentException if the given station isn't one of the Route's Station
      */
     public Station stationOpposite(Station station) {
-        Preconditions.checkArgument(station.equals(station1)||station.equals(station2));
+        Preconditions.checkArgument(station.equals(station1) || station.equals(station2));
         return (station.equals(station1) ? station2 : station1);
     }
 
     /**
      * compute the number of points given when taking this route
      *
-     * @return (int)
+     * @return (int) the claim points given according to its length
      */
     public int claimPoints() {
         return Constants.ROUTE_CLAIM_POINTS.get(length);
@@ -88,7 +89,7 @@ public final class Route {
     /**
      * compute in a List of SortedBag of Cards all the possible card the player can choose to take the route
      *
-     * @return (List < SortedBag < Card > >)
+     * @return (List < SortedBag < Card > >) a List of SortedBag of all possible Cards to claim the Route
      */
     public List<SortedBag<Card>> possibleClaimCards() {
         List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
@@ -155,7 +156,9 @@ public final class Route {
      *
      * @param claimCards (SortedBag<Card>)
      * @param drawnCards (SortedBag<Card>)
-     * @return (int)
+     * @return (int) the number of additional card(s) the player must play to take the Route
+     * @throws IllegalArgumentException if there are more than three drawn cards
+     *                                  if the Route is not Underground
      */
     public int additionalClaimCardsCount(SortedBag<Card> claimCards, SortedBag<Card> drawnCards) {
         Preconditions.checkArgument(drawnCards.size() == 3 && this.level == Level.UNDERGROUND);
@@ -172,7 +175,7 @@ public final class Route {
     /**
      * getter for route's id
      *
-     * @return (String)
+     * @return (String) the id
      */
     public String id() {
         return id;
@@ -181,7 +184,7 @@ public final class Route {
     /**
      * getter for first route's station
      *
-     * @return (Station)
+     * @return (Station) the first Station
      */
     public Station station1() {
         return station1;
@@ -190,7 +193,7 @@ public final class Route {
     /**
      * getter for second route's station
      *
-     * @return (Station)
+     * @return (Station) the second Station
      */
     public Station station2() {
         return station2;
@@ -199,7 +202,7 @@ public final class Route {
     /**
      * getter for the route's Level
      *
-     * @return (Level)
+     * @return (Level) the level
      */
     public Level level() {
         return level;
@@ -208,7 +211,7 @@ public final class Route {
     /**
      * getter for route's Color
      *
-     * @return (Color)
+     * @return (Color) the color
      */
     public Color color() {
         return color;
@@ -217,7 +220,7 @@ public final class Route {
     /**
      * getter for route's length
      *
-     * @return (int)
+     * @return (int) the length
      */
     public int length() {
         return length;

@@ -16,6 +16,8 @@ public final class StationPartition implements StationConnectivity {
 
     /**
      * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if one or the other id is negative
      */
     @Override
     public boolean connected(Station st1, Station st2) {
@@ -37,7 +39,8 @@ public final class StationPartition implements StationConnectivity {
          * constructor for the StationPartition Builder
          * build the representative id table of size stationCount
          *
-         * @param stationCount (int)
+         * @param stationCount (int) the biggest id of the Stations
+         * @throws IllegalArgumentException if stationCount is negative
          */
         public Builder(int stationCount) {
             Preconditions.checkArgument(stationCount >= 0);
@@ -50,9 +53,10 @@ public final class StationPartition implements StationConnectivity {
         /**
          * join "set" containing the two Stations and make one representative id for both Stations
          *
-         * @param s1 (Station)
-         * @param s2 (Station)
-         * @return (Builder)
+         * @param s1 the first Station to connect
+         * @param s2 the second Station to connect
+         * @return (Builder) this
+         * @throws IllegalArgumentException if one or the other id is negative
          */
         public Builder connect(Station s1, Station s2) {
             Preconditions.checkArgument(s1.id() >= 0 && s2.id() >= 0);
@@ -62,7 +66,7 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * @return a new StationPartition with the built table and flattened the partition
+         * @return a new StationPartition with the built table and flattened partition
          */
         public StationPartition build() {
 

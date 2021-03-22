@@ -18,17 +18,19 @@ public final class Ticket implements Comparable<Ticket> {
     /**
      * Principal constructor for a Ticket, building it with a List of trips
      *
-     * @param trips1
+     * @param trips the list of all trips that form the Ticket
+     * @throws IllegalArgumentException if the list of trips is empty
+     *                                  if all the departure's Station of each trips have not the same name
      */
-    public Ticket(List<Trip> trips1) {
+    public Ticket(List<Trip> trips) {
 
-        Preconditions.checkArgument(!trips1.isEmpty());
+        Preconditions.checkArgument(!trips.isEmpty());
 
-        for (int i = 1; i < (trips1.size() - 1); i++) {
-            Preconditions.checkArgument(trips1.get(i - 1).from().name().equalsIgnoreCase(trips1.get(i).from().name()));
+        for (int i = 1; i < (trips.size() - 1); i++) {
+            Preconditions.checkArgument(trips.get(i - 1).from().name().equalsIgnoreCase(trips.get(i).from().name()));
         }
 
-        this.trips = trips1;
+        this.trips = trips;
         this.name = computeText(this.trips);
 
     }
@@ -36,9 +38,9 @@ public final class Ticket implements Comparable<Ticket> {
     /**
      * Second constructor, for building a Ticket with only one trip
      *
-     * @param from   (Station)
-     * @param to     (Station)
-     * @param points
+     * @param from   the Station of departure
+     * @param to     the arrival Station
+     * @param points the number of points for the tickets
      */
     public Ticket(Station from, Station to, int points) {
         this(List.of(new Trip(from, to, points)));
@@ -68,7 +70,7 @@ public final class Ticket implements Comparable<Ticket> {
      * Compute how many points will be earned with this ticket according to its connectivity
      *
      * @param connectivity (StationConnectivity)
-     * @return (int) points
+     * @return (int) the points given the connectivity
      */
     public int points(StationConnectivity connectivity) {
         int p = 0;

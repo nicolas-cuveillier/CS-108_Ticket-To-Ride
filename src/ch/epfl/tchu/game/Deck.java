@@ -52,8 +52,9 @@ public final class Deck<C extends Comparable<C>> {
 
     /**
      * getter for the first object
-     * @see #topCards(int)
+     *
      * @return the first object of the deck
+     * @see #topCards(int)
      */
     public C topCard() {
         return topCards(1).get(0);
@@ -61,8 +62,9 @@ public final class Deck<C extends Comparable<C>> {
 
     /**
      * give a new deck without top card
-     * @see #withoutTopCards(int)
+     *
      * @return a new deck without the first object
+     * @see #withoutTopCards(int)
      */
     public Deck<C> withoutTopCard() {
         return withoutTopCards(1);
@@ -72,8 +74,8 @@ public final class Deck<C extends Comparable<C>> {
      * compute a new deck with only the count-th cards in it
      *
      * @param count the number of topCard(s) that will be returned
-     * @throws IllegalArgumentException if count is negative or superior than cards' size
      * @return a new SortedBag with only a part of the cards
+     * @throws IllegalArgumentException if count is negative or superior than cards' size
      */
     public SortedBag<C> topCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
@@ -89,12 +91,12 @@ public final class Deck<C extends Comparable<C>> {
      * compute a new deck without certain cards (count)
      *
      * @param count the number of topCard(s) that will be removed
-     * @throws IllegalArgumentException if count is negative or superior than cards' size
      * @return a new deck without a certain number(count) of cards
+     * @throws IllegalArgumentException if count is negative or superior than cards' size
      */
     public Deck<C> withoutTopCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        List<C> listOfCards = new ArrayList<>(cards.size()-count);
+        List<C> listOfCards = new ArrayList<>(cards.size() - count);
         for (int i = count; i < cards.size(); i++) {
             listOfCards.add(cards.get(i));
         }

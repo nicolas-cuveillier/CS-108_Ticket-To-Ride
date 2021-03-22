@@ -15,8 +15,9 @@ public final class Station {
     /**
      * principal constructor for building a Station with an unique id and its name
      *
-     * @param id   (int)
-     * @param name (String)
+     * @param id   (int) unique id of the Station
+     * @param name (String) name of the Station
+     * @throws IllegalArgumentException if Id is negative
      */
     public Station(int id, String name) {
         Preconditions.checkArgument(id >= 0);
@@ -27,7 +28,7 @@ public final class Station {
     /**
      * getter for the station's id
      *
-     * @return (int)
+     * @return (int) the id
      */
     public int id() {
         return id;
@@ -36,12 +37,17 @@ public final class Station {
     /**
      * getter for the station's name
      *
-     * @return (String)
+     * @return (String) the name
      */
     public String name() {
         return name;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return the name
+     */
     @Override
     public String toString() {
         return name;
