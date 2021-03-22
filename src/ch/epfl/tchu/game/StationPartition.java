@@ -58,8 +58,13 @@ public final class StationPartition implements StationConnectivity {
          */
         public Builder connect(Station s1, Station s2) {
             Preconditions.checkArgument(s1.id() >= 0 && s2.id() >= 0);
-            int i = (representative(s1.id()) < representative(s2.id()) ? representative(s2.id()) : representative(s1.id()));
+            int i = (representative(s1.id()) > representative(s2.id()) ? representative(s2.id()) : representative(s1.id()));
             representativeId[s1.id()] = representativeId[s2.id()] = i;
+            for (int j = 0; j < representativeId.length; j++) {
+                if(representativeId[j] == representative(s1.id()) || representativeId[j] == representative(s2.id())){
+                    representativeId[j] = i;
+                }
+            }
             return this;
         }
 
