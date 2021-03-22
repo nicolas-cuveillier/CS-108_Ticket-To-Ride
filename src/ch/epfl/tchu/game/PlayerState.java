@@ -36,7 +36,8 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * static method for building the initial state of a PlayerState
      *
-     * @param initialCards (SortedBag<Ticket>)
+     * @param initialCards the initial cards of the player
+     * @throws IllegalArgumentException if there are not four initial cards
      * @return (PlayerState)
      */
     public static PlayerState initial(SortedBag<Card> initialCards) {
@@ -49,7 +50,7 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * getter for the PlayerState tickets
      *
-     * @return (SortedBag < Ticket >)
+     * @return (SortedBag < Ticket >) the PlayerState tickets
      */
     public SortedBag<Ticket> tickets() {
         return SortedBag.of(tickets);
@@ -58,7 +59,7 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * compute a new PlayerState with more tickets
      *
-     * @return (PlayerState)
+     * @return (PlayerState) new PlayerState with more tickets
      */
     public PlayerState withAddedTickets(SortedBag<Ticket> newTickets) {
         return new PlayerState(tickets.union(newTickets), cards, routes);
@@ -67,7 +68,7 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * getter for the PlayerState cards
      *
-     * @return (SortedBag < Card >)
+     * @return (SortedBag < Card >) the PlayerState cards
      */
     public SortedBag<Card> cards() {
         return SortedBag.of(cards);
@@ -76,8 +77,9 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * compute a new PlayerState with one more card
      *
-     * @param card (Card)
-     * @return (PlayerState)
+     * @param card (Card) the card that will be added to the player's cards
+     * @see #withAddedCards(SortedBag)
+     * @return (PlayerState) new PlayerState with one more card
      */
     public PlayerState withAddedCard(Card card) {
         return withAddedCards(SortedBag.of(card));
@@ -86,8 +88,8 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * compute a new PlayerState with some additionalCards added to his cards
      *
-     * @param additionalCards (SortedBag<Card>)
-     * @return (PlayerState)
+     * @param additionalCards (SortedBag<Card>) the cards that will be added to the player's cards
+     * @return (PlayerState) new PlayerState with some additionalCards
      */
     public PlayerState withAddedCards(SortedBag<Card> additionalCards) {
         return new PlayerState(tickets, cards.union(additionalCards), routes);
@@ -103,8 +105,9 @@ public final class PlayerState extends PublicPlayerState {
 
     /**
      * compute the list of all possible cards the player can play to take possession of the given Route
-     * @see #possibleClaimCards(Route) 
-     * @param route (Route)
+     * @see #possibleClaimCards(Route)
+     * @throws IllegalArgumentException if the player has less car then it takes to claim the Route
+     * @param route the Route for which this method compute the possible claim cards
      * @return (List < SortedBag < Card > >)
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
@@ -125,10 +128,14 @@ public final class PlayerState extends PublicPlayerState {
      * compute the list of all possible additional cards the player can play to take possession of the given Route
      * according the initial cards he played and the cards he drawn
      *
-     * @param additionalCardsCount (int)
-     * @param initialCards         (SortedBag<Card>)
-     * @param drawnCards           (SortedBag<Card>)
-     * @return (List < SortedBag < Card > >)
+     * @param additionalCardsCount  the number of cards the player must play
+     * @param initialCards          cards that the player choose to claim the Route
+     * @param drawnCards            cards that will implies additionalCardsCount cards for the player to play
+     * @throws IllegalArgumentException
+     *                      if additionalCardsCount isn't in [1;3]
+     *                      if initialCards is empty or if it contains more than to kind for cards
+     *                      if there are not 3 drawnCards
+     * @return (List < SortedBag < Card > >) the list of all possible additional cards
      */
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards) {
         Preconditions.checkArgument(additionalCardsCount >= 1 && additionalCardsCount <= 3);
@@ -149,9 +156,9 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * compute a new PlayerState with one route added to his routes and the cards he used removed from his cards
      *
-     * @param route      (Route)
-     * @param claimCards (SortedBag<Card>)
-     * @return (PlayerState)
+     * @param route      the Route that the player claimed
+     * @param claimCards the cards used for it
+     * @return (PlayerState) a new PlayerState with one route added
      */
     public PlayerState withClaimedRoute(Route route, SortedBag<Card> claimCards) {
         List<Route> newRoutes = new ArrayList<>(routes);
@@ -162,7 +169,7 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * compute the number of points obtain by the player according to its tickets, can be negative
      *
-     * @return (int)
+     * @return (int) the number of points per tickets
      */
     public int ticketPoints() {
         int id = 0;
@@ -197,7 +204,7 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * compute all points the player add during the game
      *
-     * @return (int)
+     * @return (int) the total number of points
      */
     public int finalPoints() {
         return claimPoints() + ticketPoints();

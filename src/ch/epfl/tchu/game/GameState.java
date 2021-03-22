@@ -35,16 +35,27 @@ public final class GameState extends PublicGameState {
      * @return a initial GameState
      */
     public static GameState initial(SortedBag<Ticket> tickets, Random rng) {
+
+        SortedBag<Card> cards = Constants.ALL_CARDS;
+        CardState cardState = CardState.of(Deck.of(cards, rng));
+
+        SortedBag.Builder<Card> s1 = new SortedBag.Builder<>();
+        for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
+            s1.add(cardState.topDeckCard());
+            cardState.withoutTopDeckCard();
+        }
+        SortedBag.Builder<Card> s2 = new SortedBag.Builder<>();
+        for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
+            s2.add(cardState.topDeckCard());
+            cardState.withoutTopDeckCard();
+        }
+
         Map<PlayerId, PlayerState> playerState = new EnumMap<>(PlayerId.class);
-        playerState.put(PlayerId.PLAYER_1, PlayerState.initial(SortedBag.of(Constants.ALL_CARDS.toList().subList(0, 4))));//change
-        playerState.put(PlayerId.PLAYER_2, PlayerState.initial(SortedBag.of(Constants.ALL_CARDS.toList().subList(4, 8))));
+        playerState.put(PlayerId.PLAYER_1, PlayerState.initial(s1.build()));
+        playerState.put(PlayerId.PLAYER_2, PlayerState.initial(s2.build()));
 
-        SortedBag<Card> cards = Constants.ALL_CARDS.difference(SortedBag.of(Constants.ALL_CARDS.toList().subList(8, Constants.ALL_CARDS.size())));
-
-        Collections.shuffle(cards.toList(), rng);//useful?
         Collections.shuffle(tickets.toList(), rng);
 
-        CardState cardState = CardState.of(Deck.of(cards, rng));
         return new GameState(PlayerId.ALL.get(rng.nextInt(2)), tickets, playerState, cardState, null);
     }
     /**
@@ -67,6 +78,7 @@ public final class GameState extends PublicGameState {
     /**
      * getter for the count top ticket(s) of all tickets
      * @param count (int)
+     * @throws IllegalArgumentException if counts is negative or superior than tickets' size
      * @return a SortedBag of Ticket
      */
     public SortedBag<Ticket> topTickets(int count) {
@@ -76,6 +88,7 @@ public final class GameState extends PublicGameState {
 
     /**
      * @param count (int)
+     * @throws IllegalArgumentException if counts is negative or superior than tickets' size
      * @return the same GameState without the count top tickets
      */
     public GameState withoutTopTickets(int count) {
@@ -85,6 +98,7 @@ public final class GameState extends PublicGameState {
 
     /**
      * getter for the top deck card
+     * @throws IllegalArgumentException if the deck of cards is empty
      * @return (Card)
      */
     public Card topCard() {
@@ -93,6 +107,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
+     * @throws IllegalArgumentException if the deck of cards is empty
      * @return the same game without the first card of the deck of Card
      */
     public GameState withoutTopCard() {
@@ -121,6 +136,7 @@ public final class GameState extends PublicGameState {
      * modify the playerId's PlayerState so chosenTickets are added to its tickets
      * @param playerId the player that will receive the tickets
      * @param chosenTickets tickets that are chosen by the player
+     * @throws IllegalArgumentException if the player as already some tickets
      * @return the same GameState
      */
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets) {
@@ -135,6 +151,7 @@ public final class GameState extends PublicGameState {
     /**
      * @param drawnTickets tickets drawn by the player
      * @param chosenTickets tickets chosen by the player
+     * @throws IllegalArgumentException if drawnTickets doesn't contains the chosenTickets
      * @return the same GameState where the chosen tickets have been take out from all tickets and where chosenTickets
      * have been added to the currentPlayer tickets
      */
@@ -149,7 +166,9 @@ public final class GameState extends PublicGameState {
 
     /**
      * add the slot-th card in the faceUpCard to the current player's deck of cards
-     * @param slot (int)
+     * @param slot (int) the index of the face up card
+     * @throws IllegalArgumentException if it's not possible to draw cards
+     * @see #canDrawCards()
      * @return the same GameState where the slot-th card in the faceUpCard is replace by the topDeckCard
      */
     public GameState withDrawnFaceUpCard(int slot) {
@@ -163,6 +182,8 @@ public final class GameState extends PublicGameState {
 
     /**
      * add the top deck card to the current player's deck of cards
+     * @throws IllegalArgumentException if it's not possible to draw cards
+     * @see #canDrawCards()
      * @return the same GameState where the top card of the deck card has been removed
      */
     public GameState withBlindlyDrawnCard() {

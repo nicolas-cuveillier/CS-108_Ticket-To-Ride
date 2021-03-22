@@ -52,7 +52,7 @@ public final class Deck<C extends Comparable<C>> {
 
     /**
      * getter for the first object
-     *
+     * @see #topCards(int)
      * @return the first object of the deck
      */
     public C topCard() {
@@ -61,7 +61,7 @@ public final class Deck<C extends Comparable<C>> {
 
     /**
      * give a new deck without top card
-     *
+     * @see #withoutTopCards(int)
      * @return a new deck without the first object
      */
     public Deck<C> withoutTopCard() {
@@ -71,7 +71,8 @@ public final class Deck<C extends Comparable<C>> {
     /**
      * compute a new deck with only the count-th cards in it
      *
-     * @param count
+     * @param count the number of topCard(s) that will be returned
+     * @throws IllegalArgumentException if count is negative or superior than cards' size
      * @return a new SortedBag with only a part of the cards
      */
     public SortedBag<C> topCards(int count) {
@@ -79,7 +80,7 @@ public final class Deck<C extends Comparable<C>> {
         SortedBag.Builder<C> builder = new SortedBag.Builder<>();
 
         for (int i = 0; i < count; i++) {
-            builder.add(1, cards.get(i));
+            builder.add(cards.get(i));
         }
         return builder.build();
     }
@@ -87,16 +88,17 @@ public final class Deck<C extends Comparable<C>> {
     /**
      * compute a new deck without certain cards (count)
      *
-     * @param count
+     * @param count the number of topCard(s) that will be removed
+     * @throws IllegalArgumentException if count is negative or superior than cards' size
      * @return a new deck without a certain number(count) of cards
      */
     public Deck<C> withoutTopCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        List<C> ListOfC = new ArrayList<>(cards.size()-count);
+        List<C> listOfCards = new ArrayList<>(cards.size()-count);
         for (int i = count; i < cards.size(); i++) {
-            ListOfC.add(cards.get(i));
+            listOfCards.add(cards.get(i));
         }
-        return new Deck<>(ListOfC);
+        return new Deck<>(listOfCards);
     }
 
 }

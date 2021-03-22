@@ -23,6 +23,9 @@ public class PublicCardState {
      * @param faceUpCards  (List<Card>)
      * @param deckSize     (int)
      * @param discardsSize (int)
+     * @throws IllegalArgumentException
+     *                          if there aren't five face up cards
+     *                          if deck and discard are negative
      */
     public PublicCardState(List<Card> faceUpCards, int deckSize, int discardsSize) {
         Preconditions.checkArgument(faceUpCards.size() == Constants.FACE_UP_CARDS_COUNT && deckSize >= 0 && discardsSize >= 0);
@@ -34,7 +37,7 @@ public class PublicCardState {
     /**
      * give the size of all cards
      *
-     * @return (int)
+     * @return (int) the total number of cards
      */
     public int totalSize() {
         return faceUpCards.size() + discardsSize + deckSize;
@@ -43,7 +46,7 @@ public class PublicCardState {
     /**
      * getter for the face-up cards
      *
-     * @return (List < Card >)
+     * @return (List < Card >) a list of the faceUpCards
      */
     public List<Card> faceUpCards() {
         return Collections.unmodifiableList(faceUpCards);
@@ -52,16 +55,16 @@ public class PublicCardState {
     /**
      * getter for the face-up card at the index slot
      *
-     * @return (List < Card >)
+     * @return (List < Card >) the slot-th faceUpCards
      */
     public Card faceUpCard(int slot) {
         return faceUpCards.get(Objects.checkIndex(slot, faceUpCards.size()));
     }
 
     /**
-     * getter for the deck size
+     * getter for the deck's size
      *
-     * @return (int)
+     * @return (int) the deck's size
      */
     public int deckSize() {
         return deckSize;
@@ -70,16 +73,16 @@ public class PublicCardState {
     /**
      * return true iff the deck contains no cards
      *
-     * @return (boolean)
+     * @return (boolean) true iff the deck is empty
      */
     public boolean isDeckEmpty() {
         return (deckSize == 0);
     }
 
     /**
-     * getter for the discard size
+     * getter for the discard's size
      *
-     * @return (int)
+     * @return (int) the discard's size
      */
     public int discardsSize() {
         return discardsSize;
