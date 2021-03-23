@@ -21,7 +21,7 @@ public final class StationPartition implements StationConnectivity {
      */
     @Override
     public boolean connected(Station st1, Station st2) {
-        Preconditions.checkArgument(st1.id() >= 0 && st2.id() >= 0);
+       // Preconditions.checkArgument(st1.id() >= 0 && st2.id() >= 0);
         return (st1.id() < representativeId.length && st2.id() < representativeId.length) ? representativeId[st1.id()] == representativeId[st2.id()] : st1.id() == st2.id();
     }
 
@@ -32,7 +32,13 @@ public final class StationPartition implements StationConnectivity {
         private final int[] representativeId;
 
         private int representative(int id) {
-            return representativeId[id];
+            int representant = id;
+
+            while (representativeId[representant] != representant) {
+                representant = representativeId[representant];
+            }
+
+            return representant;
         }
 
         /**
@@ -59,9 +65,9 @@ public final class StationPartition implements StationConnectivity {
          * @throws IllegalArgumentException if one or the other id is negative
          */
         public Builder connect(Station s1, Station s2) {
-            Preconditions.checkArgument(s1.id() >= 0 && s2.id() >= 0);
-            int i = (Math.max(representative(s1.id()), representative(s2.id())));
-            representativeId[s1.id()] = representativeId[s2.id()] = i;
+            //Preconditions.checkArgument(s1.id() >= 0 && s2.id() >= 0);
+
+            representativeId[representative(s1.id())] = representative(s2.id());
             return this;
         }
 

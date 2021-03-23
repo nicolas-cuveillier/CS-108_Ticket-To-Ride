@@ -3,10 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -138,15 +135,18 @@ public final class PlayerState extends PublicPlayerState {
      *                                  if there are not 3 drawnCards
      */
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards) {
-        Preconditions.checkArgument(additionalCardsCount >= 1 && additionalCardsCount <= 3);
+        Preconditions.checkArgument(additionalCardsCount >= 1 && additionalCardsCount <= Constants.ADDITIONAL_TUNNEL_CARDS);
         Preconditions.checkArgument(!initialCards.isEmpty() && initialCards.toSet().size() <= 2);
         Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
 
         List<Card> usableCard = cards.toList();
-        usableCard.remove(initialCards.toList());
+        usableCard.remove(initialCards.toSet());
         usableCard.removeIf(card -> !card.equals(initialCards.get(0)) && !card.equals(Card.LOCOMOTIVE));
 
-        Set<SortedBag<Card>> s = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
+        Set<SortedBag<Card>> s = new HashSet<>();
+        if(usableCard.size() >= additionalCardsCount){
+            s = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
+        }
         List<SortedBag<Card>> sortedBagCardList = new ArrayList<>(s);
         sortedBagCardList.sort(Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
 
