@@ -4,6 +4,7 @@ import ch.epfl.tchu.Preconditions;
 
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -30,7 +31,7 @@ public final class Ticket implements Comparable<Ticket> {
             Preconditions.checkArgument(trips.get(i - 1).from().name().equalsIgnoreCase(trips.get(i).from().name()));
         }
 
-        this.trips = trips;
+        this.trips = List.copyOf(trips);
         this.name = computeText(this.trips);
 
     }
@@ -75,28 +76,56 @@ public final class Ticket implements Comparable<Ticket> {
     public int points(StationConnectivity connectivity) {
         int p = 0;
         int maxPoint = 0;
+        int minPoint = trips.get(0).points();
         boolean reached = false;
 
-        if (trips.size() == 1) {
+        List<Trip> connectedTrips = trips.stream()
+                .filter(t -> connectivity.connected(t.from(),t.to()))
+                .collect(Collectors.toList());
+
+
+
+        for (Trip t : trips) {
+            if(t.points() < minPoint){
+                minPoint = t.points();
+            }
+        }
+
+        if(connectedTrips.isEmpty()){
+            return -minPoint;
+        }
+
+        for (Trip t : connectedTrips) {
+            if(t.points() > maxPoint){
+                maxPoint = t.points();
+            }
+        }
+        return maxPoint;
+
+        /*if (trips.size() == 1) {
             p += trips.get(0).points(connectivity);
         } else {
 
             for (Trip t : trips) {
                 if (connectivity.connected(t.from(), t.to())) {
-                    if (t.points(connectivity) > maxPoint) {
-                        maxPoint = t.points(connectivity);
+                    if (t.points() >= maxPoint) {
+                        maxPoint = t.points();
                         reached = true;
                     }
                 }
+                if (t.points(connectivity) < minPoint) {
+                    minPoint = t.points(connectivity);
+                }
+
             }
 
             if (reached) {
                 p += maxPoint;
             } else {
-                p += -5;
+                p -= minPoint;
             }
-        }
-        return p;
+        }*/
+
     }
 
     /**

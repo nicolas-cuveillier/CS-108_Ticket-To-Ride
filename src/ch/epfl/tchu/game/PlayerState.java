@@ -104,9 +104,10 @@ public final class PlayerState extends PublicPlayerState {
      * compute the list of all possible cards the player can play to take possession of the given Route
      *
      * @param route the Route for which this method compute the possible claim cards
-     * @return (List < SortedBag < Card > >)
+     *
      * @throws IllegalArgumentException if the player has less car then it takes to claim the Route
      * @see #possibleClaimCards(Route)
+     * @return (List < SortedBag < Card > >)
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
         Preconditions.checkArgument(this.carCount() >= route.length());
@@ -129,22 +130,26 @@ public final class PlayerState extends PublicPlayerState {
      * @param additionalCardsCount the number of cards the player must play
      * @param initialCards         cards that the player choose to claim the Route
      * @param drawnCards           cards that will implies additionalCardsCount cards for the player to play
-     * @return (List < SortedBag < Card > >) the list of all possible additional cards
      * @throws IllegalArgumentException if additionalCardsCount isn't in [1;3]
      *                                  if initialCards is empty or if it contains more than to kind for cards
      *                                  if there are not 3 drawnCards
+     * @return (List < SortedBag < Card > >) the list of all possible additional cards
      */
     public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards) {
         Preconditions.checkArgument(additionalCardsCount >= 1 && additionalCardsCount <= Constants.ADDITIONAL_TUNNEL_CARDS);
         Preconditions.checkArgument(!initialCards.isEmpty() && initialCards.toSet().size() <= 2);
         Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
 
-        List<Card> usableCard = cards.toList();
-        usableCard.remove(initialCards.toSet());
-        usableCard.removeIf(card -> !card.equals(initialCards.get(0)) && !card.equals(Card.LOCOMOTIVE));
+        List<Card> usableCard = new ArrayList<>();
+        for (Card c : cards.difference(initialCards)) {
+            if (c.equals(Card.LOCOMOTIVE) || c.equals(initialCards.get(0))){
+                usableCard.add(c);
+            }
+        }
 
         Set<SortedBag<Card>> s = new HashSet<>();
-        if(usableCard.size() >= additionalCardsCount){
+
+        if (usableCard.size() >= additionalCardsCount) {
             s = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
         }
         List<SortedBag<Card>> sortedBagCardList = new ArrayList<>(s);
@@ -175,15 +180,8 @@ public final class PlayerState extends PublicPlayerState {
         int id = 0;
 
         for (Route r : routes) {
-
-            if (r.station1().id() > id) {
-                id = r.station1().id();
-            }
-
-            if (r.station2().id() > id) {
-                id = r.station2().id();
-            }
-
+            id = Math.max(id, r.station1().id());
+            id = Math.max(id, r.station2().id());
         }
 
         StationPartition.Builder spb = new StationPartition.Builder(id + 1);
@@ -204,9 +202,9 @@ public final class PlayerState extends PublicPlayerState {
     /**
      * compute all points the player add during the game
      *
-     * @return (int) the total number of points
      * @see #claimPoints()
      * @see #ticketPoints()
+     * @return (int) the total number of points
      */
     public int finalPoints() {
         return claimPoints() + ticketPoints();
