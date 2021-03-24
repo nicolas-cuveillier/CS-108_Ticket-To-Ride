@@ -28,12 +28,9 @@ public final class Trail {
         } else {
             this.station1 = station1;
             this.station2 = station2;
-            int length1 = 0;
-            for (Route r : routes) {
-                length1 += r.length();
-            }
-            this.length = length1;
-
+            this.length = routes.stream()
+                    .mapToInt(i -> i.length())
+                    .sum();
         }
 
     }
@@ -44,6 +41,7 @@ public final class Trail {
      * @param routes the list of all Route(s) to make the Trail
      * @return (Trail) the longest trail given all Route(s)
      */
+    //TODO : make it cleaner
     public static Trail longest(List<Route> routes) {
         if (routes.isEmpty()) {
             return new Trail(List.of(), null, null);

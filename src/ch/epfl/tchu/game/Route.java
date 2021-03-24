@@ -154,11 +154,12 @@ public final class Route {
      * compute the number of additional card a player must play to take a route according
      * to his claimCards and his drawnCards
      *
-     * @param claimCards (SortedBag<Card>)
-     * @param drawnCards (SortedBag<Card>)
-     * @return (int) the number of additional card(s) the player must play to take the Route
+     * @param claimCards the cards used to claim the Route
+     * @param drawnCards the drawn cards by the player
+     *
      * @throws IllegalArgumentException if there are more than three drawn cards
      *                                  if the Route is not Underground
+     * @return (int) the number of additional card(s) the player must play to take the Route
      */
     public int additionalClaimCardsCount(SortedBag<Card> claimCards, SortedBag<Card> drawnCards) {
         Preconditions.checkArgument(drawnCards.size() == 3 && this.level == Level.UNDERGROUND);

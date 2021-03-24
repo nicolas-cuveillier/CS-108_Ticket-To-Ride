@@ -186,16 +186,13 @@ public final class PlayerState extends PublicPlayerState {
 
         StationPartition.Builder spb = new StationPartition.Builder(id + 1);
 
-        for (Route r : routes) {
-            spb.connect(r.station1(), r.station2());
-        }
-
+        routes.forEach(route -> spb.connect(route.station1(), route.station2()));
         StationPartition connectivity = spb.build();
 
-        int points = 0;
-        for (Ticket t : tickets) {
-            points += t.points(connectivity);
-        }
+        int points = tickets.stream()
+                .mapToInt(i -> i.points(connectivity))
+                .sum();
+
         return points;
     }
 

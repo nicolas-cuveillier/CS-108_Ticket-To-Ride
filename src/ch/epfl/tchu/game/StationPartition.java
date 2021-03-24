@@ -21,7 +21,6 @@ public final class StationPartition implements StationConnectivity {
      */
     @Override
     public boolean connected(Station st1, Station st2) {
-       // Preconditions.checkArgument(st1.id() >= 0 && st2.id() >= 0);
         return (st1.id() < representativeId.length && st2.id() < representativeId.length) ? representativeId[st1.id()] == representativeId[st2.id()] : st1.id() == st2.id();
     }
 
@@ -61,12 +60,10 @@ public final class StationPartition implements StationConnectivity {
          *
          * @param s1 the first Station to connect
          * @param s2 the second Station to connect
-         * @return (Builder) this
          * @throws IllegalArgumentException if one or the other id is negative
+         * @return (Builder) this
          */
         public Builder connect(Station s1, Station s2) {
-            //Preconditions.checkArgument(s1.id() >= 0 && s2.id() >= 0);
-
             representativeId[representative(s1.id())] = representative(s2.id());
             return this;
         }

@@ -23,10 +23,10 @@ public final class Deck<C extends Comparable<C>> {
     /**
      * build a new deck with shuffled cards
      *
-     * @param cards (SortedBag<C>)
-     * @param rng   (Random)
-     * @param <C>   (<C>)
-     * @return
+     * @param cards a SortedBag of cards that will be in the Deck
+     * @param rng   the Random used to shuffle
+     * @param <C>   the Type of the cards
+     * @return (Deck<C>) a new deck of the shuffled list of cards
      */
     public static <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng) {
         List<C> listOf = new ArrayList<>(cards.toList());
@@ -53,8 +53,8 @@ public final class Deck<C extends Comparable<C>> {
     /**
      * getter for the first object
      *
-     * @return the first object of the deck
      * @see #topCards(int)
+     * @return the first object of the deck
      */
     public C topCard() {
         return topCards(1).get(0);
@@ -63,8 +63,8 @@ public final class Deck<C extends Comparable<C>> {
     /**
      * give a new deck without top card
      *
+     * @see #topCards(int)
      * @return a new deck without the first object
-     * @see #withoutTopCards(int)
      */
     public Deck<C> withoutTopCard() {
         return withoutTopCards(1);
@@ -74,8 +74,8 @@ public final class Deck<C extends Comparable<C>> {
      * compute a new deck with only the count-th cards in it
      *
      * @param count the number of topCard(s) that will be returned
-     * @return a new SortedBag with only a part of the cards
      * @throws IllegalArgumentException if count is negative or superior than cards' size
+     * @return a new SortedBag with only a part of the cards
      */
     public SortedBag<C> topCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
@@ -91,8 +91,8 @@ public final class Deck<C extends Comparable<C>> {
      * compute a new deck without certain cards (count)
      *
      * @param count the number of topCard(s) that will be removed
-     * @return a new deck without a certain number(count) of cards
      * @throws IllegalArgumentException if count is negative or superior than cards' size
+     * @return a new deck without a certain number(count) of cards
      */
     public Deck<C> withoutTopCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());

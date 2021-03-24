@@ -31,15 +31,15 @@ public class PublicPlayerState {
         this.ticketCount = ticketCount;
         this.cardCount = cardCount;
         this.routes = new ArrayList<>(routes);
-        int length = 0;
-        for (Route r : routes) {
-            length += r.length();
-        }
+
+        int length = routes.stream()
+                .mapToInt(i -> i.length())
+                .sum();
         carCount = (Constants.INITIAL_CAR_COUNT - length);
-        int buildPoints = 0;
-        for (Route r : routes) {
-            buildPoints += r.claimPoints();
-        }
+
+        int buildPoints = routes.stream()
+                .mapToInt(i -> i.claimPoints())
+                .sum();
         claimPoints = buildPoints;
     }
 

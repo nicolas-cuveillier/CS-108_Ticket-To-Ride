@@ -49,22 +49,22 @@ public final class Ticket implements Comparable<Ticket> {
 
     private static String computeText(List<Trip> trips) {
         TreeSet<String> s = new TreeSet<>();
-        String text = "";
+        StringBuilder text = new StringBuilder();
 
-        text += trips.get(0).from().name() + " - ";
+        text.append(trips.get(0).from().name() + " - ");
 
         if (trips.size() == 1) {
             s.add(String.format("%s (%s)", trips.get(0).to().name(), trips.get(0).points()));
-            text += String.join("", s);
+            text.append(String.join("", s));
         } else {
-            text += "{";
+            text.append("{");
             for (Trip t : trips) {
                 s.add(String.format("%s (%s)", t.to().name(), t.points()));
             }
-            text += String.join(", ", s);
-            text += "}";
+            text.append(String.join(", ", s));
+            text.append("}");
         }
-        return text;
+        return text.toString();
     }
 
     /**
@@ -74,16 +74,12 @@ public final class Ticket implements Comparable<Ticket> {
      * @return (int) the points given the connectivity
      */
     public int points(StationConnectivity connectivity) {
-        int p = 0;
         int maxPoint = 0;
         int minPoint = trips.get(0).points();
-        boolean reached = false;
 
         List<Trip> connectedTrips = trips.stream()
                 .filter(t -> connectivity.connected(t.from(),t.to()))
                 .collect(Collectors.toList());
-
-
 
         for (Trip t : trips) {
             if(t.points() < minPoint){
@@ -101,31 +97,6 @@ public final class Ticket implements Comparable<Ticket> {
             }
         }
         return maxPoint;
-
-        /*if (trips.size() == 1) {
-            p += trips.get(0).points(connectivity);
-        } else {
-
-            for (Trip t : trips) {
-                if (connectivity.connected(t.from(), t.to())) {
-                    if (t.points() >= maxPoint) {
-                        maxPoint = t.points();
-                        reached = true;
-                    }
-                }
-                if (t.points(connectivity) < minPoint) {
-                    minPoint = t.points(connectivity);
-                }
-
-            }
-
-            if (reached) {
-                p += maxPoint;
-            } else {
-                p -= minPoint;
-            }
-        }*/
-
     }
 
     /**
@@ -134,12 +105,19 @@ public final class Ticket implements Comparable<Ticket> {
     public String text() {
         return name;
     }
-
+    /**
+     * {@inheritDoc}
+     *
+     * @return the name
+     */
     @Override
     public String toString() {
         return name;
     }
-
+    /**
+     * {@inheritDoc}
+     * compare the name
+     */
     @Override
     public int compareTo(Ticket that) {
         return this.name.compareTo(that.name);
