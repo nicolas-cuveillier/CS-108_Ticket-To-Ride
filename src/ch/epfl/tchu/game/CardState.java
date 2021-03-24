@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-//TODO : javadoc
+
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  * <p>
@@ -27,25 +27,24 @@ public final class CardState extends PublicCardState {
      * build a card state with five face-up cards, a deck and a discard given a deck
      *
      * @param deck (Deck<Card>) deck of cards from which faceUpCards and deck will be build
-     * @return (CardState) an complete part of CardState with five faceUpCards and no discards
      * @throws IllegalArgumentException if the deck contains less than 5 cards
+     * @return (CardState) an complete part of CardState with five faceUpCards and no discards
      */
     public static CardState of(Deck<Card> deck) {
         Preconditions.checkArgument(deck.size() >= Constants.FACE_UP_CARDS_COUNT);
 
         List<Card> faceUpCards = deck.topCards(Constants.FACE_UP_CARDS_COUNT).toList();
 
-        deck = deck.withoutTopCards(Constants.FACE_UP_CARDS_COUNT);
-
-        return new CardState(faceUpCards, deck, SortedBag.of());
+        return new CardState(faceUpCards, deck.withoutTopCards(Constants.FACE_UP_CARDS_COUNT), SortedBag.of());
     }
 
     /**
      * compute a card state where the slot-th card in the face_up cards has been replace by the first card in the deck
      *
-     * @param slot (int)
+     * @param slot (int) the index of the card that will be taken and
      * @throws IllegalArgumentException if the deck is empty
-     * @return (CardState)
+     * @throws IndexOutOfBoundsException if slot the negative or superior than four
+     * @return (CardState) a new CardState with the slot-th faceUpCard replaced by the top deck card
      */
     public CardState withDrawnFaceUpCard(int slot) {
         Preconditions.checkArgument(!deck.isEmpty());
@@ -60,9 +59,8 @@ public final class CardState extends PublicCardState {
 
     /**
      * return the first Card of the deck
-     *
-     * @return (Card)
      * @throws IllegalArgumentException if the deck is empty
+     * @return (Card) the top deck card
      */
     public Card topDeckCard() {
         Preconditions.checkArgument(!deck.isEmpty());
@@ -71,9 +69,8 @@ public final class CardState extends PublicCardState {
 
     /**
      * return the same CardState without the first card (top card)
-     *
-     * @return (CardState)
      * @throws IllegalArgumentException if the deck is empty
+     * @return (CardState) a CardState without its top deck card
      */
     public CardState withoutTopDeckCard() {
         Preconditions.checkArgument(!deck.isEmpty());
@@ -83,34 +80,23 @@ public final class CardState extends PublicCardState {
     /**
      * compute a new CardState where the deck is reform from the shuffled discard
      *
-     * @param rng (Random)
-     * @return (CardState)
+     * @param rng (Random) used to shuffle the deck
      * @throws IllegalArgumentException if the deck isn't empty
+     * @return (CardState) a new CardState where the deck is reform discard
      */
     public CardState withDeckRecreatedFromDiscards(Random rng) {
         Preconditions.checkArgument(deck.isEmpty());
-
-        SortedBag.Builder<Card> discardBuilder = new SortedBag.Builder<>();
-
-        return new CardState(faceUpCards(), Deck.of(discard, rng), discardBuilder.build());
+        return new CardState(faceUpCards(), Deck.of(discard, rng), SortedBag.of());
     }
 
     /**
      * return the same CardState with Cards added to the discard
      *
      * @param additionalDiscards (SortedBag<Card>)
-     * @return (CardState)
+     * @return (CardState) a new CardState with more discard cards
      */
     public CardState withMoreDiscardedCards(SortedBag<Card> additionalDiscards) {
-        SortedBag.Builder<Card> discardBuilder = new SortedBag.Builder<>();
-        List<Card> discardList = discard.toList();
-        List<Card> additionalDiscardsList = additionalDiscards.toList();
-        discardList.addAll(additionalDiscardsList);
-        for (Card c : discardList) {
-            discardBuilder.add(c);
-        }
-        SortedBag<Card> moreDiscard = discardBuilder.build();
-        return new CardState(faceUpCards(), deck, moreDiscard);
+        return new CardState(faceUpCards(), deck, discard.union(additionalDiscards));
     }
 
 }

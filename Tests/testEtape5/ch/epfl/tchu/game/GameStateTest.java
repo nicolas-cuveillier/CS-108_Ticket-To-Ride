@@ -88,7 +88,7 @@ public class GameStateTest {
     @Test
     void checkWithClaimedRoute(){
         GameState g = GameState.initial(SortedBag.of(ChMap.tickets().subList(0,3)),new Random());
-        //TODO : 
+        //TODO :
 
     }
 
