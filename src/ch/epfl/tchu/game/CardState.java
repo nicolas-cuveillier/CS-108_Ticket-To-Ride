@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-
+//TODO : javadoc
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  * <p>
@@ -26,8 +26,8 @@ public final class CardState extends PublicCardState {
     /**
      * build a card state with five face-up cards, a deck and a discard given a deck
      *
-     * @param deck (Deck<Card>)
-     * @return (CardState)
+     * @param deck (Deck<Card>) deck of cards from which faceUpCards and deck will be build
+     * @return (CardState) an complete part of CardState with five faceUpCards and no discards
      * @throws IllegalArgumentException if the deck contains less than 5 cards
      */
     public static CardState of(Deck<Card> deck) {
@@ -44,8 +44,8 @@ public final class CardState extends PublicCardState {
      * compute a card state where the slot-th card in the face_up cards has been replace by the first card in the deck
      *
      * @param slot (int)
-     * @return (CardState)
      * @throws IllegalArgumentException if the deck is empty
+     * @return (CardState)
      */
     public CardState withDrawnFaceUpCard(int slot) {
         Preconditions.checkArgument(!deck.isEmpty());

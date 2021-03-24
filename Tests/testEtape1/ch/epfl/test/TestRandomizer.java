@@ -11,4 +11,5 @@ public final class TestRandomizer {
     public static Random newRandom() {
         return new Random(SEED);
     }
+
 }
