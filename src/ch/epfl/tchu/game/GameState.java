@@ -180,8 +180,7 @@ public final class GameState extends PublicGameState {
         Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
         playerState.put(currentPlayerId(), currentPlayerState().withAddedTickets(chosenTickets));
 
-        //TODO : remove chosenTickets from tickets
-        return new GameState(currentPlayerId(), tickets, playerState, cardState, lastPlayer());
+        return new GameState(currentPlayerId(), tickets.withoutTopCards(drawnTickets.size()), playerState, cardState, lastPlayer());
     }
 
     /**
