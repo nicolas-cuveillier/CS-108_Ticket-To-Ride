@@ -17,7 +17,7 @@ public final class PlayerState extends PublicPlayerState {
     private final List<Route> routes;
 
     /**
-     * Principal constructor of a PlayerState, build a PlayerState with its Tickets, Cards and Routes
+     * Primary constructor of a PlayerState, builds a PlayerState with its Tickets, Cards and Routes
      *
      * @param tickets (SortedBag<Ticket>)
      * @param cards   (SortedBag<Ticket>)
@@ -31,7 +31,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * static method for building the initial state of a PlayerState
+     * Static method building the initial PlayerState
      *
      * @param initialCards the initial cards of the player
      * @return (PlayerState)
@@ -45,7 +45,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * getter for the PlayerState tickets
+     * Getter for the private field tickets
      *
      * @return (SortedBag < Ticket >) the PlayerState tickets
      */
@@ -54,7 +54,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute a new PlayerState with more tickets
+     * Computes a new PlayerState with more tickets
      *
      * @return (PlayerState) new PlayerState with more tickets
      */
@@ -63,7 +63,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * getter for the PlayerState cards
+     * Getter for the private flield cards
      *
      * @return (SortedBag < Card >) the PlayerState cards
      */
@@ -72,7 +72,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute a new PlayerState with one more card
+     * Computes a new PlayerState with one additional card
      *
      * @param card (Card) the card that will be added to the player's cards
      * @return (PlayerState) new PlayerState with one more card
@@ -83,7 +83,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute a new PlayerState with some additionalCards added to his cards
+     * Computes a new PlayerState with the given additionalCards added to his cards
      *
      * @param additionalCards (SortedBag<Card>) the cards that will be added to the player's cards
      * @return (PlayerState) new PlayerState with some additionalCards
@@ -93,6 +93,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
+     * Tests if the player can claim the specified route
      * @param route (Route)
      * @return (boolean) true iff the player can take possession of the given Route according to his car and cards
      */
@@ -101,7 +102,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute the list of all possible cards the player can play to take possession of the given Route
+     * Computes the list of all possible cards the player can play to take possession of the given Route
      *
      * @param route the Route for which this method compute the possible claim cards
      *
@@ -124,7 +125,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute the list of all possible additional cards the player can play to take possession of the given Route
+     * Computes the list of all possible additional cards the player can play to take possession of the given Route
      * according the initial cards he played and the cards he drawn
      *
      * @param additionalCardsCount the number of cards the player must play
@@ -159,7 +160,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute a new PlayerState with one route added to his routes and the cards he used removed from his cards
+     * Computes a new PlayerState with one route added to his routes and the cards he used removed from his cards
      *
      * @param route      the Route that the player claimed
      * @param claimCards the cards used for it
@@ -172,7 +173,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute the number of points obtain by the player according to its tickets, can be negative
+     * Computes the points obtained by the player according to its tickets, can be negative
      *
      * @return (int) the number of points per tickets
      */
@@ -197,7 +198,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * compute all points the player add during the game
+     * Computes the total points the player obtained during the game
      *
      * @see #claimPoints()
      * @see #ticketPoints()

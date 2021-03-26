@@ -29,7 +29,7 @@ public final class Route {
     private final int length;
 
     /**
-     * principal and only constructor for a Route
+     * Constructor for a Route
      *
      * @param id       name of the Route
      * @param station1 first Station (from)
@@ -57,7 +57,7 @@ public final class Route {
     }
 
     /**
-     * give a List of the two route's station
+     * Getter for the two route's station, given as a list
      *
      * @return (List < Station >) the list of the two Station
      */
@@ -66,7 +66,7 @@ public final class Route {
     }
 
     /**
-     * give the second station of a route according to the given one
+     * Getter for the second station of a route according to the given one
      *
      * @param station one of the two Station of the Route
      * @return (Station) the other Station than the one given
@@ -78,16 +78,16 @@ public final class Route {
     }
 
     /**
-     * compute the number of points given when taking this route
+     * Computes the number of points awarded when taking this Route
      *
-     * @return (int) the claim points given according to its length
+     * @return (int) the points awarded according to the Route's length
      */
     public int claimPoints() {
         return Constants.ROUTE_CLAIM_POINTS.get(length);
     }
 
     /**
-     * compute in a List of SortedBag of Cards all the possible card the player can choose to take the route
+     * Computes from a List of SortedBag of Cards all the possible cards the player can choose to take the route
      *
      * @return (List < SortedBag < Card > >) a List of SortedBag of all possible Cards to claim the Route
      */
@@ -151,7 +151,7 @@ public final class Route {
     }
 
     /**
-     * compute the number of additional card a player must play to take a route according
+     * Computes the number of additional card(s) a player must play to take a Route according
      * to his claimCards and his drawnCards
      *
      * @param claimCards the cards used to claim the Route
@@ -174,7 +174,7 @@ public final class Route {
     }
 
     /**
-     * getter for route's id
+     * Getter for Route's id
      *
      * @return (String) the id
      */
@@ -183,7 +183,7 @@ public final class Route {
     }
 
     /**
-     * getter for first route's station
+     * Getter for first Route's station
      *
      * @return (Station) the first Station
      */
@@ -192,7 +192,7 @@ public final class Route {
     }
 
     /**
-     * getter for second route's station
+     * Getter for second Route's station
      *
      * @return (Station) the second Station
      */
@@ -201,7 +201,7 @@ public final class Route {
     }
 
     /**
-     * getter for the route's Level
+     * Getter for the Route's Level
      *
      * @return (Level) the level
      */
@@ -210,7 +210,7 @@ public final class Route {
     }
 
     /**
-     * getter for route's Color
+     * Getter for Route's Color
      *
      * @return (Color) the color
      */
@@ -219,7 +219,7 @@ public final class Route {
     }
 
     /**
-     * getter for route's length
+     * Getter for Route's length
      *
      * @return (int) the length
      */

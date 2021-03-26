@@ -13,7 +13,7 @@ public final class Station {
     private final String name;
 
     /**
-     * principal constructor for building a Station with an unique id and its name
+     * Primary constructor for a Station with it's unique id and it's name
      *
      * @param id   (int) unique id of the Station
      * @param name (String) name of the Station
@@ -26,7 +26,7 @@ public final class Station {
     }
 
     /**
-     * getter for the station's id
+     * Getter for the Station's id
      *
      * @return (int) the id
      */
@@ -35,7 +35,7 @@ public final class Station {
     }
 
     /**
-     * getter for the station's name
+     * Getter for the Station's name
      *
      * @return (String) the name
      */

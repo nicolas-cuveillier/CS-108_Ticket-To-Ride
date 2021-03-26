@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  * <p>
- * Simulate a ticket from the tchu game
+ * simulate a ticket from the tchu game
  */
 public final class Ticket implements Comparable<Ticket> {
 
@@ -17,7 +17,7 @@ public final class Ticket implements Comparable<Ticket> {
     private final String name;
 
     /**
-     * Principal constructor for a Ticket, building it with a List of trips
+     * Primary constructor for a Ticket, creating it with a List of trips
      *
      * @param trips the list of all trips that form the Ticket
      * @throws IllegalArgumentException if the list of trips is empty
@@ -37,7 +37,7 @@ public final class Ticket implements Comparable<Ticket> {
     }
 
     /**
-     * Second constructor, for building a Ticket with only one trip
+     * Secondary constructor for a Ticket with only one Trip
      *
      * @param from   the Station of departure
      * @param to     the arrival Station
@@ -68,7 +68,7 @@ public final class Ticket implements Comparable<Ticket> {
     }
 
     /**
-     * Compute how many points will be earned with this ticket according to its connectivity
+     * Computes how many points will be earned with the Ticket according to its connectivity
      *
      * @param connectivity (StationConnectivity)
      * @return (int) the points given the connectivity
@@ -100,6 +100,8 @@ public final class Ticket implements Comparable<Ticket> {
     }
 
     /**
+     * Getter for the private field name
+     * 
      * @return (string) the textual representation of a tickets
      */
     public String text() {

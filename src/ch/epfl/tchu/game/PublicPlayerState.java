@@ -19,7 +19,7 @@ public class PublicPlayerState {
     private int claimPoints;
 
     /**
-     * single constructor for PublicPlayerState
+     * Constructor for PublicPlayerState
      *
      * @param ticketCount the number of tickets
      * @param cardCount   the number of card(s)
@@ -44,7 +44,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * getter for the number of tickets
+     * Getter for the number of tickets
      *
      * @return (int) the number of tickets
      */
@@ -53,7 +53,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * getter for the number of cards
+     * gGtter for the number of cards
      *
      * @return (int) the number of card(s)
      */
@@ -62,7 +62,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * getter for the routes
+     * Getter for the routes
      *
      * @return (List < Route >) the list of all player's Route(s)
      */
@@ -71,7 +71,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * getter for the number of car the player still has
+     * Getter for the number of car the player still has
      *
      * @return (int) the number of car of the player
      */
@@ -80,7 +80,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * getter for the claim points according to the player Route
+     * Getter for the claim points according to the player Route
      *
      * @return (int) the number of points that the player received from claiming Route(s)
      */

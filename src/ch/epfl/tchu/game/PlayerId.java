@@ -15,12 +15,12 @@ public enum PlayerId {
      */
     public static final List<PlayerId> ALL = List.of(PlayerId.values());
     /**
-     * number of possible players
+     * Number of possible players
      */
     public static final int COUNT = ALL.size();
 
     /**
-     * return the other player given one player
+     * return the other player's id, given a player's id
      *
      * @return (PlayerId)
      */

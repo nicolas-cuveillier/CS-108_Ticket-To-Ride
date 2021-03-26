@@ -36,12 +36,12 @@ public final class Trail {
     }
 
     /**
-     * compute the longest or one of the longest Trail for a given List of Route
+     * Computes the longest or one of the longest Trail for a given List of Route
      *
      * @param routes the list of all Route(s) to make the Trail
      * @return (Trail) the longest trail given all Route(s)
      */
-    //TODO : make it cleaner
+//TODO : clean/factor the method
     public static Trail longest(List<Route> routes) {
         if (routes.isEmpty()) {
             return new Trail(List.of(), null, null);
@@ -148,7 +148,7 @@ public final class Trail {
     }
 
     /**
-     * getter for Trail's length
+     * Getter for the private field length
      *
      * @return (int) the length
      */
@@ -157,7 +157,7 @@ public final class Trail {
     }
 
     /**
-     * getter for Trail's routes
+     * Getter for the private field routes
      *
      * @return (List < Route >) the list of all Route(s)
      */
@@ -166,7 +166,7 @@ public final class Trail {
     }
 
     /**
-     * getter for the Trail's first Station
+     * Getter for the first Station
      *
      * @return (Station) the first Station
      */
@@ -175,7 +175,7 @@ public final class Trail {
     }
 
     /**
-     * getter for the Trail's last Station
+     * Getter for the last Station
      *
      * @return (Station) the second Station
      */

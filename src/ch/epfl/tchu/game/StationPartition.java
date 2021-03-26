@@ -41,8 +41,8 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * constructor for the StationPartition Builder
-         * build the representative id table of size stationCount
+         * Constructor for the StationPartition Builder
+         * instantiates the representative id table of size stationCount
          *
          * @param stationCount (int) the biggest id of the Stations
          * @throws IllegalArgumentException if stationCount is negative
@@ -56,7 +56,7 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * join "set" containing the two Stations and make one representative id for both Stations
+         * Connects the two stations ,joins the two stations sets and chooses a representative for the new set
          *
          * @param s1 the first Station to connect
          * @param s2 the second Station to connect
@@ -69,6 +69,8 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
+         * Builds the StationPartition following the representativeId mapping and flattends the partition
+         * 
          * @return a new StationPartition with the built table and flattened partition
          */
         public StationPartition build() {

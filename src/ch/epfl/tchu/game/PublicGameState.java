@@ -20,7 +20,7 @@ public class PublicGameState {
     private final PlayerId lastPlayer;
 
     /**
-     * Only constructor for a Public Game State, define the game state with the public part of its attribute
+     * Constructor for a PublicGameState, defines the game state with the public part of it's attribute
      *
      * @param ticketsCount    the number of tickets
      * @param cardState       the public state of the cards
@@ -47,7 +47,7 @@ public class PublicGameState {
     }
 
     /**
-     * getter for ticketsCount
+     * Getter for the private field ticketsCount
      *
      * @return the number of tickets
      */
@@ -56,6 +56,8 @@ public class PublicGameState {
     }
 
     /**
+     * Tests whether it is possible to draw tickets or not
+     * 
      * @return true iff there are still tickets left
      */
     public boolean canDrawTickets() {
@@ -63,7 +65,7 @@ public class PublicGameState {
     }
 
     /**
-     * getter for the PublicCardState attribute
+     * Getter for the PublicCardState computed with the private cardState property
      *
      * @return the PublicCardState
      */
@@ -72,6 +74,8 @@ public class PublicGameState {
     }
 
     /**
+     * Tests whether it is possible to draw cards from the deck or not
+     * 
      * @return true iff the cards overall are more or equal to five
      */
     public boolean canDrawCards() {
@@ -79,7 +83,7 @@ public class PublicGameState {
     }
 
     /**
-     * getter for the currentPlayerId
+     * Getter for the private field currentPlayerId
      *
      * @return a playerId
      */
@@ -88,7 +92,7 @@ public class PublicGameState {
     }
 
     /**
-     * getter for the PublicPlayerState of the PlayerId
+     * Getter for the PublicPlayerState computed using the specified PlayerId
      *
      * @param playerId the player for which it will return its PublicPLayerState
      * @return a PublicPlayerState
@@ -98,7 +102,7 @@ public class PublicGameState {
     }
 
     /**
-     * getter for the PublicPlayerState of currentPlayer
+     * Getter for the PublicPlayerState for the currentPlayer
      *
      * @see #playerState(PlayerId)
      * @return a PublicPlayerState
@@ -108,7 +112,7 @@ public class PublicGameState {
     }
 
     /**
-     * getter for the overall Route claimed by one or the other player
+     * Getter for every Route claimed by the currentPlayer
      *
      * @return all claimed Route
      */
@@ -119,7 +123,7 @@ public class PublicGameState {
     }
 
     /**
-     * getter for the Id of the last player
+     * Getter for the Id of the last player
      *
      * @return the lastPlayer PlayerId
      */

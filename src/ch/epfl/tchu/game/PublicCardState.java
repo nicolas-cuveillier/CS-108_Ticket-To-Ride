@@ -34,7 +34,7 @@ public class PublicCardState {
     }
 
     /**
-     * give the size of all cards
+     * Getter for the number of cards in play minus the cards heach player has in hand
      *
      * @return (int) the total number of cards
      */
@@ -43,7 +43,7 @@ public class PublicCardState {
     }
 
     /**
-     * getter for the face-up cards
+     * Getter for the face-up cards
      *
      * @return (List < Card >) a list of the faceUpCards
      */
@@ -52,7 +52,8 @@ public class PublicCardState {
     }
 
     /**
-     * getter for the face-up card at the index slot
+     * Getter for the face-up card at the index slot
+     * 
      * @throws IndexOutOfBoundsException if the index is out of bounds
      * @return (List < Card >) the slot-th faceUpCards
      */
@@ -61,7 +62,7 @@ public class PublicCardState {
     }
 
     /**
-     * getter for the deck's size
+     * Getter for the deck's size
      *
      * @return (int) the deck's size
      */
@@ -70,7 +71,7 @@ public class PublicCardState {
     }
 
     /**
-     * return true iff the deck contains no cards
+     * Tests whether the deck is empty or not
      *
      * @return (boolean) true iff the deck is empty
      */
@@ -79,7 +80,7 @@ public class PublicCardState {
     }
 
     /**
-     * getter for the discard's size
+     * Getter for the discard's size
      *
      * @return (int) the discard's size
      */

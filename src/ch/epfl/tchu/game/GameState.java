@@ -27,7 +27,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * static method which compute the complete GameState with initial tickets
+     * Static method which computes the complete GameState with initial tickets
      *
      * @param tickets SortedBag of tickets that a initially present in the game
      * @param rng     Random used to shuffle cards and Tickets
@@ -80,7 +80,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * getter for the count top ticket(s) of all tickets
+     * Getter for the specified count of top ticket(s) from all tickets
      *
      * @param count the number of top tickets needed
      * @throws IllegalArgumentException if counts is negative or superior than tickets' size
@@ -92,7 +92,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * compute a new GameState without the first count tickets of the deck of tickets
+     * Computes a new GameState without the first count tickets of the deck of tickets
      *
      * @param count the number of top tickets to remove
      * @throws IllegalArgumentException if counts is negative or superior than tickets' size
@@ -104,7 +104,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * getter for the top deck card
+     * Getter for the top deck card
      *
      * @throws IllegalArgumentException if the deck of cards is empty
      * @return the first card of the deck of cards
@@ -115,7 +115,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * compute a new GameState without the first card of the deck of cards
+     * Computes a new GameState without the first card of the deck of cards
      *
      * @throws IllegalArgumentException if the deck of cards is empty
      * @return the same game without the first card of the deck of Card
@@ -126,7 +126,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     *  compute a new GameState with more discard's cards
+     *  Computes a new GameState with more discard's cards
      *
      * @param discardedCards cards that will be added to the discard
      * @return the same game with this SortedBag of cards added to the discard
@@ -136,7 +136,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * compute a new GameState where the cards' deck has been recreated from the discard
+     * Computes a new GameState where the cards' deck has been recreated from the discard
      *
      * @param rng Random used to shuffle the deck
      * @return the original GameState if the deck isn't empty or compute the same GameState but with Deck cards
@@ -147,7 +147,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * modify the playerId's PlayerState so chosenTickets are added to its tickets
+     * Modifies the specified player's PlayerState so chosenTickets are added to its tickets
      *
      * @param playerId      the player that will receive the tickets
      * @param chosenTickets tickets that are chosen by the player
@@ -164,7 +164,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * compute a new GameState where the current player took chosenTickets
+     * Computes a new GameState where the current player took chosenTickets
      *
      * @param drawnTickets  tickets drawn by the player
      * @param chosenTickets tickets chosen by the player
@@ -184,14 +184,14 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * add the slot-th card in the faceUpCard to the current player's deck of cards
+     * Adds the card in the faceUpCard at the specified slot to the current player's cards
      *
      * @param slot (int) the index of the face up card
      *
      * @throws IllegalArgumentException if it's not possible to draw cards
      * @see #canDrawCards()
      *
-     * @return the same GameState where the slot-th card in the faceUpCard is replace by the topDeckCard
+     * @return the same GameState where the card in the faceUpCard at the specified slot is replaced by the topDeckCard
      */
     public GameState withDrawnFaceUpCard(int slot) {
         Preconditions.checkArgument(canDrawCards());
@@ -203,7 +203,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * add the top deck card to the current player's deck of cards
+     * Adds the top deck card to the current player's cards
      *
      * @throws IllegalArgumentException if it's not possible to draw cards
      * @see #canDrawCards()
@@ -220,10 +220,10 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * compute a new GameState with a Route claimed by the current player
+     * Computes a new GameState with a Route claimed by the current player
      *
-     * @param route route that the currentPlayer claimed
-     * @param cards cards that will be dropped into the discards
+     * @param route route which the current player claimed
+     * @param cards cards that will be discarded to claim the route
      *
      * @return the same GameState where the current player has seized the given route using the given cards.
      */
@@ -236,7 +236,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * Define if the last turn begins
+     * Tests if the last turn begins
      *
      * @return true iff the last player is still unknown and the current player has less than two car
      */
@@ -245,7 +245,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     * compute the game State for the next turn given if it will be the last turn or not. The currentPlayer becomes
+     * Computes the GameState for the next turn given if it will be the last turn or not. The currentPlayer becomes
      * the last player if it is the last turn
      *
      * @return the same GameState except that the other player is now the current player.

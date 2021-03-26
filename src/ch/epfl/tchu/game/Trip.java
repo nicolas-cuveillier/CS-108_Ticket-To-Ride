@@ -17,7 +17,7 @@ public class Trip {
     private final int points;
 
     /**
-     * Principal constructor of a Trip with the departure's station, arrival station and its value
+     * Primary constructor of a Trip with the departure's station, arrival station and its value
      *
      * @param from   the departure Station
      * @param to     the arrival Station
@@ -32,7 +32,7 @@ public class Trip {
     }
 
     /**
-     * compute all possible trip, from one list of departure station to one list of arrival station
+     * Computes every possible Trip, from the lists of departure and arrival Stations
      *
      * @param from   the departure Station
      * @param to     the arrival Station
@@ -50,7 +50,7 @@ public class Trip {
     }
 
     /**
-     * getter for the departure station
+     * Getter for the departure station
      *
      * @return (Station) the departure Station
      */
@@ -59,7 +59,7 @@ public class Trip {
     }
 
     /**
-     * getter for the arrival station
+     * Getter for the arrival station
      *
      * @return (Station) the arrival Station
      */
@@ -68,7 +68,7 @@ public class Trip {
     }
 
     /**
-     * getter for the number of points it worth
+     * Getter for the number of points
      *
      * @return (int)
      */
@@ -77,7 +77,7 @@ public class Trip {
     }
 
     /**
-     * getter for the number of points it worth according to its connectivity
+     * Getter for the number of points according to the connectivity
      *
      * @param connectivity represent the connectivity between the two Stations
      * @return (int) the points if the two Stations are connected and minus the points if not
