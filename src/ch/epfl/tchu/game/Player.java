@@ -71,7 +71,7 @@ public interface Player {
     SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options);
     
     /** Called when the player chooses to draw cards during his turn
-     * @return the slot's id from wich the player drew a card (0-4 for visible cards or {@link Constants.DECK_SLOT} for the deck)
+     * @return the slot's id from which the player drew a card (0-4 for visible cards or {@link Constants (DECK_SLOT)} for the deck)
      */
     int drawSlot();
     
