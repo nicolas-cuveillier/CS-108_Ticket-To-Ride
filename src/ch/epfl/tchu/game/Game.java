@@ -83,6 +83,8 @@ public final class Game {
                         p.receiveInfo(currentPlayer.keptTickets(chosenTickets.size()));
                     }
 
+                    break;
+
                 case DRAW_CARDS:
                     gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
                     int slot1 = players.get(gameState.currentPlayerId()).drawSlot();
@@ -111,6 +113,8 @@ public final class Game {
                         }
                     }
 
+                    break;
+
                 case CLAIM_ROUTE:
 
                     Route claimRoute = players.get(gameState.currentPlayerId()).claimedRoute();
@@ -125,7 +129,7 @@ public final class Game {
                             p.receiveInfo(currentPlayer.attemptsTunnelClaim(claimRoute, initialClaimCards));
                         }
 
-                        SortedBag.Builder drawnCards = new SortedBag.Builder();
+                        SortedBag.Builder<Card> drawnCards = new SortedBag.Builder<>();
                         for (int i = 0; i < Constants.ADDITIONAL_TUNNEL_CARDS; i++) {
                             gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
                             drawnCards.add(gameState.topCard());
@@ -139,6 +143,8 @@ public final class Game {
                         //la méthode chooseAdditionalCards est appelée pour déterminer s'il désire jouer des cartes additionnelles, et si oui, lesquelles.
                         //TODO : receive info
                         //TODO : end of the game
+
+                        break;
                     }
             }
 
