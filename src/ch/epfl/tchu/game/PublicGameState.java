@@ -33,7 +33,7 @@ public class PublicGameState {
      */
     public PublicGameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
         Preconditions.checkArgument(ticketsCount >= 0);
-        Preconditions.checkArgument(playerState.size() == 2);
+        Preconditions.checkArgument(playerState.size() == PlayerId.COUNT);
 
         if (cardState == null || currentPlayerId == null) {
             throw new NullPointerException();

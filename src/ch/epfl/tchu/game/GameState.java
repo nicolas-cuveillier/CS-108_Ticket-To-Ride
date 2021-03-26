@@ -56,7 +56,7 @@ public final class GameState extends PublicGameState {
         playerState.put(PlayerId.PLAYER_1, PlayerState.initial(s1.build()));
         playerState.put(PlayerId.PLAYER_2, PlayerState.initial(s2.build()));
 
-        return new GameState(PlayerId.ALL.get(rng.nextInt(2)), Deck.of(tickets,rng), playerState, cardState, null);
+        return new GameState(PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT)), Deck.of(tickets,rng), playerState, cardState, null);
     }
 
     /**
