@@ -49,7 +49,7 @@ public interface Player {
      */
     void updateState(PublicGameState newState, PlayerState ownState);
     
-    /** Called during the initialisation of the game to assign the player it's 5 tickets
+    /** Called during the initialization of the game to assign the player it's 5 tickets
      * @param tickets 5 initial tickets assigned to the player
      */
     void setInitialTicketChoice(SortedBag<Ticket> tickets);
@@ -65,7 +65,7 @@ public interface Player {
     TurnKind nextTurn();
     
     /** Called when the player chooses to draw tickets during his turn
-     * @param options the tickets drawn py the player
+     * @param options the tickets drawn by the player
      * @return the tickets kept by the player
      */
     SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options);
