@@ -58,9 +58,9 @@ public interface Player {
     void setInitialTicketChoice(SortedBag<Ticket> tickets);
 
     /**
-     * Called at the beginning of the game to get the initial tickets assigned to the player
+     * Called at the beginning of the game to get the initial tickets that the player kept
      *
-     * @return 5 initial tickets assigned to the player
+     * @return initial tickets assigned to the player
      */
     SortedBag<Ticket> chooseInitialTickets();
 
