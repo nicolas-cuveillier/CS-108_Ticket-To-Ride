@@ -9,7 +9,7 @@ public interface StationConnectivity {
     /**
      * @param st1 (Station) the first Station
      * @param st2 (Station) the second Station
-     * @return (boolean) return true iff the two station are connected with a player's Route
+     * @return (boolean) return true if the two station are connected with a player's Route or if it is the same station
      */
     boolean connected(Station st1, Station st2);
 }
