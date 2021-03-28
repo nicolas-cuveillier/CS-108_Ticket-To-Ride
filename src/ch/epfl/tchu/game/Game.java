@@ -50,7 +50,7 @@ public final class Game {
         }
 
         //7.receive info
-        receiveInfoForBothPlayer(players, currentPlayer.keptTickets(gameState.playerState(gameState.currentPlayerId()).ticketCount()));
+        receiveInfoForBothPlayer(players, currentPlayer.keptTickets(gameState.currentPlayerState().ticketCount()));
         receiveInfoForBothPlayer(players, nextPlayer.keptTickets(gameState.playerState(gameState.currentPlayerId().next()).ticketCount()));
 
         boolean isPlaying = true;//TODO : find condition to stop it
@@ -64,20 +64,29 @@ public final class Game {
             //2. info
             receiveInfoForBothPlayer(players, currentPlayer.canPlay());
 
-            //3.next turn
+            //3. check last Turn
+            if(gameState.lastTurnBegins()){
+                receiveInfoForBothPlayer(players,currentPlayer.lastTurnBegins(gameState.currentPlayerState().carCount()));
+            }
+
+            //4.next turn
             Player.TurnKind turn = players.get(gameState.currentPlayerId()).nextTurn();
+            
             switch (turn) {
 
                 case DRAW_TICKETS:
+
+                    receiveInfoForBothPlayer(players, currentPlayer.drewTickets(Constants.IN_GAME_TICKETS_COUNT));
+
                     SortedBag<Ticket> chosenTickets = players.get(gameState.currentPlayerId()).chooseTickets(gameState.topTickets(Constants.IN_GAME_TICKETS_COUNT));
                     gameState = gameState.withoutTopTickets(Constants.IN_GAME_TICKETS_COUNT);
 
-                    receiveInfoForBothPlayer(players, currentPlayer.drewTickets(Constants.IN_GAME_TICKETS_COUNT));
                     receiveInfoForBothPlayer(players, currentPlayer.keptTickets(chosenTickets.size()));
 
                     break;
 
                 case DRAW_CARDS:
+
                     gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
                     int firstSlot = players.get(gameState.currentPlayerId()).drawSlot();
                     gameState = (firstSlot == Constants.DECK_SLOT) ? gameState.withBlindlyDrawnCard() : gameState.withDrawnFaceUpCard(firstSlot);
@@ -103,8 +112,12 @@ public final class Game {
                     SortedBag<Card> initialClaimCards = players.get(gameState.currentPlayerId()).initialClaimCards();
 
                     if (claimRoute.level() == Route.Level.OVERGROUND) {
+
                         receiveInfoForBothPlayer(players, currentPlayer.claimedRoute(claimRoute, initialClaimCards));
+                        gameState = gameState.withClaimedRoute(claimRoute, initialClaimCards);
+
                     } else {
+
                         receiveInfoForBothPlayer(players, currentPlayer.attemptsTunnelClaim(claimRoute, initialClaimCards));
 
                         SortedBag.Builder<Card> drawnCards = new SortedBag.Builder<>();
@@ -114,14 +127,14 @@ public final class Game {
                             gameState = gameState.withoutTopCard();
                         }
 
-                        int additionalCards = claimRoute.additionalClaimCardsCount(initialClaimCards, drawnCards.build());
-                        List<SortedBag<Card>> possibleAdditionalClaimCards = gameState.currentPlayerState().possibleAdditionalCards(additionalCards, initialClaimCards, drawnCards.build());
+                        int additionalNumberOfCards = claimRoute.additionalClaimCardsCount(initialClaimCards, drawnCards.build());
+                        List<SortedBag<Card>> possibleAdditionalClaimCards = gameState.currentPlayerState().possibleAdditionalCards(additionalNumberOfCards, initialClaimCards, drawnCards.build());
 
-                        receiveInfoForBothPlayer(players, currentPlayer.drewAdditionalCards(drawnCards.build(), additionalCards));
+                        receiveInfoForBothPlayer(players, currentPlayer.drewAdditionalCards(drawnCards.build(), additionalNumberOfCards));
 
+                        //Computing possibilities for the player
                         List<SortedBag<Card>> option = new ArrayList<>();
                         boolean containsAdditional = false;
-
                         for (SortedBag<Card> c : possibleAdditionalClaimCards) {
                             if (gameState.currentPlayerState().cards().contains(c)) {
                                 containsAdditional = true;
@@ -129,14 +142,17 @@ public final class Game {
                             }
                         }
 
-                        if (additionalCards >= 1 && containsAdditional) {
+                        //handle the decision of the player
+                        if (additionalNumberOfCards >= 1 && containsAdditional) {
                             SortedBag<Card> playedCard = players.get(gameState.currentPlayerId()).chooseAdditionalCards(option);
+
                             if (playedCard.isEmpty()) {
                                 receiveInfoForBothPlayer(players, currentPlayer.didNotClaimRoute(claimRoute));
                             } else {
                                 receiveInfoForBothPlayer(players, currentPlayer.claimedRoute(claimRoute, initialClaimCards.union(playedCard)));
-                                //TODO : enlever les cards au currentplayer?
+                                gameState = gameState.withClaimedRoute(claimRoute, initialClaimCards.union(playedCard));
                             }
+                            //TODO : enlever les cards au currentplayer?
                         }
 
 
@@ -145,6 +161,7 @@ public final class Game {
                     break;
 
             }
+
             //TODO : end of the game
 
         }
