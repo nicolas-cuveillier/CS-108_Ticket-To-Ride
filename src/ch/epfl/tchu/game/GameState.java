@@ -71,7 +71,7 @@ public final class GameState extends PublicGameState {
 
     /**
      * {@inheritDoc}
-     * @see #playerState(PlayerId) 
+     * @see #playerState(PlayerId)
      * @return the complete part of the currentPlayer's  PlayerState
      */
     @Override

@@ -69,7 +69,7 @@ public final class CardState extends PublicCardState {
 
     /**
      * Returns the CardState with the same deck minus the first card (top card)
-     * 
+     *
      * @throws IllegalArgumentException if the deck is empty
      * @return (CardState) a CardState without it's deck's top card
      */

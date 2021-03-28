@@ -70,7 +70,7 @@ public final class StationPartition implements StationConnectivity {
 
         /**
          * Builds the StationPartition following the representativeId mapping and flattends the partition
-         * 
+         *
          * @return a new StationPartition with the built table and flattened partition
          */
         public StationPartition build() {

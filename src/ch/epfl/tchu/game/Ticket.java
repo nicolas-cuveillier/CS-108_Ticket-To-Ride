@@ -101,7 +101,7 @@ public final class Ticket implements Comparable<Ticket> {
 
     /**
      * Getter for the private field name
-     * 
+     *
      * @return (string) the textual representation of a tickets
      */
     public String text() {

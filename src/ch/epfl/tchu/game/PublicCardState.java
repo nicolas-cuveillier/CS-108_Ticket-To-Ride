@@ -53,7 +53,7 @@ public class PublicCardState {
 
     /**
      * Getter for the face-up card at the index slot
-     * 
+     *
      * @throws IndexOutOfBoundsException if the index is out of bounds
      * @return (List < Card >) the slot-th faceUpCards
      */

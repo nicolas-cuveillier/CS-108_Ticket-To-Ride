@@ -57,7 +57,7 @@ public class PublicGameState {
 
     /**
      * Tests whether it is possible to draw tickets or not
-     * 
+     *
      * @return true iff there are still tickets left
      */
     public boolean canDrawTickets() {
@@ -75,7 +75,7 @@ public class PublicGameState {
 
     /**
      * Tests whether it is possible to draw cards from the deck or not
-     * 
+     *
      * @return true iff the cards overall are more or equal to five
      */
     public boolean canDrawCards() {

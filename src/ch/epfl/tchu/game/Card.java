@@ -38,17 +38,17 @@ public enum Card {
     }
 
     private Color color;
-    
+
     /**
      * List of all cards
      */
     public static final List<Card> ALL = List.of(Card.values());
-    
+
     /**
      * Number of possible cards
      */
     public static final int COUNT = ALL.size();
-    
+
     /**
      * List of all cards except the locomotive
      */
