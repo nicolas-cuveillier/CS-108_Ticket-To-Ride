@@ -7,6 +7,8 @@ import ch.epfl.tchu.SortedBag;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
+ *
+ * impplements the notion of player of the tchu game
  */
 public interface Player {
 
