@@ -38,7 +38,7 @@ public final class Game {
      */
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument(players.size() == PlayerId.COUNT && playerNames.size() == PlayerId.COUNT);
-        //TODO : use foreach, stream etc
+        //TODO : use foreach, stream etc when possible
         //1.create GameState
         GameState gameState = GameState.initial(tickets, rng);
 
@@ -58,7 +58,7 @@ public final class Game {
         players.get(gameState.currentPlayerId().next()).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
         gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
 
-        //5.update state
+        //5.update state (1)
         updateGameState(players, gameState);
 
         //6.chooseInitialTickets
@@ -76,7 +76,7 @@ public final class Game {
 
         while (isPlaying) {
 
-            //1.update state
+            //1.update state (2)
             updateGameState(players, gameState);
 
             //2. info
@@ -112,7 +112,7 @@ public final class Game {
                     receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
                             currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(firstSlot)), firstSlot == Constants.DECK_SLOT);
 
-                    updateGameState(players, gameState);
+                    updateGameState(players, gameState);//3
 
                     gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
                     int secondSlot = players.get(gameState.currentPlayerId()).drawSlot();
@@ -177,37 +177,67 @@ public final class Game {
                     break;
 
             }
-            //update
+
+            //update 4
             updateGameState(players, gameState);
 
             // Compute longest
-            Map<PlayerId, Integer> longestTrail = new EnumMap<>(PlayerId.class);
+            Map<Integer, PlayerId> longestTrail = new HashMap<>();
 
             for (PlayerId p : players.keySet()) {
-                longestTrail.put(p, Trail.longest(gameState.playerState(p).routes()).length());
+                longestTrail.put(Trail.longest(gameState.playerState(p).routes()).length(),p);
             }
+            
+            //find longest
             int lengthMax = 0;
-            for (Integer length : longestTrail.values()) {
+            for (Integer length : longestTrail.keySet()) {
                 if (lengthMax < length) {
                     longestTrail.remove(lengthMax);
                     lengthMax = length;
+                } else if (lengthMax > length) {
+                    longestTrail.remove(length);
                 }
             }
 
             //Info for longestTrailBonus
-            for (PlayerId p : longestTrail.keySet()) {
+            for (PlayerId p : longestTrail.values()) {
                 if (!longestTrail.isEmpty()) {
-                    Info player = new Info(p.name());
+                    Info player = new Info(playerNames.get(p));
                     receiveInfoForBothPlayer(players, player.getsLongestTrailBonus(Trail.longest(gameState.playerState(p).routes())));
                 }
             }
 
             //Compute all points
-            Map<PlayerId, Integer> playerPoints = new EnumMap<>(PlayerId.class);
+            Map<Integer,PlayerId> playerPoints = new HashMap<>();
             for (PlayerId p : players.keySet()) {
-                playerPoints.put(p, gameState.playerState(p).finalPoints());
+                if (longestTrail.containsValue(p)) {
+                    playerPoints.put(gameState.playerState(p).finalPoints() + Constants.LONGEST_TRAIL_BONUS_POINTS,p);
+                } else {
+                    playerPoints.put(gameState.playerState(p).finalPoints(),p);
+                }
             }
-            //TODO : find winner
+
+            //find winner
+            int maxPoints = 0;
+            for (Integer points : playerPoints.keySet()) {
+                if (maxPoints < points) {
+                    playerPoints.remove(maxPoints);
+                    maxPoints = points;
+                } else if (maxPoints > points) {
+                    playerPoints.remove(points);
+                }
+            }
+
+            //Info winner
+            for (PlayerId p : playerPoints.values()) {
+                Info player = new Info(p.name());
+
+                if (playerPoints.size() == 1) {
+                    //receiveInfoForBothPlayer(players,player.won(playerPoints.get(p),)); loser points
+                } else {
+                    //receiveInfoForBothPlayer(players,Info.draw(playerNames.values(),));
+                }
+            }
 
 
             //TODO : end of the game

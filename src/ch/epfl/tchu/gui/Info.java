@@ -68,14 +68,14 @@ public final class Info {
      * @return (String)
      */
     public static String draw(List<String> playerNames, int points) {
-        String s = "";
+        StringBuilder text = new StringBuilder();
+
         for(int i = 0; i<playerNames.size();i++) {
-            s += playerNames.get(i);
+            text.append(playerNames.get(i));
             if(i != playerNames.size()-1)
-                s += StringsFr.AND_SEPARATOR;
+                text.append(StringsFr.AND_SEPARATOR);
         }
-        String draw = String.format(StringsFr.DRAW, s, points);
-        return draw;
+        return String.format(StringsFr.DRAW, text, points);
     }
 
     /**
@@ -156,13 +156,13 @@ public final class Info {
      * @return (String)
      */
     public String drewAdditionalCards(SortedBag<Card> drawnCards, int additionalCost) {
-        String text = String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardText(drawnCards));
+        StringBuilder text = new StringBuilder(String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardText(drawnCards)));
         if (additionalCost != 0) {
-            text += String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost));
+            text.append(String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost)));
         } else {
-            text += String.format(StringsFr.NO_ADDITIONAL_COST);
+            text.append(String.format(StringsFr.NO_ADDITIONAL_COST));
         }
-        return text;
+        return text.toString();
     }
 
     /**
@@ -206,11 +206,11 @@ public final class Info {
     }
 
     private static String cardText(SortedBag<Card> cards) {
-        String s = "";
+
         List<Card> trashList = new ArrayList<>();
         List<Card> cardsList = cards.toList().subList(1, cards.size());
 
-        s = cards.countOf(cards.get(0)) + " " + cardName(cards.get(0), cards.countOf(cards.get(0)));
+        StringBuilder text = new StringBuilder(cards.countOf(cards.get(0)) + " " + cardName(cards.get(0), cards.countOf(cards.get(0))));
         trashList.add(cards.get(0));
 
         for (Card c : cardsList) {
@@ -218,16 +218,16 @@ public final class Info {
             if (!trashList.contains(c)) {
                 int n = cards.countOf(c);
                 if(cards.get(cards.size()-1).equals(c) && !cards.get(0).equals(c)) {
-                    s += " et ";
+                    text.append(" et ");
                 } else {
-                    s+=", ";
+                    text.append(", ");
                 }
-                s += String.format("%s %s", n, cardName(c, n));
+                text.append(String.format("%s %s", n, cardName(c, n)));
                 trashList.add(c);
             }
         }
 
-        return s;
+        return text.toString();
     }
 
 }
