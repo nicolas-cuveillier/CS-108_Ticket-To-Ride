@@ -70,7 +70,7 @@ public class PublicGameState {
      * @return the PublicCardState
      */
     public PublicCardState cardState() {
-        return new PublicCardState(cardState.faceUpCards(), cardState.deckSize(), cardState.discardsSize());
+        return cardState;
     }
 
     /**
@@ -98,7 +98,7 @@ public class PublicGameState {
      * @return a PublicPlayerState
      */
     public PublicPlayerState playerState(PlayerId playerId) {
-        return new PublicPlayerState(playerState.get(playerId).ticketCount(), playerState.get(playerId).cardCount(), playerState.get(playerId).routes());
+        return playerState.get(playerId);
     }
 
     /**

@@ -66,7 +66,7 @@ public final class GameState extends PublicGameState {
      */
     @Override
     public PlayerState playerState(PlayerId playerId) {
-        return new PlayerState(playerState.get(playerId).tickets(), playerState.get(playerId).cards(), playerState.get(playerId).routes());
+        return playerState.get(playerId);
     }
 
     /**
