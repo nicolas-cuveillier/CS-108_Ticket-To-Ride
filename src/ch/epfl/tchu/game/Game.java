@@ -187,7 +187,7 @@ public final class Game {
             for (PlayerId p : players.keySet()) {
                 longestTrail.put(Trail.longest(gameState.playerState(p).routes()).length(),p);
             }
-            
+
             //find longest
             int lengthMax = 0;
             for (Integer length : longestTrail.keySet()) {
@@ -230,12 +230,14 @@ public final class Game {
 
             //Info winner
             for (PlayerId p : playerPoints.values()) {
-                Info player = new Info(p.name());
-
+                
                 if (playerPoints.size() == 1) {
+                    Info player = new Info(p.name());
                     //receiveInfoForBothPlayer(players,player.won(playerPoints.get(p),)); loser points
                 } else {
-                    //receiveInfoForBothPlayer(players,Info.draw(playerNames.values(),));
+                    List<String> playerNamesList = new ArrayList<>();
+                    playerNames.forEach((playerId, s) -> playerNamesList.add(s));
+                    receiveInfoForBothPlayer(players,Info.draw(playerNamesList,maxPoints));
                 }
             }
 
