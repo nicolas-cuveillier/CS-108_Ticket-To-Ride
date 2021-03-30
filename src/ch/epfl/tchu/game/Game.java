@@ -12,6 +12,11 @@ import java.util.*;
  * A none instantiable class that explicitly describe the procedure of the game
  */
 public final class Game {
+    /**
+     * constant that express the numbers of cards that will be draw during a drawing cards turn
+     */
+    private static final int CARDS_PER_DRAW_CARDS_TURN = 2;
+
     private Game() {
     }
 
@@ -39,41 +44,40 @@ public final class Game {
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument(players.size() == PlayerId.COUNT && playerNames.size() == PlayerId.COUNT);
         //TODO : use foreach, stream etc when possible
-        //1.create GameState
+
+        //1.communicate names
+        players.forEach((id, player) -> player.initPlayers(id, playerNames));
+
+        //2.create GameState
         GameState gameState = GameState.initial(tickets, rng);
 
-        //2.communicate names
-        players.get(gameState.currentPlayerId()).initPlayers(gameState.currentPlayerId(), playerNames);
-        players.get(gameState.currentPlayerId().next()).initPlayers(gameState.currentPlayerId().next(), playerNames);
-
         Info currentPlayer = new Info(playerNames.get(gameState.currentPlayerId()));
-        Info nextPlayer = new Info(playerNames.get(gameState.currentPlayerId().next()));
 
         //3. willPlayFirstInfo
         receiveInfoForBothPlayer(players, currentPlayer.willPlayFirst());
 
         //4.setInitialTicketChoice
-        players.get(gameState.currentPlayerId()).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
-        gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
-        players.get(gameState.currentPlayerId().next()).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
-        gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
+        for (PlayerId p: players.keySet()) {
+            players.get(p).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
+            gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
+        }
 
         //5.update state (1)
         updateGameState(players, gameState);
 
         //6.chooseInitialTickets
         for (PlayerId p : players.keySet()) {
-            SortedBag<Ticket> initialKeptTickets = players.get(p).chooseInitialTickets();
-            gameState.playerState(p).withAddedTickets(initialKeptTickets);
+            gameState = gameState.withInitiallyChosenTickets(p, players.get(p).chooseInitialTickets());
         }
 
         //7.receive info
-        receiveInfoForBothPlayer(players, currentPlayer.keptTickets(gameState.currentPlayerState().ticketCount()));
-        receiveInfoForBothPlayer(players, nextPlayer.keptTickets(gameState.playerState(gameState.currentPlayerId().next()).ticketCount()));
+        for (PlayerId p : players.keySet()) {
+            receiveInfoForBothPlayer(players,new Info(playerNames.get(p)).keptTickets(gameState.playerState(p).ticketCount()));
+        }
 
-        boolean isPlaying = true;//TODO : find condition to stop it
+        boolean isPlaying = true;
 
-        while (isPlaying){
+        while (isPlaying){ //TODO info last turn begins
 
             //1.update state (2)
             updateGameState(players, gameState);
@@ -107,21 +111,17 @@ public final class Game {
 
                 case DRAW_CARDS:
 
-                    gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
-                    int firstSlot = players.get(gameState.currentPlayerId()).drawSlot();
-                    gameState = (firstSlot == Constants.DECK_SLOT) ? gameState.withBlindlyDrawnCard() : gameState.withDrawnFaceUpCard(firstSlot);
+                    for (int i = 0; i <= CARDS_PER_DRAW_CARDS_TURN ; ++i) {
+                        gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
+                        int Slot = players.get(gameState.currentPlayerId()).drawSlot();
+                        gameState = (Slot == Constants.DECK_SLOT) ? gameState.withBlindlyDrawnCard() : gameState.withDrawnFaceUpCard(Slot);
 
-                    receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
-                            currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(firstSlot)), firstSlot == Constants.DECK_SLOT);
+                        receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
+                                currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(Slot)), Slot == Constants.DECK_SLOT);
 
-                    updateGameState(players, gameState);// (3)
+                        updateGameState(players, gameState);// (3)
 
-                    gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
-                    int secondSlot = players.get(gameState.currentPlayerId()).drawSlot();
-                    gameState = (secondSlot == Constants.DECK_SLOT) ? gameState.withBlindlyDrawnCard() : gameState.withDrawnFaceUpCard(secondSlot);
-
-                    receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
-                            currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(firstSlot)), firstSlot == Constants.DECK_SLOT);
+                    }
 
                     break;
 
@@ -146,7 +146,7 @@ public final class Game {
                             drawnCards.add(gameState.topCard());
                             gameState = gameState.withoutTopCard();
                         }
-                        
+
                         //optional ?
                         gameState = gameState.withMoreDiscardedCards(drawnCards.build());
 
