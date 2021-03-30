@@ -75,9 +75,11 @@ public final class Game {
 
         while (isPlaying){
 
-
             //1.update state (2)
             updateGameState(players, gameState);
+
+            //update info for current player
+            currentPlayer = new Info(playerNames.get(gameState.currentPlayerId()));
 
             //2. info
             receiveInfoForBothPlayer(players, currentPlayer.canPlay());
@@ -112,7 +114,7 @@ public final class Game {
                     receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
                             currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(firstSlot)), firstSlot == Constants.DECK_SLOT);
 
-                    updateGameState(players, gameState);//3
+                    updateGameState(players, gameState);// (3)
 
                     gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
                     int secondSlot = players.get(gameState.currentPlayerId()).drawSlot();
@@ -135,7 +137,7 @@ public final class Game {
                         //TODO : checker si il a les bonnes cartes ?
 
                     } else {
-
+                        //TODO : défausser les cartes ?
                         receiveInfoForBothPlayer(players, currentPlayer.attemptsTunnelClaim(claimRoute, initialClaimCards));
 
                         SortedBag.Builder<Card> drawnCards = new SortedBag.Builder<>();
@@ -144,6 +146,9 @@ public final class Game {
                             drawnCards.add(gameState.topCard());
                             gameState = gameState.withoutTopCard();
                         }
+                        
+                        //optional ?
+                        gameState = gameState.withMoreDiscardedCards(drawnCards.build());
 
                         int additionalNumberOfCards = claimRoute.additionalClaimCardsCount(initialClaimCards, drawnCards.build());
                         List<SortedBag<Card>> possibleAdditionalClaimCards = gameState.currentPlayerState().possibleAdditionalCards(additionalNumberOfCards, initialClaimCards, drawnCards.build());
@@ -168,9 +173,12 @@ public final class Game {
                                 receiveInfoForBothPlayer(players, currentPlayer.didNotClaimRoute(claimRoute));
                             } else {
                                 receiveInfoForBothPlayer(players, currentPlayer.claimedRoute(claimRoute, initialClaimCards.union(playedCard)));
-                                gameState = gameState.withClaimedRoute(claimRoute, initialClaimCards.union(playedCard));
+                                gameState = gameState.withClaimedRoute(claimRoute, initialClaimCards.union(playedCard));//enlève deja les cartes au player
                             }
-                            //TODO : enlever les cards au currentplayer?
+
+                        } else {
+
+                            receiveInfoForBothPlayer(players, currentPlayer.didNotClaimRoute(claimRoute));
                         }
                     }
 
@@ -178,7 +186,7 @@ public final class Game {
             }
 
             isPlaying = gameState.currentPlayerId() != gameState.lastPlayer();
-            
+
             //change current player
             gameState = gameState.forNextTurn();
         }
