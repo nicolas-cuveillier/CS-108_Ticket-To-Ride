@@ -31,7 +31,7 @@ public final class GameState extends PublicGameState {
      *
      * @param tickets SortedBag of tickets that a initially present in the game
      * @param rng     Random used to shuffle cards and Tickets
-     * @return a initial GameState
+     * @return the initial GameState
      */
     public static GameState initial(SortedBag<Ticket> tickets, Random rng) {
         //1. CardState
@@ -39,22 +39,22 @@ public final class GameState extends PublicGameState {
         CardState cardState = CardState.of(Deck.of(cards, rng));
 
         //player1 cards
-        SortedBag.Builder<Card> s1 = new SortedBag.Builder<>();
+        SortedBag.Builder<Card> firstPlayerCards = new SortedBag.Builder<>();
         for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
-            s1.add(cardState.topDeckCard());
+            firstPlayerCards.add(cardState.topDeckCard());
             cardState = cardState.withoutTopDeckCard();
         }
         //player2 cards
-        SortedBag.Builder<Card> s2 = new SortedBag.Builder<>();
+        SortedBag.Builder<Card> secondPlayerCards = new SortedBag.Builder<>();
         for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
-            s2.add(cardState.topDeckCard());
+            secondPlayerCards.add(cardState.topDeckCard());
             cardState = cardState.withoutTopDeckCard();
         }
 
         //2. playerState
         Map<PlayerId, PlayerState> playerState = new EnumMap<>(PlayerId.class);
-        playerState.put(PlayerId.PLAYER_1, PlayerState.initial(s1.build()));
-        playerState.put(PlayerId.PLAYER_2, PlayerState.initial(s2.build()));
+        playerState.put(PlayerId.PLAYER_1, PlayerState.initial(firstPlayerCards.build()));
+        playerState.put(PlayerId.PLAYER_2, PlayerState.initial(secondPlayerCards.build()));
 
         return new GameState(PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT)), Deck.of(tickets,rng), playerState, cardState, null);
     }
@@ -71,6 +71,7 @@ public final class GameState extends PublicGameState {
 
     /**
      * {@inheritDoc}
+     *
      * @see #playerState(PlayerId)
      * @return the complete part of the currentPlayer's  PlayerState
      */
@@ -84,7 +85,7 @@ public final class GameState extends PublicGameState {
      *
      * @param count the number of top tickets needed
      * @throws IllegalArgumentException if counts is negative or superior than tickets' size
-     * @return a SortedBag of Ticket
+     * @return the SortedBag of the top count Tickets
      */
     public SortedBag<Ticket> topTickets(int count) {
         Preconditions.checkArgument(count >= 0 && count <= tickets.size());
@@ -143,7 +144,8 @@ public final class GameState extends PublicGameState {
      * recreated from the discard if not
      */
     public GameState withCardsDeckRecreatedIfNeeded(Random rng) {
-        return cardState.isDeckEmpty() ? new GameState(currentPlayerId(), tickets, playerState, cardState.withDeckRecreatedFromDiscards(rng), lastPlayer()) : this;
+        return cardState.isDeckEmpty() ?
+                 new GameState(currentPlayerId(), tickets, playerState, cardState.withDeckRecreatedFromDiscards(rng), lastPlayer()) : this;
     }
 
     /**

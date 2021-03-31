@@ -22,7 +22,7 @@ public enum PlayerId {
     /**
      * return the other player's id, given a player's id
      *
-     * @return (PlayerId)
+     * @return (PlayerId) the other PlayerId
      */
     public PlayerId next() {
         return (this.equals(PLAYER_1) ? PLAYER_2 : PLAYER_1);

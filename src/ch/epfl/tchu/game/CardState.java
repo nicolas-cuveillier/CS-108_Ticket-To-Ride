@@ -26,7 +26,7 @@ public final class CardState extends PublicCardState {
     /**
      * Generic CardState instance with five face-up cards, a deck and an empty discard set using the given deck
      *
-     * @param deck (Deck<Card>) deck of cards from which faceUpCards and deck will be built
+     * @param deck deck of cards from which faceUpCards and deck will be built
      * @throws IllegalArgumentException if the deck contains less than 5 cards
      * @return (CardState) a complete part of CardState with five faceUpCards and an empty discard set
      */
@@ -54,11 +54,13 @@ public final class CardState extends PublicCardState {
         List<Card> faceUpCards = new ArrayList<>(faceUpCards());
         faceUpCards.remove(slot);
         faceUpCards.add(slot, deck.topCard());
+
         return new CardState(faceUpCards, deck.withoutTopCard(), discard);
     }
 
     /**
      * Returns the first Card of the deck
+     *
      * @throws IllegalArgumentException if the deck is empty
      * @return (Card) the top deck card
      */

@@ -80,12 +80,12 @@ public final class Deck<C extends Comparable<C>> {
      */
     public SortedBag<C> topCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        SortedBag.Builder<C> builder = new SortedBag.Builder<>();
+        SortedBag.Builder<C> topCardsBuilder = new SortedBag.Builder<>();
 
         for (int i = 0; i < count; i++) {
-            builder.add(cards.get(i));
+            topCardsBuilder.add(cards.get(i));
         }
-        return builder.build();
+        return topCardsBuilder.build();
     }
 
     /**
@@ -97,11 +97,11 @@ public final class Deck<C extends Comparable<C>> {
      */
     public Deck<C> withoutTopCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        List<C> listOfCards = new ArrayList<>(cards.size() - count);
+        List<C> newCards = new ArrayList<>(cards.size() - count);
         for (int i = count; i < cards.size(); i++) {
-            listOfCards.add(cards.get(i));
+            newCards.add(cards.get(i));
         }
-        return new Deck<>(listOfCards);
+        return new Deck<>(newCards);
     }
 
 }

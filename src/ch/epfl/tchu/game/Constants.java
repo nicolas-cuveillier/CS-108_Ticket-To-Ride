@@ -49,7 +49,7 @@ public final class Constants {
     public static final List<Integer> FACE_UP_CARD_SLOTS = List.of(0, 1, 2, 3, 4);
 
     /**
-     * Number of slots for the visile cards.
+     * Number of slots for the visible cards.
      */
     public static final int FACE_UP_CARDS_COUNT = FACE_UP_CARD_SLOTS.size();
 

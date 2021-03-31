@@ -120,7 +120,7 @@ public final class Game {
                         receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
                                 currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(slot)), slot == Constants.DECK_SLOT);
 
-                        if(i == CARDS_PER_DRAW_CARDS_TURN - 1)
+                        if (i == CARDS_PER_DRAW_CARDS_TURN - 1)
                             updateGameState(players, gameState);// (3)
                     }
 
@@ -218,7 +218,7 @@ public final class Game {
 
         //update 4
         updateGameState(players, gameState);
-        
+
         boolean winnerIsAlone = playerPoints.values().stream().distinct().count() == 1;
         int winnerPoints = playerPoints.values().stream().max(Integer::compareTo).orElse(0);
 

@@ -4,6 +4,7 @@ import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -39,9 +40,7 @@ public final class PlayerState extends PublicPlayerState {
      */
     public static PlayerState initial(SortedBag<Card> initialCards) {
         Preconditions.checkArgument(initialCards.size() == Constants.INITIAL_CARDS_COUNT);
-        SortedBag.Builder<Ticket> tickets = new SortedBag.Builder<>();
-        List<Route> routes = new ArrayList<>();
-        return new PlayerState(tickets.build(), initialCards, routes);
+        return new PlayerState(SortedBag.of(), initialCards, List.of());
     }
 
     /**
@@ -63,7 +62,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Getter for the private flield cards
+     * Getter for the private field cards
      *
      * @return (SortedBag < Card >) the PlayerState cards
      */
@@ -75,8 +74,9 @@ public final class PlayerState extends PublicPlayerState {
      * Computes a new PlayerState with one additional card
      *
      * @param card (Card) the card that will be added to the player's cards
-     * @return (PlayerState) new PlayerState with one more card
      * @see #withAddedCards(SortedBag)
+     *
+     * @return (PlayerState) new PlayerState with one more card
      */
     public PlayerState withAddedCard(Card card) {
         return withAddedCards(SortedBag.of(card));
@@ -108,19 +108,17 @@ public final class PlayerState extends PublicPlayerState {
      *
      * @throws IllegalArgumentException if the player has less car then it takes to claim the Route
      * @see #possibleClaimCards(Route)
-     * @return (List < SortedBag < Card > >)
+     * @return (List<SortedBag<Card>>) the list of all possible cards the player can use to take possession of the Route
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
         Preconditions.checkArgument(this.carCount() >= route.length());
 
         List<SortedBag<Card>> allCards = route.possibleClaimCards();
-        List<SortedBag<Card>> possibleCards = new ArrayList<>();
 
-        for (SortedBag<Card> sbc : allCards) {
-            if (cards.contains(sbc)) {
-                possibleCards.add(sbc);
-            }
-        }
+        List<SortedBag<Card>> possibleCards = allCards.stream()
+                .filter(i -> cards.contains(i))
+                .collect(Collectors.toList());
+
         return possibleCards;
     }
 
@@ -141,22 +139,20 @@ public final class PlayerState extends PublicPlayerState {
         Preconditions.checkArgument(!initialCards.isEmpty() && initialCards.toSet().size() <= 2);
         Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
 
-        List<Card> usableCard = new ArrayList<>();
-        for (Card c : cards.difference(initialCards)) {
-            if (c.equals(Card.LOCOMOTIVE) || c.equals(initialCards.get(0))){
-                usableCard.add(c);
-            }
-        }
+        List<Card> usableCard = cards.difference(initialCards).stream()
+                .filter(c -> c.equals(Card.LOCOMOTIVE) || c.equals(initialCards.get(0)))
+                .collect(Collectors.toList());
 
-        Set<SortedBag<Card>> s = new HashSet<>();
+        Set<SortedBag<Card>> additionalCardsSet = new HashSet<>();
 
         if (usableCard.size() >= additionalCardsCount) {
-            s = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
+            additionalCardsSet = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
         }
-        List<SortedBag<Card>> sortedBagCardList = new ArrayList<>(s);
-        sortedBagCardList.sort(Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
 
-        return sortedBagCardList;
+        List<SortedBag<Card>> additionalCards = new ArrayList<>(additionalCardsSet);
+        additionalCards.sort(Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
+
+        return additionalCards;
     }
 
     /**
@@ -185,10 +181,10 @@ public final class PlayerState extends PublicPlayerState {
             id = Math.max(id, r.station2().id());
         }
 
-        StationPartition.Builder spb = new StationPartition.Builder(id + 1);
+        StationPartition.Builder stationPartitionBuilder = new StationPartition.Builder(id + 1);
 
-        routes.forEach(route -> spb.connect(route.station1(), route.station2()));
-        StationPartition connectivity = spb.build();
+        routes.forEach(route -> stationPartitionBuilder.connect(route.station1(), route.station2()));
+        StationPartition connectivity = stationPartitionBuilder.build();
 
         int points = tickets.stream()
                 .mapToInt(i -> i.points(connectivity))

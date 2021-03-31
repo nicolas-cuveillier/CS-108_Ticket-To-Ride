@@ -31,10 +31,10 @@ public enum Card {
     /**
      * Constructor instantiates a card with the given color
      *
-     * @param c (Color)
+     * @param color (Color)
      */
-    Card(Color c) {
-        this.color = c;
+    Card(Color color) {
+        this.color = color;
     }
 
     private Color color;
