@@ -70,9 +70,9 @@ public final class Info {
     public static String draw(List<String> playerNames, int points) {
         StringBuilder text = new StringBuilder();
 
-        for(int i = 0; i<playerNames.size();i++) {
+        for (int i = 0; i < playerNames.size(); i++) {
             text.append(playerNames.get(i));
-            if(i != playerNames.size()-1)
+            if (i != playerNames.size() - 1)
                 text.append(StringsFr.AND_SEPARATOR);
         }
         return String.format(StringsFr.DRAW, text, points);
@@ -217,7 +217,7 @@ public final class Info {
 
             if (!trashList.contains(c)) {
                 int n = cards.countOf(c);
-                if(cards.get(cards.size()-1).equals(c) && !cards.get(0).equals(c)) {
+                if (cards.get(cards.size() - 1).equals(c) && !cards.get(0).equals(c)) {
                     text.append(" et ");
                 } else {
                     text.append(", ");

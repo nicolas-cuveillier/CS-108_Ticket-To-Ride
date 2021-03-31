@@ -219,15 +219,25 @@ public final class Game {
         }
 
         //TODO : stream
-        boolean winnerIsAlone = playerPoints.values().stream().distinct().count() == 1 ;
+        boolean winnerIsAlone = playerPoints.values().stream().mapToInt(Integer::intValue).distinct().count() == 1 ;
+        int winnerPoints = playerPoints.values().stream().mapToInt(Integer::intValue).max().orElse(0);
 
         if(winnerIsAlone){
 
-        }
-        //Compute all points in loop for nfo for longestTrailBonus
-        for (PlayerId p : players.keySet()) {
+            PlayerId winner=null;
 
+            for (PlayerId p : playerPoints.keySet()) {
+                if(playerPoints.get(p) == winnerPoints){
+                    winner = p;
+                }
+            }
+            if(winner !=null)
+                receiveInfoForBothPlayer(players,new Info(winner.name()).won(winnerPoints,playerPoints.get(winner.next())));
+        } else {
+            List<String> names = new ArrayList<>(playerNames.values());
+            receiveInfoForBothPlayer(players,Info.draw(names,winnerPoints));
         }
+
 
         //update 4
         updateGameState(players, gameState);
