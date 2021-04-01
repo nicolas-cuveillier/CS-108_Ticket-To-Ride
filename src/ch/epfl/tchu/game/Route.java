@@ -45,7 +45,7 @@ public final class Route {
                 && length >= Constants.MIN_ROUTE_LENGTH);
 
         if (station1 == null || station2 == null || level == null || id == null) {
-            throw new NullPointerException("Station | Level | both is null");
+            throw new NullPointerException("Station | Level | both is|are null");
         }
 
         this.id = id;
@@ -112,27 +112,16 @@ public final class Route {
     }
 
     private void unColorUnderGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        SortedBag.Builder<Card> sBuilder;
+
         for (int i = 0; i < length; i++) {
-            for (Color c : Color.ALL) {
-                sBuilder = new SortedBag.Builder<>();
-                sBuilder.add(length - i, Card.of(c)).add(i, Card.LOCOMOTIVE);
-                possibleClaimCards.add(sBuilder.build());
-            }
+            int finalI = i;
+            Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length - finalI,Card.of(color1), finalI,Card.LOCOMOTIVE)));
         }
-        sBuilder = new SortedBag.Builder<>();
-        sBuilder.add(length, Card.LOCOMOTIVE);
-        possibleClaimCards.add(sBuilder.build());
+        possibleClaimCards.add(SortedBag.of(length,Card.LOCOMOTIVE));
     }
 
     private void unColorOverGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        SortedBag.Builder<Card> sBuilder;
-        for (Color c : Color.ALL) {
-            sBuilder = new SortedBag.Builder<>();
-            sBuilder.add(length, Card.of(c));
-            possibleClaimCards.add(sBuilder.build());
-        }
-
+        Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length,Card.of(color1))));
     }
 
     private void colorUndergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
@@ -145,9 +134,7 @@ public final class Route {
     }
 
     private void colorOvergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        SortedBag.Builder<Card> sBuilder = new SortedBag.Builder<>();
-        sBuilder.add(length, Card.of(color));
-        possibleClaimCards.add(sBuilder.build());
+        possibleClaimCards.add(SortedBag.of(length,Card.of(color)));
     }
 
     /**
@@ -162,7 +149,7 @@ public final class Route {
      * @return (int) the number of additional card(s) the player must play to take the Route
      */
     public int additionalClaimCardsCount(SortedBag<Card> claimCards, SortedBag<Card> drawnCards) {
-        Preconditions.checkArgument(drawnCards.size() == 3 && this.level == Level.UNDERGROUND);
+        Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS && this.level == Level.UNDERGROUND);
         int additionalCard = 0;
 
         for (Card dc : drawnCards) {

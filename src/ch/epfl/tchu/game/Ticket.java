@@ -57,12 +57,10 @@ public final class Ticket implements Comparable<Ticket> {
             s.add(String.format("%s (%s)", trips.get(0).to().name(), trips.get(0).points()));
             text.append(String.join("", s));
         } else {
-            text.append("{");
-            for (Trip t : trips) {
-                s.add(String.format("%s (%s)", t.to().name(), t.points()));
-            }
-            text.append(String.join(", ", s));
-            text.append("}");
+            trips.forEach(trip -> s.add(String.format("%s (%s)", trip.to().name(), trip.points())));
+            text.append("{")
+                    .append(String.join(", ", s))
+                    .append("}");
         }
         return text.toString();
     }

@@ -16,10 +16,10 @@ public class PublicPlayerState {
     private final int cardCount;
     private final List<Route> routes;
     private final int carCount;
-    private int claimPoints;
+    private final int claimPoints;
 
     /**
-     * Constructor for PublicPlayerState
+     * Constructor for PublicPlayerState, build it with a certain count of tickets and cards and a List of Route
      *
      * @param ticketCount the number of tickets
      * @param cardCount   the number of card(s)
@@ -28,6 +28,7 @@ public class PublicPlayerState {
      */
     public PublicPlayerState(int ticketCount, int cardCount, List<Route> routes) {
         Preconditions.checkArgument(ticketCount >= 0 && cardCount >= 0);
+
         this.ticketCount = ticketCount;
         this.cardCount = cardCount;
         this.routes = new ArrayList<>(routes);
@@ -44,7 +45,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * Getter for the number of tickets
+     * getter for the number of tickets
      *
      * @return (int) the number of tickets
      */
@@ -53,7 +54,7 @@ public class PublicPlayerState {
     }
 
     /**
-     * gGtter for the number of cards
+     * getter for the number of cards
      *
      * @return (int) the number of card(s)
      */

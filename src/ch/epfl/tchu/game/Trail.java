@@ -2,6 +2,7 @@ package ch.epfl.tchu.game;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,20 +20,13 @@ public final class Trail {
 
 
     private Trail(List<Route> routes, Station station1, Station station2) {
-        this.routes = routes;
 
-        if (routes.size() == 0) {
-            this.station1 = null;
-            this.station2 = null;
-            this.length = 0;
-        } else {
-            this.station1 = station1;
-            this.station2 = station2;
-            this.length = routes.stream()
+        this.routes = routes;
+        this.station1 = station1;
+        this.station2 = station2;
+        this.length = routes.stream()
                     .mapToInt(i -> i.length())
                     .sum();
-        }
-
     }
 
     /**
@@ -65,20 +59,16 @@ public final class Trail {
                             Trail t = new Trail(routeList, c.station1(), r.station2());
                             cs2.add(t);
 
-                            if (length < t.length()) {
-                                length = t.length();
-                                longestTrail = t;
-                            }
+                            compare(length,c,longestTrail);
+
                         } else if ((c.station2().id() == r.station2().id()) && (Objects.equals(c.station2().name(), r.station2().name()))) {
                             List<Route> routeList = new ArrayList<>(c.routes());
                             routeList.add(r);
                             Trail t = new Trail(routeList, c.station1(), r.station1());
                             cs2.add(t);
 
-                            if (length < t.length()) {
-                                length = t.length();
-                                longestTrail = t;
-                            }
+                            compare(length,c,longestTrail);
+
                         } else {
                             if (length < c.length()) {
                                 length = c.length();
@@ -97,6 +87,14 @@ public final class Trail {
         }
         return longestTrail;
     }
+
+    private static void compare(int length1, Trail c, Trail longestTrail){
+        if (length1 < c.length()) {
+            length1 = c.length();
+            longestTrail = c;
+        }
+    }
+
 
     private static List<Trail> getSingleRoutes(List<Route> routes) {
         List<Trail> trails = new ArrayList<>();
@@ -123,23 +121,34 @@ public final class Trail {
 
         if (routes.size() != 0) {
             if (this.station1() == routes.get(0).station1()) {
+                totalLength = routes.stream()
+                        .mapToInt(i -> i.length())
+                        .sum();
+
                 for (int i = 0; i < routes.size(); i++) {
-                    text.append(" - ").append(routes.get(i).station1().name());
-                    totalLength += routes.get(i).length();
+                    text.append(" - ")
+                            .append(routes.get(i).station1().name());
                     if (i == 0) text = new StringBuilder(routes.get(i).station1().name());
                 }
 
                 text.append(" - ").append(routes.get(routes.size() - 1).station2().name());
-            } else if (Objects.equals(this.station1().name(), routes.get(routes.size() - 1).station2().name())) {
+            } else if (this.station1() == routes.get(routes.size() - 1).station2()) {
+                totalLength = routes.stream()
+                        .mapToInt(i -> i.length())
+                        .sum();
                 for (int i = routes.size() - 1; i >= 0; i--) {
-                    text.append(" - ").append(routes.get(i).station2().name());
-                    totalLength += routes.get(i).length();
+                    text.append(" - ")
+                            .append(routes.get(i).station2().name());
+
                     if (i == routes.size() - 1) text = new StringBuilder(routes.get(i).station2().name());
                 }
 
-                text.append(" - ").append(routes.get(0).station1().name());
+                text.append(" - ")
+                        .append(routes.get(0).station1().name());
             }
-            text.append(" (").append(totalLength).append(")");
+            text.append(" (")
+                    .append(totalLength)
+                    .append(")");
         } else {
             text = new StringBuilder("Empty Trail");
         }
@@ -162,7 +171,7 @@ public final class Trail {
      * @return (List < Route >) the list of all Route(s)
      */
     public List<Route> routes() {
-        return routes;
+        return Collections.unmodifiableList(routes);
     }
 
     /**

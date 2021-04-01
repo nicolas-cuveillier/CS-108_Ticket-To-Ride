@@ -30,6 +30,13 @@ public final class StationPartition implements StationConnectivity {
     public static final class Builder {
         private final int[] representativeId;
 
+        /**
+         * Compute the representative of the station, is used in connect when connecting two stations so it
+         * always return the representative of the partition
+         *
+         * @param id id of the station you want to compute the representative
+         * @return (int) the representative
+         */
         private int representative(int id) {
             int representant = id;
 
@@ -49,6 +56,7 @@ public final class StationPartition implements StationConnectivity {
          */
         public Builder(int stationCount) {
             Preconditions.checkArgument(stationCount >= 0);
+
             representativeId = new int[stationCount];
             for (int i = 0; i < stationCount; i++) {
                 representativeId[i] = i;
@@ -69,7 +77,7 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * Builds the StationPartition following the representativeId mapping and flattends the partition
+         * Builds the StationPartition following the representativeId mapping and flattened the partition
          *
          * @return a new StationPartition with the built table and flattened partition
          */
