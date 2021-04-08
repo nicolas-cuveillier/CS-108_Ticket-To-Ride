@@ -42,7 +42,7 @@ public interface Player {
     void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames);
 
     /**
-     * Called every time an information must be display to the player 
+     * Called every time an information must be display to the player
      *
      * @param info Information to give to the player, parsed by the class Info
      */
@@ -110,7 +110,7 @@ public interface Player {
      * Called when the player chooses to try to claim a tunnel during his turn
      *
      * @param options the additional cards to claim the tunnel
-     * @return the additional cards chosen by the player, empty of the player refuses to spend the additional cards or cannot fulfill the requirement
+     * @return the additional cards chosen by the player, empty if the player refuses to spend the additional cards or cannot fulfill the requirement
      */
     SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options);
 

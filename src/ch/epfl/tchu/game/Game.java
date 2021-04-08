@@ -15,7 +15,7 @@ public final class Game {
     /**
      * constant that express the numbers of cards that will be draw during a drawing cards turn
      */
-    private static final int CARDS_PER_DRAW_CARDS_TURN = 2;
+    private static final int DRAWING_PER_DRAW_CARDS_TURN = 2;
 
     private Game() {
     }
@@ -79,18 +79,13 @@ public final class Game {
 
         while (isPlaying) {
 
-            //update info for current player
+            //1.update info for current player
             currentPlayer = new Info(playerNames.get(gameState.currentPlayerId()));
 
             //2. info
             receiveInfoForBothPlayer(players, currentPlayer.canPlay());
 
-            //3. check last Turn
-            if (gameState.lastTurnBegins()) {
-                receiveInfoForBothPlayer(players, currentPlayer.lastTurnBegins(gameState.currentPlayerState().carCount()));
-            }
-
-            //1.update state (2)
+            //3.update state (2)
             updateGameState(players, gameState);
 
             //4.next turn
@@ -111,7 +106,7 @@ public final class Game {
 
                 case DRAW_CARDS:
 
-                    for (int i = 0; i < CARDS_PER_DRAW_CARDS_TURN; ++i) {
+                    for (int i = 0; i < DRAWING_PER_DRAW_CARDS_TURN; ++i) {
                         gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
 
                         int slot = players.get(gameState.currentPlayerId()).drawSlot();
@@ -120,7 +115,7 @@ public final class Game {
                         receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
                                 currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(slot)), slot == Constants.DECK_SLOT);
 
-                        if (i == CARDS_PER_DRAW_CARDS_TURN - 1)
+                        if (i == DRAWING_PER_DRAW_CARDS_TURN - 1)
                             updateGameState(players, gameState);// (3)
                     }
 
@@ -148,7 +143,6 @@ public final class Game {
                         }
                         SortedBag<Card> drawnCards = drawnCardsBuilder.build();
 
-                        //optional ?
                         gameState = gameState.withMoreDiscardedCards(drawnCards);
 
                         int additionalCardsCost = claimRoute.additionalClaimCardsCount(initialClaimCards, drawnCards);
@@ -160,7 +154,8 @@ public final class Game {
                             SortedBag<Card> playedCard = SortedBag.of();
 
                             //Computing possibilities for the player
-                            List<SortedBag<Card>> option = gameState.currentPlayerState().possibleAdditionalCards(additionalCardsCost, initialClaimCards, drawnCards);
+                            List<SortedBag<Card>> option = gameState.currentPlayerState()
+                                    .possibleAdditionalCards(additionalCardsCost, initialClaimCards, drawnCards);
 
                             if (!option.isEmpty()) {
                                 playedCard = players.get(gameState.currentPlayerId()).chooseAdditionalCards(option);
@@ -188,8 +183,14 @@ public final class Game {
             //check condition for the loop to stop
             isPlaying = gameState.currentPlayerId() != gameState.lastPlayer();
 
+            // check last Turn
+            if (gameState.lastTurnBegins()) {
+                receiveInfoForBothPlayer(players, currentPlayer.lastTurnBegins(gameState.currentPlayerState().carCount()));
+            }
+
             //change current player
             gameState = gameState.forNextTurn();
+
         }
 
         // Compute longestTrail and winner(s)
@@ -201,7 +202,11 @@ public final class Game {
         }
 
         //find longest
-        int lengthMax = longestTrail.values().stream().mapToInt(Trail::length).max().orElse(0);
+        int lengthMax = longestTrail.values()
+                .stream()
+                .mapToInt(Trail::length)
+                .max()
+                .orElse(0);
 
         //Info for longestTrailBonus
         for (PlayerId p : longestTrail.keySet()) {
@@ -219,8 +224,15 @@ public final class Game {
         //update 4
         updateGameState(players, gameState);
 
-        boolean winnerIsAlone = playerPoints.values().stream().distinct().count() == 1;
-        int winnerPoints = playerPoints.values().stream().max(Integer::compareTo).orElse(0);
+        boolean winnerIsAlone = playerPoints.values()
+                .stream()
+                .distinct()
+                .count() == 1;
+
+        int winnerPoints = playerPoints.values()
+                .stream()
+                .max(Integer::compareTo)
+                .orElse(0);
 
         if (winnerIsAlone) {
 
