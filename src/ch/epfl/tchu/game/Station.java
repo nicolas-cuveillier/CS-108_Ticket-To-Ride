@@ -15,8 +15,8 @@ public final class Station {
     /**
      * Primary constructor for a Station with it's unique id and it's name
      *
-     * @param id   (int) unique id of the Station
-     * @param name (String) name of the Station
+     * @param id   unique id of the Station
+     * @param name name of the Station
      * @throws IllegalArgumentException if Id is negative
      */
     public Station(int id, String name) {
@@ -46,7 +46,6 @@ public final class Station {
 
     /**
      * {@inheritDoc}
-     *
      * @return the name
      */
     @Override

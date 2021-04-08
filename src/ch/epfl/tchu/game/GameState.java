@@ -56,7 +56,7 @@ public final class GameState extends PublicGameState {
         playerState.put(PlayerId.PLAYER_1, PlayerState.initial(firstPlayerCards.build()));
         playerState.put(PlayerId.PLAYER_2, PlayerState.initial(secondPlayerCards.build()));
 
-        return new GameState(PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT)), Deck.of(tickets,rng), playerState, cardState, null);
+        return new GameState(PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT)), Deck.of(tickets, rng), playerState, cardState, null);
     }
 
     /**
@@ -72,8 +72,8 @@ public final class GameState extends PublicGameState {
     /**
      * {@inheritDoc}
      *
-     * @see #playerState(PlayerId)
      * @return the complete part of the currentPlayer's  PlayerState
+     * @see #playerState(PlayerId)
      */
     @Override
     public PlayerState currentPlayerState() {
@@ -84,8 +84,8 @@ public final class GameState extends PublicGameState {
      * Getter for the specified count of top ticket(s) from all tickets
      *
      * @param count the number of top tickets needed
+     * @return (SortedBag<Ticket>) the SortedBag of the top count Tickets
      * @throws IllegalArgumentException if counts is negative or superior than tickets' size
-     * @return the SortedBag of the top count Tickets
      */
     public SortedBag<Ticket> topTickets(int count) {
         Preconditions.checkArgument(count >= 0 && count <= tickets.size());
@@ -96,8 +96,8 @@ public final class GameState extends PublicGameState {
      * Computes a new GameState without the first count tickets of the deck of tickets
      *
      * @param count the number of top tickets to remove
-     * @throws IllegalArgumentException if counts is negative or superior than tickets' size
      * @return the same GameState without the count top tickets
+     * @throws IllegalArgumentException if counts is negative or superior than tickets' size
      */
     public GameState withoutTopTickets(int count) {
         Preconditions.checkArgument(count >= 0 && count <= tickets.size());
@@ -107,8 +107,8 @@ public final class GameState extends PublicGameState {
     /**
      * Getter for the top deck card
      *
-     * @throws IllegalArgumentException if the deck of cards is empty
      * @return the first card of the deck of cards
+     * @throws IllegalArgumentException if the deck of cards is empty
      */
     public Card topCard() {
         Preconditions.checkArgument(!cardState.isDeckEmpty());
@@ -118,8 +118,8 @@ public final class GameState extends PublicGameState {
     /**
      * Computes a new GameState without the first card of the deck of cards
      *
-     * @throws IllegalArgumentException if the deck of cards is empty
      * @return the same game without the first card of the deck of Card
+     * @throws IllegalArgumentException if the deck of cards is empty
      */
     public GameState withoutTopCard() {
         Preconditions.checkArgument(!cardState.isDeckEmpty());
@@ -127,7 +127,7 @@ public final class GameState extends PublicGameState {
     }
 
     /**
-     *  Computes a new GameState with more discard's cards
+     * Computes a new GameState with more discard's cards
      *
      * @param discardedCards cards that will be added to the discard
      * @return the same game with this SortedBag of cards added to the discard
@@ -145,7 +145,7 @@ public final class GameState extends PublicGameState {
      */
     public GameState withCardsDeckRecreatedIfNeeded(Random rng) {
         return cardState.isDeckEmpty() ?
-                 new GameState(currentPlayerId(), tickets, playerState, cardState.withDeckRecreatedFromDiscards(rng), lastPlayer()) : this;
+                new GameState(currentPlayerId(), tickets, playerState, cardState.withDeckRecreatedFromDiscards(rng), lastPlayer()) : this;
     }
 
     /**
@@ -153,8 +153,8 @@ public final class GameState extends PublicGameState {
      *
      * @param playerId      the player that will receive the tickets
      * @param chosenTickets tickets that are chosen by the player
-     * @throws IllegalArgumentException if the player as already some tickets
      * @return the same GameState
+     * @throws IllegalArgumentException if the player as already some tickets
      */
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets) {
         Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
@@ -170,11 +170,9 @@ public final class GameState extends PublicGameState {
      *
      * @param drawnTickets  tickets drawn by the player
      * @param chosenTickets tickets chosen by the player
-     *
-     * @throws IllegalArgumentException if drawnTickets doesn't contains the chosenTickets
-     *
      * @return the same GameState where the chosen tickets have been take out from all tickets and where chosenTickets
      * have been added to the currentPlayer tickets
+     * @throws IllegalArgumentException if drawnTickets doesn't contains the chosenTickets
      */
     public GameState withChosenAdditionalTickets(SortedBag<Ticket> drawnTickets, SortedBag<Ticket> chosenTickets) {
         Preconditions.checkArgument(drawnTickets.contains(chosenTickets));
@@ -189,11 +187,9 @@ public final class GameState extends PublicGameState {
      * Adds the card in the faceUpCard at the specified slot to the current player's cards
      *
      * @param slot (int) the index of the face up card
-     *
+     * @return the same GameState where the card in the faceUpCard at the specified slot is replaced by the topDeckCard
      * @throws IllegalArgumentException if it's not possible to draw cards
      * @see #canDrawCards()
-     *
-     * @return the same GameState where the card in the faceUpCard at the specified slot is replaced by the topDeckCard
      */
     public GameState withDrawnFaceUpCard(int slot) {
         Preconditions.checkArgument(canDrawCards());
@@ -207,10 +203,9 @@ public final class GameState extends PublicGameState {
     /**
      * Adds the top deck card to the current player's cards
      *
+     * @return the same GameState where the top card of the deck card has been removed
      * @throws IllegalArgumentException if it's not possible to draw cards
      * @see #canDrawCards()
-     *
-     * @return the same GameState where the top card of the deck card has been removed
      */
     public GameState withBlindlyDrawnCard() {
         Preconditions.checkArgument(canDrawCards());
@@ -226,7 +221,6 @@ public final class GameState extends PublicGameState {
      *
      * @param route route which the current player claimed
      * @param cards cards that will be discarded to claim the route
-     *
      * @return the same GameState where the current player has seized the given route using the given cards.
      */
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards) {

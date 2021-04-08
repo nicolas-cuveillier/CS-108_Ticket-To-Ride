@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * @param <C> the type of elements in the Deck
  * @author Grégory Preisig & Nicolas Cuveillier
  * <p>
  * Generic class to implement the notion of deck in the game
@@ -26,7 +27,7 @@ public final class Deck<C extends Comparable<C>> {
      * @param cards a SortedBag of cards that will be in the Deck
      * @param rng   the Random used to shuffle
      * @param <C>   the Type of the cards
-     * @return (Deck<C>) a new deck of the shuffled list of cards
+     * @return (Deck < C >) a new deck of the shuffled list of cards
      */
     public static <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng) {
         List<C> listOf = new ArrayList<>(cards.toList());
@@ -45,6 +46,7 @@ public final class Deck<C extends Comparable<C>> {
 
     /**
      * IsEmpty method
+     *
      * @return true iff the sortedBag is empty
      */
     public boolean isEmpty() {
@@ -54,8 +56,8 @@ public final class Deck<C extends Comparable<C>> {
     /**
      * Getter for the deck's top card
      *
-     * @see #topCards(int)
      * @return the first object of the deck
+     * @see #topCards(int)
      */
     public C topCard() {
         return topCards(1).get(0);
@@ -64,35 +66,35 @@ public final class Deck<C extends Comparable<C>> {
     /**
      * Getter for the deck without it's top card
      *
-     * @see #topCards(int)
      * @return a new deck without the first object
+     * @see #topCards(int)
      */
     public Deck<C> withoutTopCard() {
         return withoutTopCards(1);
     }
 
     /**
-     * Getter for the deck's specified top cards 
+     * Getter for the deck's specified top cards
      *
      * @param count the number of topCard(s) that will be returned
-     * @throws IllegalArgumentException if count is negative or superior than cards' size
      * @return a new SortedBag with the deck's specified top cards
+     * @throws IllegalArgumentException if count is negative or superior than cards' size
      */
     public SortedBag<C> topCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        return SortedBag.of(List.copyOf(cards.subList(0,count)));
+        return SortedBag.of(List.copyOf(cards.subList(0, count)));
     }
 
     /**
-     * Getter for the deck without it's specified top cards
+     * Getter for the deck without the count top cards
      *
      * @param count the number of topCard(s) that will be removed
-     * @throws IllegalArgumentException if count is negative or superior than cards' size
      * @return the deck with the number (count) of cards removed from it's top
+     * @throws IllegalArgumentException if count is negative or superior than cards' size
      */
     public Deck<C> withoutTopCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        return new Deck<>(List.copyOf(cards.subList(count,cards.size())));
+        return new Deck<>(List.copyOf(cards.subList(count, cards.size())));
     }
 
 }

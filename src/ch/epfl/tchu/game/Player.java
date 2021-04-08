@@ -7,8 +7,8 @@ import ch.epfl.tchu.SortedBag;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
- *
- * impplements the notion of player of the tchu game
+ * <p>
+ * implements the notion of player of the tchu game
  */
 public interface Player {
 
@@ -16,9 +16,9 @@ public interface Player {
      * @author Grégory Preisig & Nicolas Cuveillier
      * <p>
      * Turn action kinds
-     * {@link #DRAW_TICKETS}
-     * {@link #DRAW_CARDS}
-     * {@link #CLAIM_ROUTE}
+     * {@link #DRAW_TICKETS},
+     * {@link #DRAW_CARDS},
+     * {@link #CLAIM_ROUTE}.
      */
     enum TurnKind {
         DRAW_TICKETS,
@@ -26,7 +26,7 @@ public interface Player {
         CLAIM_ROUTE;
 
         /**
-         * @return a list of all the turn kinds
+         * @return an unmodifiable list of all the turn kinds
          */
         public static final List<TurnKind> All() {
             return List.of(DRAW_TICKETS, DRAW_CARDS, CLAIM_ROUTE);

@@ -51,7 +51,8 @@ public final class Ticket implements Comparable<Ticket> {
         TreeSet<String> s = new TreeSet<>();
         StringBuilder text = new StringBuilder();
 
-        text.append(trips.get(0).from().name() + " - ");
+        text.append(trips.get(0).from().name())
+                .append(" - ");
 
         if (trips.size() == 1) {
             s.add(String.format("%s (%s)", trips.get(0).to().name(), trips.get(0).points()));
@@ -68,7 +69,7 @@ public final class Ticket implements Comparable<Ticket> {
     /**
      * Computes how many points will be earned with the Ticket according to its connectivity
      *
-     * @param connectivity (StationConnectivity)
+     * @param connectivity will describe the fact that two station are connected and will influence on the total points
      * @return (int) the points given the connectivity
      */
     public int points(StationConnectivity connectivity) {
@@ -76,21 +77,21 @@ public final class Ticket implements Comparable<Ticket> {
         int minPoint = trips.get(0).points();
 
         List<Trip> connectedTrips = trips.stream()
-                .filter(t -> connectivity.connected(t.from(),t.to()))
+                .filter(t -> connectivity.connected(t.from(), t.to()))
                 .collect(Collectors.toList());
 
         for (Trip t : trips) {
-            if(t.points() < minPoint){
+            if (t.points() < minPoint) {
                 minPoint = t.points();
             }
         }
 
-        if(connectedTrips.isEmpty()){
+        if (connectedTrips.isEmpty()) {
             return -minPoint;
         }
 
         for (Trip t : connectedTrips) {
-            if(t.points() > maxPoint){
+            if (t.points() > maxPoint) {
                 maxPoint = t.points();
             }
         }
@@ -105,6 +106,7 @@ public final class Ticket implements Comparable<Ticket> {
     public String text() {
         return name;
     }
+
     /**
      * {@inheritDoc}
      *
@@ -114,6 +116,7 @@ public final class Ticket implements Comparable<Ticket> {
     public String toString() {
         return name;
     }
+
     /**
      * {@inheritDoc}
      * compare the name

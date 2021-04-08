@@ -29,7 +29,7 @@ public class PublicGameState {
      * @param lastPlayer      the last player of the game, can be null
      * @throws IllegalArgumentException if ticketsCount is negative
      *                                  if there is more than two player
-     * @throws NullPointerException if cardState or currentPlayerId is null
+     * @throws NullPointerException     if cardState or currentPlayerId is null
      */
     public PublicGameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
         Preconditions.checkArgument(ticketsCount >= 0);
@@ -104,8 +104,8 @@ public class PublicGameState {
     /**
      * Getter for the PublicPlayerState for the currentPlayer
      *
-     * @see #playerState(PlayerId)
      * @return a PublicPlayerState
+     * @see #playerState(PlayerId)
      */
     public PublicPlayerState currentPlayerState() {
         return playerState(currentPlayerId);

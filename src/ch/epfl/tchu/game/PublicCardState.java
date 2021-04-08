@@ -20,7 +20,7 @@ public class PublicCardState {
     /**
      * Constructor for a PublicCardState with face-up cards, the size of the deck and the discard
      *
-     * @param faceUpCards the list of cards that can be seen by players
+     * @param faceUpCards  the list of cards that can be seen by players
      * @param deckSize     the size of the deck
      * @param discardsSize the size of the discard
      * @throws IllegalArgumentException if there aren't five face up cards
@@ -55,8 +55,8 @@ public class PublicCardState {
     /**
      * Getter for the face-up card at the index slot
      *
-     * @throws IndexOutOfBoundsException if the index is out of bounds
      * @return (List < Card >) the slot-th faceUpCards
+     * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     public Card faceUpCard(int slot) {
         return faceUpCards.get(Objects.checkIndex(slot, faceUpCards.size()));

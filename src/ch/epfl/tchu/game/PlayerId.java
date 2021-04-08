@@ -11,7 +11,7 @@ public enum PlayerId {
     PLAYER_1,
     PLAYER_2;
     /**
-     * List of all players
+     * return an unmodifiable list of all players
      */
     public static final List<PlayerId> ALL = List.of(PlayerId.values());
     /**

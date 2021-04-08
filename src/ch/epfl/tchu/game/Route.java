@@ -13,9 +13,9 @@ import java.util.List;
  */
 public final class Route {
     /**
-     * kind of route you find in the game
-     * {@link #OVERGROUND}
-     * {@link #UNDERGROUND}
+     * kind of route you find in the game :
+     * {@link #OVERGROUND},
+     * {@link #UNDERGROUND}.
      */
     public enum Level {
         OVERGROUND,
@@ -115,13 +115,13 @@ public final class Route {
 
         for (int i = 0; i < length; i++) {
             int finalI = i;
-            Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length - finalI,Card.of(color1), finalI,Card.LOCOMOTIVE)));
+            Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length - finalI, Card.of(color1), finalI, Card.LOCOMOTIVE)));
         }
-        possibleClaimCards.add(SortedBag.of(length,Card.LOCOMOTIVE));
+        possibleClaimCards.add(SortedBag.of(length, Card.LOCOMOTIVE));
     }
 
     private void unColorOverGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length,Card.of(color1))));
+        Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length, Card.of(color1))));
     }
 
     private void colorUndergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
@@ -134,7 +134,7 @@ public final class Route {
     }
 
     private void colorOvergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        possibleClaimCards.add(SortedBag.of(length,Card.of(color)));
+        possibleClaimCards.add(SortedBag.of(length, Card.of(color)));
     }
 
     /**
@@ -143,10 +143,9 @@ public final class Route {
      *
      * @param claimCards the cards used to claim the Route
      * @param drawnCards the drawn cards by the player
-     *
+     * @return (int) the number of additional card(s) the player must play to take the Route
      * @throws IllegalArgumentException if there are more than three drawn cards
      *                                  if the Route is not Underground
-     * @return (int) the number of additional card(s) the player must play to take the Route
      */
     public int additionalClaimCardsCount(SortedBag<Card> claimCards, SortedBag<Card> drawnCards) {
         Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS && this.level == Level.UNDERGROUND);
