@@ -25,7 +25,7 @@ public final class Trail {
         this.station1 = station1;
         this.station2 = station2;
         this.length = routes.stream()
-                    .mapToInt(i -> i.length())
+                    .mapToInt(Route::length)
                     .sum();
     }
 
@@ -59,7 +59,7 @@ public final class Trail {
                             Trail t = new Trail(routeList, c.station1(), r.station2());
                             cs2.add(t);
 
-                            compare(length,c,longestTrail);
+                            compare(length,c);
 
                         } else if ((c.station2().id() == r.station2().id()) && (Objects.equals(c.station2().name(), r.station2().name()))) {
                             List<Route> routeList = new ArrayList<>(c.routes());
@@ -67,7 +67,7 @@ public final class Trail {
                             Trail t = new Trail(routeList, c.station1(), r.station1());
                             cs2.add(t);
 
-                            compare(length,c,longestTrail);
+                            compare(length,c);
 
                         } else {
                             if (length < c.length()) {
@@ -88,10 +88,10 @@ public final class Trail {
         return longestTrail;
     }
 
-    private static void compare(int length1, Trail c, Trail longestTrail){
+    private static void compare(int length1, Trail c){
         if (length1 < c.length()) {
             length1 = c.length();
-            longestTrail = c;
+            Trail longestTrail = c;
         }
     }
 
@@ -100,8 +100,8 @@ public final class Trail {
         List<Trail> trails = new ArrayList<>();
         for (Route r : routes) {
             Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
-
             trails.add(t1);
+
             Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
             trails.add(t2);
         }
