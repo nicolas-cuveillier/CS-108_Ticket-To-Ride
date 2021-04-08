@@ -25,8 +25,8 @@ public final class Trail {
         this.station1 = station1;
         this.station2 = station2;
         this.length = routes.stream()
-                    .mapToInt(Route::length)
-                    .sum();
+                .mapToInt(Route::length)
+                .sum();
     }
 
     /**
@@ -35,7 +35,7 @@ public final class Trail {
      * @param routes the list of all Route(s) to make the Trail
      * @return (Trail) the longest trail given all Route(s)
      */
-//TODO : clean/factor the method
+        //TODO : clean/factor the method
     public static Trail longest(List<Route> routes) {
         if (routes.isEmpty()) {
             return new Trail(List.of(), null, null);
@@ -59,7 +59,7 @@ public final class Trail {
                             Trail t = new Trail(routeList, c.station1(), r.station2());
                             cs2.add(t);
 
-                            compare(length,c);
+                            compare(length, c);
 
                         } else if ((c.station2().id() == r.station2().id()) && (Objects.equals(c.station2().name(), r.station2().name()))) {
                             List<Route> routeList = new ArrayList<>(c.routes());
@@ -67,7 +67,7 @@ public final class Trail {
                             Trail t = new Trail(routeList, c.station1(), r.station1());
                             cs2.add(t);
 
-                            compare(length,c);
+                            compare(length, c);
 
                         } else {
                             if (length < c.length()) {
@@ -88,7 +88,7 @@ public final class Trail {
         return longestTrail;
     }
 
-    private static void compare(int length1, Trail c){
+    private static void compare(int length1, Trail c) {
         if (length1 < c.length()) {
             length1 = c.length();
             Trail longestTrail = c;

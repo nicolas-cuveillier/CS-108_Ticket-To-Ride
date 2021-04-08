@@ -38,8 +38,8 @@ public class Trip {
      * @param from   the departure Station
      * @param to     the arrival Station
      * @param points the points for the list of all possible Trip between each Station
-     * @throws IllegalArgumentException if from or to is empty or if points are negative
      * @return (List < Trip >) the list of all trips
+     * @throws IllegalArgumentException if from or to is empty or if points are negative
      */
     public static List<Trip> all(List<Station> from, List<Station> to, int points) {
         Preconditions.checkArgument(!from.isEmpty() || !to.isEmpty() || points > 0);
@@ -71,7 +71,7 @@ public class Trip {
     /**
      * Getter for the number of points
      *
-     * @return (int)
+     * @return (int) the number of point assigned to the trip
      */
     public int points() {
         return points;
