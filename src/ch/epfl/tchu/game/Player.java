@@ -34,12 +34,16 @@ public interface Player {
     }
 
     /**
+     * called at the beginning of the game to communicate to the player his own id and names of the other players
+     *
      * @param ownId       Id of the player (self)
      * @param playerNames Ids of all the payers, mapped to their name (includes self)
      */
     void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames);
 
     /**
+     * Called every time an information must be display to the player 
+     *
      * @param info Information to give to the player, parsed by the class Info
      */
     void receiveInfo(String info);
