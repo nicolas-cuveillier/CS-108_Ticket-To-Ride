@@ -26,11 +26,10 @@ public interface Player {
         CLAIM_ROUTE;
 
         /**
-         * @return an unmodifiable list of all the turn kinds
+         * an unmodifiable list of all the turn kinds
          */
-        public static final List<TurnKind> All() {
-            return List.of(DRAW_TICKETS, DRAW_CARDS, CLAIM_ROUTE);
-        }
+        public static final List<TurnKind> ALL = List.of(DRAW_TICKETS, DRAW_CARDS, CLAIM_ROUTE);
+
     }
 
     /**
