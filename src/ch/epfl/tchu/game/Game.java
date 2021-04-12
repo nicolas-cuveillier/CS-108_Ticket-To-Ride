@@ -112,11 +112,15 @@ public final class Game {
                         int slot = players.get(gameState.currentPlayerId()).drawSlot();
                         gameState = (slot == Constants.DECK_SLOT) ? gameState.withBlindlyDrawnCard() : gameState.withDrawnFaceUpCard(slot);
 
-                        receiveInfoForBothPlayerWithCondition(players, currentPlayer.drewBlindCard(),
-                                currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(slot)), slot == Constants.DECK_SLOT);
+                        for (Player p : players.values()) {
+                            if (slot == Constants.DECK_SLOT) {
+                                p.receiveInfo(currentPlayer.drewBlindCard());
+                            } else {
+                                p.receiveInfo(currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(slot)));
+                            }
+                        }
 
-                        if (i == DRAWING_PER_DRAW_CARDS_TURN - 1)
-                            updateGameState(players, gameState);// (3)
+                        updateGameState(players, gameState);// (3)
                     }
 
                     break;
@@ -290,9 +294,9 @@ public final class Game {
     private static void receiveInfoForBothPlayerWithCondition(Map<PlayerId, Player> players, String info1, String info2, boolean condition) {
         for (Player p : players.values()) {
             if (condition) {
-                p.receiveInfo(info1);
-            } else {
                 p.receiveInfo(info2);
+            } else {
+                p.receiveInfo(info1);
             }
         }
     }
