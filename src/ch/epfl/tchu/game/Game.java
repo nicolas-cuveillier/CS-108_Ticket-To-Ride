@@ -3,6 +3,7 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
+import ch.epfl.tchu.net.Serde;
 
 import java.util.*;
 
@@ -255,6 +256,9 @@ public final class Game {
             List<String> names = new ArrayList<>(playerNames.values());
             receiveInfoForBothPlayer(players, Info.draw(names, winnerPoints));
         }
+        //Serde<Color> color = Serde.oneOf(Color.ALL);
+        //Serde<List<Color>> listOfColor = Serde.listOf(color, "+");
+
 
     }
 
