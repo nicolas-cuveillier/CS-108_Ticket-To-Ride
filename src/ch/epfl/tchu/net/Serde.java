@@ -46,7 +46,7 @@ public interface Serde<T> {
             @Override
             public String serialize(List<T> obj) {
                 StringJoiner joiner = new StringJoiner(separator);
-                obj.forEach(i -> joiner.add(Integer.toString(obj.indexOf(i))));
+                obj.forEach(i -> joiner.add(serde.serialize(i)));
                 return joiner.toString();
             }
 
