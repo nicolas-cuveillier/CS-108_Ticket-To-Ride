@@ -22,7 +22,7 @@ public class Serdes {
 
     //Single Objects
     public static final Serde<Integer> INT = Serde.of(i -> Integer.toString(i), Integer::parseInt);
-    public static final Serde<String> STRING = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)), i -> new String(Base64.getDecoder().decode(i), StandardCharsets.UTF_8));
+    public static final Serde<String> STRING = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)), i -> new String(Base64.getDecoder().decode(i.getBytes(StandardCharsets.UTF_8))));
     public static final Serde<PlayerId> PLAYER_ID = Serde.oneOf(PlayerId.ALL);
     public static final Serde<Player.TurnKind> TURN_KIND = Serde.oneOf(Player.TurnKind.ALL);
     public static final Serde<Card> CARD = Serde.oneOf(Card.ALL);
