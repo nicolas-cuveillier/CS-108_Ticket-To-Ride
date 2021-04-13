@@ -34,7 +34,17 @@ public interface Serde<T> {
     }
 
     static <T> Serde<T> oneOf(List<T> list) {
-        return (Serde<T>) Serde.of(i -> Integer.toString(list.indexOf(i)), Integer::parseInt);
+        return new Serde<>() {
+            @Override
+            public String serialize(T obj) {
+                return Integer.toString(list.indexOf(obj));
+            }
+
+            @Override
+            public T deserialize(String message) {
+                return list.get(Integer.parseInt(message));
+            }
+        };
         //TODO : check
     }
 
@@ -65,16 +75,24 @@ public interface Serde<T> {
 
     static <T extends Comparable<T>> Serde<SortedBag<T>> bagOf(Serde<T> serde, char separator) {
         //TODO : implement methods
+        String s = Character.toString(separator);
         return new Serde<>() {
 
             @Override
             public String serialize(SortedBag<T> obj) {
-                return null;
+                StringJoiner joiner = new StringJoiner(s);
+                obj.forEach(i -> joiner.add(serde.serialize(i)));
+                return joiner.toString();
             }
 
             @Override
             public SortedBag<T> deserialize(String message) {
-                return null;
+                String[] t = message.split(Pattern.quote(s), -1);
+                SortedBag.Builder<T> builder = new SortedBag.Builder<>();
+                for (String s : t) {
+                    builder.add(serde.deserialize(s));
+                }
+                return builder.build();
             }
         };
     }

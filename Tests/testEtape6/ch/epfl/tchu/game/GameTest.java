@@ -1,11 +1,8 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.SortedBag;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
