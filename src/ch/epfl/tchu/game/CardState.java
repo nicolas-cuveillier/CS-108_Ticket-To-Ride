@@ -33,7 +33,7 @@ public final class CardState extends PublicCardState {
     public static CardState of(Deck<Card> deck) {
         Preconditions.checkArgument(deck.size() >= Constants.FACE_UP_CARDS_COUNT);
 
-        List<Card> faceUpCards = deck.topCards(Constants.FACE_UP_CARDS_COUNT).toList();
+        final List<Card> faceUpCards = deck.topCards(Constants.FACE_UP_CARDS_COUNT).toList();
 
         return new CardState(faceUpCards, deck.withoutTopCards(Constants.FACE_UP_CARDS_COUNT), SortedBag.of());
     }
@@ -50,7 +50,7 @@ public final class CardState extends PublicCardState {
         Preconditions.checkArgument(!deck.isEmpty());
         Objects.checkIndex(slot, faceUpCards().size());
 
-        List<Card> faceUpCards = new ArrayList<>(faceUpCards());
+        final List<Card> faceUpCards = new ArrayList<>(faceUpCards());
         faceUpCards.remove(slot);
         faceUpCards.add(slot, deck.topCard());
 
