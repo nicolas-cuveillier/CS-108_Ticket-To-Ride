@@ -34,17 +34,7 @@ public interface Serde<T> {
     }
 
     static <T> Serde<T> oneOf(List<T> list) {
-        return new Serde<>() {
-            @Override
-            public String serialize(T obj) {
-                return Integer.toString(list.indexOf(obj));
-            }
-
-            @Override
-            public T deserialize(String message) {
-                return list.get(Integer.parseInt(message));
-            }
-        };
+        return Serde.of(i -> Integer.toString(list.indexOf(i)), s -> list.get(Integer.parseInt(s)));
         //TODO : check
     }
 
