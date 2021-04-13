@@ -15,14 +15,14 @@ public class SerdeTest {
     @Test
     void checkSerdeOfInt(){
         int i = 2021;
-        Assertions.assertEquals("2021",Serdes.INT_SERDES.serialize(i));
-        Assertions.assertEquals(2021,Serdes.INT_SERDES.deserialize("2021"));
+        Assertions.assertEquals("2021",Serdes.INT.serialize(i));
+        Assertions.assertEquals(2021,Serdes.INT.deserialize("2021"));
     }
     @Test
     void checkSerdePublicCardState(){
         PublicCardState p = new PublicCardState(List.of(Card.BLACK,Card.VIOLET,Card.BLACK,Card.BLACK,Card.BLACK),12,11);
-        Assertions.assertEquals("0,1,0,0,0;12;11",Serdes.PUBLIC_CARD_STATE_SERDES.serialize(p));
-        Assertions.assertEquals(12,Serdes.PUBLIC_CARD_STATE_SERDES.deserialize("0,1,0,0,0;12;11").deckSize());
+        Assertions.assertEquals("0,1,0,0,0;12;11",Serdes.SC_PUBLIC_CARD_STATE.serialize(p));
+        Assertions.assertEquals(12,Serdes.SC_PUBLIC_CARD_STATE.deserialize("0,1,0,0,0;12;11").deckSize());
     }
 
 
