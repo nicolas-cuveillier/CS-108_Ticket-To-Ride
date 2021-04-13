@@ -33,12 +33,12 @@ public class PublicPlayerState {
         this.cardCount = cardCount;
         this.routes = new ArrayList<>(routes);
 
-        int length = routes.stream()
+        final int length = routes.stream()
                 .mapToInt(i -> i.length())
                 .sum();
         carCount = (Constants.INITIAL_CAR_COUNT - length);
 
-        int buildPoints = routes.stream()
+        final int buildPoints = routes.stream()
                 .mapToInt(i -> i.claimPoints())
                 .sum();
         claimPoints = buildPoints;

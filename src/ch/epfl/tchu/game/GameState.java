@@ -34,25 +34,23 @@ public final class GameState extends PublicGameState {
      * @return the initial GameState
      */
     public static GameState initial(SortedBag<Ticket> tickets, Random rng) {
-        //1. CardState
-        SortedBag<Card> cards = Constants.ALL_CARDS;
+
+        final SortedBag<Card> cards = Constants.ALL_CARDS;
         CardState cardState = CardState.of(Deck.of(cards, rng));
 
-        //player1 cards
-        SortedBag.Builder<Card> firstPlayerCards = new SortedBag.Builder<>();
+        final SortedBag.Builder<Card> firstPlayerCards = new SortedBag.Builder<>();
         for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
             firstPlayerCards.add(cardState.topDeckCard());
             cardState = cardState.withoutTopDeckCard();
         }
-        //player2 cards
-        SortedBag.Builder<Card> secondPlayerCards = new SortedBag.Builder<>();
+
+        final SortedBag.Builder<Card> secondPlayerCards = new SortedBag.Builder<>();
         for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
             secondPlayerCards.add(cardState.topDeckCard());
             cardState = cardState.withoutTopDeckCard();
         }
 
-        //2. playerState
-        Map<PlayerId, PlayerState> playerState = new EnumMap<>(PlayerId.class);
+        final Map<PlayerId, PlayerState> playerState = new EnumMap<>(PlayerId.class);
         playerState.put(PlayerId.PLAYER_1, PlayerState.initial(firstPlayerCards.build()));
         playerState.put(PlayerId.PLAYER_2, PlayerState.initial(secondPlayerCards.build()));
 
@@ -159,7 +157,7 @@ public final class GameState extends PublicGameState {
     public GameState withInitiallyChosenTickets(PlayerId playerId, SortedBag<Ticket> chosenTickets) {
         Preconditions.checkArgument(playerState.get(playerId).tickets().isEmpty());
 
-        Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
+        final Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
         playerState.put(playerId, playerState(playerId).withAddedTickets(chosenTickets));
 
         return new GameState(currentPlayerId(), tickets, playerState, cardState, lastPlayer());
@@ -177,7 +175,7 @@ public final class GameState extends PublicGameState {
     public GameState withChosenAdditionalTickets(SortedBag<Ticket> drawnTickets, SortedBag<Ticket> chosenTickets) {
         Preconditions.checkArgument(drawnTickets.contains(chosenTickets));
 
-        Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
+        final Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
         playerState.put(currentPlayerId(), currentPlayerState().withAddedTickets(chosenTickets));
 
         return new GameState(currentPlayerId(), tickets.withoutTopCards(drawnTickets.size()), playerState, cardState, lastPlayer());
@@ -194,7 +192,7 @@ public final class GameState extends PublicGameState {
     public GameState withDrawnFaceUpCard(int slot) {
         Preconditions.checkArgument(canDrawCards());
 
-        Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
+        final Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
         playerState.put(currentPlayerId(), currentPlayerState().withAddedCard(cardState.faceUpCard(slot)));
 
         return new GameState(currentPlayerId(), tickets, playerState, cardState.withDrawnFaceUpCard(slot), lastPlayer());
@@ -210,7 +208,7 @@ public final class GameState extends PublicGameState {
     public GameState withBlindlyDrawnCard() {
         Preconditions.checkArgument(canDrawCards());
 
-        Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
+        final Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
         playerState.put(currentPlayerId(), currentPlayerState().withAddedCard(cardState.topDeckCard()));
 
         return new GameState(currentPlayerId(), tickets, playerState, cardState.withoutTopDeckCard(), lastPlayer());
@@ -225,7 +223,7 @@ public final class GameState extends PublicGameState {
      */
     public GameState withClaimedRoute(Route route, SortedBag<Card> cards) {
 
-        Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
+        final Map<PlayerId, PlayerState> playerState = new EnumMap<>(this.playerState);
         playerState.put(currentPlayerId(), currentPlayerState().withClaimedRoute(route, cards));
 
         return new GameState(currentPlayerId(), tickets, playerState, cardState.withMoreDiscardedCards(cards), lastPlayer());

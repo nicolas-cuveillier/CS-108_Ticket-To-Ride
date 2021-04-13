@@ -20,12 +20,12 @@ public enum MessageId {
 
             //utile ?
     /**
-     * return an unmodifiable list of all messages
+     * an unmodifiable list of all messages
      */
     public static final List<MessageId> ALL = List.of(MessageId.values());
 
     /**
-     * return the number of possible messages
+     * the number of possible messages
      */
     public static final int COUNT = ALL.size();
 

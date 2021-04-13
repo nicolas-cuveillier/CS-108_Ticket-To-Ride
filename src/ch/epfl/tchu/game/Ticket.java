@@ -48,8 +48,8 @@ public final class Ticket implements Comparable<Ticket> {
     }
 
     private static String computeText(List<Trip> trips) {
-        TreeSet<String> s = new TreeSet<>();
-        StringBuilder text = new StringBuilder();
+        final TreeSet<String> s = new TreeSet<>();
+        final StringBuilder text = new StringBuilder();
 
         text.append(trips.get(0).from().name())
                 .append(" - ");
@@ -76,7 +76,7 @@ public final class Ticket implements Comparable<Ticket> {
         int maxPoint = 0;
         int minPoint = trips.get(0).points();
 
-        List<Trip> connectedTrips = trips.stream()
+        final List<Trip> connectedTrips = trips.stream()
                 .filter(t -> connectivity.connected(t.from(), t.to()))
                 .collect(Collectors.toList());
 

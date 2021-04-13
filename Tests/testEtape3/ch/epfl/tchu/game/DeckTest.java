@@ -16,7 +16,6 @@ public class DeckTest {
         b.add(Card.BLACK).add(Card.LOCOMOTIVE).add(2, Card.ORANGE);
         SortedBag<Card> cards = b.build();
         Deck<Card> deck = Deck.of(cards, TestRandomizer.newRandom());
-        System.out.println(deck.topCard());
         Assertions.assertFalse(Card.BLUE.equals(deck.topCard()));
     }
 
@@ -26,7 +25,6 @@ public class DeckTest {
         b.add(Card.BLUE).add(Card.LOCOMOTIVE).add(2, Card.ORANGE);
         SortedBag<Card> cards = b.build();
         Deck<Card> deck = Deck.of(cards, TestRandomizer.newRandom());
-        System.out.println(deck.topCard());//control if the blue card has been erased
         Deck<Card> deckWithOutTopCard = deck.withoutTopCard();
         cards = deckWithOutTopCard.topCards(3);
 
@@ -45,7 +43,6 @@ public class DeckTest {
         b.add(Card.BLUE).add(Card.LOCOMOTIVE).add(2, Card.ORANGE);
         SortedBag<Card> cards = b.build();
         Deck<Card> deck = Deck.of(cards, TestRandomizer.newRandom());
-        System.out.println(deck.topCards(2));//control if the blue and orange card have been erased
         Deck<Card> deckWithOutTopCards = deck.withoutTopCards(2);
         cards = deckWithOutTopCards.topCards(2);
 

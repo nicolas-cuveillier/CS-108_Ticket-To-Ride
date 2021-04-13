@@ -44,7 +44,7 @@ public class Trip {
     public static List<Trip> all(List<Station> from, List<Station> to, int points) {
         Preconditions.checkArgument(!from.isEmpty() || !to.isEmpty() || points > 0);
 
-        ArrayList<Trip> allTrip = new ArrayList<>();
+        final ArrayList<Trip> allTrip = new ArrayList<>();
         from.forEach(f -> to.forEach(t -> allTrip.add(new Trip(f, t, points))));
 
         return allTrip;

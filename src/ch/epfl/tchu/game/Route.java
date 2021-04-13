@@ -92,7 +92,7 @@ public final class Route {
      * @return (List < SortedBag < Card > >) a List of SortedBag of all possible Cards to claim the Route
      */
     public List<SortedBag<Card>> possibleClaimCards() {
-        List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
+        final List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
 
         if (color == null) {
             if (level.equals(Level.UNDERGROUND)) {

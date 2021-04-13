@@ -17,7 +17,7 @@ public interface Serde<T> {
     T deserialize(String message);
 
     static <T> Serde<T> of(Function<T, String> serializableFunc, Function<String, T> deserializableFunc) {
-        //TODO : change Object to something better
+        //TODO : check
         return new Serde<>() {
 
             @Override

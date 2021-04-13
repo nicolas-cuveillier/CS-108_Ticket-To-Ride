@@ -97,7 +97,7 @@ public final class Trail {
 
 
     private static List<Trail> getSingleRoutes(List<Route> routes) {
-        List<Trail> trails = new ArrayList<>();
+        final List<Trail> trails = new ArrayList<>();
         for (Route r : routes) {
             Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
             trails.add(t1);
