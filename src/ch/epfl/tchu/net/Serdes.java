@@ -35,7 +35,7 @@ public class Serdes {
     public static final Serde<List<SortedBag<Card>>> L_SB_CARD = Serde.listOf(SB_CARD, ';');
     
     //Serializable Classes
-    public static final Serde<PublicCardState> SC_PUBLIC_CARD_STATE = Serde.of(i -> );
+    public static final Serde<PublicCardState> SC_PUBLIC_CARD_STATE = Serde.of();
     public static final Serde<PublicPlayerState> SC_PUBLIC_PLAYER_STATE = Serde.of();
     public static final Serde<PlayerState> SC_PLAYER_STATE = Serde.of();
     public static final Serde<PublicGameState> SC_PUBLIC_GAME_STATE = Serde.of();
