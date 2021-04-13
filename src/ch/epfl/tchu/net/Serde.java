@@ -39,20 +39,21 @@ public interface Serde<T> {
     }
 
     //extends collection?
-    static <T> Serde<List<T>> listOf(Serde<T> serde, String separator) {
+    static <T> Serde<List<T>> listOf(Serde<T> serde, char separator) {
         //TODO : check
+        String s = Character.toString(separator);
         return new Serde<>() {
 
             @Override
             public String serialize(List<T> obj) {
-                StringJoiner joiner = new StringJoiner(separator);
+                StringJoiner joiner = new StringJoiner(s);
                 obj.forEach(i -> joiner.add(serde.serialize(i)));
                 return joiner.toString();
             }
 
             @Override
             public List<T> deserialize(String message) {
-                String[] t = message.split(Pattern.quote(separator), -1);
+                String[] t = message.split(Pattern.quote(s), -1);
                 List<T> list = new ArrayList<>();
                 for (String s : t) {
                     list.add(serde.deserialize(s));
@@ -62,7 +63,7 @@ public interface Serde<T> {
         };
     }
 
-    static <T extends Comparable<T>> Serde<SortedBag<T>> bagOf(Serde<T> serde, String separator) {
+    static <T extends Comparable<T>> Serde<SortedBag<T>> bagOf(Serde<T> serde, char separator) {
         //TODO : implement methods
         return new Serde<>() {
 
