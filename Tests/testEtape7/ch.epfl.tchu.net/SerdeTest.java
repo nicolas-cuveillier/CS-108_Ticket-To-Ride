@@ -48,7 +48,9 @@ public class SerdeTest {
                 PLAYER_2, new PublicPlayerState(20, 21, List.of()));
         PublicGameState gs =
                 new PublicGameState(40, cs, PLAYER_2, ps, null);
+
         Assertions.assertEquals("40:6,7,2,0,6;30;31:1:10;11;0,1:20;21;:",Serdes.SC_PUBLIC_GAME_STATE.serialize(gs));
+        Assertions.assertEquals(null,Serdes.SC_PUBLIC_GAME_STATE.deserialize("40:6,7,2,0,6;30;31:1:10;11;0,1:20;21;:").lastPlayer());
 
 
     }

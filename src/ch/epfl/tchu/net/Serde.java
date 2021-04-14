@@ -35,7 +35,7 @@ public interface Serde<T> {
 
     static <T> Serde<T> oneOf(List<T> list) {
         //TODO : check
-        return Serde.of(i -> (i == null) ? "" : Integer.toString(list.indexOf(i)), s -> list.get(Integer.parseInt(s)));
+        return Serde.of(i -> Integer.toString(list.indexOf(i)), s -> list.get(Integer.parseInt(s)));
     }
 
     //extends collection?

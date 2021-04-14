@@ -51,7 +51,7 @@ public class Serdes {
                     .add(PLAYER_ID.serialize(publicGameState.currentPlayerId()))
                     .add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_1)))
                     .add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_2)))
-                    .add(PLAYER_ID.serialize(publicGameState.lastPlayer()));
+                    .add((publicGameState.lastPlayer() == null) ? "" : PLAYER_ID.serialize(publicGameState.lastPlayer()));
             return joiner.toString();
         };
     }
@@ -61,7 +61,7 @@ public class Serdes {
             String[] t = message.split(Pattern.quote(":"), -1);
             return new PublicGameState(INT.deserialize(t[0]),SC_PUBLIC_CARD_STATE.deserialize(t[1]), PLAYER_ID.deserialize(t[2]),
                     Map.of(PlayerId.PLAYER_1,SC_PUBLIC_PLAYER_STATE.deserialize(t[3]),PlayerId.PLAYER_2, SC_PUBLIC_PLAYER_STATE.deserialize(t[4]))
-                    ,PLAYER_ID.deserialize(t[5]));
+                    ,(t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]));
         };
 
     }
@@ -79,7 +79,7 @@ public class Serdes {
     private static Function<String, PlayerState> psFunctionDeSer() {
         return message -> {
             String[] t = message.split(Pattern.quote(";"), -1);
-            return new PlayerState(SB_TICKET.deserialize(t[0]), SB_CARD.deserialize(t[1]), L_ROUTE.deserialize(t[2]));
+            return new PlayerState((t[0].equals(""))? SortedBag.of() : SB_TICKET.deserialize(t[0]),(t[1].equals(""))? SortedBag.of() : SB_CARD.deserialize(t[1]),(t[2].equals(""))? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 
@@ -88,7 +88,7 @@ public class Serdes {
             StringJoiner joiner = new StringJoiner(";");
             joiner.add(INT.serialize(publicPlayerState.ticketCount()))
                     .add(INT.serialize(publicPlayerState.cardCount()))
-                    .add(L_ROUTE.serialize(publicPlayerState.routes()));
+                    .add((publicPlayerState.routes() == null) ? "" : L_ROUTE.serialize(publicPlayerState.routes()));
             return joiner.toString();
         };
     }
@@ -96,7 +96,7 @@ public class Serdes {
     private static Function<String, PublicPlayerState> ppsFunctionDeSer() {
         return message -> {
             String[] t = message.split(Pattern.quote(";"), -1);
-            return new PublicPlayerState(INT.deserialize(t[0]), INT.deserialize(t[1]), L_ROUTE.deserialize(t[2]));
+            return new PublicPlayerState(INT.deserialize(t[0]), INT.deserialize(t[1]),(t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 

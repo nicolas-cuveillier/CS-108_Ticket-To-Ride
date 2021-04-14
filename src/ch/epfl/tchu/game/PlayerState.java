@@ -16,7 +16,7 @@ public final class PlayerState extends PublicPlayerState {
     private final SortedBag<Ticket> tickets;
     private final SortedBag<Card> cards;
     private final List<Route> routes;
-
+//TODO :
     /**
      * Primary constructor of a PlayerState, builds a PlayerState with its Tickets, Cards and Routes
      *
