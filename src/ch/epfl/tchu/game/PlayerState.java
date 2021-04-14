@@ -98,7 +98,7 @@ public final class PlayerState extends PublicPlayerState {
      * @return (boolean) true iff the player can take possession of the given Route according to his car and cards
      */
     public boolean canClaimRoute(Route route) {
-        return (this.carCount() >= route.length() ? !possibleClaimCards(route).isEmpty() : false);
+        return (this.carCount() >= route.length() && !possibleClaimCards(route).isEmpty());
     }
 
     /**
@@ -115,7 +115,7 @@ public final class PlayerState extends PublicPlayerState {
         final List<SortedBag<Card>> allCards = route.possibleClaimCards();
 
         final List<SortedBag<Card>> possibleCards = allCards.stream()
-                .filter(i -> cards.contains(i))
+                .filter(cards::contains)
                 .collect(Collectors.toList());
 
         return possibleCards;
@@ -183,7 +183,7 @@ public final class PlayerState extends PublicPlayerState {
         final StationPartition.Builder stationPartitionBuilder = new StationPartition.Builder(id + 1);
 
         routes.forEach(route -> stationPartitionBuilder.connect(route.station1(), route.station2()));
-        StationPartition connectivity = stationPartitionBuilder.build();
+        final StationPartition connectivity = stationPartitionBuilder.build();
 
         final int points = tickets.stream()
                 .mapToInt(i -> i.points(connectivity))

@@ -244,9 +244,9 @@ public final class Game {
             PlayerId winner = null;
 
             for (PlayerId p : playerPoints.keySet()) {
-                if (playerPoints.get(p) == winnerPoints) {
+                if (playerPoints.get(p) == winnerPoints)
                     winner = p;
-                }
+
             }
 
             if (winner != null)
@@ -256,10 +256,6 @@ public final class Game {
             List<String> names = new ArrayList<>(playerNames.values());
             receiveInfoForBothPlayer(players, Info.draw(names, winnerPoints));
         }
-        //Serde<Color> color = Serde.oneOf(Color.ALL);
-        //Serde<List<Color>> listOfColor = Serde.listOf(color, "+");
-
-
     }
 
     /**
@@ -269,10 +265,7 @@ public final class Game {
      * @param newGameState the new GameState used for the update
      */
     private static void updateGameState(Map<PlayerId, Player> players, GameState newGameState) {
-        for (PlayerId p : players.keySet()) {
-            players.get(p).updateState(newGameState, newGameState.playerState(p));
-        }
-
+        players.forEach((pi,p) -> p.updateState(newGameState,newGameState.playerState(pi)));
     }
 
     /**
@@ -282,26 +275,6 @@ public final class Game {
      * @param info    information to display
      */
     private static void receiveInfoForBothPlayer(Map<PlayerId, Player> players, String info) {
-        for (Player p : players.values()) {
-            p.receiveInfo(info);
-        }
-    }
-
-    /**
-     * display some information for both player according to a condition
-     *
-     * @param players   a map that matches PlayerId with Player so each PLayerId can be seen as a Player
-     * @param info1     information to display
-     * @param info2     information to display
-     * @param condition boolean condition that will make the method display info1 if condition is true or info2 if not
-     */
-    private static void receiveInfoForBothPlayerWithCondition(Map<PlayerId, Player> players, String info1, String info2, boolean condition) {
-        for (Player p : players.values()) {
-            if (condition) {
-                p.receiveInfo(info2);
-            } else {
-                p.receiveInfo(info1);
-            }
-        }
+        players.values().forEach(p -> p.receiveInfo(info));
     }
 }
