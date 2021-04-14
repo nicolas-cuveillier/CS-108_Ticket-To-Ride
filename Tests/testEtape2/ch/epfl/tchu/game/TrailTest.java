@@ -54,15 +54,7 @@ public class TrailTest {
 
     @Test
     void checkLongestWithNonTrivialTrail() {
-        Route r1 = new Route("BER_LUC_1", new Station(16, "Lucerne"), new Station(3, "Berne"), 4, Route.Level.OVERGROUND, null);
-        Route r2 = new Route("BER_NEU_1", new Station(3, "Berne"), new Station(19, "Neuchâtel"), 2, Route.Level.OVERGROUND, Color.RED);
-        Route r3 = new Route("NEU_SOL_1", new Station(19, "Neuchâtel"), new Station(26, "Soleure"), 4, Route.Level.OVERGROUND, Color.GREEN);
-        Route r4 = new Route("BER_SOL_1", new Station(26, "Soleure"), new Station(3, "Berne"), 2, Route.Level.OVERGROUND, Color.BLACK);
-        Route r5 = new Route("BER_FRI_1", new Station(3, "Berne"), new Station(9, "Fribourg"), 1, Route.Level.OVERGROUND, Color.ORANGE);
 
-        List<Route> routes = List.of(r1, r2, r3, r4, r5);
-        Trail t = new Trail(routes);
-        Assertions.assertEquals(t.toString(), ch.epfl.tchu.game.Trail.longest(routes).toString());
     }
 
 
@@ -122,4 +114,5 @@ public class TrailTest {
         }
 
     }
+
 }

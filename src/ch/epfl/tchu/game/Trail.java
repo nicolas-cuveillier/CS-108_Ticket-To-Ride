@@ -35,11 +35,12 @@ public final class Trail {
      * @param routes the list of all Route(s) to make the Trail
      * @return (Trail) the longest trail given all Route(s)
      */
-        //TODO : clean/factor the method
     public static Trail longest(List<Route> routes) {
+
         if (routes.isEmpty()) {
             return new Trail(List.of(), null, null);
         }
+
         List<Trail> cs;
         Trail longestTrail = null;
         int length = 0;
@@ -51,61 +52,51 @@ public final class Trail {
 
             for (Trail c : cs) {
 
-                for (Route r : routes) {
-                    if (!c.routes().contains(r)) {
-                        if ((c.station2().id() == r.station1().id()) && (Objects.equals(c.station2().name(), r.station1().name()))) {
-                            List<Route> routeList = new ArrayList<>(c.routes());
-                            routeList.add(r);
-                            Trail t = new Trail(routeList, c.station1(), r.station2());
-                            cs2.add(t);
+                if (longestTrail != null)
+                    length = longestTrail.length;
 
-                            compare(length, c);
 
-                        } else if ((c.station2().id() == r.station2().id()) && (Objects.equals(c.station2().name(), r.station2().name()))) {
-                            List<Route> routeList = new ArrayList<>(c.routes());
-                            routeList.add(r);
-                            Trail t = new Trail(routeList, c.station1(), r.station1());
-                            cs2.add(t);
-
-                            compare(length, c);
-
-                        } else {
-                            if (length < c.length()) {
-                                length = c.length();
-                                longestTrail = c;
+                routes.stream()
+                        .filter(route -> !c.routes().contains(route))
+                        .forEach(route -> {
+                            if ((c.station2().id() == route.station1().id()) && (Objects.equals(c.station2().name(), route.station1().name()))) {
+                                addTrailBuildWithRouteAccordingToSt2(c, cs2, route);
+                            } else if ((c.station2().id() == route.station2().id()) && (Objects.equals(c.station2().name(), route.station2().name()))) {
+                                addTrailBuildWithRouteAccordingToSt1(c, cs2, route);
                             }
-                        }
-                    } else if (c.routes().containsAll(routes)) {
-                        if (length < c.length()) {
-                            length = c.length();
-                            longestTrail = c;
-                        }
-                    }
-                }
+                        });
+
+                longestTrail = length < c.length() ? c : longestTrail;
+
+                if (c.routes().containsAll(routes))
+                    longestTrail = length < c.length() ? c : longestTrail;
+
+
             }
             cs = cs2;
         }
         return longestTrail;
     }
 
-    private static void compare(int length1, Trail c) {
-        if (length1 < c.length()) {
-            length1 = c.length();
-            Trail longestTrail = c;
-        }
+    private static void addTrailBuildWithRouteAccordingToSt1(Trail c, List<Trail> cs2, Route toAdd) {
+        List<Route> routeList = new ArrayList<>(c.routes());
+        routeList.add(toAdd);
+        Trail t = new Trail(routeList, c.station1(), toAdd.station1());
+        cs2.add(t);
     }
 
+    private static void addTrailBuildWithRouteAccordingToSt2(Trail c, List<Trail> cs2, Route toAdd) {
+        List<Route> routeList = new ArrayList<>(c.routes());
+        routeList.add(toAdd);
+        Trail t = new Trail(routeList, c.station1(), toAdd.station2());
+        cs2.add(t);
+    }
 
     private static List<Trail> getSingleRoutes(List<Route> routes) {
         final List<Trail> trails = new ArrayList<>();
-        for (Route r : routes) {
-            Trail t1 = new Trail(List.of(r), r.station1(), r.station2());
-            trails.add(t1);
 
-            Trail t2 = new Trail(List.of(r), r.station2(), r.station1());
-            trails.add(t2);
-        }
-
+        routes.forEach(r -> trails.add(new Trail(List.of(r), r.station1(), r.station2())));
+        routes.forEach(r -> trails.add(new Trail(List.of(r), r.station2(), r.station1())));
         return trails;
     }
 
@@ -117,30 +108,29 @@ public final class Trail {
     @Override
     public String toString() {
         StringBuilder text = new StringBuilder();
-        int totalLength = 0;
-
+        int totalLength = routes.stream()
+                .mapToInt(Route::length)
+                .sum();
         if (routes.size() != 0) {
             if (this.station1() == routes.get(0).station1()) {
-                totalLength = routes.stream()
-                        .mapToInt(i -> i.length())
-                        .sum();
 
-                for (int i = 0; i < routes.size(); i++) {
-                    text.append(" - ")
-                            .append(routes.get(i).station1().name());
-                    if (i == 0) text = new StringBuilder(routes.get(i).station1().name());
-                }
+                routes.forEach(route -> {
+                    if (route == routes.get(0)){
+                        text.append(route.station1().name());
+                    } else {
+                        text.append(" - ")
+                                .append(route.station1().name());
+                    }
+                });
 
                 text.append(" - ").append(routes.get(routes.size() - 1).station2().name());
             } else if (this.station1() == routes.get(routes.size() - 1).station2()) {
-                totalLength = routes.stream()
-                        .mapToInt(i -> i.length())
-                        .sum();
+
                 for (int i = routes.size() - 1; i >= 0; i--) {
                     text.append(" - ")
                             .append(routes.get(i).station2().name());
 
-                    if (i == routes.size() - 1) text = new StringBuilder(routes.get(i).station2().name());
+                    if (i == routes.size() - 1) text.append(routes.get(i).station2().name());
                 }
 
                 text.append(" - ")
@@ -150,7 +140,7 @@ public final class Trail {
                     .append(totalLength)
                     .append(")");
         } else {
-            text = new StringBuilder("Empty Trail");
+            text.append("Empty Trail");
         }
 
         return text.toString();
