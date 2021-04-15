@@ -34,7 +34,7 @@ public final class Game {
      * At every step, information will be display.
      * <p>
      * Finally, after the while loop, final points for each player will be computed and the winner (or winners)
-     * will be compute and information will be display.
+     * will be computed and information will be displayed.
      *
      * @param players     a map that matches PlayerId with Player so each PLayerId can be seen as a Player
      * @param playerNames a map that matches PlayerIds with their names, contains the name of each Player
