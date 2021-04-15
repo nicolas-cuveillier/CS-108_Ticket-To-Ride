@@ -19,7 +19,7 @@ public final class Info {
     /**
      * Build a message generator link to the player
      *
-     * @param payerName (String)
+     * @param payerName the player name
      */
     public Info(String payerName) {
         this.playerName = payerName;
@@ -28,9 +28,9 @@ public final class Info {
     /**
      * compute a card name according to its count
      *
-     * @param card  (Card)
-     * @param count (int)
-     * @return (String)
+     * @param card  the card that the name will be return
+     * @param count the number of card(s)
+     * @return teh card name
      */
     public static String cardName(Card card, int count) {
 
@@ -63,12 +63,12 @@ public final class Info {
     /**
      * message when the game end and player are ex æqo
      *
-     * @param playerNames (List<String>)
-     * @param points      (int)
+     * @param playerNames the list all player
+     * @param points      the winners point
      * @return (String)
      */
     public static String draw(List<String> playerNames, int points) {
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
 
         for (int i = 0; i < playerNames.size(); i++) {
             text.append(playerNames.get(i));
@@ -90,6 +90,7 @@ public final class Info {
     /**
      * message saying that this player is keeping count billets
      *
+     * @param count the number of ticket(s)
      * @return (String)
      */
     public String keptTickets(int count) {
@@ -108,6 +109,7 @@ public final class Info {
     /**
      * message saying that the player drew count tickets
      *
+     * @param count the number of ticket(s)
      * @return (String)
      */
     public String drewTickets(int count) {
@@ -126,6 +128,7 @@ public final class Info {
     /**
      * message saying that the player drew a visible card
      *
+     * @param card the card that is drew
      * @return (String)
      */
     public String drewVisibleCard(Card card) {
@@ -135,6 +138,8 @@ public final class Info {
     /**
      * message saying that the player took this Route with these cards
      *
+     * @param route the taken Route
+     * @param cards the cards that the player used to claim the Route
      * @return (String)
      */
     public String claimedRoute(Route route, SortedBag<Card> cards) {
@@ -144,6 +149,8 @@ public final class Info {
     /**
      * message saying that the player claim this tunnel with these cards
      *
+     * @param route        the Route that the player want to claim
+     * @param initialCards the cards that the player initially used to ask for the Route
      * @return (String)
      */
     public String attemptsTunnelClaim(Route route, SortedBag<Card> initialCards) {
@@ -151,9 +158,9 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew three additional cards and that it implies for him to play additionalCost of cards
-     *
-     * @return (String)
+     * @param drawnCards     the cards that the player drew
+     * @param additionalCost the cost implied by the cards
+     * @return a message saying that the player drew cards that will imply a additionalCost of cards
      */
     public String drewAdditionalCards(SortedBag<Card> drawnCards, int additionalCost) {
         StringBuilder text = new StringBuilder(String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardText(drawnCards)));
@@ -168,6 +175,7 @@ public final class Info {
     /**
      * message saying that the player did not took this tunnel
      *
+     * @param route the route that the player didn't claimed
      * @return (String)
      */
     public String didNotClaimRoute(Route route) {
@@ -177,6 +185,7 @@ public final class Info {
     /**
      * message saying that the last turn of the game begins
      *
+     * @param carCount the number of car the player has left
      * @return (String)
      */
     public String lastTurnBegins(int carCount) {
@@ -186,6 +195,7 @@ public final class Info {
     /**
      * message saying that the player got the 10 points bonus thanks to the longest Trail
      *
+     * @param longestTrail the Trail that allowed the player to have bonus
      * @return (String)
      */
     public String getsLongestTrailBonus(Trail longestTrail) {
@@ -195,6 +205,8 @@ public final class Info {
     /**
      * message saying that the player won
      *
+     * @param points      the points of the winner
+     * @param loserPoints the loser's point
      * @return (String)
      */
     public String won(int points, int loserPoints) {
@@ -210,18 +222,19 @@ public final class Info {
         List<Card> trashList = new ArrayList<>();
         List<Card> cardsList = cards.toList().subList(1, cards.size());
 
-        StringBuilder text = new StringBuilder(cards.countOf(cards.get(0)) + " " + cardName(cards.get(0), cards.countOf(cards.get(0))));
+        final StringBuilder text = new StringBuilder(cards.countOf(cards.get(0)) + " " + cardName(cards.get(0), cards.countOf(cards.get(0))));
         trashList.add(cards.get(0));
 
         for (Card c : cardsList) {
 
             if (!trashList.contains(c)) {
                 int n = cards.countOf(c);
-                if (cards.get(cards.size() - 1).equals(c) && !cards.get(0).equals(c)) {
+
+                if (cards.get(cards.size() - 1).equals(c) && !cards.get(0).equals(c))
                     text.append(" et ");
-                } else {
+                else
                     text.append(", ");
-                }
+
                 text.append(String.format("%s %s", n, cardName(c, n)));
                 trashList.add(c);
             }
