@@ -81,19 +81,19 @@ public final class Ticket implements Comparable<Ticket> {
                 .collect(Collectors.toList());
 
         for (Trip t : trips) {
-            if (t.points() < minPoint) {
+            if (t.points() < minPoint)
                 minPoint = t.points();
-            }
+
         }
 
-        if (connectedTrips.isEmpty()) {
+        if (connectedTrips.isEmpty())
             return -minPoint;
-        }
+
 
         for (Trip t : connectedTrips) {
-            if (t.points() > maxPoint) {
+            if (t.points() > maxPoint)
                 maxPoint = t.points();
-            }
+
         }
         return maxPoint;
     }

@@ -16,13 +16,13 @@ public final class PlayerState extends PublicPlayerState {
     private final SortedBag<Ticket> tickets;
     private final SortedBag<Card> cards;
     private final List<Route> routes;
-//TODO :
+
     /**
      * Primary constructor of a PlayerState, builds a PlayerState with its Tickets, Cards and Routes
      *
-     * @param tickets (SortedBag<Ticket>)
-     * @param cards   (SortedBag<Ticket>)
-     * @param routes  (List<Route>)
+     * @param tickets the sortedBag of the player's ticket
+     * @param cards   the sortedBag of the player's cards
+     * @param routes  the list of the player's Route
      */
     public PlayerState(SortedBag<Ticket> tickets, SortedBag<Card> cards, List<Route> routes) {
         super(tickets.size(), cards.size(), routes);
@@ -35,7 +35,7 @@ public final class PlayerState extends PublicPlayerState {
      * Static method building the initial PlayerState
      *
      * @param initialCards the initial cards of the player
-     * @return (PlayerState)
+     * @return (PlayerState) a new PlayerState with only some initial cards
      * @throws IllegalArgumentException if there are not four initial cards
      */
     public static PlayerState initial(SortedBag<Card> initialCards) {
@@ -114,11 +114,9 @@ public final class PlayerState extends PublicPlayerState {
 
         final List<SortedBag<Card>> allCards = route.possibleClaimCards();
 
-        final List<SortedBag<Card>> possibleCards = allCards.stream()
+        return allCards.stream()
                 .filter(cards::contains)
                 .collect(Collectors.toList());
-
-        return possibleCards;
     }
 
     /**
@@ -128,7 +126,7 @@ public final class PlayerState extends PublicPlayerState {
      * @param additionalCardsCount the number of cards the player must play
      * @param initialCards         cards that the player choose to claim the Route
      * @param drawnCards           cards that will implies additionalCardsCount cards for the player to play
-     * @return (List< SortedBag < Card > >) the list of all possible additional cards
+     * @return (List < SortedBag < Card > >) the list of all possible additional cards
      * @throws IllegalArgumentException if additionalCardsCount isn't in [1;3]
      *                                  if initialCards is empty or if it contains more than to kind for cards
      *                                  if there are not 3 drawnCards
@@ -144,9 +142,9 @@ public final class PlayerState extends PublicPlayerState {
 
         Set<SortedBag<Card>> additionalCardsSet = new HashSet<>();
 
-        if (usableCard.size() >= additionalCardsCount) {
+        if (usableCard.size() >= additionalCardsCount)
             additionalCardsSet = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
-        }
+
 
         final List<SortedBag<Card>> additionalCards = new ArrayList<>(additionalCardsSet);
         additionalCards.sort(Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));
@@ -185,11 +183,9 @@ public final class PlayerState extends PublicPlayerState {
         routes.forEach(route -> stationPartitionBuilder.connect(route.station1(), route.station2()));
         final StationPartition connectivity = stationPartitionBuilder.build();
 
-        final int points = tickets.stream()
+        return tickets.stream()
                 .mapToInt(i -> i.points(connectivity))
                 .sum();
-
-        return points;
     }
 
     /**

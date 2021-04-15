@@ -25,11 +25,11 @@ public enum Color {
     RED,
     WHITE;
     /**
-     * return an unmodifiable ist of all the possible colors
+     * an unmodifiable ist of all the possible colors
      */
     public static final List<Color> ALL = List.of(Color.values());
     /**
-     * return the number of possible colors
+     * the number of possible colors
      */
     public static final int COUNT = ALL.size();
 

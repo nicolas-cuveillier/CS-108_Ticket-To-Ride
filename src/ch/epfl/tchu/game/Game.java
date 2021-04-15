@@ -3,7 +3,6 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
-import ch.epfl.tchu.net.Serde;
 
 import java.util.*;
 
@@ -101,8 +100,8 @@ public final class Game {
 
                     SortedBag<Ticket> chosenTickets = players.get(gameState.currentPlayerId()).chooseTickets(drawnTickets);
                     gameState = gameState.withoutTopTickets(Constants.IN_GAME_TICKETS_COUNT);
-                    receiveInfoForBothPlayer(players, currentPlayer.keptTickets(chosenTickets.size()));
 
+                    receiveInfoForBothPlayer(players, currentPlayer.keptTickets(chosenTickets.size()));
                     break;
 
                 case DRAW_CARDS:
@@ -162,9 +161,9 @@ public final class Game {
                             List<SortedBag<Card>> option = gameState.currentPlayerState()
                                     .possibleAdditionalCards(additionalCardsCost, initialClaimCards, drawnCards);
 
-                            if (!option.isEmpty()) {
+                            if (!option.isEmpty())
                                 playedCard = players.get(gameState.currentPlayerId()).chooseAdditionalCards(option);
-                            }
+
 
                             if (playedCard.isEmpty()) {
                                 receiveInfoForBothPlayer(players, currentPlayer.didNotClaimRoute(claimRoute));
@@ -178,7 +177,6 @@ public final class Game {
                             gameState = gameState.withClaimedRoute(claimRoute, initialClaimCards);
                         }
                     }
-
                     break;
 
                 default:
@@ -188,7 +186,7 @@ public final class Game {
             //check condition for the loop to stop
             isPlaying = gameState.currentPlayerId() != gameState.lastPlayer();
 
-            // check last Turn
+            //check last Turn
             if (gameState.lastTurnBegins()) {
                 receiveInfoForBothPlayer(players, currentPlayer.lastTurnBegins(gameState.currentPlayerState().carCount()));
             }
@@ -199,8 +197,8 @@ public final class Game {
         }
 
         // Compute longestTrail and winner(s)
-        Map<PlayerId, Trail> longestTrail = new EnumMap<>(PlayerId.class);
-        Map<PlayerId, Integer> playerPoints = new EnumMap<>(PlayerId.class);
+        final Map<PlayerId, Trail> longestTrail = new EnumMap<>(PlayerId.class);
+        final Map<PlayerId, Integer> playerPoints = new EnumMap<>(PlayerId.class);
 
         for (PlayerId p : players.keySet()) {
             longestTrail.put(p, Trail.longest(gameState.playerState(p).routes()));
@@ -226,15 +224,15 @@ public final class Game {
 
         }
 
-        //update 4
+        //update (4)
         updateGameState(players, gameState);
 
-        boolean winnerIsAlone = playerPoints.values()
+        final boolean winnerIsAlone = playerPoints.values()
                 .stream()
                 .distinct()
                 .count() == 1;
 
-        int winnerPoints = playerPoints.values()
+        final int winnerPoints = playerPoints.values()
                 .stream()
                 .max(Integer::compareTo)
                 .orElse(0);

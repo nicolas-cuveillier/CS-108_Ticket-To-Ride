@@ -46,6 +46,25 @@ public class PublicGameState {
         this.lastPlayer = lastPlayer;
     }
 
+
+    /**
+     * tests whether it is possible to draw tickets or not
+     *
+     * @return true iff there are still tickets left
+     */
+    public boolean canDrawTickets() {
+        return ticketsCount != 0;
+    }
+
+    /**
+     * Tests whether it is possible to draw cards from the deck or not
+     *
+     * @return true iff the cards overall are more or equal to five
+     */
+    public boolean canDrawCards() {
+        return (cardState.deckSize() + cardState.discardsSize() >= 5);
+    }
+
     /**
      * Getter for the private field ticketsCount
      *
@@ -53,15 +72,6 @@ public class PublicGameState {
      */
     public int ticketsCount() {
         return ticketsCount;
-    }
-
-    /**
-     * Tests whether it is possible to draw tickets or not
-     *
-     * @return true iff there are still tickets left
-     */
-    public boolean canDrawTickets() {
-        return ticketsCount != 0;
     }
 
     /**
@@ -73,14 +83,6 @@ public class PublicGameState {
         return cardState;
     }
 
-    /**
-     * Tests whether it is possible to draw cards from the deck or not
-     *
-     * @return true iff the cards overall are more or equal to five
-     */
-    public boolean canDrawCards() {
-        return (cardState.deckSize() + cardState.discardsSize() >= 5);
-    }
 
     /**
      * Getter for the private field currentPlayerId

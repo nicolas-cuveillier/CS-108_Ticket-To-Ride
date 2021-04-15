@@ -40,17 +40,17 @@ public enum Card {
     private Color color;
 
     /**
-     * return an unmodifiable list of all cards
+     * an unmodifiable list of all cards
      */
     public static final List<Card> ALL = List.of(Card.values());
 
     /**
-     * return the number of possible cards
+     * the number of possible cards
      */
     public static final int COUNT = ALL.size();
 
     /**
-     * return an immutable list of all cards except the locomotive
+     * an immutable list of all cards except the locomotive
      */
     public static final List<Card> CARS = List.of(Card.BLACK, Card.VIOLET, Card.BLUE, Card.GREEN, Card.YELLOW, Card.ORANGE, Card.RED, Card.WHITE);
 

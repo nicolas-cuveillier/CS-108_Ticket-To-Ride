@@ -95,17 +95,17 @@ public final class Route {
         final List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
 
         if (color == null) {
-            if (level.equals(Level.UNDERGROUND)) {
+            if (level.equals(Level.UNDERGROUND))
                 unColorUnderGroundPossibleClaimCards(possibleClaimCards);
-            } else {
+            else
                 unColorOverGroundPossibleClaimCards(possibleClaimCards);
-            }
+
         } else {
-            if (level.equals(Level.UNDERGROUND)) {
+            if (level.equals(Level.UNDERGROUND))
                 colorUndergroundPossibleClaimCards(possibleClaimCards);
-            } else {
+            else
                 colorOvergroundPossibleClaimCards(possibleClaimCards);
-            }
+
 
         }
         return possibleClaimCards;
@@ -115,13 +115,13 @@ public final class Route {
 
         for (int i = 0; i < length; i++) {
             int finalI = i;
-            Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length - finalI, Card.of(color1), finalI, Card.LOCOMOTIVE)));
+            Color.ALL.forEach(color1 -> possibleClaimCards.add(SortedBag.of(length - finalI, Card.of(color1), finalI, Card.LOCOMOTIVE)));
         }
         possibleClaimCards.add(SortedBag.of(length, Card.LOCOMOTIVE));
     }
 
     private void unColorOverGroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {
-        Color.ALL.stream().forEach(color1 -> possibleClaimCards.add(SortedBag.of(length, Card.of(color1))));
+        Color.ALL.forEach(color1 -> possibleClaimCards.add(SortedBag.of(length, Card.of(color1))));
     }
 
     private void colorUndergroundPossibleClaimCards(List<SortedBag<Card>> possibleClaimCards) {

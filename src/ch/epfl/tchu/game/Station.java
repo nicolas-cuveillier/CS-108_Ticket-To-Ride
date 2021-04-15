@@ -45,7 +45,6 @@ public final class Station {
     }
 
     /**
-     * {@inheritDoc}
      * @return the name
      */
     @Override

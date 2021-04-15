@@ -20,7 +20,6 @@ public final class Trail {
 
 
     private Trail(List<Route> routes, Station station1, Station station2) {
-
         this.routes = routes;
         this.station1 = station1;
         this.station2 = station2;
@@ -37,9 +36,9 @@ public final class Trail {
      */
     public static Trail longest(List<Route> routes) {
 
-        if (routes.isEmpty()) {
+        if (routes.isEmpty())
             return new Trail(List.of(), null, null);
-        }
+
 
         List<Trail> cs;
         Trail longestTrail = null;
@@ -101,16 +100,16 @@ public final class Trail {
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return textual representation of a trail
      */
     @Override
     public String toString() {
         StringBuilder text = new StringBuilder();
+
         int totalLength = routes.stream()
                 .mapToInt(Route::length)
                 .sum();
+
         if (routes.size() != 0) {
             if (this.station1() == routes.get(0).station1()) {
 
@@ -136,12 +135,12 @@ public final class Trail {
                 text.append(" - ")
                         .append(routes.get(0).station1().name());
             }
+
             text.append(" (")
                     .append(totalLength)
                     .append(")");
-        } else {
+        } else
             text.append("Empty Trail");
-        }
 
         return text.toString();
     }

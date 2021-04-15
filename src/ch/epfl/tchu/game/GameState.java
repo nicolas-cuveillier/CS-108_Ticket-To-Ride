@@ -18,8 +18,8 @@ public final class GameState extends PublicGameState {
 
     private GameState(PlayerId currentPlayerId, Deck<Ticket> tickets, Map<PlayerId, PlayerState> playerState, CardState cardState, PlayerId lastPlayer) {
 
-        super(tickets.size(), new PublicCardState(cardState.faceUpCards(), cardState.deckSize(), cardState.discardsSize())
-                , currentPlayerId, Map.copyOf(playerState), lastPlayer);
+        super(tickets.size(), new PublicCardState(cardState.faceUpCards(), cardState.deckSize(),
+                        cardState.discardsSize()), currentPlayerId, Map.copyOf(playerState), lastPlayer);
 
         this.tickets = tickets;
         this.playerState = Map.copyOf(playerState);
