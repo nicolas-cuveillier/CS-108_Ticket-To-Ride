@@ -36,6 +36,7 @@ public class PublicPlayerState {
         final int length = routes.stream()
                 .mapToInt(Route::length)
                 .sum();
+
         carCount = (Constants.INITIAL_CAR_COUNT - length);
 
         claimPoints = routes.stream()

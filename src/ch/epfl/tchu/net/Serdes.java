@@ -17,8 +17,7 @@ import java.util.regex.Pattern;
  */
 public class Serdes {
 
-    private Serdes() {
-    }
+    private Serdes() {}
 
     //Single Objects
     public static final Serde<Integer> INT = Serde.of(i -> Integer.toString(i), Integer::parseInt);

@@ -20,7 +20,7 @@ public final class Trail {
 
 
     private Trail(List<Route> routes, Station station1, Station station2) {
-        this.routes = routes;
+        this.routes = new ArrayList<>(routes);
         this.station1 = station1;
         this.station2 = station2;
         this.length = routes.stream()

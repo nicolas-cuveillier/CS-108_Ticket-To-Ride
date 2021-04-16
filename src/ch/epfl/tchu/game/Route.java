@@ -44,9 +44,9 @@ public final class Route {
         Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH
                 && length >= Constants.MIN_ROUTE_LENGTH);
 
-        if (station1 == null || station2 == null || level == null || id == null) {
+        if (station1 == null || station2 == null || level == null || id == null)
             throw new NullPointerException("Station | Level | both is|are null");
-        }
+
 
         this.id = id;
         this.station1 = station1;
@@ -105,8 +105,6 @@ public final class Route {
                 colorUndergroundPossibleClaimCards(possibleClaimCards);
             else
                 colorOvergroundPossibleClaimCards(possibleClaimCards);
-
-
         }
         return possibleClaimCards;
     }
@@ -152,9 +150,8 @@ public final class Route {
         int additionalCard = 0;
 
         for (Card dc : drawnCards) {
-            if (claimCards.contains(dc) || dc.color() == (Card.LOCOMOTIVE.color())) {
+            if (claimCards.contains(dc) || dc.color() == (Card.LOCOMOTIVE.color()))
                 ++additionalCard;
-            }
         }
         return additionalCard;
     }

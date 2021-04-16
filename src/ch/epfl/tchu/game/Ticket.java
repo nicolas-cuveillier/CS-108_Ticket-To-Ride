@@ -24,12 +24,10 @@ public final class Ticket implements Comparable<Ticket> {
      *                                  if all the departure's Station of each trips have not the same name
      */
     public Ticket(List<Trip> trips) {
-
         Preconditions.checkArgument(!trips.isEmpty());
 
-        for (int i = 1; i < (trips.size() - 1); i++) {
+        for (int i = 1; i < (trips.size() - 1); i++)
             Preconditions.checkArgument(trips.get(i - 1).from().name().equalsIgnoreCase(trips.get(i).from().name()));
-        }
 
         this.trips = List.copyOf(trips);
         this.name = computeText(this.trips);
@@ -119,7 +117,7 @@ public final class Ticket implements Comparable<Ticket> {
 
     /**
      * {@inheritDoc}
-     * compare the name
+     * compare Tickets with their name
      */
     @Override
     public int compareTo(Ticket that) {

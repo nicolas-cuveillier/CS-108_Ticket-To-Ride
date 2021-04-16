@@ -205,7 +205,7 @@ public final class Game {
         }
 
         //find longest
-        int lengthMax = longestTrail.values()
+        final int lengthMax = longestTrail.values()
                 .stream()
                 .mapToInt(Trail::length)
                 .max()

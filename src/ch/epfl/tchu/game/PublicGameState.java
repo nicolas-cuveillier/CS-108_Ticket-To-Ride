@@ -35,9 +35,8 @@ public class PublicGameState {
         Preconditions.checkArgument(ticketsCount >= 0);
         Preconditions.checkArgument(playerState.size() == PlayerId.COUNT);
 
-        if (cardState == null || currentPlayerId == null) {
+        if (cardState == null || currentPlayerId == null)
             throw new NullPointerException();
-        }
 
         this.ticketsCount = ticketsCount;
         this.cardState = cardState;

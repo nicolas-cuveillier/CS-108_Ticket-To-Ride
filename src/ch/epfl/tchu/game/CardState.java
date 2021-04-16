@@ -20,7 +20,7 @@ public final class CardState extends PublicCardState {
     private CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discard) {
         super(faceUpCards, deck.size(), discard.size());
         this.deck = deck;
-        this.discard = discard;
+        this.discard = SortedBag.of(discard);
     }
 
     /**
