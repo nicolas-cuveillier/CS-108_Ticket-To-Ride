@@ -4,6 +4,18 @@ import java.util.List;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
+ *
+ * message that can be sent to the server :
+ * {@link #INIT_PLAYERS},
+ * {@link #RECEIVE_INFO},
+ * {@link #UPDATE_STATE},
+ * {@link #SET_INITIAL_TICKETS},
+ * {@link #CHOOSE_INITIAL_TICKETS},
+ * {@link #NEXT_TURN},
+ * {@link #CHOOSE_TICKETS},
+ * {@link #ROUTE},
+ * {@link #CARDS},
+ * {@link #CHOOSE_ADDITIONAL_CARDS}.
  */
 public enum MessageId {
     INIT_PLAYERS,

@@ -34,14 +34,13 @@ public class PublicPlayerState {
         this.routes = new ArrayList<>(routes);
 
         final int length = routes.stream()
-                .mapToInt(i -> i.length())
+                .mapToInt(Route::length)
                 .sum();
         carCount = (Constants.INITIAL_CAR_COUNT - length);
 
-        final int buildPoints = routes.stream()
-                .mapToInt(i -> i.claimPoints())
+        claimPoints = routes.stream()
+                .mapToInt(Route::claimPoints)
                 .sum();
-        claimPoints = buildPoints;
     }
 
     /**
