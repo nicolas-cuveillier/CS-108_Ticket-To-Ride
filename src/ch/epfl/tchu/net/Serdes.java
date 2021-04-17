@@ -14,33 +14,88 @@ import java.util.regex.Pattern;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
+ * <p>
+ * define all constant related to the (de)serialization process for all element of the Game
  */
 public class Serdes {
 
-    private Serdes() {}
+    private Serdes() {
+    }
 
     //Single Objects
+    /**
+     * a Serde able to (de)serialize an Integer
+     */
     public static final Serde<Integer> INT = Serde.of(i -> Integer.toString(i), Integer::parseInt);
+    /**
+     * a Serde able to (de)serialize a String
+     */
     public static final Serde<String> STRING = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)), i -> new String(Base64.getDecoder().decode(i.getBytes(StandardCharsets.UTF_8))));
+    /**
+     * a Serde able to (de)serialize one element of the PlayerId enum
+     */
     public static final Serde<PlayerId> PLAYER_ID = Serde.oneOf(PlayerId.ALL);
+    /**
+     * a Serde able to (de)serialize one element of the TurnKind enum
+     */
     public static final Serde<Player.TurnKind> TURN_KIND = Serde.oneOf(Player.TurnKind.ALL);
+    /**
+     * a Serde able to (de)serialize one element of the Card enum
+     */
     public static final Serde<Card> CARD = Serde.oneOf(Card.ALL);
+    /**
+     * a Serde able to (de)serialize one element of the Routes that compose the Game
+     */
     public static final Serde<Route> ROUTE = Serde.oneOf(ChMap.routes());
+    /**
+     * a Serde able to (de)serialize one element of the Tickets that compose the Game
+     */
     public static final Serde<Ticket> TICKET = Serde.oneOf(ChMap.tickets());
 
+
     //Collections
+    /**
+     * a Serde able to (de)serialize a whole list of Strings
+     */
     public static final Serde<List<String>> L_STRING = Serde.listOf(STRING, ',');
+    /**
+     * a Serde able to (de)serialize a whole list of Cards
+     */
     public static final Serde<List<Card>> L_CARD = Serde.listOf(CARD, ',');
+    /**
+     * a Serde able to (de)serialize a whole list of Routes
+     */
     public static final Serde<List<Route>> L_ROUTE = Serde.listOf(ROUTE, ',');
+    /**
+     * a Serde able to (de)serialize a whole SortedBag of Cards
+     */
     public static final Serde<SortedBag<Card>> SB_CARD = Serde.bagOf(CARD, ',');
+    /**
+     * a Serde able to (de)serialize a whole SortedBag of Tickets
+     */
     public static final Serde<SortedBag<Ticket>> SB_TICKET = Serde.bagOf(TICKET, ',');
+    /**
+     * a Serde able to (de)serialize a whole list of SortedBag of Cards
+     */
     public static final Serde<List<SortedBag<Card>>> L_SB_CARD = Serde.listOf(SB_CARD, ';');
 
     //Serializable Classes
+    /**
+     * a Serde able to (de)serialize a Public Card State
+     */
     public static final Serde<PublicCardState> SC_PUBLIC_CARD_STATE = Serde.of(pcsFunctionSer(), pcsFunctionDeSer());
+    /**
+     * a Serde able to (de)serialize a Public Player State
+     */
     public static final Serde<PublicPlayerState> SC_PUBLIC_PLAYER_STATE = Serde.of(ppsFunctionSer(), ppsFunctionDeSer());
+    /**
+     * a Serde able to (de)serialize a Player State
+     */
     public static final Serde<PlayerState> SC_PLAYER_STATE = Serde.of(psFunctionSer(), psFunctionDeSer());
-    public static final Serde<PublicGameState> SC_PUBLIC_GAME_STATE = Serde.of(pgsFunctionSer(),pgsFunctionDeSer());
+    /**
+     * a Serde able to (de)serialize a Public Game State
+     */
+    public static final Serde<PublicGameState> SC_PUBLIC_GAME_STATE = Serde.of(pgsFunctionSer(), pgsFunctionDeSer());
 
     private static Function<PublicGameState, String> pgsFunctionSer() {
         return publicGameState -> {
@@ -55,12 +110,12 @@ public class Serdes {
         };
     }
 
-    private static Function<String, PublicGameState> pgsFunctionDeSer(){
+    private static Function<String, PublicGameState> pgsFunctionDeSer() {
         return message -> {
             String[] t = message.split(Pattern.quote(":"), -1);
-            return new PublicGameState(INT.deserialize(t[0]),SC_PUBLIC_CARD_STATE.deserialize(t[1]), PLAYER_ID.deserialize(t[2]),
-                    Map.of(PlayerId.PLAYER_1,SC_PUBLIC_PLAYER_STATE.deserialize(t[3]),PlayerId.PLAYER_2, SC_PUBLIC_PLAYER_STATE.deserialize(t[4]))
-                    ,(t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]));
+            return new PublicGameState(INT.deserialize(t[0]), SC_PUBLIC_CARD_STATE.deserialize(t[1]), PLAYER_ID.deserialize(t[2]),
+                    Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2, SC_PUBLIC_PLAYER_STATE.deserialize(t[4]))
+                    , (t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]));
         };
 
     }
@@ -78,7 +133,7 @@ public class Serdes {
     private static Function<String, PlayerState> psFunctionDeSer() {
         return message -> {
             String[] t = message.split(Pattern.quote(";"), -1);
-            return new PlayerState((t[0].equals(""))? SortedBag.of() : SB_TICKET.deserialize(t[0]),(t[1].equals(""))? SortedBag.of() : SB_CARD.deserialize(t[1]),(t[2].equals(""))? List.of() : L_ROUTE.deserialize(t[2]));
+            return new PlayerState((t[0].equals("")) ? SortedBag.of() : SB_TICKET.deserialize(t[0]), (t[1].equals("")) ? SortedBag.of() : SB_CARD.deserialize(t[1]), (t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 
@@ -95,7 +150,7 @@ public class Serdes {
     private static Function<String, PublicPlayerState> ppsFunctionDeSer() {
         return message -> {
             String[] t = message.split(Pattern.quote(";"), -1);
-            return new PublicPlayerState(INT.deserialize(t[0]), INT.deserialize(t[1]),(t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
+            return new PublicPlayerState(INT.deserialize(t[0]), INT.deserialize(t[1]), (t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 

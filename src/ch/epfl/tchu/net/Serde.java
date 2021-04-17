@@ -9,15 +9,36 @@ import java.util.regex.Pattern;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
+ * <p>
+ * implement several ways to build an object able to (de)serialize all components of the game
  */
 public interface Serde<T> {
 
+    /**
+     * serialize an object as a string of characters
+     *
+     * @param obj the object of type T that will be serialize
+     * @return a string representation of the object
+     */
     String serialize(T obj);
 
+    /**
+     * deserialize an object as a string of characters, to the inverse of the serialize method
+     *
+     * @param message the string which represent the the object of type T
+     * @return an object of type T according to its serialized representation
+     */
     T deserialize(String message);
 
+    /**
+     * static method that build a Serde able to (de)serialize object of parameter < T >
+     *
+     * @param serializableFunc   the function that will serialize the object
+     * @param deserializableFunc the function that will deserialize the object
+     * @param <T>                the type of the object that will be (de)serialized
+     * @return a Serde which is able to (de)serialize basic object according to the functions
+     */
     static <T> Serde<T> of(Function<T, String> serializableFunc, Function<String, T> deserializableFunc) {
-        //TODO : check
         return new Serde<>() {
 
             @Override
@@ -33,14 +54,27 @@ public interface Serde<T> {
 
     }
 
+    /**
+     * static method that build a Serde able to (de)serialize one object in the list of parameter < T >
+     *
+     * @param list list of the objects that will potentially be (de)serialize
+     * @param <T>  the type of the elements that compose the list
+     * @return a Serde able to (de)serialize object from the list according to its index in it
+     */
     static <T> Serde<T> oneOf(List<T> list) {
-        //TODO : check
         return Serde.of(i -> Integer.toString(list.indexOf(i)), s -> list.get(Integer.parseInt(s)));
     }
 
-    //extends collection?
+    /**
+     * static method that build a Serde able to (de)serialize a whole list of parameter < T > according
+     * to the way of (de)serialize each object
+     *
+     * @param serde     Serde that can (de)serialize object of type T
+     * @param separator character that will separate the different elements of the list
+     * @param <T>       the type of the elements that can be (de)serialize by the Serde
+     * @return a Serde able to (de)serialize a whole list of objects at once
+     */
     static <T> Serde<List<T>> listOf(Serde<T> serde, char separator) {
-        //TODO : check
         String s = Character.toString(separator);
         return new Serde<>() {
 
@@ -55,16 +89,22 @@ public interface Serde<T> {
             public List<T> deserialize(String message) {
                 String[] t = message.split(Pattern.quote(s), -1);
                 List<T> list = new ArrayList<>();
-                for (String s : t) {
-                    list.add(serde.deserialize(s));
-                }
+                Arrays.asList(t).forEach(i -> list.add(serde.deserialize(i)));
                 return list;
             }
         };
     }
 
+    /**
+     * static method that build a Serde able to (de)serialize a whole SortedBag of parameter < T > according
+     * to the way of (de)serialize each object
+     *
+     * @param serde     Serde that can (de)serialize object of type T
+     * @param separator character that will separate the different elements of the list
+     * @param <T>       the type of the elements that can be (de)serialize by the Serde
+     * @return a Serde able to (de)serialize a whole SortedBag of objects at once
+     */
     static <T extends Comparable<T>> Serde<SortedBag<T>> bagOf(Serde<T> serde, char separator) {
-        //TODO : check
         Serde<List<T>> serdeList = Serde.listOf(serde, separator);
         return new Serde<>() {
 

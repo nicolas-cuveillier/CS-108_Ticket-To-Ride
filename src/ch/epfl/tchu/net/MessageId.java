@@ -30,7 +30,6 @@ public enum MessageId {
     CARDS,
     CHOOSE_ADDITIONAL_CARDS;
 
-            //utile ?
     /**
      * an unmodifiable list of all messages
      */
