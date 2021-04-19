@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * <p>
  * define all constant related to the (de)serialization process for all element of the Game
  */
-public class Serdes {
+public final class Serdes {
 
     private Serdes() {
     }
