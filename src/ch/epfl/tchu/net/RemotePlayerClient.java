@@ -15,31 +15,47 @@ import java.util.regex.Pattern;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
+ *
+ * represent a remote player client that make the connection with listening its port, between the server,
+ * hosted by one player, to the other player
  */
 public final class RemotePlayerClient {
     private final Player player;
     private final String proxyName;
     private final int proxyPort;
-    private final BufferedWriter writer;
-    private final BufferedReader reader;
 
+    /**
+     * Unique constructor of a RemotePlayerClient, build it with an instance of Player for which it has tout get a proxy,
+     * the name of the host and the port
+     *
+     * @param player    The player that need a proxy
+     * @param proxyName the host name
+     * @param proxyPort the port name
+     */
     public RemotePlayerClient(Player player, String proxyName, int proxyPort) {
         this.player = player;
         this.proxyName = proxyName;
         this.proxyPort = proxyPort;
-
-        try  {
-            Socket socket = new Socket(proxyName, proxyPort);
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
-            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
     }
 
+    /**
+     * method that is normally always running when the server isn't close. It tries to listen the socket for a message
+     * sent by the RemotePlayerProxy.
+     * <p>
+     * Then, according to the id of the Message that is decrypted with the first String
+     * of the table, it deserializes the arguments and call the same method with the Player that is given to
+     * the constructor so the graphic interface will be changed and the (human) player will be able to see and possibly
+     * to give a response.
+     * <p>
+     * if this method returns a result, serializes the player's response to send it back to the proxy in response.
+     */
     public void run() {
 
-        try {
+        try (Socket socket = new Socket(proxyName, proxyPort)) {
+
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
+            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII));
+
             String readerMessage;
             while ((readerMessage = reader.readLine()) != null) {
                 String[] message = readerMessage.split(Pattern.quote(" "), -1);
@@ -47,7 +63,7 @@ public final class RemotePlayerClient {
                 switch (MessageId.valueOf(message[0])) {
                     case INIT_PLAYERS:
                         List<String> names = Serdes.L_STRING.deserialize(message[2]);
-                        Map<PlayerId, String> playerNames = Map.of(PlayerId.PLAYER_1,names.get(0),PlayerId.PLAYER_2,names.get(1));
+                        Map<PlayerId, String> playerNames = Map.of(PlayerId.PLAYER_1, names.get(0), PlayerId.PLAYER_2, names.get(1));
 
                         player.initPlayers(Serdes.PLAYER_ID.deserialize(message[1]), playerNames);
                         break;
