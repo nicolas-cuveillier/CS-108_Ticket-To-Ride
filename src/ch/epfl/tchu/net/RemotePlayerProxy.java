@@ -17,12 +17,13 @@ import java.util.StringJoiner;
 public final class RemotePlayerProxy implements Player {
     private final Socket socket;
     private final BufferedReader reader;
-    private BufferedWriter writer;
+    private final BufferedWriter writer;
 
     public RemotePlayerProxy(Socket socket) {
         try {
             this.socket = socket;
-            reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream(), StandardCharsets.US_ASCII));
+            this.writer = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream(), StandardCharsets.US_ASCII));
+            this.reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream(), StandardCharsets.US_ASCII));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -30,7 +31,6 @@ public final class RemotePlayerProxy implements Player {
 
     private void writeMessage(MessageId id, String serialization) {
         try {
-            writer = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream(), StandardCharsets.US_ASCII));
             writer.write(id.name() + " " + serialization);
             writer.write('\n');
             writer.flush();
@@ -86,16 +86,14 @@ public final class RemotePlayerProxy implements Player {
     public SortedBag<Ticket> chooseInitialTickets() {
         writeMessage(MessageId.CHOOSE_INITIAL_TICKETS, "");
 
-        String serializedMess = readMessage();
-        return Serdes.SB_TICKET.deserialize(serializedMess);
+        return Serdes.SB_TICKET.deserialize(readMessage());
     }
 
     @Override
     public TurnKind nextTurn() {
         writeMessage(MessageId.NEXT_TURN, "");
 
-        String serializedMess = readMessage();
-        return Serdes.TURN_KIND.deserialize(serializedMess);
+        return Serdes.TURN_KIND.deserialize(readMessage());
     }
 
     //TODO : replace joiner
@@ -106,32 +104,28 @@ public final class RemotePlayerProxy implements Player {
 
         writeMessage(MessageId.CHOOSE_TICKETS, joiner.toString());
 
-        String serializedMess = readMessage();
-        return Serdes.SB_TICKET.deserialize(serializedMess);
+        return Serdes.SB_TICKET.deserialize(readMessage());
     }
 
     @Override
     public int drawSlot() {
         writeMessage(MessageId.DRAW_SLOT, "");
 
-        String serializedMess = readMessage();
-        return Serdes.INT.deserialize(serializedMess);
+        return Serdes.INT.deserialize(readMessage());
     }
 
     @Override
     public Route claimedRoute() {
         writeMessage(MessageId.ROUTE, "");
 
-        String serializedMess = readMessage();
-        return Serdes.ROUTE.deserialize(serializedMess);
+        return Serdes.ROUTE.deserialize(readMessage());
     }
 
     @Override
     public SortedBag<Card> initialClaimCards() {
         writeMessage(MessageId.CARDS, "");
 
-        String serializedMess = readMessage();
-        return Serdes.SB_CARD.deserialize(serializedMess);
+        return Serdes.SB_CARD.deserialize(readMessage());
     }
 
     //TODO : replace joiner
@@ -141,8 +135,7 @@ public final class RemotePlayerProxy implements Player {
         joiner.add(Serdes.L_SB_CARD.serialize(options));
 
         writeMessage(MessageId.CHOOSE_ADDITIONAL_CARDS, joiner.toString());
-
-        String serializedMess = readMessage();
-        return Serdes.SB_CARD.deserialize(serializedMess);
+        
+        return Serdes.SB_CARD.deserialize(readMessage());
     }
 }
