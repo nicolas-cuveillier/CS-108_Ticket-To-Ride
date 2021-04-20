@@ -17,13 +17,12 @@ import java.util.StringJoiner;
 public final class RemotePlayerProxy implements Player {
     private final Socket socket;
     private final BufferedReader reader;
-    private final BufferedWriter writer;
+    private BufferedWriter writer;
 
     public RemotePlayerProxy(Socket socket) {
         try {
-            this.socket = new Socket("local host", socket.getPort());
+            this.socket = socket;
             reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream(), StandardCharsets.US_ASCII));
-            writer = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream(), StandardCharsets.US_ASCII));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -31,6 +30,7 @@ public final class RemotePlayerProxy implements Player {
 
     private void writeMessage(MessageId id, String serialization) {
         try {
+            writer = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream(), StandardCharsets.US_ASCII));
             writer.write(id.name() + " " + serialization);
             writer.write('\n');
             writer.flush();
