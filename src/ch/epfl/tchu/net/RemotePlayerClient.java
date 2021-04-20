@@ -1,12 +1,14 @@
 package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.SortedBag;
-import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.game.Card;
+import ch.epfl.tchu.game.Player;
+import ch.epfl.tchu.game.PlayerId;
+import ch.epfl.tchu.game.Ticket;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -26,7 +28,8 @@ public final class RemotePlayerClient {
         this.proxyName = proxyName;
         this.proxyPort = proxyPort;
 
-        try (Socket socket = new Socket(proxyName, proxyPort)) {
+        try  {
+            Socket socket = new Socket(proxyName, proxyPort);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII));
         } catch (IOException e) {
@@ -112,7 +115,7 @@ public final class RemotePlayerClient {
                     default:
                         break;
                 }
-                break;
+
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);

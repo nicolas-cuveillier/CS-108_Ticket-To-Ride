@@ -135,7 +135,7 @@ public final class RemotePlayerProxy implements Player {
         joiner.add(Serdes.L_SB_CARD.serialize(options));
 
         writeMessage(MessageId.CHOOSE_ADDITIONAL_CARDS, joiner.toString());
-        
+
         return Serdes.SB_CARD.deserialize(readMessage());
     }
 }

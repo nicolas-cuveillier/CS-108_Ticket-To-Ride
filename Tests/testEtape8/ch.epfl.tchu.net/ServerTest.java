@@ -1,6 +1,7 @@
 package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.game.Player;
+import ch.epfl.tchu.gui.Info;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class ServerTest {
             var playerNames = Map.of(PLAYER_1, "Ada",
                     PLAYER_2, "Charles");
             playerProxy.initPlayers(PLAYER_1, playerNames);
+            playerProxy.receiveInfo(new Info("Nico").canPlay());
         } catch (IOException e) {
             e.printStackTrace();
         }
