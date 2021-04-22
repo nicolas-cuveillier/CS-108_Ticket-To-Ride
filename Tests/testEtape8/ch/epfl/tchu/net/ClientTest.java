@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Nicolas Cuveillier
+ * @author Grégory Preisig & Nicolas Cuveillier
  */
 public class ClientTest {
     public static void main(String[] args) {
