@@ -3,9 +3,7 @@ package ch.epfl.tchu.net;
 import java.util.List;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
- *
- * message that can be sent to the server :
+ * Message that can be sent to the server :
  * {@link #INIT_PLAYERS},
  * {@link #RECEIVE_INFO},
  * {@link #UPDATE_STATE},
@@ -16,6 +14,8 @@ import java.util.List;
  * {@link #ROUTE},
  * {@link #CARDS},
  * {@link #CHOOSE_ADDITIONAL_CARDS}.
+ * 
+ * @author Grégory Preisig & Nicolas Cuveillier
  */
 public enum MessageId {
     INIT_PLAYERS,
@@ -31,12 +31,12 @@ public enum MessageId {
     CHOOSE_ADDITIONAL_CARDS;
 
     /**
-     * an unmodifiable list of all messages
+     * An unmodifiable list of all messages
      */
     public static final List<MessageId> ALL = List.of(MessageId.values());
 
     /**
-     * the number of possible messages
+     * The number of possible messages
      */
     public static final int COUNT = ALL.size();
 
