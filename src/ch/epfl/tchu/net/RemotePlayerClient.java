@@ -43,7 +43,7 @@ public final class RemotePlayerClient {
      * sent by the RemotePlayerProxy.
      * <p>
      * Then, according to the id of the Message that is decrypted with the first String
-     * of the table, it deserializes the arguments and call the same method with the Player that is given to
+     * of the table and using the {@link MessageId}, it deserializes the arguments and call the same method with the Player that is given to
      * the constructor so the graphic interface will be changed and the (human) player will be able to see and possibly
      * to give a response.
      * <p>
