@@ -18,6 +18,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Tests/testEtape6" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Tests/testEtape7" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Tests/testEtape8" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Tests/testEtape9" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -38,5 +39,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="OpenJFX11" level="application" />
   </component>
 </module>
