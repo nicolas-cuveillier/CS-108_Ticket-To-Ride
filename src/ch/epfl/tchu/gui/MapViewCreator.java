@@ -16,8 +16,8 @@ abstract class MapViewCreator {
     //add ObservableGameState, ObjectProperty<ClaimRouteHandler>, CardChooser
     public static Node createMapView() {
         Pane pane = new Pane();
-        pane.getStylesheets().add("resources/map.css");
-        pane.getStylesheets().add("resources/colors.css");
+        pane.getStylesheets().add("map.css");
+        pane.getStylesheets().add("colors.css");
         pane.getChildren().add(new ImageView());
 
         for (Route r : ChMap.routes()) {
@@ -30,21 +30,21 @@ abstract class MapViewCreator {
             for (int i = 0; i < r.length(); i++) {
                 Group cas = new Group();
                 cas.setId(route.getId() + "_" + i);
-                route.getChildren().add(cas);
 
                 Rectangle trackRectangle = new Rectangle(36, 12);
                 trackRectangle.getStyleClass().add("track");
                 trackRectangle.getStyleClass().add("filled");
                 Group car = new Group();
                 car.getStyleClass().add("car");
-                cas.getChildren().addAll(trackRectangle,car);
 
                 Rectangle carRectangle = new Rectangle(36, 12);
                 carRectangle.getStyleClass().add("filled");
                 Circle circle1 = new Circle(12, 6,3);
                 Circle circle2 = new Circle(24, 6,3);
-                car.getChildren().addAll(carRectangle,circle1,circle2);
 
+                car.getChildren().addAll(carRectangle,circle1,circle2);
+                cas.getChildren().addAll(trackRectangle,car);
+                route.getChildren().add(cas);
             }
 
             pane.getChildren().add(route);
