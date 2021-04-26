@@ -21,7 +21,9 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
  */
 
 public final class Stage9Test extends Application {
-    public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -36,17 +38,17 @@ public final class Stage9Test extends Application {
 */
         Node mapView = MapViewCreator
                 .createMapView();//gameState, claimRoute, Stage9Test::chooseCards
-       // Node cardsView = DecksViewCreator
-            //    .createCardsView(gameState, drawTickets, drawCard);
-        //Node handView = DecksViewCreator
-             //   .createHandView(gameState);
+        Node cardsView = DecksViewCreator
+                .createCardsView(gameState);// drawTickets, drawCard
+        Node handView = DecksViewCreator
+                .createHandView(gameState);
 
         BorderPane mainPane =
-                new BorderPane(mapView, null,null,null , null);//cardsView, handView
+                new BorderPane(mapView, null, cardsView, handView, null);
         primaryStage.setScene(new Scene(mainPane));
         primaryStage.show();
 
-        //setState(gameState);
+        setState(gameState);
     }
 
     private void setState(ObservableGameState gameState) {
@@ -71,12 +73,13 @@ public final class Stage9Test extends Application {
         System.out.printf("Prise de possession d'une route : %s - %s %s%n",
                 route.station1(), route.station2(), cards);
     }
-/*
-    private static void chooseCards(List<SortedBag<Card>> options,
-                                    ChooseCardsHandler chooser) {
-        chooser.onChooseCards(options.get(0));
-    }
-*/
+
+    /*
+        private static void chooseCards(List<SortedBag<Card>> options,
+                                        ChooseCardsHandler chooser) {
+            chooser.onChooseCards(options.get(0));
+        }
+    */
     private static void drawTickets() {
         System.out.println("Tirage de billets !");
     }

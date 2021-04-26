@@ -26,7 +26,6 @@ abstract class MapViewCreator {
             route.getStyleClass().add("route");
             route.getStyleClass().add(r.level().name());
             route.getStyleClass().add("NEUTRAL");//to be changed
-            pane.getChildren().add(route);
 
             for (int i = 0; i < r.length(); i++) {
                 Group cas = new Group();
@@ -47,6 +46,8 @@ abstract class MapViewCreator {
                 car.getChildren().addAll(carRectangle,circle1,circle2);
 
             }
+
+            pane.getChildren().add(route);
         }
 
         return pane;
