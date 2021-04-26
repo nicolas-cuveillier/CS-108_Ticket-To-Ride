@@ -24,15 +24,13 @@ abstract class DecksViewCreator {
         ticketsView.setId("tickets");
         HBox hand = new HBox();
         hand.setId("hand-pane");
-        view.getChildren().addAll(ticketsView, hand);
+
 
         for (Card card : Card.ALL) {
             StackPane stackPane = new StackPane();
 
-            if (card.name().equals("LOCOMOTIVE")) {
-                stackPane.getStyleClass().addAll("NEUTRAL", "card");
-            } else
-                stackPane.getStyleClass().addAll(card.color().name(), "card");
+            if (card.name().equals("LOCOMOTIVE")) stackPane.getStyleClass().addAll("NEUTRAL", "card");
+            else stackPane.getStyleClass().addAll(card.color().name(), "card");
 
             Rectangle outside = new Rectangle(60, 90);
             outside.getStyleClass().add("outside");
@@ -43,10 +41,10 @@ abstract class DecksViewCreator {
             Text count = new Text();
             count.getStyleClass().add("count");
 
-            stackPane.getChildren().addAll(outside, inside, ticketsView, count);
-            view.getChildren().add(stackPane);
+            stackPane.getChildren().addAll(outside, inside, ticketsView, count, trainImage);
+            hand.getChildren().add(stackPane);
         }
-
+        view.getChildren().addAll(ticketsView, hand);
         return view;
     }
 
@@ -55,26 +53,34 @@ abstract class DecksViewCreator {
         VBox view = new VBox();
         view.getStylesheets().addAll("decks.css", "colors.css");
         view.setId("card-pane");
-
+//TODO add "billets" et "Cartes"
         Button ticketsButton = new Button();
         ticketsButton.getStyleClass().add("gauged");
         Button cardsButton = new Button();
         cardsButton.getStyleClass().add("gauged");
 
-        Rectangle background = new Rectangle(50, 5);
-        background.getStyleClass().add("background");
-        Rectangle foreground = new Rectangle(50, 5);
-        foreground.getStyleClass().add("foreground");
+        Rectangle background1 = new Rectangle(50, 5);
+        background1.getStyleClass().add("background");
+        Rectangle foreground1 = new Rectangle(50, 5);
+        foreground1.getStyleClass().add("foreground");
         Group group = new Group();
-        group.getChildren().addAll(background,foreground);
+        group.getChildren().addAll(background1, foreground1);
+
+        Rectangle background2 = new Rectangle(50, 5);
+        background2.getStyleClass().add("background");
+        Rectangle foreground2 = new Rectangle(50, 5);
+        foreground2.getStyleClass().add("foreground");
+        Group group1 = new Group();
+        group1.getChildren().addAll(background2, foreground2);
 
         ticketsButton.setGraphic(group);
-        cardsButton.setGraphic(group);
+        cardsButton.setGraphic(group1);
 
+        view.getChildren().add(ticketsButton);
         for (int i = 0; i < 5; i++) {//TODO change
 
             StackPane ofCard = new StackPane();
-            ofCard.getStyleClass().addAll("NEUTRAL", "card"); 
+            ofCard.getStyleClass().addAll("NEUTRAL", "card");
 
             Rectangle outside = new Rectangle(60, 90);
             outside.getStyleClass().add("outside");
@@ -86,7 +92,7 @@ abstract class DecksViewCreator {
             ofCard.getChildren().addAll(outside, inside, trainImage);
             view.getChildren().add(ofCard);
         }
-        view.getChildren().addAll(ticketsButton, cardsButton);
+        view.getChildren().add(cardsButton);
 
         return view;
     }

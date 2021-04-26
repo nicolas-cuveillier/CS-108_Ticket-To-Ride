@@ -13,37 +13,39 @@ import javafx.scene.shape.Rectangle;
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 abstract class MapViewCreator {
-    //add ObservableGameState, ObjectProperty<ClaimRouteHandler>, CardChooser
-    public static Node createMapView() {
+    //ObjectProperty<ClaimRouteHandler>, CardChooser
+    public static Node createMapView(ObservableGameState gameState) {
         Pane pane = new Pane();
         pane.getStylesheets().add("map.css");
         pane.getStylesheets().add("colors.css");
-        pane.getChildren().add(new ImageView());
+        ImageView imageView = new ImageView();
+        pane.getChildren().add(imageView);
 
         for (Route r : ChMap.routes()) {
             Group route = new Group();
-            route.setId(r.station1().name() + "_" + r.station2().name() + "_" + r.length());
+            route.setId(r.id());
             route.getStyleClass().add("route");
             route.getStyleClass().add(r.level().name());
-            route.getStyleClass().add("NEUTRAL");//to be changed
 
-            for (int i = 0; i < r.length(); i++) {
+            if (r.color() == null) route.getStyleClass().add("NEUTRAL");
+            else route.getStyleClass().add(r.color().name());
+
+            for (int i = 1; i <= r.length(); i++) {
                 Group cas = new Group();
                 cas.setId(route.getId() + "_" + i);
 
                 Rectangle trackRectangle = new Rectangle(36, 12);
-                trackRectangle.getStyleClass().add("track");
-                trackRectangle.getStyleClass().add("filled");
+                trackRectangle.getStyleClass().addAll("track", "filled");
                 Group car = new Group();
                 car.getStyleClass().add("car");
 
                 Rectangle carRectangle = new Rectangle(36, 12);
                 carRectangle.getStyleClass().add("filled");
-                Circle circle1 = new Circle(12, 6,3);
-                Circle circle2 = new Circle(24, 6,3);
+                Circle circle1 = new Circle(12, 6, 3);
+                Circle circle2 = new Circle(24, 6, 3);
 
-                car.getChildren().addAll(carRectangle,circle1,circle2);
-                cas.getChildren().addAll(trackRectangle,car);
+                car.getChildren().addAll(carRectangle, circle1, circle2);
+                cas.getChildren().addAll(trackRectangle, car);
                 route.getChildren().add(cas);
             }
 
