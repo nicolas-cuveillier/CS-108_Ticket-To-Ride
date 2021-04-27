@@ -15,7 +15,8 @@ import javafx.scene.text.Text;
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
-abstract class DecksViewCreator {
+class DecksViewCreator {
+    private DecksViewCreator(){}
     public static Node createHandView(ObservableGameState observableGameState) {
         HBox view = new HBox();
         view.getStylesheets().addAll("decks.css", "colors.css");

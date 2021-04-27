@@ -27,7 +27,7 @@ public final class Stage9Test extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        ObservableGameState gameState = new ObservableGameState(PLAYER_1);
+        ObservableGameState gameState = null;//new ObservableGameState(PLAYER_1);
 /*
         ObjectProperty<ClaimRouteHandler> claimRoute =
                 new SimpleObjectProperty<>(Stage9Test::claimRoute);
@@ -66,7 +66,7 @@ public final class Stage9Test extends Application {
                 new PublicCardState(Card.ALL.subList(0, 5), 110 - 2 * 4 - 5, 0);
         PublicGameState publicGameState =
                 new PublicGameState(36, cardState, PLAYER_1, pubPlayerStates, null);
-        gameState.setState(publicGameState, p1State);
+        //gameState.setState(publicGameState, p1State);
     }
 
     private static void claimRoute(Route route, SortedBag<Card> cards) {

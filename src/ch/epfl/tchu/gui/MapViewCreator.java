@@ -12,7 +12,8 @@ import javafx.scene.shape.Rectangle;
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
-abstract class MapViewCreator {
+class MapViewCreator {
+    private MapViewCreator(){}
     //ObjectProperty<ClaimRouteHandler>, CardChooser
     public static Node createMapView(ObservableGameState gameState) {
         Pane pane = new Pane();
