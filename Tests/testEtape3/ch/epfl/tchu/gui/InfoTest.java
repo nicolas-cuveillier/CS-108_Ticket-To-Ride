@@ -1,14 +1,12 @@
 package ch.epfl.tchu.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
-
+import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import ch.epfl.tchu.SortedBag;
+import java.util.ArrayList;
+import java.util.List;
 
 class InfoTest {
 
