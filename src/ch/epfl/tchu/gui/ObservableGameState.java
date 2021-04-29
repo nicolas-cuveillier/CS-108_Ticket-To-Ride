@@ -119,11 +119,21 @@ public final class ObservableGameState {
 
         for (Route route: ChMap.routes()) {
 
-            if(!gameState.claimedRoutes().contains(route)){//TODO private method to check neighbors
-
+            if(!gameState.claimedRoutes().contains(route) && !gameState.claimedRoutes().contains(checkDoubleRoute(route))){//TODO private method to check neighbors
+                
             }
         }
 
+    }
+
+    private static Route checkDoubleRoute(Route route){
+
+        for (Route r : ChMap.routes()) {
+            if(route.station1().id() == r.station1().id() && route.station2().id() == r.station2().id()){
+                return r;
+            }
+        }
+        return null;
     }
 
 
