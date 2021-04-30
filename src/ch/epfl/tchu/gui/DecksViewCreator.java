@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
-class DecksViewCreator {  //TODO javadoc + variables' name
+class DecksViewCreator {  //TODO javadoc
     private DecksViewCreator() {
     }
 
@@ -33,32 +33,34 @@ class DecksViewCreator {  //TODO javadoc + variables' name
         HBox hand = new HBox();
         hand.setId("hand-pane");
 
-
         for (Card card : Card.ALL) {
-            StackPane stackPane = new StackPane();
+            StackPane cardPane = new StackPane();
 
             ReadOnlyIntegerProperty count = gameState.cardProperty(card);
-            stackPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
+            cardPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
 
-            if (card.name().equals("LOCOMOTIVE")) stackPane.getStyleClass().addAll("NEUTRAL", "card");
-            else stackPane.getStyleClass().addAll(card.color().name(), "card");
+            if (card.name().equals("LOCOMOTIVE")) cardPane.getStyleClass().addAll("NEUTRAL", "card");
+            else cardPane.getStyleClass().addAll(card.color().name(), "card");
 
-            Rectangle outside = new Rectangle(60, 90);
-            outside.getStyleClass().add("outside");
-            Rectangle inside = new Rectangle(40, 70);
-            inside.getStyleClass().addAll("filled", "inside");
-            Rectangle trainImage = new Rectangle(40, 70);
-            trainImage.getStyleClass().add("train-image");
-            Text textCount = new Text();
-            textCount.getStyleClass().add("count");
-            textCount.textProperty().bind(Bindings.convert(count));
-            textCount.visibleProperty().bind(Bindings.greaterThan(count, 1));
-
-            stackPane.getChildren().addAll(outside, inside, ticketsView, textCount, trainImage);
-            hand.getChildren().add(stackPane);
+            addCardPaneChildren(cardPane, count);
+            hand.getChildren().add(cardPane);
         }
         view.getChildren().addAll(ticketsView, hand);
         return view;
+    }
+
+    private static void addCardPaneChildren(StackPane pane, ReadOnlyIntegerProperty count) {
+        Rectangle outsideRect = new Rectangle(60, 90);
+        outsideRect.getStyleClass().add("outside");
+        Rectangle insideRect = new Rectangle(40, 70);
+        insideRect.getStyleClass().addAll("filled", "inside");
+        Rectangle trainImage = new Rectangle(40, 70);
+        trainImage.getStyleClass().add("train-image");
+        Text textCount = new Text();
+        textCount.getStyleClass().add("count");
+        textCount.textProperty().bind(Bindings.convert(count));
+        textCount.visibleProperty().bind(Bindings.greaterThan(count, 1));
+        pane.getChildren().addAll(outsideRect, insideRect, trainImage);
     }
 
     public static Node createCardsView(ObservableGameState gameState,
@@ -70,63 +72,60 @@ class DecksViewCreator {  //TODO javadoc + variables' name
 
         Button ticketsButton = new Button(StringsFr.TICKETS);
         ticketsButton.getStyleClass().add("gauged");
+
         Button cardsButton = new Button(StringsFr.CARDS);
         cardsButton.getStyleClass().add("gauged");
 
-        Rectangle background1 = new Rectangle(50, 5);
-        background1.getStyleClass().add("background");
-        Rectangle foreground1 = new Rectangle(50, 5);
-        foreground1.getStyleClass().add("foreground");
-        Group group = new Group();
-        group.getChildren().addAll(background1, foreground1);
-
-        Rectangle background2 = new Rectangle(50, 5);
-        background2.getStyleClass().add("background");
-        Rectangle foreground2 = new Rectangle(50, 5);
-        foreground2.getStyleClass().add("foreground");
-        Group group1 = new Group();
-        group1.getChildren().addAll(background2, foreground2);
-
-        ticketsButton.setGraphic(group);
-        cardsButton.setGraphic(group1);
+        ticketsButton.setGraphic(getGraphicButtonGroup(gameState.ticketsInDeckPercent()));
+        cardsButton.setGraphic(getGraphicButtonGroup(gameState.cardsInDeckPercent()));
 
         ticketsButton.disabledProperty().addListener(o -> ticketsHandlerObjectProperty.isNull());
-        cardsButton.disabledProperty().addListener(o -> cardHandlerObjectProperty.isNull());
-
-        ReadOnlyIntegerProperty pctTicketsProperty = gameState.ticketsInDeckPercent();
-        foreground1.widthProperty().bind(pctTicketsProperty.multiply(50).divide(100));
-        ReadOnlyIntegerProperty pctCardsProperty = gameState.ticketsInDeckPercent();
-        foreground2.widthProperty().bind(pctCardsProperty.multiply(50).divide(100));
-
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerObjectProperty.get().onDrawTickets());
+
+        cardsButton.disabledProperty().addListener(o -> cardHandlerObjectProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerObjectProperty.get().onDrawCard(-1));
 
         view.getChildren().add(ticketsButton);
 
         for (int i = 0; i < 5; i++) {
-            StackPane ofCard = new StackPane();
-            ofCard.getStyleClass().addAll("card");
+            StackPane cardPane = new StackPane();
+            cardPane.getStyleClass().addAll("card");
 
             ReadOnlyObjectProperty<Card> card = gameState.faceUpCard(i);
             card.addListener((o, oV, nV) -> {
-                if (oV != nV) ofCard.getStyleClass().add(nV.color().name());
+                if (oV != nV) cardPane.getStyleClass().add(nV.color().name());
             });
 
             int index = i;
-            ofCard.setOnMouseClicked(o -> cardHandlerObjectProperty.get().onDrawCard(index));
+            cardPane.setOnMouseClicked(o -> cardHandlerObjectProperty.get().onDrawCard(index));
 
-            Rectangle outside = new Rectangle(60, 90);
-            outside.getStyleClass().add("outside");
-            Rectangle inside = new Rectangle(40, 70);
-            inside.getStyleClass().addAll("filled", "inside");
-            Rectangle trainImage = new Rectangle(40, 70);
-            trainImage.getStyleClass().add("train-image");
-
-            ofCard.getChildren().addAll(outside, inside, trainImage);
-            view.getChildren().add(ofCard);
+            addFaceUpCardPaneChildren(cardPane);
+            view.getChildren().add(cardPane);
         }
         view.getChildren().add(cardsButton);
-
         return view;
     }
+
+    private static Group getGraphicButtonGroup(ReadOnlyIntegerProperty percent) {
+        Rectangle background = new Rectangle(50, 5);
+        background.getStyleClass().add("background");
+        Rectangle foreground = new Rectangle(50, 5);
+        foreground.getStyleClass().add("foreground");
+        Group group = new Group();
+        group.getChildren().addAll(background, foreground);
+        foreground.widthProperty().bind(percent.multiply(50).divide(100));
+        return group;
+    }
+
+    private static void addFaceUpCardPaneChildren(StackPane cardPane) {
+        Rectangle outside = new Rectangle(60, 90);
+        outside.getStyleClass().add("outside");
+        Rectangle inside = new Rectangle(40, 70);
+        inside.getStyleClass().addAll("filled", "inside");
+        Rectangle trainImage = new Rectangle(40, 70);
+        trainImage.getStyleClass().add("train-image");
+
+        cardPane.getChildren().addAll(outside, inside, trainImage);
+    }
+
 }
