@@ -3,8 +3,6 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,37 +97,34 @@ public final class ObservableGameState {
 
         for (PlayerId player : PlayerId.ALL) {
             ticketsCount.get(player).setValue(gameState.playerState(player).ticketCount());
-            cardsCount.get(player).setValue(gameState.playerState(player).ticketCount());
-            carsCount.get(player).setValue(gameState.playerState(player).ticketCount());
-            pointsCount.get(player).setValue(gameState.playerState(player).ticketCount());
+            cardsCount.get(player).setValue(gameState.playerState(player).cardCount());
+            carsCount.get(player).setValue(gameState.playerState(player).carCount());
+            pointsCount.get(player).setValue(gameState.playerState(player).claimPoints());
         }
 
         tickets.setValue(playerState.tickets());
 
-        for (Card card : Card.ALL) {
-            int count = 0;
+        for (Card card : Card.ALL)
+            cards.get(cards.indexOf(card)).setValue(playerState.cards().countOf(card));
 
-            for (Card playerCard : playerState.cards()) {
-                if (playerCard == card)
-                    ++count;
 
-            }
-            cards.get(cards.indexOf(card)).setValue(count);
-        }
+        for (Route route : ChMap.routes()) {
 
-        for (Route route: ChMap.routes()) {
+            if (!gameState.claimedRoutes().contains(route)) {//TODO private method to check neighbors
+                if (getDoubleRoute(route) != null) {
+                    if (!gameState.claimedRoutes().contains(getDoubleRoute(route))) {
 
-            if(!gameState.claimedRoutes().contains(route) && !gameState.claimedRoutes().contains(checkDoubleRoute(route))){//TODO private method to check neighbors
-                
+                    }
+                }
             }
         }
 
     }
 
-    private static Route checkDoubleRoute(Route route){
+    private static Route getDoubleRoute(Route route) {
 
         for (Route r : ChMap.routes()) {
-            if(route.station1().id() == r.station1().id() && route.station2().id() == r.station2().id()){
+            if (route.station1().id() == r.station1().id() && route.station2().id() == r.station2().id()) {
                 return r;
             }
         }
