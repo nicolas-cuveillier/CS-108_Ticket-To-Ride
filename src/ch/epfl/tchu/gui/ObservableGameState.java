@@ -118,8 +118,7 @@ public final class ObservableGameState {
         tickets.setAll(playerState.tickets().toList());
 
         for (Card card : Card.ALL)
-            cards.get(Card.ALL.indexOf(card)).setValue(playerState.cards().countOf(card));
-
+            cards.get(card).setValue(playerState.cards().countOf(card));
 
         //TODO moche
         for (Route route : ChMap.routes()) {
@@ -157,12 +156,25 @@ public final class ObservableGameState {
         return faceUpCards.get(index);
     }
 
+    public ReadOnlyIntegerProperty faceUpCardIndex(Card card){
+        if(faceUpCards.contains(card)){
+            return new SimpleIntegerProperty(faceUpCards.indexOf(card));
+        } else
+            return null;
+
+    }
+
+
     public ReadOnlyObjectProperty<PlayerId> routeOwner(Route route) {
         return routeOwner.get(route);
     }
 
     public ReadOnlyIntegerProperty ticketsCount(PlayerId playerId) {
         return ReadOnlyIntegerProperty.readOnlyIntegerProperty(ticketsCount.get(playerId));
+    }
+
+    public ReadOnlyIntegerProperty currentPlayerIdTicketsCount() {
+        return ReadOnlyIntegerProperty.readOnlyIntegerProperty(ticketsCount.get(currentPublicGameState.currentPlayerId()));
     }
 
     public ReadOnlyIntegerProperty cardsCount(PlayerId playerId) {

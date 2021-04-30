@@ -12,7 +12,7 @@ public interface ActionHandler {
     //TODO javadoc
     @FunctionalInterface
     interface DrawTicketsHandler{
-        void onDrwTickets();
+        void onDrawTickets();
     }
 
     @FunctionalInterface

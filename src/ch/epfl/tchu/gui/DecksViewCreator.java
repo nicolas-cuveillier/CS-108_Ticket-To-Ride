@@ -89,9 +89,20 @@ class DecksViewCreator {  //TODO javadoc + variables' name
         ticketsButton.setGraphic(group);
         cardsButton.setGraphic(group1);
 
+        ticketsButton.disabledProperty().addListener(o -> ticketsHandlerObjectProperty.isNotNull());
+        cardsButton.disabledProperty().addListener(o -> cardHandlerObjectProperty.isNull());
+
+        ReadOnlyIntegerProperty pctTicketsProperty = gameState.ticketsInDeckPercent();
+        foreground1.widthProperty().bind(pctTicketsProperty.multiply(50).divide(100));
+        ReadOnlyIntegerProperty pctCardsProperty = gameState.ticketsInDeckPercent();
+        foreground2.widthProperty().bind(pctCardsProperty.multiply(50).divide(100));
+
+        ticketsButton.setOnMouseClicked(o -> ticketsHandlerObjectProperty.get().onDrawTickets());
+        cardsButton.setOnMouseClicked(o -> cardHandlerObjectProperty.get().onDrawCard(-1));
+
         view.getChildren().add(ticketsButton);
 
-        for (int i = 0; i < 5; i++) {//TODO change
+        for (int i = 0; i < 5; i++) {
             StackPane ofCard = new StackPane();
             ofCard.getStyleClass().addAll("card");
 
@@ -100,6 +111,8 @@ class DecksViewCreator {  //TODO javadoc + variables' name
                 if (oV != nV) ofCard.getStyleClass().add(nV.color().name());
             });
 
+            int index = i;
+            ofCard.setOnMouseClicked(o -> cardHandlerObjectProperty.get().onDrawCard(index));
 
             Rectangle outside = new Rectangle(60, 90);
             outside.getStyleClass().add("outside");
