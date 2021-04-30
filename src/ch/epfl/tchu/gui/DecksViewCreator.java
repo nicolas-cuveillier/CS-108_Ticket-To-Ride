@@ -2,7 +2,10 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Ticket;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,9 +19,11 @@ import javafx.scene.text.Text;
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
-class DecksViewCreator {
-    private DecksViewCreator(){}
-    public static Node createHandView(ObservableGameState observableGameState) {
+class DecksViewCreator {  //TODO javadoc + variables' name
+    private DecksViewCreator() {
+    }
+
+    public static Node createHandView(ObservableGameState gameState) {
         HBox view = new HBox();
         view.getStylesheets().addAll("decks.css", "colors.css");
 
@@ -31,6 +36,9 @@ class DecksViewCreator {
         for (Card card : Card.ALL) {
             StackPane stackPane = new StackPane();
 
+            ReadOnlyIntegerProperty count = gameState.cardProperty(card);
+            stackPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
+
             if (card.name().equals("LOCOMOTIVE")) stackPane.getStyleClass().addAll("NEUTRAL", "card");
             else stackPane.getStyleClass().addAll(card.color().name(), "card");
 
@@ -40,23 +48,25 @@ class DecksViewCreator {
             inside.getStyleClass().addAll("filled", "inside");
             Rectangle trainImage = new Rectangle(40, 70);
             trainImage.getStyleClass().add("train-image");
-            Text count = new Text();
-            count.getStyleClass().add("count");
+            Text textCount = new Text();
+            textCount.getStyleClass().add("count");
+            textCount.textProperty().bind(Bindings.convert(count));
+            textCount.visibleProperty().bind(Bindings.greaterThan(count, 1));
 
-            stackPane.getChildren().addAll(outside, inside, ticketsView, count, trainImage);
+            stackPane.getChildren().addAll(outside, inside, ticketsView, textCount, trainImage);
             hand.getChildren().add(stackPane);
         }
         view.getChildren().addAll(ticketsView, hand);
         return view;
     }
 
-    public static Node createCardsView(ObservableGameState observableGameState,
+    public static Node createCardsView(ObservableGameState gameState,
                                        ObjectProperty<ActionHandler.DrawTicketsHandler> ticketsHandlerObjectProperty,
                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerObjectProperty) {
         VBox view = new VBox();
         view.getStylesheets().addAll("decks.css", "colors.css");
         view.setId("card-pane");
-//TODO add "billets" et "Cartes"
+
         Button ticketsButton = new Button();
         ticketsButton.getStyleClass().add("gauged");
         Button cardsButton = new Button();
@@ -80,10 +90,16 @@ class DecksViewCreator {
         cardsButton.setGraphic(group1);
 
         view.getChildren().add(ticketsButton);
-        for (int i = 0; i < 5; i++) {//TODO change
 
+        for (int i = 0; i < 5; i++) {//TODO change
             StackPane ofCard = new StackPane();
-            ofCard.getStyleClass().addAll("NEUTRAL", "card");
+            ofCard.getStyleClass().addAll("card");
+
+            ReadOnlyObjectProperty<Card> card = gameState.faceUpCard(i);
+            card.addListener((o, oV, nV) -> {
+                if (oV != nV) ofCard.getStyleClass().add(nV.color().name());
+            });
+
 
             Rectangle outside = new Rectangle(60, 90);
             outside.getStyleClass().add("outside");

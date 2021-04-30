@@ -1,5 +1,6 @@
 package ch.epfl.tchu.gui;
 
+import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -35,6 +36,9 @@ public final class ObservableGameState {
         ticketsInDeckPercent = new SimpleIntegerProperty(0);
         cardsInDeckPercent = new SimpleIntegerProperty(0);
         faceUpCards = new ArrayList<>(Constants.FACE_UP_CARDS_COUNT);
+        for (int i = 0; i < 5; i++) {
+            faceUpCards.add(new SimpleObjectProperty<>(null));
+        }
 
         routeOwner = new HashMap<>(ChMap.routes().size());
         for (Route route : ChMap.routes()) {
@@ -54,7 +58,12 @@ public final class ObservableGameState {
         }
 
         tickets = FXCollections.observableArrayList();
+
         cards = new EnumMap<>(Card.class);
+        for (Card card : Card.ALL) {
+            cards.put(card, new SimpleObjectProperty<>(0));
+        }
+
         claimableRoutes = new HashMap<>(ChMap.routes().size());
         for (Route route : ChMap.routes()) {
             claimableRoutes.put(route, new SimpleBooleanProperty(false));
@@ -178,5 +187,9 @@ public final class ObservableGameState {
 
     public ReadOnlyBooleanProperty claimableRouteProperty(Route route) {
         return ReadOnlyBooleanProperty.readOnlyBooleanProperty(claimableRoutes.get(route));
+    }
+
+    public List<SortedBag<Card>> possibleClaimCards(Route route) {
+        return currentPlayerState != null ? currentPlayerState.possibleClaimCards(route) : List.of();
     }
 }

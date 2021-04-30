@@ -18,9 +18,10 @@ import java.util.List;
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 class MapViewCreator {
-    private MapViewCreator(){}
+    private MapViewCreator() {
+    }
 
-    public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteH,CardChooser cardChooser) {
+    public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteH, CardChooser cardChooser) {
         Pane pane = new Pane();
         pane.getStylesheets().add("map.css");
         pane.getStylesheets().add("colors.css");
@@ -36,7 +37,9 @@ class MapViewCreator {
             if (r.color() == null) routeGroup.getStyleClass().add("NEUTRAL");
             else routeGroup.getStyleClass().add(r.color().name());
 
-            gameState.routeOwner(r).addListener((obj, oV, nV) -> { if(nV != null) routeGroup.getStyleClass().add(nV.name()); });
+            gameState.routeOwner(r).addListener((obj, oV, nV) -> {
+                if (nV != null) routeGroup.getStyleClass().add(nV.name());
+            });
             routeGroup.disableProperty().bind(claimRouteH.isNull().or(gameState.claimableRouteProperty(r).not()));
 
             for (int i = 1; i <= r.length(); i++) {
@@ -58,11 +61,11 @@ class MapViewCreator {
                 routeGroup.getChildren().add(cas);
             }
 
-            List<SortedBag<Card>> possibleClaimCards = r.possibleClaimCards();
-
             routeGroup.setOnMouseClicked(o -> {
-                if(possibleClaimCards.size() == 1){
-                    claimRouteH.get().onClaimRoute(r,possibleClaimCards.get(0));
+                List<SortedBag<Card>> possibleClaimCards = gameState.possibleClaimCards(r);
+
+                if (possibleClaimCards.size() == 1) {
+                    claimRouteH.get().onClaimRoute(r, possibleClaimCards.get(0));
                 } else {
                     ActionHandler.ChooseCardsHandler chooseCardsH = (chosenCards -> claimRouteH.get().onClaimRoute(r, chosenCards));
                     cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
