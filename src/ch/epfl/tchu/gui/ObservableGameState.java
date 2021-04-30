@@ -45,6 +45,7 @@ public final class ObservableGameState {
         cardsCount = new EnumMap<>(PlayerId.class);
         carsCount = new EnumMap<>(PlayerId.class);
         pointsCount = new EnumMap<>(PlayerId.class);
+
         for (PlayerId pId : PlayerId.ALL) {
             ticketsCount.put(pId, new SimpleObjectProperty<>(0));
             cardsCount.put(pId, new SimpleObjectProperty<>(0));
@@ -147,8 +148,8 @@ public final class ObservableGameState {
         return faceUpCards.get(index);
     }
 
-    public ReadOnlyObjectProperty<PlayerId> routeOwner(int index) {
-        return routeOwner.get(index);
+    public ReadOnlyObjectProperty<PlayerId> routeOwner(Route route) {
+        return routeOwner.get(route);
     }
 
     public ReadOnlyIntegerProperty ticketsCount(PlayerId playerId) {
@@ -172,10 +173,10 @@ public final class ObservableGameState {
     }
 
     public ReadOnlyIntegerProperty cardProperty(Card card) {
-        return ReadOnlyIntegerProperty.readOnlyIntegerProperty(cards.get(Card.ALL.indexOf(card)));
+        return ReadOnlyIntegerProperty.readOnlyIntegerProperty(cards.get(card));
     }
 
     public ReadOnlyBooleanProperty claimableRouteProperty(Route route) {
-        return ReadOnlyBooleanProperty.readOnlyBooleanProperty(claimableRoutes.get(ChMap.routes().indexOf(route)));
+        return ReadOnlyBooleanProperty.readOnlyBooleanProperty(claimableRoutes.get(route));
     }
 }

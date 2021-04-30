@@ -20,7 +20,7 @@ import java.util.List;
 class MapViewCreator {
     private MapViewCreator(){}
 
-    public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteHandlerObjectProperty,CardChooser cardChooser) {
+    public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteH,CardChooser cardChooser) {
         Pane pane = new Pane();
         pane.getStylesheets().add("map.css");
         pane.getStylesheets().add("colors.css");
@@ -28,17 +28,20 @@ class MapViewCreator {
         pane.getChildren().add(imageView);
 
         for (Route r : ChMap.routes()) {
-            Group route = new Group();
-            route.setId(r.id());
-            route.getStyleClass().add("route");
-            route.getStyleClass().add(r.level().name());
+            Group routeGroup = new Group();
+            routeGroup.setId(r.id());
+            routeGroup.getStyleClass().add("routeGroup");
+            routeGroup.getStyleClass().add(r.level().name());
 
-            if (r.color() == null) route.getStyleClass().add("NEUTRAL");
-            else route.getStyleClass().add(r.color().name());
+            if (r.color() == null) routeGroup.getStyleClass().add("NEUTRAL");
+            else routeGroup.getStyleClass().add(r.color().name());
+
+            gameState.routeOwner(r).addListener((obj, oV, nV) -> { if(nV != null) routeGroup.getStyleClass().add(nV.name()); });
+            routeGroup.disableProperty().bind(claimRouteH.isNull().or(gameState.claimableRouteProperty(r).not()));
 
             for (int i = 1; i <= r.length(); i++) {
                 Group cas = new Group();
-                cas.setId(route.getId() + "_" + i);
+                cas.setId(routeGroup.getId() + "_" + i);
 
                 Rectangle trackRectangle = new Rectangle(36, 12);
                 trackRectangle.getStyleClass().addAll("track", "filled");
@@ -52,10 +55,21 @@ class MapViewCreator {
 
                 car.getChildren().addAll(carRectangle, circle1, circle2);
                 cas.getChildren().addAll(trackRectangle, car);
-                route.getChildren().add(cas);
+                routeGroup.getChildren().add(cas);
             }
 
-            pane.getChildren().add(route);
+            List<SortedBag<Card>> possibleClaimCards = r.possibleClaimCards();
+
+            routeGroup.setOnMouseClicked(o -> {
+                if(possibleClaimCards.size() == 1){
+                    claimRouteH.get().onClaimRoute(r,possibleClaimCards.get(0));
+                } else {
+                    ActionHandler.ChooseCardsHandler chooseCardsH = (chosenCards -> claimRouteH.get().onClaimRoute(r, chosenCards));
+                    cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
+                }
+            });
+
+            pane.getChildren().add(routeGroup);
         }
 
         return pane;

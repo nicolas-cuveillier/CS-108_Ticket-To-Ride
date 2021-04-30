@@ -50,7 +50,6 @@ class DecksViewCreator {
         return view;
     }
 
-    //deux propriétés : la première contient celui gérant le tirage de billets, la seconde contient celui gérant le tirage de cartes.
     public static Node createCardsView(ObservableGameState observableGameState,
                                        ObjectProperty<ActionHandler.DrawTicketsHandler> ticketsHandlerObjectProperty,
                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerObjectProperty) {
