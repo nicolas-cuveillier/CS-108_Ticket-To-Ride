@@ -33,6 +33,9 @@ public final class ObservableGameState {
 
     //Constructor
     public ObservableGameState(PlayerId playerId) {
+        currentPublicGameState = null;
+        currentPlayerState = null;
+        
         ticketsInDeckPercent = new SimpleIntegerProperty(0);
         cardsInDeckPercent = new SimpleIntegerProperty(0);
         faceUpCards = new ArrayList<>(Constants.FACE_UP_CARDS_COUNT);

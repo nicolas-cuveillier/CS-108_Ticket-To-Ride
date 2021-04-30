@@ -22,60 +22,61 @@ class MapViewCreator {
     }
 
     public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteH, CardChooser cardChooser) {
-        Pane pane = new Pane();
-        pane.getStylesheets().add("map.css");
-        pane.getStylesheets().add("colors.css");
+        Pane view = new Pane();
+        view.getStylesheets().addAll("map.css","colors.css");
+
         ImageView imageView = new ImageView();
-        pane.getChildren().add(imageView);
+        view.getChildren().add(imageView);
 
-        for (Route r : ChMap.routes()) {
+        for (Route route : ChMap.routes()) {
             Group routeGroup = new Group();
-            routeGroup.setId(r.id());
-            routeGroup.getStyleClass().add("routeGroup");
-            routeGroup.getStyleClass().add(r.level().name());
+            routeGroup.setId(route.id());
+            routeGroup.getStyleClass().addAll("route", route.level().name());
 
-            if (r.color() == null) routeGroup.getStyleClass().add("NEUTRAL");
-            else routeGroup.getStyleClass().add(r.color().name());
+            if (route.color() == null) routeGroup.getStyleClass().add("NEUTRAL");
+            else routeGroup.getStyleClass().add(route.color().name());
 
-            gameState.routeOwner(r).addListener((obj, oV, nV) -> {
+            gameState.routeOwner(route).addListener((obj, oV, nV) -> {
                 if (nV != null) routeGroup.getStyleClass().add(nV.name());
             });
-            routeGroup.disableProperty().bind(claimRouteH.isNull().or(gameState.claimableRouteProperty(r).not()));
 
-            for (int i = 1; i <= r.length(); i++) {
-                Group cas = new Group();
-                cas.setId(routeGroup.getId() + "_" + i);
+            routeGroup.disableProperty().bind(claimRouteH.isNull().or(gameState.claimableRouteProperty(route).not()));
 
-                Rectangle trackRectangle = new Rectangle(36, 12);
-                trackRectangle.getStyleClass().addAll("track", "filled");
-                Group car = new Group();
-                car.getStyleClass().add("car");
+            for (int i = 1; i <= route.length(); i++) {
+                Group routeCas = new Group();
+                routeCas.setId(routeGroup.getId() + "_" + i);
+
+                Group carGroup = new Group();
+                carGroup.getStyleClass().add("car");
 
                 Rectangle carRectangle = new Rectangle(36, 12);
                 carRectangle.getStyleClass().add("filled");
-                Circle circle1 = new Circle(12, 6, 3);
-                Circle circle2 = new Circle(24, 6, 3);
+                Circle carCircle1 = new Circle(12, 6, 3);
+                Circle carCircle2 = new Circle(24, 6, 3);
 
-                car.getChildren().addAll(carRectangle, circle1, circle2);
-                cas.getChildren().addAll(trackRectangle, car);
-                routeGroup.getChildren().add(cas);
+                Rectangle trackRectangle = new Rectangle(36, 12);
+                trackRectangle.getStyleClass().addAll("track", "filled");
+
+                carGroup.getChildren().addAll(carRectangle, carCircle1, carCircle2);
+                routeCas.getChildren().addAll(trackRectangle, carGroup);
+                routeGroup.getChildren().add(routeCas);
             }
 
             routeGroup.setOnMouseClicked(o -> {
-                List<SortedBag<Card>> possibleClaimCards = gameState.possibleClaimCards(r);
+                List<SortedBag<Card>> possibleClaimCards = gameState.possibleClaimCards(route);
 
                 if (possibleClaimCards.size() == 1) {
-                    claimRouteH.get().onClaimRoute(r, possibleClaimCards.get(0));
+                    claimRouteH.get().onClaimRoute(route, possibleClaimCards.get(0));
                 } else {
-                    ActionHandler.ChooseCardsHandler chooseCardsH = (chosenCards -> claimRouteH.get().onClaimRoute(r, chosenCards));
+                    ActionHandler.ChooseCardsHandler chooseCardsH = (chosenCards -> claimRouteH.get().onClaimRoute(route, chosenCards));
                     cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
                 }
             });
 
-            pane.getChildren().add(routeGroup);
+            view.getChildren().add(routeGroup);
         }
 
-        return pane;
+        return view;
     }
 
     @FunctionalInterface

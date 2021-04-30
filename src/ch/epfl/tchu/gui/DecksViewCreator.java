@@ -27,8 +27,9 @@ class DecksViewCreator {  //TODO javadoc + variables' name
         HBox view = new HBox();
         view.getStylesheets().addAll("decks.css", "colors.css");
 
-        ListView<Ticket> ticketsView = new ListView<>();
+        ListView<Ticket> ticketsView = new ListView<>(gameState.ticketsProperties());
         ticketsView.setId("tickets");
+
         HBox hand = new HBox();
         hand.setId("hand-pane");
 
@@ -67,9 +68,9 @@ class DecksViewCreator {  //TODO javadoc + variables' name
         view.getStylesheets().addAll("decks.css", "colors.css");
         view.setId("card-pane");
 
-        Button ticketsButton = new Button();
+        Button ticketsButton = new Button(StringsFr.TICKETS);
         ticketsButton.getStyleClass().add("gauged");
-        Button cardsButton = new Button();
+        Button cardsButton = new Button(StringsFr.CARDS);
         cardsButton.getStyleClass().add("gauged");
 
         Rectangle background1 = new Rectangle(50, 5);
@@ -89,7 +90,7 @@ class DecksViewCreator {  //TODO javadoc + variables' name
         ticketsButton.setGraphic(group);
         cardsButton.setGraphic(group1);
 
-        ticketsButton.disabledProperty().addListener(o -> ticketsHandlerObjectProperty.isNotNull());
+        ticketsButton.disabledProperty().addListener(o -> ticketsHandlerObjectProperty.isNull());
         cardsButton.disabledProperty().addListener(o -> cardHandlerObjectProperty.isNull());
 
         ReadOnlyIntegerProperty pctTicketsProperty = gameState.ticketsInDeckPercent();
