@@ -1,5 +1,7 @@
 package ch.epfl.tchu.gui;
 
+import ch.epfl.tchu.SortedBag;
+import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.ChMap;
 import ch.epfl.tchu.game.Route;
 import javafx.scene.Group;
@@ -8,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+
+import java.util.List;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -56,10 +60,10 @@ class MapViewCreator {
         return pane;
     }
 
-    /*@FunctionalInterface
+    @FunctionalInterface
     interface CardChooser {
         void chooseCards(List<SortedBag<Card>> options,
-                         ChooseCardsHandler handler);
-    }*/
+                         ActionHandler.ChooseCardsHandler handler);
+    }
 
 }
