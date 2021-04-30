@@ -34,7 +34,7 @@ public final class ObservableGameState {
     public ObservableGameState(PlayerId playerId) {
         ticketsInDeckPercent = new SimpleIntegerProperty(0);
         cardsInDeckPercent = new SimpleIntegerProperty(0);
-        faceUpCards = FXCollections.observableArrayList();
+        faceUpCards = new ArrayList<>(Constants.FACE_UP_CARDS_COUNT);
 
         routeOwner = new HashMap<>(ChMap.routes().size());
         for (Route route : ChMap.routes()) {
@@ -52,7 +52,7 @@ public final class ObservableGameState {
             pointsCount.put(pId, new SimpleObjectProperty<>(0));
         }
 
-        tickets = null;
+        tickets = FXCollections.observableArrayList();
         cards = new EnumMap<>(Card.class);
         claimableRoutes = new HashMap<>(ChMap.routes().size());
         for (Route route : ChMap.routes()) {
@@ -120,7 +120,6 @@ public final class ObservableGameState {
                     }
                 } else
                     claimableRoutes.get(route).setValue(true);
-
             }
         }
     }

@@ -3,11 +3,14 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.List;
 import java.util.Map;
 
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
@@ -24,19 +27,19 @@ public final class Stage9Test extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        ObservableGameState gameState = null;//new ObservableGameState(PLAYER_1);
-/*
-        ObjectProperty<ClaimRouteHandler> claimRoute =
+        ObservableGameState gameState = new ObservableGameState(PLAYER_1);
+
+        ObjectProperty<ActionHandler.ClaimRouteHandler> claimRoute =
                 new SimpleObjectProperty<>(Stage9Test::claimRoute);
-        ObjectProperty<DrawTicketsHandler> drawTickets =
+        ObjectProperty<ActionHandler.DrawTicketsHandler> drawTickets =
                 new SimpleObjectProperty<>(Stage9Test::drawTickets);
-        ObjectProperty<DrawCardHandler> drawCard =
+        ObjectProperty<ActionHandler.DrawCardHandler> drawCard =
                 new SimpleObjectProperty<>(Stage9Test::drawCard);
-*/
+
         Node mapView = MapViewCreator
-                .createMapView(gameState);//claimRoute, Stage9Test::chooseCards
+                .createMapView(gameState, claimRoute, Stage9Test::chooseCards);
         Node cardsView = DecksViewCreator
-                .createCardsView(gameState);// drawTickets, drawCard
+                .createCardsView(gameState, drawTickets, drawCard);
         Node handView = DecksViewCreator
                 .createHandView(gameState);
 
@@ -71,12 +74,12 @@ public final class Stage9Test extends Application {
                 route.station1(), route.station2(), cards);
     }
 
-    /*
-        private static void chooseCards(List<SortedBag<Card>> options,
-                                        ChooseCardsHandler chooser) {
-            chooser.onChooseCards(options.get(0));
-        }
-    */
+
+    private static void chooseCards(List<SortedBag<Card>> options,
+                                    ActionHandler.ChooseCardsHandler chooser) {
+        chooser.onChooseCards(options.get(0));
+    }
+
     private static void drawTickets() {
         System.out.println("Tirage de billets !");
     }

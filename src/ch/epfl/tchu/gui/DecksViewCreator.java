@@ -2,6 +2,7 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Ticket;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -50,7 +51,9 @@ class DecksViewCreator {
     }
 
     //deux propriétés : la première contient celui gérant le tirage de billets, la seconde contient celui gérant le tirage de cartes.
-    public static Node createCardsView(ObservableGameState observableGameState) {
+    public static Node createCardsView(ObservableGameState observableGameState,
+                                       ObjectProperty<ActionHandler.DrawTicketsHandler> ticketsHandlerObjectProperty,
+                                       ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerObjectProperty) {
         VBox view = new VBox();
         view.getStylesheets().addAll("decks.css", "colors.css");
         view.setId("card-pane");

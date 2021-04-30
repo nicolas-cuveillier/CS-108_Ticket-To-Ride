@@ -4,6 +4,7 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.ChMap;
 import ch.epfl.tchu.game.Route;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -18,8 +19,8 @@ import java.util.List;
  */
 class MapViewCreator {
     private MapViewCreator(){}
-    //ObjectProperty<ClaimRouteHandler>, CardChooser
-    public static Node createMapView(ObservableGameState gameState) {
+
+    public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteHandlerObjectProperty,CardChooser cardChooser) {
         Pane pane = new Pane();
         pane.getStylesheets().add("map.css");
         pane.getStylesheets().add("colors.css");
