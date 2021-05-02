@@ -11,7 +11,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
