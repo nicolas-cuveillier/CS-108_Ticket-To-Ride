@@ -195,4 +195,12 @@ public final class ObservableGameState {
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
         return (playerState != null) ? playerState.possibleClaimCards(route) : List.of();
     }
+
+    public boolean canDrawTickets(){
+        return publicGameState.canDrawTickets();
+    }
+
+    public boolean canDrawCards(){
+        return publicGameState.canDrawCards();
+    }
 }

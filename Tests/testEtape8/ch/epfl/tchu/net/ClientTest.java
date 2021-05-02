@@ -30,12 +30,12 @@ public class ClientTest {
 
         @Override
         public void receiveInfo(String info) {
-            
+            System.out.println(info);
         }
 
         @Override
         public void updateState(PublicGameState newState, PlayerState ownState) {
-
+            System.out.printf("new Public game state current PLayerId : %s\n", newState.currentPlayerId());
         }
 
         @Override
@@ -45,7 +45,9 @@ public class ClientTest {
 
         @Override
         public SortedBag<Ticket> chooseInitialTickets() {
-            return null;
+            var tickets = SortedBag.of(1,ChMap.tickets().get(0),1,ChMap.tickets().get(1));
+            System.out.printf("initial tickets choice : %s \n", tickets );
+            return tickets;
         }
 
         @Override
@@ -75,7 +77,9 @@ public class ClientTest {
 
         @Override
         public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
-            return null;
+            var additionalCards = options.get(0);
+            System.out.printf(" additional cards : %s \n", additionalCards);
+            return additionalCards;
         }
 
         // … autres méthodes de Player
