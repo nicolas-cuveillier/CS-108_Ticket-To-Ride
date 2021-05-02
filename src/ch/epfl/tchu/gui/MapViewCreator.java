@@ -16,14 +16,31 @@ import java.util.List;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
+ *
+ * none instanciable class that handle the creation of the map
  */
-class MapViewCreator {
+final class MapViewCreator {
     private MapViewCreator() {
     }
 
-    public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteH, CardChooser cardChooser) {
+    //TODO constants + javadoc
+    private static final String STYLE_COLORS = "colors.css";
+    private static final String STYLE_MAP = "map.css";
+    private static final String STYLE_ROUTE = "route";
+    private static final String STYLE_CAR = "car";
+
+    /**
+     * static method that will create a node containing all the different component of the tchu's map
+     *
+     * @param gameState an instance of ObservableGameState that gives to this method the properties of some components
+     * @param claimRouteH property of the {@link ch.epfl.tchu.gui.ActionHandler.ClaimRouteHandler} that handle route claiming
+     * @param cardChooser an instance of the functional interface that handle the choosing part of the route claiming
+     * @return (Node) the Node of the main part of the Tchu's GUI that represent the map, routes and stations
+     */
+    public static Node createMapView(ObservableGameState gameState, ObjectProperty<ActionHandler.ClaimRouteHandler> claimRouteH,
+                                     CardChooser cardChooser) {
         Pane view = new Pane();
-        view.getStylesheets().addAll("map.css","colors.css");
+        view.getStylesheets().addAll(STYLE_MAP,STYLE_COLORS);
 
         ImageView imageView = new ImageView();
         view.getChildren().add(imageView);
@@ -31,7 +48,7 @@ class MapViewCreator {
         for (Route route : ChMap.routes()) {
             Group routeGroup = new Group();
             routeGroup.setId(route.id());
-            routeGroup.getStyleClass().addAll("route", route.level().name());
+            routeGroup.getStyleClass().addAll(STYLE_ROUTE, route.level().name());
 
             if (route.color() == null) routeGroup.getStyleClass().add("NEUTRAL");
             else routeGroup.getStyleClass().add(route.color().name());
@@ -47,7 +64,7 @@ class MapViewCreator {
                 routeCas.setId(routeGroup.getId() + "_" + i);
 
                 Group carGroup = new Group();
-                carGroup.getStyleClass().add("car");
+                carGroup.getStyleClass().add(STYLE_CAR);
 
                 Rectangle carRectangle = new Rectangle(36, 12);
                 carRectangle.getStyleClass().add("filled");
@@ -79,10 +96,18 @@ class MapViewCreator {
         return view;
     }
 
+    /**
+     * functional interface that implement the notion of Card chooser
+     */
     @FunctionalInterface
     interface CardChooser {
-        void chooseCards(List<SortedBag<Card>> options,
-                         ActionHandler.ChooseCardsHandler handler);
+        /**
+         *
+         * @param options a list of all possible set of possible card that can be used
+         * @param handler an instance of the {@link ch.epfl.tchu.gui.ActionHandler.ChooseCardsHandler} that
+         *                will handle the choosing part
+         */
+        void chooseCards(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler handler);
     }
 
 }

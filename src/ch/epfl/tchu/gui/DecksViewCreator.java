@@ -1,6 +1,7 @@
 package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.Card;
+import ch.epfl.tchu.game.Constants;
 import ch.epfl.tchu.game.Ticket;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -18,14 +19,29 @@ import javafx.scene.text.Text;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
+ *
+ * none instanciable class that handle the creation of the differents deck of the game
  */
 class DecksViewCreator {  //TODO javadoc
     private DecksViewCreator() {
     }
 
+    private static final String STYLE_CARD = "card";
+    private static final String STYLE_DECK = "decks.css";
+    private static final String STYLE_COLORS = "colors.css";
+
+    /**
+     * static method that will create a node containing all the different component of the bottom part of the tchu's GUI
+     * like the personal player's cards, the tickets view. Handle also, interaction between the GUI and the action of a
+     * human player.
+     *
+     * @param gameState an instance of ObservableGameState that gives to this method the properties of some components
+     * @return (Node) the Node of the third part of the Tchu's GUI that represent the player's cards and the list of its
+     * tickets
+     */
     public static Node createHandView(ObservableGameState gameState) {
         HBox view = new HBox();
-        view.getStylesheets().addAll("decks.css", "colors.css");
+        view.getStylesheets().addAll(STYLE_DECK, STYLE_COLORS);
 
         ListView<Ticket> ticketsView = new ListView<>(gameState.ticketsProperties());
         ticketsView.setId("tickets");
@@ -39,8 +55,8 @@ class DecksViewCreator {  //TODO javadoc
             ReadOnlyIntegerProperty count = gameState.cardProperty(card);
             cardPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
 
-            if (card.name().equals("LOCOMOTIVE")) cardPane.getStyleClass().addAll("NEUTRAL", "card");
-            else cardPane.getStyleClass().addAll(card.color().name(), "card");
+            if (card.name().equals("LOCOMOTIVE")) cardPane.getStyleClass().addAll("NEUTRAL", STYLE_CARD);
+            else cardPane.getStyleClass().addAll(card.color().name(), STYLE_CARD);
 
             addCardPaneChildren(cardPane, count);
             hand.getChildren().add(cardPane);
@@ -63,11 +79,23 @@ class DecksViewCreator {  //TODO javadoc
         pane.getChildren().addAll(outsideRect, insideRect, trainImage);
     }
 
+    /**
+     * static method that will create a node containing all the different component of the right part of the tchu's GUI
+     * like the to deck and the face-up cards. Handle also, interaction between the GUI and the action of a human player.
+     *
+     * @param gameState an instance of ObservableGameState that gives to this method the properties of some components
+     * @param ticketsHandlerProperty a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawTicketsHandler} that will
+     *                               handle the drawing of tickets
+     * @param cardHandlerProperty a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawCardHandler} that will handle
+     *                            the drawing of cards
+     * @return (Node) the Node of the second part of the Tchu's GUI that represent the deck of cards, deck of tickets
+     * and the face-up cards
+     */
     public static Node createCardsView(ObservableGameState gameState,
-                                       ObjectProperty<ActionHandler.DrawTicketsHandler> ticketsHandlerObjectProperty,
-                                       ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerObjectProperty) {
+                                       ObjectProperty<ActionHandler.DrawTicketsHandler> ticketsHandlerProperty,
+                                       ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty) {
         VBox view = new VBox();
-        view.getStylesheets().addAll("decks.css", "colors.css");
+        view.getStylesheets().addAll(STYLE_DECK, STYLE_COLORS);
         view.setId("card-pane");
 
         Button ticketsButton = new Button(StringsFr.TICKETS);
@@ -79,17 +107,17 @@ class DecksViewCreator {  //TODO javadoc
         ticketsButton.setGraphic(getGraphicButtonGroup(gameState.ticketsInDeckPercent()));
         cardsButton.setGraphic(getGraphicButtonGroup(gameState.cardsInDeckPercent()));
 
-        ticketsButton.disabledProperty().addListener(o -> ticketsHandlerObjectProperty.isNull());
-        ticketsButton.setOnMouseClicked(o -> ticketsHandlerObjectProperty.get().onDrawTickets());
+        ticketsButton.disabledProperty().addListener(o -> ticketsHandlerProperty.isNull());
+        ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
 
-        cardsButton.disabledProperty().addListener(o -> cardHandlerObjectProperty.isNull());
-        cardsButton.setOnMouseClicked(o -> cardHandlerObjectProperty.get().onDrawCard(-1));
+        cardsButton.disabledProperty().addListener(o -> cardHandlerProperty.isNull());
+        cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
         view.getChildren().add(ticketsButton);
 
         for (int i = 0; i < 5; i++) {
             StackPane cardPane = new StackPane();
-            cardPane.getStyleClass().addAll("card");
+            cardPane.getStyleClass().addAll(STYLE_CARD);
 
             ReadOnlyObjectProperty<Card> card = gameState.faceUpCard(i);
             card.addListener((o, oV, nV) -> {
@@ -97,7 +125,7 @@ class DecksViewCreator {  //TODO javadoc
             });
 
             int index = i;
-            cardPane.setOnMouseClicked(o -> cardHandlerObjectProperty.get().onDrawCard(index));
+            cardPane.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(index));
 
             addFaceUpCardPaneChildren(cardPane);
             view.getChildren().add(cardPane);
