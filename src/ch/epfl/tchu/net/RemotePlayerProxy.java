@@ -13,7 +13,7 @@ import java.util.StringJoiner;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
- *
+ * <p>
  * represent the remote player on the locale machine, local side of the bridge between the two players
  */
 public final class RemotePlayerProxy implements Player {
@@ -114,7 +114,7 @@ public final class RemotePlayerProxy implements Player {
      * has been called and so the graphic interface must be updated.<p> Then, wait for the player to choose its initial
      * tickets, looking at the BufferedReader built with the socket and deserialize the message to pass the information
      *
-     * @return SortedBag< Ticket > - the tickets that the player has chosen
+     * @return SortedBag<Ticket> - the tickets that the player has chosen
      */
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
@@ -142,7 +142,7 @@ public final class RemotePlayerProxy implements Player {
      * socket and deserialize the message to pass the information
      *
      * @param options the tickets drawn by the player
-     * @return SortedBag< Ticket > - the tickets that the player choose
+     * @return SortedBag<Ticket> - the tickets that the player choose
      */
     @Override
     public SortedBag<Ticket> chooseTickets(SortedBag<Ticket> options) {
@@ -184,7 +184,7 @@ public final class RemotePlayerProxy implements Player {
      * cards that he wants to play, looking at the BufferedReader built with the
      * socket and deserialize the message to pass the information
      *
-     * @return SortedBag< Card > - the cards that the player is playing to claim a Route
+     * @return SortedBag<Card> - the cards that the player is playing to claim a Route
      */
     @Override
     public SortedBag<Card> initialClaimCards() {
@@ -199,7 +199,7 @@ public final class RemotePlayerProxy implements Player {
      * Route, looking at the BufferedReader built with the socket and deserialize the message to pass the information
      *
      * @param options the additional cards to claim the tunnel
-     * @return SortedBag< Card > - the cards that the player is (or not) adding to the initial cards according
+     * @return SortedBag<Card> - the cards that the player is (or not) adding to the initial cards according
      * to the option(s) he have
      */
     @Override

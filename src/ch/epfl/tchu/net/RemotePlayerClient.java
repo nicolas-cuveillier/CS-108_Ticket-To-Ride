@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
- *
+ * <p>
  * represent a remote player client that make the connection with listening its port, between the server,
  * hosted by one player, to the other player
  */
@@ -82,50 +82,35 @@ public final class RemotePlayerClient {
 
                     case CHOOSE_INITIAL_TICKETS:
                         SortedBag<Ticket> tickets = player.chooseInitialTickets();
-                        writer.write(Serdes.SB_TICKET.serialize(tickets));
-                        writer.write('\n');
-                        writer.flush();
+                        writeMessage(writer, Serdes.SB_TICKET.serialize(tickets));
                         break;
 
                     case NEXT_TURN:
                         Player.TurnKind turn = player.nextTurn();
-                        writer.write(Serdes.TURN_KIND.serialize(turn));
-                        writer.write('\n');
-                        writer.flush();
+                        writeMessage(writer, Serdes.TURN_KIND.serialize(turn));
                         break;
 
                     case CHOOSE_TICKETS:
                         SortedBag<Ticket> chooseTickets = player.chooseTickets(Serdes.SB_TICKET.deserialize(messages[1]));
-                        writer.write(Serdes.SB_TICKET.serialize(chooseTickets));
-                        writer.write('\n');
-                        writer.flush();
+                        writeMessage(writer, Serdes.SB_TICKET.serialize(chooseTickets));
                         break;
 
                     case DRAW_SLOT:
-                        writer.write(Serdes.INT.serialize(player.drawSlot()));
-                        writer.write('\n');
-                        writer.flush();
+                        writeMessage(writer, Serdes.INT.serialize(player.drawSlot()));
                         break;
 
                     case ROUTE:
-                        writer.write(Serdes.ROUTE.serialize(player.claimedRoute()));
-                        writer.write('\n');
-                        writer.flush();
+                        writeMessage(writer, Serdes.ROUTE.serialize(player.claimedRoute()));
                         break;
 
                     case CARDS:
-                        writer.write(Serdes.SB_CARD.serialize(player.initialClaimCards()));
-                        writer.write('\n');
-                        writer.flush();
+                        writeMessage(writer, Serdes.SB_CARD.serialize(player.initialClaimCards()));
                         break;
 
                     case CHOOSE_ADDITIONAL_CARDS:
                         List<SortedBag<Card>> possibleAdditionalCards = Serdes.L_SB_CARD.deserialize(messages[1]);
                         SortedBag<Card> additionalCards = player.chooseAdditionalCards(possibleAdditionalCards);
-
-                        writer.write(Serdes.SB_CARD.serialize(additionalCards));
-                        writer.write('\n');
-                        writer.flush();
+                        writeMessage(writer, Serdes.SB_CARD.serialize(additionalCards));
                         break;
 
                     default:
@@ -137,5 +122,15 @@ public final class RemotePlayerClient {
             throw new UncheckedIOException(e);
         }
 
+    }
+
+    private static void writeMessage(BufferedWriter writer, String message) {
+        try {
+            writer.write(message);
+            writer.write('\n');
+            writer.flush();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
