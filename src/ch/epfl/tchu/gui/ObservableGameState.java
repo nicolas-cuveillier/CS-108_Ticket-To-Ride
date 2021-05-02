@@ -271,7 +271,7 @@ public final class ObservableGameState {
      * getter for the list of possible claim cards for a given route according to the actual player cards
      *
      * @param route the route that the player wants to claim
-     * @return
+     * @return a List< SortedBag < Card > > containing all possibilities that the player has for claiming the route
      * @see PlayerState
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
