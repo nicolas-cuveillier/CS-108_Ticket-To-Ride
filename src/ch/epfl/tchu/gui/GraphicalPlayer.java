@@ -4,9 +4,12 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Constants;
 import ch.epfl.tchu.game.PlayerId;
+import ch.epfl.tchu.game.Ticket;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -69,64 +72,105 @@ public final class GraphicalPlayer {
         //In Game cards selection window
         setAdditionalCardsSelector(mainView);
 
-
         mainView.show();
     }
+    
 
     private static void setAdditionalCardsSelector(Stage primaryStage) {
+        Stage additionalCardsSelectorStage = new Stage(StageStyle.UTILITY);
+
         VBox additionalCardsSelectorBox = new VBox();
-        Button additionalCardsSelectorButton = new Button("Choisir");
+
         TextFlow additionalCardsSelectorTextFlow = new TextFlow();
         Text additionalCardsSelectorText = new Text(StringsFr.CHOOSE_ADDITIONAL_CARDS);
         additionalCardsSelectorTextFlow.getChildren().add(additionalCardsSelectorText);
+
         ListView<SortedBag<Card>> additionalCardsSelectorListView = new ListView<>();//TODO
         additionalCardsSelectorListView.setCellFactory(v ->
                 new TextFieldListCell<>(new CardBagStringConverter()));
-        additionalCardsSelectorBox.getChildren().addAll(additionalCardsSelectorTextFlow, additionalCardsSelectorButton, additionalCardsSelectorListView);
+
+        Button additionalCardsSelectorButton = new Button("Choisir");
+        additionalCardsSelectorButton.setOnAction(e -> {
+            additionalCardsSelectorStage.hide();
+            //TODO add chooseAdditionalCards
+        });
+
+        additionalCardsSelectorBox.getChildren()
+                .addAll(additionalCardsSelectorTextFlow, additionalCardsSelectorButton, additionalCardsSelectorListView);
+
         Scene additionalCardsSelectorScene = new Scene(additionalCardsSelectorBox);
         additionalCardsSelectorScene.getStylesheets().add("chooser.css");
-        Stage additionalCardsSelectorStage = new Stage(StageStyle.UTILITY);
+
         additionalCardsSelectorStage.setScene(additionalCardsSelectorScene);
-        additionalCardsSelectorStage.setTitle(StringsFr.CARDS_CHOICE);
+        additionalCardsSelectorStage.setTitle(StringsFr.CHOOSE_ADDITIONAL_CARDS);
         additionalCardsSelectorStage.initOwner(primaryStage);
         additionalCardsSelectorStage.initModality(Modality.WINDOW_MODAL);
     }
 
     private static void setInitialCardsSelector(Stage primaryStage) {
-        VBox cardsSelectorBox = new VBox();
-        Button cardsSelectorButton = new Button("Choisir");
+        Stage initialCardsSelectorStage = new Stage(StageStyle.UTILITY);
+
         TextFlow cardsSelectorTextFlow = new TextFlow();
         Text cardsSelectorText = new Text(StringsFr.CHOOSE_CARDS);
         cardsSelectorTextFlow.getChildren().add(cardsSelectorText);
+
         ListView<SortedBag<Card>> cardsSelectorListView = new ListView<>();//TODO
         cardsSelectorListView.setCellFactory(v ->
                 new TextFieldListCell<>(new CardBagStringConverter()));
+
+        Button cardsSelectorButton = new Button("Choisir");
+        cardsSelectorButton.disabledProperty()
+                .addListener(o -> Bindings.size(cardsSelectorListView.getSelectionModel().getSelectedItems())
+                        .isEqualTo(0));
+        cardsSelectorButton.setOnAction(e -> {
+            initialCardsSelectorStage.hide();
+            //TODO add chooseClaimCards
+        });
+
+        VBox cardsSelectorBox = new VBox();
         cardsSelectorBox.getChildren().addAll(cardsSelectorTextFlow, cardsSelectorButton, cardsSelectorListView);
+
         Scene cardsSelectorScene = new Scene(cardsSelectorBox);
         cardsSelectorScene.getStylesheets().add("chooser.css");
-        Stage initialCardsSelectorStage = new Stage(StageStyle.UTILITY);
+
         initialCardsSelectorStage.setScene(cardsSelectorScene);
         initialCardsSelectorStage.setTitle(StringsFr.CARDS_CHOICE);
         initialCardsSelectorStage.initOwner(primaryStage);
         initialCardsSelectorStage.initModality(Modality.WINDOW_MODAL);
+
+        initialCardsSelectorStage.setOnCloseRequest(Event::consume);
     }
 
     private static void setInitialTicketsSelector(Stage primaryStage) {
-        VBox ticketsSelectorBox = new VBox();
-        Button ticketsSelectorButton = new Button("Choisir");
+        Stage initialTicketsSelectorStage = new Stage(StageStyle.UTILITY);
+
         TextFlow ticketsSelectorTextFlow = new TextFlow();
         Text ticketsSelectorText = new Text(String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, "s"));
         ticketsSelectorTextFlow.getChildren().add(ticketsSelectorText);
-        ListView<SortedBag<Card>> ticketsSelectorListView = new ListView<>();//TODO
-        ticketsSelectorListView.setCellFactory(v ->
-                new TextFieldListCell<>(new CardBagStringConverter()));
+
+        ListView<SortedBag<Ticket>> ticketsSelectorListView = new ListView<>();//TODO
+
+        Button ticketsSelectorButton = new Button("Choisir");
+        ticketsSelectorButton.disabledProperty()
+                .addListener(o -> Bindings.size(ticketsSelectorListView.getSelectionModel().getSelectedItems())
+                        .isEqualTo(ticketsSelectorListView.getItems().size() - 2));
+        ticketsSelectorButton.setOnAction(e -> {
+            initialTicketsSelectorStage.hide();
+            //TODO add chooseTickets
+        });
+
+        VBox ticketsSelectorBox = new VBox();
         ticketsSelectorBox.getChildren().addAll(ticketsSelectorTextFlow, ticketsSelectorButton, ticketsSelectorListView);
+
         Scene ticketsSelectorScene = new Scene(ticketsSelectorBox);
         ticketsSelectorScene.getStylesheets().add("chooser.css");
-        Stage initialTicketsSelectorStage = new Stage(StageStyle.UTILITY);
+
+
         initialTicketsSelectorStage.setScene(ticketsSelectorScene);
-        initialTicketsSelectorStage.setTitle(StringsFr.CARDS_CHOICE);
+        initialTicketsSelectorStage.setTitle(StringsFr.TICKETS_CHOICE);
         initialTicketsSelectorStage.initOwner(primaryStage);
         initialTicketsSelectorStage.initModality(Modality.WINDOW_MODAL);
+
+        initialTicketsSelectorStage.setOnCloseRequest(Event::consume);
     }
 }
