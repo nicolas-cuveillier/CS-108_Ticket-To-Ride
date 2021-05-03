@@ -1,7 +1,6 @@
 package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.PlayerId;
-import ch.epfl.tchu.game.PlayerState;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -12,13 +11,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.text.Format;
 import java.util.Map;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 final class InfoViewCreator {
+    //TODO put all constant in ch.epfl.tchu.game.Constants
     private final static String STYLE_COLORS = "colors.css";
     private final static String STYLE_INFO = "info.css";
 
@@ -59,6 +58,5 @@ final class InfoViewCreator {
 
         infoView.getChildren().addAll(playersStatView, separator,inGameInfoText);
         return infoView;
-
     }
 }

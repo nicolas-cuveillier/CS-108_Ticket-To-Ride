@@ -12,20 +12,27 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 
 public final class Stage9Test extends Application {
+    @Test
+    void checkStringConverter(){
+        CardBagStringConverter c = new CardBagStringConverter();
+        SortedBag<Card> b = SortedBag.of(1, Card.VIOLET, 3, Card.RED);
+        assertEquals("1 violette et 3 rouges", c.toString(b));
+    }
     public static void main(String[] args) {
         launch(args);
     }

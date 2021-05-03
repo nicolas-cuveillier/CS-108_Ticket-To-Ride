@@ -216,8 +216,8 @@ public final class Info {
     private static String routeText(Route route) {
         return route.station1().name() + StringsFr.EN_DASH_SEPARATOR + route.station2().name();
     }
-
-    private static String cardText(SortedBag<Card> cards) {
+//TODO javadoc
+    public static String cardText(SortedBag<Card> cards) {
 
         List<Card> trashList = new ArrayList<>();
         List<Card> cardsList = cards.toList().subList(1, cards.size());
