@@ -1,14 +1,12 @@
 package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.SortedBag;
-import ch.epfl.tchu.game.Card;
-import ch.epfl.tchu.game.Constants;
-import ch.epfl.tchu.game.PlayerId;
-import ch.epfl.tchu.game.Ticket;
+import ch.epfl.tchu.game.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -34,11 +32,17 @@ public final class GraphicalPlayer {
     private final PlayerId player;
     private final Map<PlayerId, String> playersName;
     private ObservableGameState gameState;
+    private final ObservableList<Text> information;
+    private final Stage cardsSelectorStage;
+    private final Stage additionalCardsSelectorStage;
+    private final Stage initialTicketsSelectorStage;
+
 
     public GraphicalPlayer(PlayerId player, Map<PlayerId, String> playersName) {
         this.player = player;
         this.playersName = Map.copyOf(playersName);
         this.gameState = new ObservableGameState(player);
+        this.information = FXCollections.observableArrayList();
 
         ObjectProperty<ActionHandler.ClaimRouteHandler> claimRoute =
                 new SimpleObjectProperty<>();
@@ -56,7 +60,7 @@ public final class GraphicalPlayer {
         Node handView = DecksViewCreator
                 .createHandView(gameState);
         Node infoView = InfoViewCreator
-                .createInfoView(PLAYER_1, playersName, gameState, FXCollections.observableArrayList());
+                .createInfoView(PLAYER_1, playersName, gameState, information);
         BorderPane borderPane =
                 new BorderPane(mapView, null, cardsView, handView, infoView);
         Stage mainView = new Stage();
@@ -64,19 +68,46 @@ public final class GraphicalPlayer {
         mainView.setTitle("tChu" + "\u2014" + playersName.get(player));
 
         //cards selection window
-        setInitialCardsSelector(mainView);
+        cardsSelectorStage = setCardsSelector();
+        cardsSelectorStage.initOwner(mainView);
 
         //tickets selection window
-        setInitialTicketsSelector(mainView);
+        initialTicketsSelectorStage = setInitialTicketsSelector();
+        initialTicketsSelectorStage.initOwner(mainView);
 
         //In Game cards selection window
-        setAdditionalCardsSelector(mainView);
+        additionalCardsSelectorStage = setAdditionalCardsSelector();
+        additionalCardsSelectorStage.initOwner(mainView);
 
         mainView.show();
     }
-    
 
-    private static void setAdditionalCardsSelector(Stage primaryStage) {
+    public void setState(PublicGameState newGameState, PlayerState playerState){
+        gameState.setState(newGameState,playerState);
+    }
+
+    public void receiveInfo(String message){
+        if(information.size() == 5)
+            information.remove(0);
+        information.add(new Text(message));
+    }
+
+    public void startTurn(ActionHandler.DrawCardHandler drawCardH,
+                          ActionHandler.DrawTicketsHandler drawTicketsH,
+                          ActionHandler.ClaimRouteHandler claimRouteH){
+        //TODO
+    }
+
+    public void chooseTickets(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH){
+        if(options.size() == 5) {
+            initialTicketsSelectorStage.show();
+
+        } else {
+            
+        }
+    }
+
+    private static Stage setAdditionalCardsSelector() {
         Stage additionalCardsSelectorStage = new Stage(StageStyle.UTILITY);
 
         VBox additionalCardsSelectorBox = new VBox();
@@ -100,14 +131,13 @@ public final class GraphicalPlayer {
 
         Scene additionalCardsSelectorScene = new Scene(additionalCardsSelectorBox);
         additionalCardsSelectorScene.getStylesheets().add("chooser.css");
-
         additionalCardsSelectorStage.setScene(additionalCardsSelectorScene);
         additionalCardsSelectorStage.setTitle(StringsFr.CHOOSE_ADDITIONAL_CARDS);
-        additionalCardsSelectorStage.initOwner(primaryStage);
         additionalCardsSelectorStage.initModality(Modality.WINDOW_MODAL);
+        return additionalCardsSelectorStage;
     }
 
-    private static void setInitialCardsSelector(Stage primaryStage) {
+    private static Stage setCardsSelector() {
         Stage initialCardsSelectorStage = new Stage(StageStyle.UTILITY);
 
         TextFlow cardsSelectorTextFlow = new TextFlow();
@@ -135,13 +165,13 @@ public final class GraphicalPlayer {
 
         initialCardsSelectorStage.setScene(cardsSelectorScene);
         initialCardsSelectorStage.setTitle(StringsFr.CARDS_CHOICE);
-        initialCardsSelectorStage.initOwner(primaryStage);
         initialCardsSelectorStage.initModality(Modality.WINDOW_MODAL);
 
         initialCardsSelectorStage.setOnCloseRequest(Event::consume);
+        return initialCardsSelectorStage;
     }
 
-    private static void setInitialTicketsSelector(Stage primaryStage) {
+    private static Stage setInitialTicketsSelector() {
         Stage initialTicketsSelectorStage = new Stage(StageStyle.UTILITY);
 
         TextFlow ticketsSelectorTextFlow = new TextFlow();
@@ -165,12 +195,12 @@ public final class GraphicalPlayer {
         Scene ticketsSelectorScene = new Scene(ticketsSelectorBox);
         ticketsSelectorScene.getStylesheets().add("chooser.css");
 
-
         initialTicketsSelectorStage.setScene(ticketsSelectorScene);
         initialTicketsSelectorStage.setTitle(StringsFr.TICKETS_CHOICE);
-        initialTicketsSelectorStage.initOwner(primaryStage);
         initialTicketsSelectorStage.initModality(Modality.WINDOW_MODAL);
-
         initialTicketsSelectorStage.setOnCloseRequest(Event::consume);
+        return initialTicketsSelectorStage;
     }
+
+    //TODO setTicketsSelector
 }
