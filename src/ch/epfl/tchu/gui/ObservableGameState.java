@@ -18,6 +18,7 @@ public final class ObservableGameState {
 
     private PublicGameState publicGameState;
     private PlayerState playerState;
+    private final PlayerId playerId;
 
     //global games' properties
     private final IntegerProperty ticketsInDeckPercent;
@@ -41,24 +42,25 @@ public final class ObservableGameState {
      * @param playerId the identity of its corresponding player in {@link Card}
      */
     public ObservableGameState(PlayerId playerId) {
-        publicGameState = null;
-        playerState = null;
+        this.publicGameState = null;
+        this.playerState = null;
+        this.playerId = playerId;
 
-        ticketsInDeckPercent = new SimpleIntegerProperty(0);
-        cardsInDeckPercent = new SimpleIntegerProperty(0);
+        this.ticketsInDeckPercent = new SimpleIntegerProperty(0);
+        this.cardsInDeckPercent = new SimpleIntegerProperty(0);
 
-        faceUpCards = new ArrayList<>(Constants.FACE_UP_CARDS_COUNT);
+        this.faceUpCards = new ArrayList<>(Constants.FACE_UP_CARDS_COUNT);
         for (int i = 0; i < Constants.FACE_UP_CARDS_COUNT; i++)
             faceUpCards.add(new SimpleObjectProperty<>(null));
 
-        routeOwner = new HashMap<>(ChMap.routes().size());
+        this.routeOwner = new HashMap<>(ChMap.routes().size());
         for (Route route : ChMap.routes())
             routeOwner.put(route, new SimpleObjectProperty<>(null));
 
-        ticketsCount = new EnumMap<>(PlayerId.class);
-        cardsCount = new EnumMap<>(PlayerId.class);
-        carsCount = new EnumMap<>(PlayerId.class);
-        pointsCount = new EnumMap<>(PlayerId.class);
+        this.ticketsCount = new EnumMap<>(PlayerId.class);
+        this.cardsCount = new EnumMap<>(PlayerId.class);
+        this.carsCount = new EnumMap<>(PlayerId.class);
+        this.pointsCount = new EnumMap<>(PlayerId.class);
         for (PlayerId pId : PlayerId.ALL) {
             ticketsCount.put(pId, new SimpleIntegerProperty());
             cardsCount.put(pId, new SimpleIntegerProperty());
@@ -66,13 +68,13 @@ public final class ObservableGameState {
             pointsCount.put(pId, new SimpleIntegerProperty());
         }
 
-        tickets = FXCollections.observableArrayList();
+        this.tickets = FXCollections.observableArrayList();
 
-        cards = new EnumMap<>(Card.class);
+        this.cards = new EnumMap<>(Card.class);
         for (Card card : Card.ALL)
             cards.put(card, new SimpleIntegerProperty());
 
-        claimableRoutes = new HashMap<>(ChMap.routes().size());
+        this.claimableRoutes = new HashMap<>(ChMap.routes().size());
         for (Route route : ChMap.routes())
             claimableRoutes.put(route, new SimpleBooleanProperty(false));
     }
@@ -116,7 +118,6 @@ public final class ObservableGameState {
                 if (newGameState.playerState(pId).routes().contains(claimedRoute))
                     routeOwner.get(claimedRoute).setValue(pId);
             }
-
         }
 
         for (PlayerId player : PlayerId.ALL) {
@@ -131,19 +132,21 @@ public final class ObservableGameState {
         for (Card card : Card.ALL)
             cards.get(card).setValue(playerState.cards().countOf(card));
 
-        //TODO moche
         for (Route route : ChMap.routes()) {
             Route nextRoute = getDoubleRoute(route);
+            List<SortedBag<Card>> playerOptions = possibleClaimCards(route);
 
-            if (!newGameState.claimedRoutes().contains(route)) {
-                if (nextRoute != null) {
-                    if (!newGameState.claimedRoutes().contains(nextRoute))
+            if (!playerOptions.isEmpty()) {
+                if (!newGameState.claimedRoutes().contains(route)) {
+                    if (nextRoute != null) {
+                        if (!newGameState.claimedRoutes().contains(nextRoute))
+                            claimableRoutes.get(route).setValue(true);
+                    } else
                         claimableRoutes.get(route).setValue(true);
-                } else
-                    claimableRoutes.get(route).setValue(true);
-            } else {
-                if (nextRoute != null)
-                    claimableRoutes.get(nextRoute).setValue(false);
+                } else {
+                    if (nextRoute != null)
+                        claimableRoutes.get(nextRoute).setValue(false);
+                }
             }
         }
     }

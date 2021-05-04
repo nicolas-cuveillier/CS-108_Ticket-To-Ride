@@ -107,10 +107,10 @@ class DecksViewCreator {  //TODO javadoc
         ticketsButton.setGraphic(getGraphicButtonGroup(gameState.ticketsInDeckPercent()));
         cardsButton.setGraphic(getGraphicButtonGroup(gameState.cardsInDeckPercent()));
 
-        ticketsButton.disabledProperty().addListener(o -> ticketsHandlerProperty.isNull());
+        ticketsButton.disableProperty().bind(ticketsHandlerProperty.isNull());
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
 
-        cardsButton.disabledProperty().addListener(o -> cardHandlerProperty.isNull());
+        cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
         view.getChildren().add(ticketsButton);
@@ -125,7 +125,10 @@ class DecksViewCreator {  //TODO javadoc
             });
 
             int index = i;
-            cardPane.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(index));
+            cardPane.setOnMouseClicked(o -> {
+                if(cardHandlerProperty.isNotNull().get())
+                    cardHandlerProperty.get().onDrawCard(index);
+            });
 
             addFaceUpCardPaneChildren(cardPane);
             view.getChildren().add(cardPane);

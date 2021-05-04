@@ -46,7 +46,7 @@ public final class GraphicalPlayer {
         this.player = player;
         this.playersName = Map.copyOf(playersName);
         this.gameState = new ObservableGameState(player);
-        this.information = FXCollections.emptyObservableList();
+        this.information = FXCollections.observableArrayList();
 
         this.claimRoute = new SimpleObjectProperty<>();
         this.drawTickets = new SimpleObjectProperty<>();
@@ -74,7 +74,8 @@ public final class GraphicalPlayer {
         assert isFxApplicationThread();
         if (information.size() == 5)
             information.remove(0);
-        information.add(new Text(message));
+
+    // .add(new Text(message));
     }
 
     public void startTurn(ActionHandler.DrawTicketsHandler drawTicketsH, ActionHandler.DrawCardHandler drawCardH, ActionHandler.ClaimRouteHandler claimRouteH) {
