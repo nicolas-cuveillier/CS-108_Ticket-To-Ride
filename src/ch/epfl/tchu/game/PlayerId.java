@@ -3,9 +3,8 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
- * <p>
  * Different Player in the game
+ * @author Grégory Preisig & Nicolas Cuveillier
  */
 public enum PlayerId {
     PLAYER_1,
