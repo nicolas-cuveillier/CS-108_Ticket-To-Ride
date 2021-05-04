@@ -150,7 +150,7 @@ public final class ObservableGameState {
 
     private static Route getDoubleRoute(Route route) {
         for (Route r : ChMap.routes()) {
-            if (route.station1().id() == r.station1().id() && route.station2().id() == r.station2().id())
+            if (route.station1().id() == r.station1().id() && route.station2().id() == r.station2().id() && r.id() != route.id())
                 return r;
         }
         return null;
