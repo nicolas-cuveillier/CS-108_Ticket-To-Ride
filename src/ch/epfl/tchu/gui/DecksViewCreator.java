@@ -7,6 +7,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -72,11 +73,11 @@ class DecksViewCreator {  //TODO javadoc
         insideRect.getStyleClass().addAll("filled", "inside");
         Rectangle trainImage = new Rectangle(40, 70);
         trainImage.getStyleClass().add("train-image");
-        Text textCount = new Text();
+        Text textCount = new Text();//TODO le nombre se display pas sur la carte
         textCount.getStyleClass().add("count");
         textCount.textProperty().bind(Bindings.convert(count));
         textCount.visibleProperty().bind(Bindings.greaterThan(count, 1));
-        pane.getChildren().addAll(outsideRect, insideRect, trainImage);
+        pane.getChildren().addAll(outsideRect, insideRect, trainImage,textCount);
     }
 
     /**

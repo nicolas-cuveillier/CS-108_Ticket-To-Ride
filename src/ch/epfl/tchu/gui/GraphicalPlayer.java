@@ -61,7 +61,7 @@ public final class GraphicalPlayer {
 
         this.mainView = new Stage();
         mainView.setScene(new Scene(borderPane));
-        mainView.setTitle("tChu" + "\u2014" + playersName.get(player));
+        mainView.setTitle("tChu" + " \u2014 " + playersName.get(player));
         mainView.show();
     }
 
@@ -74,8 +74,7 @@ public final class GraphicalPlayer {
         assert isFxApplicationThread();
         if (information.size() == 5)
             information.remove(0);
-
-    // .add(new Text(message));
+        information.add(new Text(message));
     }
 
     public void startTurn(ActionHandler.DrawTicketsHandler drawTicketsH, ActionHandler.DrawCardHandler drawCardH, ActionHandler.ClaimRouteHandler claimRouteH) {
