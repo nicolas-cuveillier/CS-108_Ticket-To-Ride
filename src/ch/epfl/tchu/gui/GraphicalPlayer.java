@@ -21,7 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +40,15 @@ public final class GraphicalPlayer {
     private final ObjectProperty<ActionHandler.DrawTicketsHandler> drawTickets;
     private final ObjectProperty<ActionHandler.DrawCardHandler> drawCard;
 
-
+    /**
+     * Unique constructor for a GraphicalPlayer. Build a GraphicalPlayer with initializing its properties to default
+     * value, building an ObservableGameState according to the player. Then, build all the different components pf the
+     * tchu's gui (mapView, cardsView, handView, infoView) in one main BorderPane that will be the scene of the main
+     * stage
+     *
+     * @param player the id of the player for which the GraphicalPlayer is instantiated
+     * @param playersName a map containing the id of all players linked to their name
+     */
     public GraphicalPlayer(PlayerId player, Map<PlayerId, String> playersName) {
         this.player = player;
         this.playersName = Map.copyOf(playersName);
@@ -65,11 +72,22 @@ public final class GraphicalPlayer {
         mainView.show();
     }
 
+    /**
+     * method that will update all properties of the actual game state that have changed during a player turn according to the new game state
+     * and to the actual playerState. This method call the setState method from the ObservableGameState class
+     *
+     * @param newGameState the new PublicGameState from which properties will be updated
+     * @param playerState the current playerState
+     */
     public void setState(PublicGameState newGameState, PlayerState playerState) {
         assert isFxApplicationThread();
         gameState.setState(newGameState, playerState);
     }
 
+    /**
+     * add the message to the left hand side of the gui to display it and remove one if the number of messages exceed 5
+     * @param message the message that will be display in the InfoView at the left of the screen
+     */
     public void receiveInfo(String message) {
         assert isFxApplicationThread();
         if (information.size() == 5)
