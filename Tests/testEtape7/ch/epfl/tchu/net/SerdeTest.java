@@ -20,7 +20,6 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
  */
 public class SerdeTest {
 
-    //TODO : check every other constant in Serdes
     @Test
     void checkSerdesOfInt() {
         int i = 2021;

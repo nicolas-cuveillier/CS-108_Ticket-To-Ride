@@ -164,7 +164,7 @@ public final class Info {
         StringBuilder text = new StringBuilder(String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardText(drawnCards)));
         if (additionalCost != 0)
             text.append(String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost)));
-         else
+        else
             text.append(String.format(StringsFr.NO_ADDITIONAL_COST));
 
         return text.toString();
@@ -214,7 +214,13 @@ public final class Info {
     private static String routeText(Route route) {
         return route.station1().name() + StringsFr.EN_DASH_SEPARATOR + route.station2().name();
     }
-//TODO javadoc
+
+    /**
+     * compute the text representing the sortedBag of cards in a human way.
+     *
+     * @param cards the sortedBag of cards for which the text will be computed
+     * @return a string which correspond to the textual representation of a sortedBag of cards
+     */
     public static String cardText(SortedBag<Card> cards) {
 
         List<Card> trashList = new ArrayList<>();

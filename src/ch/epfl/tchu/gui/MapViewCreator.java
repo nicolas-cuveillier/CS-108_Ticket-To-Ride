@@ -23,7 +23,6 @@ final class MapViewCreator {
     private MapViewCreator() {
     }
 
-    //TODO constants + javadoc
     private static final String STYLE_COLORS = "colors.css";
     private static final String STYLE_MAP = "map.css";
     private static final String STYLE_ROUTE = "route";
