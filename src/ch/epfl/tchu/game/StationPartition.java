@@ -2,6 +2,9 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  * <p>
@@ -11,11 +14,11 @@ public final class StationPartition implements StationConnectivity {
     private final int[] representativeId;
 
     private StationPartition(int[] linksId) {
-        representativeId = linksId;
+        representativeId = Arrays.copyOf(linksId,linksId.length);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} by checking the equality of their representative
      */
     @Override
     public boolean connected(Station st1, Station st2) {
@@ -89,7 +92,8 @@ public final class StationPartition implements StationConnectivity {
                 }
                 representativeId[i] = representative;
             }
-            return new StationPartition(representativeId);
+
+            return new StationPartition(Arrays.copyOf(representativeId,representativeId.length));
         }
     }
 

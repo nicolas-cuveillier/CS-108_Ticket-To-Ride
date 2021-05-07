@@ -26,8 +26,8 @@ public final class PlayerState extends PublicPlayerState {
      */
     public PlayerState(SortedBag<Ticket> tickets, SortedBag<Card> cards, List<Route> routes) {
         super(tickets.size(), cards.size(), routes);
-        this.tickets = SortedBag.of(tickets);
-        this.cards = SortedBag.of(cards);
+        this.tickets = tickets;
+        this.cards = cards;
         this.routes = List.copyOf(routes);
     }
 
@@ -144,7 +144,6 @@ public final class PlayerState extends PublicPlayerState {
 
         if (usableCard.size() >= additionalCardsCount)
             additionalCardsSet = SortedBag.of(usableCard).subsetsOfSize(additionalCardsCount);
-
 
         final List<SortedBag<Card>> additionalCards = new ArrayList<>(additionalCardsSet);
         additionalCards.sort(Comparator.comparingInt(cs -> cs.countOf(Card.LOCOMOTIVE)));

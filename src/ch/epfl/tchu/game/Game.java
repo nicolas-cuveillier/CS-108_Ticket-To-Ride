@@ -5,6 +5,7 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -74,13 +75,17 @@ public final class Game {
         for (PlayerId p : players.keySet()) {
             receiveInfoForBothPlayer(players, new Info(playerNames.get(p)).keptTickets(gameState.playerState(p).ticketCount()));
         }
+        //set Info
+        EnumMap<PlayerId, Info> playersInfo = new EnumMap<>(PlayerId.class);
+        for (PlayerId playerId : PlayerId.ALL) {
+            playersInfo.put(playerId, new Info(playerNames.get(playerId)));
+        }
 
         boolean isPlaying = true;
-
         while (isPlaying) {
 
             //1.update info for current player
-            currentPlayer = new Info(playerNames.get(gameState.currentPlayerId()));
+            currentPlayer = playersInfo.get(gameState.currentPlayerId());
 
             //2. info
             receiveInfoForBothPlayer(players, currentPlayer.canPlay());
@@ -110,16 +115,11 @@ public final class Game {
                         gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
 
                         int slot = players.get(gameState.currentPlayerId()).drawSlot();
+
+                        if (slot == Constants.DECK_SLOT) receiveInfoForBothPlayer(players, currentPlayer.drewBlindCard());
+                        else receiveInfoForBothPlayer(players, currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(slot)));
+
                         gameState = (slot == Constants.DECK_SLOT) ? gameState.withBlindlyDrawnCard() : gameState.withDrawnFaceUpCard(slot);
-
-                        for (Player p : players.values()) {
-                            if (slot == Constants.DECK_SLOT) {
-                                p.receiveInfo(currentPlayer.drewBlindCard());
-                            } else {
-                                p.receiveInfo(currentPlayer.drewVisibleCard(gameState.cardState().faceUpCard(slot)));
-                            }
-                        }
-
                         updateGameState(players, gameState);// (3)
                     }
 
@@ -239,19 +239,23 @@ public final class Game {
 
         if (winnerIsAlone) {
 
-            PlayerId winner = null;
-
-            for (PlayerId p : playerPoints.keySet()) {
-                if (playerPoints.get(p) == winnerPoints)
-                    winner = p;
-
-            }
+            PlayerId winner = playerPoints.keySet()
+                    .stream()
+                    .filter(e -> playerPoints.get(e).equals(winnerPoints))
+                    .collect(Collectors.toList()).get(0);
 
             if (winner != null)
                 receiveInfoForBothPlayer(players, new Info(winner.name()).won(winnerPoints, playerPoints.get(winner.next())));
 
         } else {
-            List<String> names = new ArrayList<>(playerNames.values());
+            List<PlayerId> winners = playerPoints.keySet().stream()
+                    .filter(e -> playerPoints.get(e).equals(winnerPoints))
+                    .collect(Collectors.toList());
+
+            List<String> names = playerNames.values().stream()
+                    .filter(e -> winners.contains(e))
+                    .collect(Collectors.toList());
+
             receiveInfoForBothPlayer(players, Info.draw(names, winnerPoints));
         }
     }
@@ -263,7 +267,7 @@ public final class Game {
      * @param newGameState the new GameState used for the update
      */
     private static void updateGameState(Map<PlayerId, Player> players, GameState newGameState) {
-        players.forEach((pi,p) -> p.updateState(newGameState,newGameState.playerState(pi)));
+        players.forEach((pi, p) -> p.updateState(newGameState, newGameState.playerState(pi)));
     }
 
     /**

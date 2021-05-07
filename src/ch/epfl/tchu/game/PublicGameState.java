@@ -5,6 +5,7 @@ import ch.epfl.tchu.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -13,6 +14,7 @@ import java.util.Map;
  */
 public class PublicGameState {
 
+    private final static int MINIMUM_CARD_FOR_DRAWING = 5;
     private final int ticketsCount;
     private final PublicCardState cardState;
     private final PlayerId currentPlayerId;
@@ -35,8 +37,8 @@ public class PublicGameState {
         Preconditions.checkArgument(ticketsCount >= 0);
         Preconditions.checkArgument(playerState.size() == PlayerId.COUNT);
 
-        if (cardState == null || currentPlayerId == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(cardState);
+        Objects.requireNonNull(currentPlayerId);
 
         this.ticketsCount = ticketsCount;
         this.cardState = cardState;
@@ -58,10 +60,10 @@ public class PublicGameState {
     /**
      * Tests whether it is possible to draw cards from the deck or not
      *
-     * @return true iff the cards overall are more or equal to five
+     * @return true iff the cards overall are more or equal to five, the minimum cards to fulfill all emplacement
      */
     public boolean canDrawCards() {
-        return (cardState.deckSize() + cardState.discardsSize() >= 5);
+        return (cardState.deckSize() + cardState.discardsSize() >= MINIMUM_CARD_FOR_DRAWING);
     }
 
     /**

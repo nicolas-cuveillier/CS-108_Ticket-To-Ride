@@ -70,7 +70,7 @@ public final class Ticket implements Comparable<Ticket> {
      * @param connectivity will describe the fact that two station are connected and will influence on the total points
      * @return (int) the points given the connectivity
      */
-    public int points(StationConnectivity connectivity) {
+    public int points(StationConnectivity connectivity) {//TODO simplify
         int maxPoint = 0;
         int minPoint = trips.get(0).points();
 

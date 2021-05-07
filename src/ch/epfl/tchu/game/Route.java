@@ -5,6 +5,7 @@ import ch.epfl.tchu.SortedBag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
@@ -44,9 +45,10 @@ public final class Route {
         Preconditions.checkArgument(!station1.equals(station2) && length <= Constants.MAX_ROUTE_LENGTH
                 && length >= Constants.MIN_ROUTE_LENGTH);
 
-        if (station1 == null || station2 == null || level == null || id == null)
-            throw new NullPointerException("Station | Level | both is|are null");
-
+        Objects.requireNonNull(station1);
+        Objects.requireNonNull(station2);
+        Objects.requireNonNull(level);
+        Objects.requireNonNull(id);
 
         this.id = id;
         this.station1 = station1;

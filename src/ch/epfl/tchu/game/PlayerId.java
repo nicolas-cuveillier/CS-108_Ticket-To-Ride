@@ -3,27 +3,30 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
- * Different Player in the game
  * @author Grégory Preisig & Nicolas Cuveillier
+ *
+ *  Different Player in the game
+ *  {@link #PLAYER_1},
+ *  {@link #PLAYER_2},
  */
 public enum PlayerId {
     PLAYER_1,
     PLAYER_2;
     /**
-     * an unmodifiable list of all players
+     * an unmodifiable list of all players.
      */
     public static final List<PlayerId> ALL = List.of(PlayerId.values());
     /**
-     * Number of possible players
+     * Number of possible players.
      */
     public static final int COUNT = ALL.size();
 
     /**
-     * return the other player's id, given a player's id
+     * return the other player's id, given a player's id.
      *
-     * @return (PlayerId) the other PlayerId
+     * @return (PlayerId) the other PlayerId.
      */
     public PlayerId next() {
-        return (this.equals(PLAYER_1) ? PLAYER_2 : PLAYER_1);
+        return (this.ordinal() == (ALL.size() - 1)) ? ALL.get(0) : ALL.get(this.ordinal() + 1);
     }
 }

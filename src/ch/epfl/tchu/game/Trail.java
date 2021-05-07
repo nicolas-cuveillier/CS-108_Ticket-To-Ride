@@ -54,10 +54,9 @@ public final class Trail {
                 if (longestTrail != null)
                     length = longestTrail.length;
 
-
                 routes.stream()
                         .filter(route -> !c.routes().contains(route))
-                        .forEach(route -> {
+                        .forEach(route -> { //TODO meilleure modularisation possible
                             if ((c.station2().id() == route.station1().id()) && (Objects.equals(c.station2().name(), route.station1().name()))) {
                                 addTrailBuildWithRouteAccordingToSt2(c, cs2, route);
                             } else if ((c.station2().id() == route.station2().id()) && (Objects.equals(c.station2().name(), route.station2().name()))) {
@@ -66,10 +65,6 @@ public final class Trail {
                         });
 
                 longestTrail = length < c.length() ? c : longestTrail;
-
-                if (c.routes().containsAll(routes))
-                    longestTrail = length < c.length() ? c : longestTrail;
-
 
             }
             cs = cs2;
@@ -103,7 +98,7 @@ public final class Trail {
      * @return textual representation of a trail
      */
     @Override
-    public String toString() {
+    public String toString() { //TODO method trop longue
         StringBuilder text = new StringBuilder();
 
         int totalLength = routes.stream()

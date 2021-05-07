@@ -30,7 +30,7 @@ public final class Info {
      *
      * @param card  the card that the name will be return
      * @param count the number of card(s)
-     * @return teh card name
+     * @return the card name
      */
     public static String cardName(Card card, int count) {
 
@@ -54,10 +54,8 @@ public final class Info {
             case LOCOMOTIVE:
                 return StringsFr.LOCOMOTIVE_CARD + StringsFr.plural(count);
             default:
-                return "";
+                throw new Error();
         }
-
-
     }
 
     /**
@@ -164,11 +162,11 @@ public final class Info {
      */
     public String drewAdditionalCards(SortedBag<Card> drawnCards, int additionalCost) {
         StringBuilder text = new StringBuilder(String.format(StringsFr.ADDITIONAL_CARDS_ARE, cardText(drawnCards)));
-        if (additionalCost != 0) {
+        if (additionalCost != 0)
             text.append(String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost)));
-        } else {
+         else
             text.append(String.format(StringsFr.NO_ADDITIONAL_COST));
-        }
+
         return text.toString();
     }
 

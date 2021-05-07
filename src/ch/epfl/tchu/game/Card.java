@@ -37,12 +37,12 @@ public enum Card {
         this.color = color;
     }
 
-    private Color color;
+    private final Color color;
 
     /**
      * an unmodifiable list of all cards
      */
-    public static final List<Card> ALL = List.of(Card.values());
+    public static final List<Card> ALL = List.of(values());
 
     /**
      * the number of possible cards

@@ -5,6 +5,7 @@ import ch.epfl.tchu.SortedBag;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -14,14 +15,16 @@ import java.util.Random;
  */
 public final class GameState extends PublicGameState {
 
+    private final static int MINIMUM_CAR_FOR_LAST_TURN_BEGIN = 2;
     private final Deck<Ticket> tickets;
     private final Map<PlayerId, PlayerState> playerState;
     private final CardState cardState;
 
     private GameState(PlayerId currentPlayerId, Deck<Ticket> tickets, Map<PlayerId, PlayerState> playerState, CardState cardState, PlayerId lastPlayer) {
-
         super(tickets.size(), new PublicCardState(cardState.faceUpCards(), cardState.deckSize(),
                         cardState.discardsSize()), currentPlayerId, Map.copyOf(playerState), lastPlayer);
+        Objects.requireNonNull(tickets);
+        Objects.requireNonNull(cardState);
 
         this.tickets = tickets;
         this.playerState = Map.copyOf(playerState);
@@ -36,25 +39,20 @@ public final class GameState extends PublicGameState {
      * @return the initial GameState
      */
     public static GameState initial(SortedBag<Ticket> tickets, Random rng) {
-
-        final SortedBag<Card> cards = Constants.ALL_CARDS;
-        CardState cardState = CardState.of(Deck.of(cards, rng));
-
-        final SortedBag.Builder<Card> firstPlayerCards = new SortedBag.Builder<>();
-        for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
-            firstPlayerCards.add(cardState.topDeckCard());
-            cardState = cardState.withoutTopDeckCard();
-        }
-
-        final SortedBag.Builder<Card> secondPlayerCards = new SortedBag.Builder<>();
-        for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
-            secondPlayerCards.add(cardState.topDeckCard());
-            cardState = cardState.withoutTopDeckCard();
-        }
-
         final Map<PlayerId, PlayerState> playerState = new EnumMap<>(PlayerId.class);
-        playerState.put(PlayerId.PLAYER_1, PlayerState.initial(firstPlayerCards.build()));
-        playerState.put(PlayerId.PLAYER_2, PlayerState.initial(secondPlayerCards.build()));
+        final SortedBag<Card> cards = Constants.ALL_CARDS;
+        Deck<Card> deck = Deck.of(cards, rng);
+
+        SortedBag.Builder<Card> playerCards;
+        for (PlayerId playerId: PlayerId.ALL) {
+            playerCards = new SortedBag.Builder<>();
+            for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
+                playerCards.add(deck.topCard());
+                deck = deck.withoutTopCard();
+            }
+            playerState.put(playerId, PlayerState.initial(playerCards.build()));
+        }
+        CardState cardState = CardState.of(deck);
 
         return new GameState(PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT)), Deck.of(tickets, rng), playerState, cardState, null);
     }
@@ -237,7 +235,7 @@ public final class GameState extends PublicGameState {
      * @return true iff the last player is still unknown and the current player has less than two car
      */
     public boolean lastTurnBegins() {
-        return lastPlayer() == null && currentPlayerState().carCount() <= 2;
+        return lastPlayer() == null && currentPlayerState().carCount() <= MINIMUM_CAR_FOR_LAST_TURN_BEGIN;
     }
 
     /**

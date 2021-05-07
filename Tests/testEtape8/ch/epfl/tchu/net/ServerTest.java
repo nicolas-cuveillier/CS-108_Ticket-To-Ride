@@ -19,7 +19,7 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 public class ServerTest {
-    @Test
+
     void checkServer() {
         System.out.println("Starting server!");
         try (ServerSocket serverSocket = new ServerSocket(5108);

@@ -31,7 +31,7 @@ public class PublicPlayerState {
 
         this.ticketCount = ticketCount;
         this.cardCount = cardCount;
-        this.routes = new ArrayList<>(routes);
+        this.routes = List.copyOf(routes);
 
         final int length = routes.stream()
                 .mapToInt(Route::length)
@@ -68,7 +68,7 @@ public class PublicPlayerState {
      * @return (List < Route >) the list of all player's Route(s)
      */
     public List<Route> routes() {
-        return List.copyOf(routes);
+        return routes;
     }
 
     /**

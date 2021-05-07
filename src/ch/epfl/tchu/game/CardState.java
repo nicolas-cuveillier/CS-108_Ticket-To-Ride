@@ -51,8 +51,7 @@ public final class CardState extends PublicCardState {
         Objects.checkIndex(slot, faceUpCards().size());
 
         final List<Card> faceUpCards = new ArrayList<>(faceUpCards());
-        faceUpCards.remove(slot);
-        faceUpCards.add(slot, deck.topCard());
+        faceUpCards.set(slot, deck.topCard());
 
         return new CardState(faceUpCards, deck.withoutTopCard(), discard);
     }

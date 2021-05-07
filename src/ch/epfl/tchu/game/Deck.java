@@ -30,7 +30,7 @@ public final class Deck<C extends Comparable<C>> {
      * @return (Deck < C >) a new deck of the shuffled list of cards
      */
     public static <C extends Comparable<C>> Deck<C> of(SortedBag<C> cards, Random rng) {
-        List<C> listOf = new ArrayList<>(cards.toList());
+        List<C> listOf = cards.toList();
         Collections.shuffle(listOf, rng);
         return new Deck<>(listOf);
     }
@@ -60,7 +60,8 @@ public final class Deck<C extends Comparable<C>> {
      * @see #topCards(int)
      */
     public C topCard() {
-        return topCards(1).get(0);
+        Preconditions.checkArgument(!cards.isEmpty());
+        return cards.get(0);
     }
 
     /**
@@ -82,7 +83,7 @@ public final class Deck<C extends Comparable<C>> {
      */
     public SortedBag<C> topCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        return SortedBag.of(List.copyOf(cards.subList(0, count)));
+        return SortedBag.of(cards.subList(0, count));
     }
 
     /**
@@ -94,7 +95,7 @@ public final class Deck<C extends Comparable<C>> {
      */
     public Deck<C> withoutTopCards(int count) {
         Preconditions.checkArgument(count >= 0 && count <= cards.size());
-        return new Deck<>(List.copyOf(cards.subList(count, cards.size())));
+        return new Deck<>(cards.subList(count, cards.size()));
     }
 
 }
