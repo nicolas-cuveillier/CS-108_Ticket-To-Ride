@@ -86,7 +86,7 @@ class DecksViewCreator {
 
     /**
      * static method that will create a node containing all the different component of the right part of the tchu's GUI
-     * like the to deck and the face-up cards. Handle also, interaction between the GUI and the action of a human player.
+     * like the deck and the face-up cards. Handle also, interaction between the GUI and the action of a human player.
      *
      * @param gameState an instance of ObservableGameState that gives to this method the properties of some components
      * @param ticketsHandlerProperty a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawTicketsHandler} that will
