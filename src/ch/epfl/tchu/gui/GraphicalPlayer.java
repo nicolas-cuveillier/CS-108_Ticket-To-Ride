@@ -12,6 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -221,11 +223,12 @@ public final class GraphicalPlayer {
         ticketsSelectorTextFlow.getChildren().add(ticketsSelectorText);
 
         ListView<Ticket> ticketsSelectorListView = new ListView<>(FXCollections.observableArrayList(options.toList()));
+        ticketsSelectorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         Button ticketsSelectorButton = new Button("Choisir");
         ObservableList<Ticket> chosenTickets = ticketsSelectorListView.getSelectionModel().getSelectedItems();
-        ticketsSelectorButton.disabledProperty().addListener(o -> Bindings.size(chosenTickets)
-                .isEqualTo(ticketsSelectorListView.getItems().size() - 2));
+        ticketsSelectorButton.disableProperty().bind(Bindings.size(chosenTickets)
+                .lessThan(ticketsSelectorListView.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT));
         ticketsSelectorButton.setOnAction(e -> {
             initialTicketsSelectorStage.hide();
             chooseTicketsH.onChooseTickets(SortedBag.of(chosenTickets));

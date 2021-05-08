@@ -54,8 +54,11 @@ public class GraphicalPlayerTest  extends Application {
                     String rn = r.station1() + " - " + r.station2();
                     p.receiveInfo(String.format("Je m'empare de %s avec %s", rn, cs));
                 };
-
+        ActionHandler.ChooseTicketsHandler chooseTicketsH =
+                (s) -> p.receiveInfo("Je choisis des billets !");
         p.startTurn(drawTicketsH, drawCardH, claimRouteH);
+        p.chooseTickets(SortedBag.of(ChMap.tickets().subList(0,5)),chooseTicketsH);
+
     }
 }
 
