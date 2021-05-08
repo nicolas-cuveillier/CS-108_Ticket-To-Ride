@@ -12,7 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.BorderPane;
@@ -94,7 +93,7 @@ public final class GraphicalPlayer {
         assert isFxApplicationThread();
         if (information.size() == 5)
             information.remove(0);
-        information.add(new Text(message));
+        information.add(new Text(message + "\n"));
     }
 
     public void startTurn(ActionHandler.DrawTicketsHandler drawTicketsH, ActionHandler.DrawCardHandler drawCardH, ActionHandler.ClaimRouteHandler claimRouteH) {
@@ -171,14 +170,7 @@ public final class GraphicalPlayer {
         additionalCardsSelectorBox.getChildren()
                 .addAll(additionalCardsSelectorTextFlow, additionalCardsSelectorButton, additionalCardsSelectorListView);
 
-        Scene additionalCardsSelectorScene = new Scene(additionalCardsSelectorBox);
-        additionalCardsSelectorScene.getStylesheets().add("chooser.css");
-        additionalCardsSelectorStage.setScene(additionalCardsSelectorScene);
-        additionalCardsSelectorStage.setTitle(StringsFr.CHOOSE_ADDITIONAL_CARDS);
-        additionalCardsSelectorStage.initModality(Modality.WINDOW_MODAL);
-        additionalCardsSelectorStage.initOwner(mainView);
-        additionalCardsSelectorStage.setOnCloseRequest(Event::consume);
-        return additionalCardsSelectorStage;
+        return setStageFromBox(additionalCardsSelectorStage,additionalCardsSelectorBox);
     }
 
     private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
@@ -204,15 +196,7 @@ public final class GraphicalPlayer {
         VBox cardsSelectorBox = new VBox();
         cardsSelectorBox.getChildren().addAll(cardsSelectorTextFlow, cardsSelectorButton, cardsSelectorListView);
 
-        Scene cardsSelectorScene = new Scene(cardsSelectorBox);
-        cardsSelectorScene.getStylesheets().add("chooser.css");
-
-        initialCardsSelectorStage.setScene(cardsSelectorScene);
-        initialCardsSelectorStage.setTitle(StringsFr.CARDS_CHOICE);
-        initialCardsSelectorStage.initModality(Modality.WINDOW_MODAL);
-        initialCardsSelectorStage.initOwner(mainView);
-        initialCardsSelectorStage.setOnCloseRequest(Event::consume);
-        return initialCardsSelectorStage;
+        return setStageFromBox(initialCardsSelectorStage,cardsSelectorBox);
     }
 
     private Stage initialTicketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
@@ -237,15 +221,19 @@ public final class GraphicalPlayer {
         VBox ticketsSelectorBox = new VBox();
         ticketsSelectorBox.getChildren().addAll(ticketsSelectorTextFlow, ticketsSelectorButton, ticketsSelectorListView);
 
-        Scene ticketsSelectorScene = new Scene(ticketsSelectorBox);
-        ticketsSelectorScene.getStylesheets().add("chooser.css");
+        return setStageFromBox(initialTicketsSelectorStage,ticketsSelectorBox);
+    }
 
-        initialTicketsSelectorStage.setScene(ticketsSelectorScene);
-        initialTicketsSelectorStage.setTitle(StringsFr.TICKETS_CHOICE);
-        initialTicketsSelectorStage.initModality(Modality.WINDOW_MODAL);
-        initialTicketsSelectorStage.initOwner(mainView);
-        initialTicketsSelectorStage.setOnCloseRequest(Event::consume);
-        return initialTicketsSelectorStage;
+    private Stage setStageFromBox(Stage stage,VBox box){
+        Scene selectorScene = new Scene(box);
+        selectorScene.getStylesheets().add("chooser.css");
+
+        stage.setScene(selectorScene);
+        stage.setTitle(StringsFr.TICKETS_CHOICE);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainView);
+        stage.setOnCloseRequest(Event::consume);
+        return stage;
     }
 
 }
