@@ -3,11 +3,11 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
- *
- *  Different Player in the game
- *  {@link #PLAYER_1},
- *  {@link #PLAYER_2},
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
+ * <p>
+ * Different Player in the game
+ * {@link #PLAYER_1},
+ * {@link #PLAYER_2},
  */
 public enum PlayerId {
     PLAYER_1,

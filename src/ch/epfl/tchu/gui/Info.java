@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author GGrégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * Information that player will see during the game gives as String
  */

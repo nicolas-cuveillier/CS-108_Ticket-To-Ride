@@ -25,11 +25,10 @@ import javafx.stage.StageStyle;
 import java.util.List;
 import java.util.Map;
 
-import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static javafx.application.Platform.isFxApplicationThread;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GraphicalPlayer {
     private final PlayerId player;
@@ -63,7 +62,7 @@ public final class GraphicalPlayer {
         Node mapView = MapViewCreator.createMapView(gameState, claimRoute, this::chooseClaimCards);
         Node cardsView = DecksViewCreator.createCardsView(gameState, drawTickets, drawCard);
         Node handView = DecksViewCreator.createHandView(gameState);
-        Node infoView = InfoViewCreator.createInfoView(PLAYER_1, playersName, gameState, information);
+        Node infoView = InfoViewCreator.createInfoView(player, playersName, gameState, information);
         BorderPane borderPane =
                 new BorderPane(mapView, null, cardsView, handView, infoView);
 

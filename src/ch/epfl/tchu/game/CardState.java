@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * Represents the Card status which are not possessed by any of the players, specialised from PublicCardState
  */
@@ -20,7 +20,7 @@ public final class CardState extends PublicCardState {
     private CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discard) {
         super(faceUpCards, deck.size(), discard.size());
         this.deck = deck;
-        this.discard = SortedBag.of(discard);
+        this.discard = discard;
     }
 
     /**

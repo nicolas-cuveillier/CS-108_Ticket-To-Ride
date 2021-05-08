@@ -1,7 +1,7 @@
 package ch.epfl.tchu;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * use to easily check conditions
  */

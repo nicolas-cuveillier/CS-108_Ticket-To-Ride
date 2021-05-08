@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.List;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  *
  * none instanciable class that handle the creation of the map
  */

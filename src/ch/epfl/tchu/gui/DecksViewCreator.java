@@ -17,11 +17,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  *
  * none instanciable class that handle the creation of the differents deck of the game
  */
-class DecksViewCreator {
+final class DecksViewCreator {
     private DecksViewCreator() {
     }
 

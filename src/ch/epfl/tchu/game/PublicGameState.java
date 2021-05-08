@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * implements the public part of the notion of game state
  */
@@ -37,12 +37,9 @@ public class PublicGameState {
         Preconditions.checkArgument(ticketsCount >= 0);
         Preconditions.checkArgument(playerState.size() == PlayerId.COUNT);
 
-        Objects.requireNonNull(cardState);
-        Objects.requireNonNull(currentPlayerId);
-
         this.ticketsCount = ticketsCount;
-        this.cardState = cardState;
-        this.currentPlayerId = currentPlayerId;
+        this.cardState = Objects.requireNonNull(cardState);
+        this.currentPlayerId = Objects.requireNonNull(currentPlayerId);
         this.playerState = Map.copyOf(playerState);
         this.lastPlayer = lastPlayer;
     }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillie
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * implement the notion of Trail in the game
  */
@@ -20,7 +20,7 @@ public final class Trail {
 
 
     private Trail(List<Route> routes, Station station1, Station station2) {
-        this.routes = new ArrayList<>(routes);
+        this.routes = List.copyOf(routes);
         this.station1 = station1;
         this.station2 = station2;
         this.length = routes.stream()
@@ -38,7 +38,6 @@ public final class Trail {
 
         if (routes.isEmpty())
             return new Trail(List.of(), null, null);
-
 
         List<Trail> cs;
         Trail longestTrail = null;

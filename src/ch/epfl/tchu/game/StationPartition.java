@@ -2,11 +2,10 @@ package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.Preconditions;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * represent the notion of stationPartition (flattened), implements StationConnectivity
  */

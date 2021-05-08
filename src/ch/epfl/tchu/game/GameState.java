@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * implements the notion of GameState in its more complete form, specialised from PublicGameState
  */
@@ -23,12 +23,10 @@ public final class GameState extends PublicGameState {
     private GameState(PlayerId currentPlayerId, Deck<Ticket> tickets, Map<PlayerId, PlayerState> playerState, CardState cardState, PlayerId lastPlayer) {
         super(tickets.size(), new PublicCardState(cardState.faceUpCards(), cardState.deckSize(),
                         cardState.discardsSize()), currentPlayerId, Map.copyOf(playerState), lastPlayer);
-        Objects.requireNonNull(tickets);
-        Objects.requireNonNull(cardState);
 
-        this.tickets = tickets;
+        this.tickets = Objects.requireNonNull(tickets);
         this.playerState = Map.copyOf(playerState);
-        this.cardState = cardState;
+        this.cardState = Objects.requireNonNull(cardState);
     }
 
     /**

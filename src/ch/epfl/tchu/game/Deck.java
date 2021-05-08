@@ -10,7 +10,7 @@ import java.util.Random;
 
 /**
  * @param <C> the type of elements in the Deck
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * Generic class to implement the notion of deck in the game
  */

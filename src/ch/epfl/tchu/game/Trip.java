@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * Simulate a trip from the tchu game
  */
-public class Trip {
+public final class Trip {
     private final Station from;
     private final Station to;
     private final int points;

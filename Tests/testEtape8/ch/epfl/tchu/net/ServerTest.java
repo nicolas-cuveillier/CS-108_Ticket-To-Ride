@@ -4,7 +4,6 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import ch.epfl.tchu.gui.Info;
 import ch.epfl.test.TestRandomizer;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.ServerSocket;
