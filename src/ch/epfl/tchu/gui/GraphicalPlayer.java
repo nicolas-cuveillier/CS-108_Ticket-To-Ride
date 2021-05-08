@@ -202,9 +202,7 @@ public final class GraphicalPlayer {
     private Stage initialTicketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         Stage initialTicketsSelectorStage = new Stage(StageStyle.UTILITY);
 
-        TextFlow ticketsSelectorTextFlow = new TextFlow();
-        Text ticketsSelectorText = new Text(String.format(StringsFr.CHOOSE_TICKETS, Constants.IN_GAME_TICKETS_COUNT, "s"));
-        ticketsSelectorTextFlow.getChildren().add(ticketsSelectorText);
+
 
         ListView<Ticket> ticketsSelectorListView = new ListView<>(FXCollections.observableArrayList(options.toList()));
         ticketsSelectorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -217,6 +215,10 @@ public final class GraphicalPlayer {
             initialTicketsSelectorStage.hide();
             chooseTicketsH.onChooseTickets(SortedBag.of(chosenTickets));
         });
+
+        TextFlow ticketsSelectorTextFlow = new TextFlow();
+        Text ticketsSelectorText = new Text(String.format(StringsFr.CHOOSE_TICKETS, ticketsSelectorListView.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT, "s"));
+        ticketsSelectorTextFlow.getChildren().add(ticketsSelectorText);
 
         VBox ticketsSelectorBox = new VBox();
         ticketsSelectorBox.getChildren().addAll(ticketsSelectorTextFlow, ticketsSelectorButton, ticketsSelectorListView);

@@ -57,7 +57,7 @@ public class GraphicalPlayerTest  extends Application {
         ActionHandler.ChooseTicketsHandler chooseTicketsH =
                 (s) -> p.receiveInfo("Je choisis des billets !");
         p.startTurn(drawTicketsH, drawCardH, claimRouteH);
-        p.chooseTickets(SortedBag.of(ChMap.tickets().subList(0,5)),chooseTicketsH);
+        p.chooseTickets(SortedBag.of(ChMap.tickets().subList(0,3)),chooseTicketsH);
 
     }
 }
