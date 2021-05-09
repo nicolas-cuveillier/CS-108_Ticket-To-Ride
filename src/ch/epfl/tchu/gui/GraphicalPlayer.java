@@ -46,7 +46,7 @@ public final class GraphicalPlayer {
      * tchu's gui (mapView, cardsView, handView, infoView) in one main BorderPane that will be the scene of the main
      * stage
      *
-     * @param player the id of the player for which the GraphicalPlayer is instantiated
+     * @param player      the id of the player for which the GraphicalPlayer is instantiated
      * @param playersName a map containing the id of all players linked to their name
      */
     public GraphicalPlayer(PlayerId player, Map<PlayerId, String> playersName) {
@@ -77,7 +77,7 @@ public final class GraphicalPlayer {
      * and to the actual playerState. This method call the setState method from the ObservableGameState class
      *
      * @param newGameState the new PublicGameState from which properties will be updated
-     * @param playerState the current playerState
+     * @param playerState  the current playerState
      */
     public void setState(PublicGameState newGameState, PlayerState playerState) {
         assert isFxApplicationThread();
@@ -86,6 +86,7 @@ public final class GraphicalPlayer {
 
     /**
      * add the message to the left hand side of the gui to display it and remove one if the number of messages exceed 5
+     *
      * @param message the message that will be display in the InfoView at the left of the screen
      */
     public void receiveInfo(String message) {
@@ -95,9 +96,17 @@ public final class GraphicalPlayer {
         information.add(new Text(message + "\n"));
     }
 
+    /**
+     * method that handle the choice of the player in a turn with setting the different ActionHandler in their
+     * correspondent property. If the action is possible, all past properties are assigned to null and this property is set
+     *
+     * @param drawTicketsH an instance of DrawTicketsHandler which describe how the graphical player is drawing a ticket
+     * @param drawCardH    an instance of DrawCardsHandler which describe how the graphical player is drawing a card
+     * @param claimRouteH  an instance of ClaimRouteHandler which describe how the graphical player is claiming a route
+     */
     public void startTurn(ActionHandler.DrawTicketsHandler drawTicketsH, ActionHandler.DrawCardHandler drawCardH, ActionHandler.ClaimRouteHandler claimRouteH) {
         assert isFxApplicationThread();
-        drawTickets.setValue(!gameState.canDrawCards() ? null : () -> {
+        drawTickets.setValue(!gameState.canDrawTickets() ? null : () -> {
             clearProperties();
             drawTicketsH.onDrawTickets();
         });
@@ -113,6 +122,12 @@ public final class GraphicalPlayer {
         }));
     }
 
+    /**
+     * create the ticket's selector pop-up that will force the player to choose a certain minimum number of tickets
+     *
+     * @param options        a sortedBag of the tickets from which the player will have to choose
+     * @param chooseTicketsH an instance of ChooseTicketsHandler that will be use when the player's choice will be made
+     */
     public void chooseTickets(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         assert isFxApplicationThread();
         //tickets selection window
@@ -120,6 +135,13 @@ public final class GraphicalPlayer {
         initialTicketsSelectorStage.show();
     }
 
+    /**
+     * allows the player to choose a card, either one of the five face-up cards or the one at the top of the deck.
+     * According to the chosen card the handler is called up with the player's choice to make the move. This method is
+     * intended to be called up when the player has already drawn a first card and must now draw the second.
+     *
+     * @param drawCardH an instance of DrawCardsHandler which describe how the graphical player is drawing a card
+     */
     public void drawCard(ActionHandler.DrawCardHandler drawCardH) {
         assert isFxApplicationThread();
         drawCard.setValue(slot -> {
@@ -128,6 +150,13 @@ public final class GraphicalPlayer {
         });
     }
 
+    /**
+     * create the claim cards' selector pop-up that will force the player to choose a sortedBag of cards that
+     * will be used to claim the route
+     *
+     * @param options      a List of all the different option that the player has to claim the route
+     * @param chooseCardsH an instance of ChooseCardsHandler that will be use when the player's choice will be made
+     */
     public void chooseClaimCards(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
         assert isFxApplicationThread();
         //cards selection window
@@ -135,6 +164,13 @@ public final class GraphicalPlayer {
         cardsSelectorStage.show();
     }
 
+    /**
+     * create the additional cards' selector pop-up that will force the player to choose a sortedBag of cards that
+     * will be used as additional cards to claim the route
+     *
+     * @param additionalCards a List of all the different option of additional cards that the player has to claim the route
+     * @param chooseCardsH    an instance of ChooseCardsHandler that will be use when the player's choice will be made
+     */
     public void chooseAdditionalCards(List<SortedBag<Card>> additionalCards, ActionHandler.ChooseCardsHandler chooseCardsH) {
         assert isFxApplicationThread();
         //In Game cards selection window
@@ -148,6 +184,10 @@ public final class GraphicalPlayer {
         claimRoute.setValue(null);
     }
 
+    /**
+     * create the additional cards selector panel, a stage own by the main stage, according to a list of option and a
+     * ChooseCardsHandler
+     */
     private Stage additionalCardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
         Stage additionalCardsSelectorStage = new Stage(StageStyle.UTILITY);
 
@@ -169,9 +209,12 @@ public final class GraphicalPlayer {
         additionalCardsSelectorBox.getChildren()
                 .addAll(additionalCardsSelectorTextFlow, additionalCardsSelectorButton, additionalCardsSelectorListView);
 
-        return setStageFromBox(additionalCardsSelectorStage,additionalCardsSelectorBox);
+        return setStageFromBox(additionalCardsSelectorStage, additionalCardsSelectorBox);
     }
-
+    /**
+     * create the claim cards selector panel, a stage own by the main stage, according to a list of option and a
+     * ChooseCardsHandler
+     */
     private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
         Stage initialCardsSelectorStage = new Stage(StageStyle.UTILITY);
 
@@ -195,13 +238,14 @@ public final class GraphicalPlayer {
         VBox cardsSelectorBox = new VBox();
         cardsSelectorBox.getChildren().addAll(cardsSelectorTextFlow, cardsSelectorButton, cardsSelectorListView);
 
-        return setStageFromBox(initialCardsSelectorStage,cardsSelectorBox);
+        return setStageFromBox(initialCardsSelectorStage, cardsSelectorBox);
     }
-
+    /**
+     * create the tickets selector panel, a stage own by the main stage, according to a sortedBag of tickets and a
+     * ChooseTicketsHandler
+     */
     private Stage initialTicketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         Stage initialTicketsSelectorStage = new Stage(StageStyle.UTILITY);
-
-
 
         ListView<Ticket> ticketsSelectorListView = new ListView<>(FXCollections.observableArrayList(options.toList()));
         ticketsSelectorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -222,10 +266,10 @@ public final class GraphicalPlayer {
         VBox ticketsSelectorBox = new VBox();
         ticketsSelectorBox.getChildren().addAll(ticketsSelectorTextFlow, ticketsSelectorButton, ticketsSelectorListView);
 
-        return setStageFromBox(initialTicketsSelectorStage,ticketsSelectorBox);
+        return setStageFromBox(initialTicketsSelectorStage, ticketsSelectorBox);
     }
 
-    private Stage setStageFromBox(Stage stage,VBox box){
+    private Stage setStageFromBox(Stage stage, VBox box) {
         Scene selectorScene = new Scene(box);
         selectorScene.getStylesheets().add("chooser.css");
 
