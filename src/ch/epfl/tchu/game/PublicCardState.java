@@ -33,15 +33,6 @@ public class PublicCardState {
     }
 
     /**
-     * Getter for the number of cards in play minus the cards heach player has in hand
-     *
-     * @return (int) the total number of cards
-     */
-    public int totalSize() {
-        return faceUpCards.size() + discardsSize + deckSize;
-    }
-
-    /**
      * Getter for the face-up cards
      *
      * @return (List < Card >) a list of the faceUpCards

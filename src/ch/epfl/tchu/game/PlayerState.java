@@ -71,27 +71,6 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Computes a new PlayerState with one additional card
-     *
-     * @param card the card that will be added to the player's cards
-     * @return (PlayerState) new PlayerState with one more card
-     * @see #withAddedCards(SortedBag)
-     */
-    public PlayerState withAddedCard(Card card) {
-        return withAddedCards(SortedBag.of(card));
-    }
-
-    /**
-     * Computes a new PlayerState with the given additionalCards added to his cards
-     *
-     * @param additionalCards the cards that will be added to the player's cards
-     * @return (PlayerState) new PlayerState with some additionalCards
-     */
-    public PlayerState withAddedCards(SortedBag<Card> additionalCards) {
-        return new PlayerState(tickets, cards.union(additionalCards), routes);
-    }
-
-    /**
      * Tests if the player can claim the specified route
      *
      * @param route the route that the player try to claim
@@ -125,16 +104,14 @@ public final class PlayerState extends PublicPlayerState {
      *
      * @param additionalCardsCount the number of cards the player must play
      * @param initialCards         cards that the player choose to claim the Route
-     * @param drawnCards           cards that will implies additionalCardsCount cards for the player to play
      * @return (List < SortedBag < Card > >) the list of all possible additional cards
      * @throws IllegalArgumentException if additionalCardsCount isn't in [1;3]
      *                                  if initialCards is empty or if it contains more than to kind for cards
      *                                  if there are not 3 drawnCards
      */
-    public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards, SortedBag<Card> drawnCards) {
+    public List<SortedBag<Card>> possibleAdditionalCards(int additionalCardsCount, SortedBag<Card> initialCards) {
         Preconditions.checkArgument(additionalCardsCount >= 1 && additionalCardsCount <= Constants.ADDITIONAL_TUNNEL_CARDS);
         Preconditions.checkArgument(!initialCards.isEmpty() && initialCards.toSet().size() <= 2);
-        Preconditions.checkArgument(drawnCards.size() == Constants.ADDITIONAL_TUNNEL_CARDS);
 
         final List<Card> usableCard = cards.difference(initialCards).stream()
                 .filter(c -> c.equals(Card.LOCOMOTIVE) || c.equals(initialCards.get(0)))
