@@ -12,7 +12,7 @@ import static javafx.application.Platform.runLater;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
-public class GraphicalPlayerAdapter implements Player {
+public final class GraphicalPlayerAdapter implements Player {
     private GraphicalPlayer graphicalPlayer;
     private ArrayBlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
     private ArrayBlockingQueue<TurnKind> blockingTurnKindQueue;
@@ -26,6 +26,7 @@ public class GraphicalPlayerAdapter implements Player {
         blockingCardIndexQueue = new ArrayBlockingQueue<>(1);
         blockingRouteQueue = new ArrayBlockingQueue<>(1);
         blockingCardsQueue = new ArrayBlockingQueue<>(Constants.ALL_CARDS.size());
+        graphicalPlayer = null;
     }
 
     @Override

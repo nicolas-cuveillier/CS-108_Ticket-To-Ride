@@ -52,7 +52,6 @@ public final class RemotePlayerClient {
     public void run() {
 
         try (Socket socket = new Socket(proxyName, proxyPort)) {
-
             final BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
             final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII));
 
@@ -114,9 +113,8 @@ public final class RemotePlayerClient {
                         break;
 
                     default:
-                        break;
+                        throw new Error();
                 }
-
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
