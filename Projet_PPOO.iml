@@ -21,6 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Tests/testEtape9" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/Tests/testEtape10" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Tests/testEtape11" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

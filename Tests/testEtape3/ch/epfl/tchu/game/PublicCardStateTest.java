@@ -16,11 +16,7 @@ public class PublicCardStateTest {
        Assertions.assertThrows(IllegalArgumentException.class,
                ()->new PublicCardState(List.of(Card.BLUE,Card.BLUE,Card.LOCOMOTIVE,Card.WHITE,Card.GREEN),5,-2));
     }
-    @Test
-    void checkTotalSize(){
-        PublicCardState p = new PublicCardState(List.of(Card.BLUE,Card.BLUE,Card.LOCOMOTIVE,Card.WHITE,Card.GREEN),5,2);
-        Assertions.assertEquals(12,p.totalSize());
-    }
+
     @Test
     void checkFaceUpCards(){
         PublicCardState p = new PublicCardState(List.of(Card.BLUE,Card.BLUE,Card.LOCOMOTIVE,Card.WHITE,Card.GREEN),5,2);

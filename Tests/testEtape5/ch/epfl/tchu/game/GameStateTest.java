@@ -10,16 +10,7 @@ import java.util.Random;
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 public class GameStateTest {
-
-    @Test
-    void checkInitial(){
-        GameState g = GameState.initial(SortedBag.of(),new Random());
-
-        Assertions.assertTrue(g.playerState(g.currentPlayerId().next()).cards().size() == 4);
-        Assertions.assertEquals(102,g.cardState().totalSize());
-        Assertions.assertEquals(97,g.cardState().deckSize());
-        Assertions.assertTrue(PlayerId.ALL.contains(g.currentPlayerId()));
-    }
+    
 
     @Test
     void checkTopTickets(){

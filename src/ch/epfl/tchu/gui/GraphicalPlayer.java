@@ -93,7 +93,7 @@ public final class GraphicalPlayer {
         assert isFxApplicationThread();
         if (information.size() == 5)
             information.remove(0);
-        information.add(new Text(message + "\n"));
+        information.add(new Text(message));
     }
 
     /**
@@ -209,7 +209,7 @@ public final class GraphicalPlayer {
         additionalCardsSelectorBox.getChildren()
                 .addAll(additionalCardsSelectorTextFlow, additionalCardsSelectorButton, additionalCardsSelectorListView);
 
-        return setStageFromBox(additionalCardsSelectorStage, additionalCardsSelectorBox);
+        return setStageFromBox(additionalCardsSelectorStage, additionalCardsSelectorBox, StringsFr.CARDS);
     }
     /**
      * create the claim cards selector panel, a stage own by the main stage, according to a list of option and a
@@ -238,7 +238,7 @@ public final class GraphicalPlayer {
         VBox cardsSelectorBox = new VBox();
         cardsSelectorBox.getChildren().addAll(cardsSelectorTextFlow, cardsSelectorButton, cardsSelectorListView);
 
-        return setStageFromBox(initialCardsSelectorStage, cardsSelectorBox);
+        return setStageFromBox(initialCardsSelectorStage, cardsSelectorBox,StringsFr.CARDS);
     }
     /**
      * create the tickets selector panel, a stage own by the main stage, according to a sortedBag of tickets and a
@@ -266,15 +266,15 @@ public final class GraphicalPlayer {
         VBox ticketsSelectorBox = new VBox();
         ticketsSelectorBox.getChildren().addAll(ticketsSelectorTextFlow, ticketsSelectorButton, ticketsSelectorListView);
 
-        return setStageFromBox(initialTicketsSelectorStage, ticketsSelectorBox);
+        return setStageFromBox(initialTicketsSelectorStage, ticketsSelectorBox,StringsFr.TICKETS);
     }
 
-    private Stage setStageFromBox(Stage stage, VBox box) {
+    private Stage setStageFromBox(Stage stage, VBox box,String name) {
         Scene selectorScene = new Scene(box);
         selectorScene.getStylesheets().add("chooser.css");
 
         stage.setScene(selectorScene);
-        stage.setTitle(StringsFr.TICKETS_CHOICE);
+        stage.setTitle(name);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(mainView);
         stage.setOnCloseRequest(Event::consume);

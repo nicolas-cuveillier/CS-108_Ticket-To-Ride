@@ -60,6 +60,15 @@ public final class PlayerState extends PublicPlayerState {
     public PlayerState withAddedTickets(SortedBag<Ticket> newTickets) {
         return new PlayerState(tickets.union(newTickets), cards, routes);
     }
+    /**
+     * Computes a new PlayerState with one additional card
+     *
+     * @param card the card that will be added to the player's cards
+     * @return (PlayerState) new PlayerState with one more card
+     */
+    public PlayerState withAddedCard(Card card) {
+        return new PlayerState(tickets, cards.union(SortedBag.of(card)), routes);
+    }
 
     /**
      * Getter for the private field cards

@@ -122,7 +122,12 @@ final class DecksViewCreator {
             cardPane.getStyleClass().add(STYLE_CARD);
 
             gameState.faceUpCard(index).addListener((o, oV, nV) -> {
-                if (oV != nV) cardPane.getStyleClass().add(nV.color().name());
+                if (oV != nV){
+                    if(nV.color() != null)
+                        cardPane.getStyleClass().add(nV.color().name());
+                    else
+                        cardPane.getStyleClass().add("NEUTRAL");
+                }
             });
 
             cardPane.setOnMouseClicked(o -> {
@@ -137,11 +142,6 @@ final class DecksViewCreator {
         view.getChildren().add(cardsButton);
         return view;
     }
-
-    private static void makeButtonGraphicAndProperty(Button button, ReadOnlyIntegerProperty roip){
-
-    }
-
 
     private static Group getGraphicButtonGroup(ReadOnlyIntegerProperty percent) {
         Rectangle background = new Rectangle(50, 5);
