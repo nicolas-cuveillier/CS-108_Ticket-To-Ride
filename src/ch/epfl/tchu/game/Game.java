@@ -162,7 +162,7 @@ public final class Game {
 
                             //Computing possibilities for the player
                             List<SortedBag<Card>> option = gameState.currentPlayerState()
-                                    .possibleAdditionalCards(additionalCardsCost, initialClaimCards, drawnCards);
+                                    .possibleAdditionalCards(additionalCardsCost, initialClaimCards);
 
                             if (!option.isEmpty())
                                 playedCard = players.get(gameState.currentPlayerId()).chooseAdditionalCards(option);
