@@ -15,7 +15,7 @@ import java.util.List;
  * {@link #CARDS},
  * {@link #CHOOSE_ADDITIONAL_CARDS}.
  * 
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public enum MessageId {
     INIT_PLAYERS,

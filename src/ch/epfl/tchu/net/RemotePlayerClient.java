@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * represent a remote player client that make the connection with listening its port, between the server,
  * hosted by one player, to the other player

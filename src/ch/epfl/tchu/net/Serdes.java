@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * @author Grégory Preisig & Nicolas Cuveillier
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * define all constant related to the (de)serialization process for all element of the Game
  */
