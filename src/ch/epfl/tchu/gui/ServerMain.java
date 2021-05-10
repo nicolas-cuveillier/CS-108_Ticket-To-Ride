@@ -33,11 +33,11 @@ public final class ServerMain extends Application {
              Socket s = s0.accept()) {
 
             GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
-            RemotePlayerProxy  remotePlayerProxy = new RemotePlayerProxy(s);
-            Map<PlayerId,String> playersName = Map.of(PLAYER_1,name1,PLAYER_2,name2);
-            Map<PlayerId, Player> players = Map.of(PLAYER_1,graphicalPlayer,PLAYER_2,remotePlayerProxy);
+            RemotePlayerProxy remotePlayerProxy = new RemotePlayerProxy(s);
+            Map<PlayerId, String> playersName = Map.of(PLAYER_1, name1, PLAYER_2, name2);
+            Map<PlayerId, Player> players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy);
 
-            new Thread(() -> Game.play(players,playersName, SortedBag.of(ChMap.tickets()),new Random())).start();
+            new Thread(() -> Game.play(players, playersName, SortedBag.of(ChMap.tickets()), new Random())).start();
         } catch (Exception e) {
             System.exit(0);
         }

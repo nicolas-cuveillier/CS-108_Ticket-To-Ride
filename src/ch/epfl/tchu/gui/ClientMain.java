@@ -23,7 +23,7 @@ public final class ClientMain extends Application {
 
         try {
             RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostName, port);
-            new Thread(() -> remotePlayerClient.run()).start();
+            new Thread(remotePlayerClient::run).start();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
