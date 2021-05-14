@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
  * represent a remote player client that make the connection with listening its port, between the server,
- * hosted by one player, to the other player
+ * hosted by one player, to the other player.
  */
 public final class RemotePlayerClient {
     private final Player player;
@@ -26,7 +26,7 @@ public final class RemotePlayerClient {
 
     /**
      * Unique constructor of a RemotePlayerClient, build it with an instance of Player for which it has tout get a proxy,
-     * the name of the host and the port
+     * the name of the host and the port.
      *
      * @param player    The player that need a proxy
      * @param proxyName the host name
@@ -39,7 +39,7 @@ public final class RemotePlayerClient {
     }
 
     /**
-     * method that is normally always running when the server isn't close. It tries to listen the socket for a message
+     * Method that is normally always running when the server isn't close. It tries to listen the socket for a message
      * sent by the RemotePlayerProxy.
      * <p>
      * Then, according to the id of the Message that is decrypted with the first String

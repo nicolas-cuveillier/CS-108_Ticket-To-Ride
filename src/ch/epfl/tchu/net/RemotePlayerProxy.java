@@ -14,7 +14,7 @@ import java.util.StringJoiner;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * represent the remote player on the locale machine, local side of the bridge between the two players
+ * represent the remote player on the locale machine, local side of the bridge between the two players.
  */
 public final class RemotePlayerProxy implements Player {
     private final Socket socket;
@@ -22,7 +22,7 @@ public final class RemotePlayerProxy implements Player {
     private final BufferedWriter writer;
 
     /**
-     * Construct a RemotePlayerProxy according to a socket
+     * Construct a RemotePlayerProxy according to a socket.
      *
      * @param socket socket that the proxy is using for listening and sending textual message through the network
      */
@@ -55,8 +55,8 @@ public final class RemotePlayerProxy implements Player {
     }
 
     /**
-     * Write in the BufferedWriter built with the socket the serialize information that this method
-     * has been called and so the graphic interface must be updated displaying the name of the players
+     * Write in the BufferedWriter built with the socket the serialize information that this method has been called
+     * and so the graphic interface must be updated displaying the name of the players.
      *
      * @param ownId       Id of the player (self)
      * @param playerNames Ids of all the payers, mapped to their name (includes self)
@@ -71,8 +71,8 @@ public final class RemotePlayerProxy implements Player {
     }
 
     /**
-     * Write in the BufferedWriter built with the socket the serialize information that this method
-     * has been called and so the graphic interface must be updated displaying info
+     * Write in the BufferedWriter built with the socket the serialize information that this method has been called
+     * and so the graphic interface must be updated displaying info.
      *
      * @param info Information to give to the player, parsed by the class {@link ch.epfl.tchu.gui.Info}
      */
@@ -83,7 +83,7 @@ public final class RemotePlayerProxy implements Player {
 
     /**
      * Write in the BufferedWriter built with the socket the serialize information that this method
-     * has been called and so the graphic interface must be updated given the new PublicGameState and PlayerState
+     * has been called and so the graphic interface must be updated given the new PublicGameState and PlayerState.
      *
      * @param newState new state of the game
      * @param ownState current state of the player
@@ -99,7 +99,7 @@ public final class RemotePlayerProxy implements Player {
 
     /**
      * Write in the BufferedWriter built with the socket the serialize information that this method
-     * has been called and so the graphic interface must be updated displaying the tickets for the initial ticket
+     * has been called and so the graphic interface must be updated displaying the tickets for the initial ticket.
      * choice for the player
      *
      * @param tickets 5 initial tickets assigned to the player
@@ -112,7 +112,7 @@ public final class RemotePlayerProxy implements Player {
     /**
      * Firstly, write in the BufferedWriter built with the socket the serialize information that this method
      * has been called and so the graphic interface must be updated.<p> Then, wait for the player to choose its initial
-     * tickets, looking at the BufferedReader built with the socket and deserialize the message to pass the information
+     * tickets, looking at the BufferedReader built with the socket and deserialize the message to pass the information.
      *
      * @return SortedBag<Ticket> - the tickets that the player has chosen
      */
@@ -125,7 +125,7 @@ public final class RemotePlayerProxy implements Player {
     /**
      * Firstly, write in the BufferedWriter built with the socket the serialize information that this method
      * has been called and so the graphic interface must be updated.<p> Then, wait for the player to choose the kind of
-     * its turn, looking at the BufferedReader built with the socket and deserialize the message to pass the information
+     * its turn, looking at the BufferedReader built with the socket and deserialize the message to pass the information.
      *
      * @return TurnKind - the kind of turn that the player decided to play
      */
@@ -139,7 +139,7 @@ public final class RemotePlayerProxy implements Player {
      * Firstly, write in the BufferedWriter built with the socket the serialize information that this method
      * has been called with a SortedBag of tickets and so the graphic interface must be updated.<p> Then,
      * wait for the player to choose the tickets that he will keep, looking at the BufferedReader built with the
-     * socket and deserialize the message to pass the information
+     * socket and deserialize the message to pass the information.
      *
      * @param options the tickets drawn by the player
      * @return SortedBag<Ticket> - the tickets that the player choose
@@ -153,8 +153,8 @@ public final class RemotePlayerProxy implements Player {
     /**
      * Firstly, write in the BufferedWriter built with the socket the serialize information that this method
      * has been called and so the graphic interface must be updated.<p> Then, wait for the player to choose the
-     * slot of the card that he will keep, looking at the BufferedReader built with the
-     * socket and deserialize the message to pass the information
+     * slot of the card that he will keep, looking at the BufferedReader built with the socket and deserialize the
+     * message to pass the information.
      *
      * @return int - the slot of the card that the player has chosen
      */
@@ -167,8 +167,8 @@ public final class RemotePlayerProxy implements Player {
     /**
      * Firstly, write in the BufferedWriter built with the socket the serialize information that this method
      * has been called and so the graphic interface must be updated.<p> Then, wait for the player to choose the
-     * route that he is claiming, looking at the BufferedReader built with the
-     * socket and deserialize the message to pass the information
+     * route that he is claiming, looking at the BufferedReader built with the socket and deserialize the message to
+     * pass the information.
      *
      * @return Route - the route that the player is trying to get
      */
@@ -181,8 +181,8 @@ public final class RemotePlayerProxy implements Player {
     /**
      * Firstly, write in the BufferedWriter built with the socket the serialize information that this method
      * has been called and so the graphic interface must be updated.<p> Then, wait for the player to choose the
-     * cards that he wants to play, looking at the BufferedReader built with the
-     * socket and deserialize the message to pass the information
+     * cards that he wants to play, looking at the BufferedReader built with the socket and deserialize the message to
+     * pass the information.
      *
      * @return SortedBag<Card> - the cards that the player is playing to claim a Route
      */
@@ -194,9 +194,9 @@ public final class RemotePlayerProxy implements Player {
 
     /**
      * Firstly, write in the BufferedWriter built with the socket the serialize information that this method
-     * has been called with a list of SortedBag of cards (player's option) and so the graphic interface
-     * must be updated.<p> Then, wait for the player to choose the cards (or no cards) that he wants to play for the
-     * Route, looking at the BufferedReader built with the socket and deserialize the message to pass the information
+     * has been called with a list of SortedBag of cards (player's option) and so the graphic interface must be updated.
+     * <p> Then, wait for the player to choose the cards (or no cards) that he wants to play for the Route, looking at
+     * the BufferedReader built with the socket and deserialize the message to pass the information.
      *
      * @param options the additional cards to claim the tunnel
      * @return SortedBag<Card> - the cards that the player is (or not) adding to the initial cards according
