@@ -17,12 +17,21 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
+ * <p></p>
+ * Contains the main program of the tCHu client.
  */
 public final class ServerMain extends Application {
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Starting point of the server part of the tCHu game. Firstly parsing the arguments passed to the program to
+     * determine the host name and port number of the server. Then, creating a remote client associated with a graphical
+     * player and starting the network access thread, which execute the run method of the remote client.
+     *
+     * @param primaryStage argument that is ignored in the context of the tCHu game
+     */
     @Override
     public void start(Stage primaryStage) {
         List<String> parameters = getParameters().getRaw();

@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * none instanciable class that handle the creation of the differents deck of the game
+ * None instanciable class that handle the creation of the differents deck of the game.
  */
 final class DecksViewCreator {
     private DecksViewCreator() {
@@ -28,9 +28,11 @@ final class DecksViewCreator {
     private static final String STYLE_CARD = "card";
     private static final String STYLE_DECK = "decks.css";
     private static final String STYLE_COLORS = "colors.css";
+    private static final String STYLE_NEUTRAL = "NEUTRAL";
+    private static final String STYLE_GAUGED = "gauged";
 
     /**
-     * static method that will create a node containing all the different component of the bottom part of the tchu's GUI
+     * Static method that will create a node containing all the different component of the bottom part of the tchu's GUI
      * like the personal player's cards, the tickets view. Handle also, interaction between the GUI and the action of a
      * human player.
      *
@@ -51,8 +53,7 @@ final class DecksViewCreator {
         for (Card card : Card.ALL) {
             StackPane cardPane = new StackPane();
 
-            if (card.name().equals("LOCOMOTIVE")) cardPane.getStyleClass().addAll("NEUTRAL", STYLE_CARD);
-            else cardPane.getStyleClass().addAll(card.color().name(), STYLE_CARD);
+            cardPane.getStyleClass().addAll((card.name().equals("LOCOMOTIVE")) ? STYLE_NEUTRAL : card.color().name(), STYLE_CARD);
 
             ReadOnlyIntegerProperty count = gameState.cardProperty(card);
             cardPane.visibleProperty().bind(Bindings.greaterThan(count, 0));
@@ -85,7 +86,7 @@ final class DecksViewCreator {
     }
 
     /**
-     * static method that will create a node containing all the different component of the right part of the tchu's GUI
+     * Static method that will create a node containing all the different component of the right part of the tchu's GUI
      * like the deck and the face-up cards. Handle also, interaction between the GUI and the action of a human player.
      *
      * @param gameState              an instance of ObservableGameState that gives to this method the properties of some components
@@ -104,13 +105,13 @@ final class DecksViewCreator {
         view.setId("card-pane");
 
         Button ticketsButton = new Button(StringsFr.TICKETS);
-        ticketsButton.getStyleClass().add("gauged");
+        ticketsButton.getStyleClass().add(STYLE_GAUGED);
         ticketsButton.setGraphic(getGraphicButtonGroup(gameState.ticketsInDeckPercentProperty()));
         ticketsButton.disableProperty().bind(ticketsHandlerProperty.isNull());
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
 
         Button cardsButton = new Button(StringsFr.CARDS);
-        cardsButton.getStyleClass().add("gauged");
+        cardsButton.getStyleClass().add(STYLE_GAUGED);
         cardsButton.setGraphic(getGraphicButtonGroup(gameState.cardsInDeckPercentProperty()));
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
@@ -122,10 +123,10 @@ final class DecksViewCreator {
             cardPane.getStyleClass().add(STYLE_CARD);
 
             gameState.faceUpCardProperty(index).addListener((o, oV, nV) -> {
-                if (nV.color() != null)
+                if (nV.color() != null) {
                     if (oV != null) cardPane.getStyleClass().set(1, nV.color().name());
                     else cardPane.getStyleClass().add(nV.color().name());
-                else cardPane.getStyleClass().add("NEUTRAL");
+                } else cardPane.getStyleClass().add(STYLE_NEUTRAL);
             });
 
             cardPane.setOnMouseClicked(o -> {
