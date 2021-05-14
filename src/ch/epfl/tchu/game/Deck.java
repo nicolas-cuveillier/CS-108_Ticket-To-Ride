@@ -11,18 +11,18 @@ import java.util.Random;
 /**
  * @param <C> the type of elements in the Deck
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * Generic class to implement the notion of deck in the game
+ * <p></p>
+ * Generic class to implement the notion of deck in the game.
  */
 public final class Deck<C extends Comparable<C>> {
     private final List<C> cards;
 
     private Deck(List<C> cards) {
-        this.cards = new ArrayList<>(cards);
+        this.cards = List.copyOf(cards);
     }
 
     /**
-     * Generic deck instance with shuffled cards
+     * Generic deck instance with shuffled cards.
      *
      * @param cards a SortedBag of cards that will be in the Deck
      * @param rng   the Random used to shuffle
@@ -36,7 +36,7 @@ public final class Deck<C extends Comparable<C>> {
     }
 
     /**
-     * Getter for the sortedBag's size
+     * Getter for the sortedBag's size.
      *
      * @return the cards' size
      */
@@ -45,7 +45,7 @@ public final class Deck<C extends Comparable<C>> {
     }
 
     /**
-     * IsEmpty method
+     * IsEmpty method.
      *
      * @return true iff the sortedBag is empty
      */
@@ -54,7 +54,7 @@ public final class Deck<C extends Comparable<C>> {
     }
 
     /**
-     * Getter for the deck's top card
+     * Getter for the deck's top card.
      *
      * @return the first object of the deck
      * @see #topCards(int)
@@ -65,7 +65,7 @@ public final class Deck<C extends Comparable<C>> {
     }
 
     /**
-     * Getter for the deck without it's top card
+     * Getter for the deck without it's top card.
      *
      * @return a new deck without the first object
      * @see #topCards(int)
@@ -75,7 +75,7 @@ public final class Deck<C extends Comparable<C>> {
     }
 
     /**
-     * Getter for the deck's specified top cards
+     * Getter for the deck's specified top cards.
      *
      * @param count the number of topCard(s) that will be returned
      * @return a new SortedBag with the deck's specified top cards
@@ -87,7 +87,7 @@ public final class Deck<C extends Comparable<C>> {
     }
 
     /**
-     * Getter for the deck without the count top cards
+     * Getter for the deck without the count top cards.
      *
      * @param count the number of topCard(s) that will be removed
      * @return the deck with the number (count) of cards removed from it's top

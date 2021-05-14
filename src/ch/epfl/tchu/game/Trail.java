@@ -56,7 +56,7 @@ public final class Trail {
                 //go through all routes and search possible candidate to continue the trail
                 routes.stream()
                         .filter(route -> !c.routes().contains(route))
-                        .forEach(route -> { //TODO meilleure modularisation possible
+                        .forEach(route -> {
                             if ((c.station2().id() == route.station1().id()) && (Objects.equals(c.station2().name(), route.station1().name()))) {
                                 addTrailBuildWithRouteAccordingToSt2(c, cs2, route);
                             } else if ((c.station2().id() == route.station2().id()) && (Objects.equals(c.station2().name(), route.station2().name()))) {

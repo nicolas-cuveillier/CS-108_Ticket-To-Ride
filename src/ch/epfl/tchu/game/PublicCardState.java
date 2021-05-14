@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * represent the Card status which are known by players
+ * represent the Card status which are known by players.
  */
 public class PublicCardState {
     private final List<Card> faceUpCards;
@@ -16,7 +16,7 @@ public class PublicCardState {
     private final int discardsSize;
 
     /**
-     * Constructor for a PublicCardState with face-up cards, the size of the deck and the discard
+     * Constructor for a PublicCardState with face-up cards, the size of the deck and the discard.
      *
      * @param faceUpCards  the list of cards that can be seen by players
      * @param deckSize     the size of the deck
@@ -33,16 +33,16 @@ public class PublicCardState {
     }
 
     /**
-     * Getter for the face-up cards
+     * Getter for the face-up cards.
      *
      * @return (List < Card >) a list of the faceUpCards
      */
     public List<Card> faceUpCards() {
-        return faceUpCards;
+        return List.copyOf(faceUpCards);
     }
 
     /**
-     * Getter for the face-up card at the index slot
+     * Getter for the face-up card at the index slot.
      *
      * @return (List < Card >) the slot-th faceUpCards
      * @throws IndexOutOfBoundsException if the index is out of bounds
@@ -52,7 +52,7 @@ public class PublicCardState {
     }
 
     /**
-     * Getter for the deck's size
+     * Getter for the deck's size.
      *
      * @return (int) the deck's size
      */
@@ -61,7 +61,7 @@ public class PublicCardState {
     }
 
     /**
-     * Tests whether the deck is empty or not
+     * Tests whether the deck is empty or not.
      *
      * @return (boolean) true iff the deck is empty
      */
@@ -70,7 +70,7 @@ public class PublicCardState {
     }
 
     /**
-     * Getter for the discard's size
+     * Getter for the discard's size.
      *
      * @return (int) the discard's size
      */
