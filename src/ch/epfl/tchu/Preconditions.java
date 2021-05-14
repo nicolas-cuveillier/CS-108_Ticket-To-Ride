@@ -3,7 +3,7 @@ package ch.epfl.tchu;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * use to easily check conditions
+ * Use to easily check conditions.
  */
 public final class Preconditions {
 
@@ -11,7 +11,7 @@ public final class Preconditions {
     }
 
     /**
-     * check if the boolean parameter is true and throw exception if not
+     * Check if the boolean parameter is true and throw exception if not.
      *
      * @param shouldBeTrue boolean condition that should be true
      * @throws IllegalArgumentException

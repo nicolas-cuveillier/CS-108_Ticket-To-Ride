@@ -224,7 +224,7 @@ class InfoTest_Prof {
         assertEquals(expected, actual);
     }
 
-    @Test
+
     void infoLastTurnBeginsWorks() {
         var info = new Info("Martin");
 

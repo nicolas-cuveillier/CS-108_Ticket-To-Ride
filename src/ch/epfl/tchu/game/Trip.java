@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * Simulate a trip from the tchu game
+ * Simulate a trip from the tchu game.
  */
 public final class Trip {
     private final Station from;
@@ -17,7 +17,7 @@ public final class Trip {
     private final int points;
 
     /**
-     * Primary constructor of a Trip with the departure's station, arrival station and its value
+     * Primary constructor of a Trip with the departure's station, arrival station and its value.
      *
      * @param from   the departure Station
      * @param to     the arrival Station
@@ -33,7 +33,7 @@ public final class Trip {
     }
 
     /**
-     * Computes every possible Trip, from the lists of departure and arrival Stations
+     * Computes every possible Trip, from the lists of departure and arrival Stations.
      *
      * @param from   the departure Station
      * @param to     the arrival Station
@@ -51,7 +51,7 @@ public final class Trip {
     }
 
     /**
-     * Getter for the departure station
+     * Getter for the departure station.
      *
      * @return (Station) the departure Station
      */
@@ -60,7 +60,7 @@ public final class Trip {
     }
 
     /**
-     * Getter for the arrival station
+     * Getter for the arrival station.
      *
      * @return (Station) the arrival Station
      */
@@ -69,7 +69,7 @@ public final class Trip {
     }
 
     /**
-     * Getter for the number of points
+     * Getter for the number of points.
      *
      * @return (int) the number of point assigned to the trip
      */
@@ -78,7 +78,7 @@ public final class Trip {
     }
 
     /**
-     * Getter for the number of points according to the connectivity
+     * Getter for the number of points according to the connectivity.
      *
      * @param connectivity represent the connectivity between the two Stations
      * @return (int) the points if the two Stations are connected and minus the points if not

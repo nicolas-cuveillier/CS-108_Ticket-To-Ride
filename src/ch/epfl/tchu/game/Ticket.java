@@ -4,12 +4,11 @@ import ch.epfl.tchu.Preconditions;
 
 import java.util.List;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * simulate a ticket from the tchu game
+ * simulate a ticket from the tchu game.
  */
 public final class Ticket implements Comparable<Ticket> {
 
@@ -17,7 +16,7 @@ public final class Ticket implements Comparable<Ticket> {
     private final String name;
 
     /**
-     * Primary constructor for a Ticket, creating it with a List of trips
+     * Primary constructor for a Ticket, creating it with a List of trips.
      *
      * @param trips the list of all trips that form the Ticket
      * @throws IllegalArgumentException if the list of trips is empty
@@ -35,7 +34,7 @@ public final class Ticket implements Comparable<Ticket> {
     }
 
     /**
-     * Secondary constructor for a Ticket with only one Trip
+     * Secondary constructor for a Ticket with only one Trip.
      *
      * @param from   the Station of departure
      * @param to     the arrival Station
@@ -65,39 +64,26 @@ public final class Ticket implements Comparable<Ticket> {
     }
 
     /**
-     * Computes how many points will be earned with the Ticket according to its connectivity
+     * Computes how many points will be earned with the Ticket according to its connectivity.
      *
      * @param connectivity will describe the fact that two station are connected and will influence on the total points
      * @return (int) the points given the connectivity
      */
-    public int points(StationConnectivity connectivity) {//TODO simplify
+    public int points(StationConnectivity connectivity) {
         int maxPoint = 0;
         int minPoint = trips.get(0).points();
 
-        final List<Trip> connectedTrips = trips.stream()
-                .filter(t -> connectivity.connected(t.from(), t.to()))
-                .collect(Collectors.toList());
-
         for (Trip t : trips) {
-            if (t.points() < minPoint)
-                minPoint = t.points();
-
+            minPoint = Math.min(minPoint, t.points());
+            if(connectivity.connected(t.from(), t.to()))
+                maxPoint = Math.max(maxPoint,t.points());
         }
 
-        if (connectedTrips.isEmpty())
-            return -minPoint;
-
-
-        for (Trip t : connectedTrips) {
-            if (t.points() > maxPoint)
-                maxPoint = t.points();
-
-        }
-        return maxPoint;
+        return (maxPoint == 0) ? -minPoint : maxPoint;
     }
 
     /**
-     * Getter for the private field name
+     * Getter for the private field name.
      *
      * @return (string) the textual representation of a tickets
      */
@@ -108,7 +94,7 @@ public final class Ticket implements Comparable<Ticket> {
     /**
      * {@inheritDoc}
      *
-     * @return the name
+     * @return the tickets' name
      */
     @Override
     public String toString() {
@@ -117,7 +103,8 @@ public final class Ticket implements Comparable<Ticket> {
 
     /**
      * {@inheritDoc}
-     * compare Tickets with their name
+     * <p></p>
+     * Compare Tickets according to their name.
      */
     @Override
     public int compareTo(Ticket that) {

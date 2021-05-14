@@ -29,7 +29,7 @@ public enum Card {
     LOCOMOTIVE(null);
 
     /**
-     * Constructor instantiates a card with the given color
+     * Constructor instantiates a card with the given color.
      *
      * @param color Color of the given card
      */
@@ -40,12 +40,12 @@ public enum Card {
     private final Color color;
 
     /**
-     * an unmodifiable list of all cards
+     * An unmodifiable list of all cards.
      */
     public static final List<Card> ALL = List.of(values());
 
     /**
-     * the number of possible cards
+     * The number of possible cards.
      */
     public static final int COUNT = ALL.size();
 

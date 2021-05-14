@@ -5,7 +5,7 @@ import ch.epfl.tchu.Preconditions;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * Simulate a Station from the tchu game
+ * Simulate a Station from the tchu game.
  */
 public final class Station {
 
@@ -13,7 +13,7 @@ public final class Station {
     private final String name;
 
     /**
-     * Primary constructor for a Station with it's unique id and it's name
+     * Primary constructor for a Station with it's unique id and it's name.
      *
      * @param id   unique id of the Station
      * @param name name of the Station
@@ -27,7 +27,7 @@ public final class Station {
     }
 
     /**
-     * Getter for the Station's id
+     * Getter for the Station's id.
      *
      * @return (int) the id
      */
@@ -36,7 +36,7 @@ public final class Station {
     }
 
     /**
-     * Getter for the Station's name
+     * Getter for the Station's name.
      *
      * @return (String) the name
      */
@@ -45,7 +45,7 @@ public final class Station {
     }
 
     /**
-     * @return the name
+     * @return the station's name
      */
     @Override
     public String toString() {

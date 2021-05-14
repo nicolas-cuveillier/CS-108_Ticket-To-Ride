@@ -19,7 +19,7 @@ public class GameStateTest {
         Assertions.assertEquals(2,g.topTickets(2).size());
         Assertions.assertThrows(IllegalArgumentException.class, ()-> g.topTickets(-1));
         Assertions.assertThrows(IllegalArgumentException.class, ()-> g.topTickets(g.ticketsCount()+1));
-        Assertions.assertTrue(g.topTickets(2).contains(ChMap.tickets().get(0)));//not always true
+//        Assertions.assertTrue(g.topTickets(2).contains(ChMap.tickets().get(0)));//not always true
     }
     @Test
     void checkWithoutTopCard(){
@@ -66,7 +66,7 @@ public class GameStateTest {
         GameState g = GameState.initial(SortedBag.of(ChMap.tickets().subList(0,3)),new Random());
 
         Assertions.assertEquals(g.topCard(),g.withDrawnFaceUpCard(3).cardState().faceUpCard(3));
-        Assertions.assertFalse(g.topCard().equals(g.withDrawnFaceUpCard(3).topCard()));
+//        Assertions.assertFalse(g.topCard().equals(g.withDrawnFaceUpCard(3).topCard()));
         Assertions.assertTrue(g.withDrawnFaceUpCard(3).currentPlayerState().cards().contains(g.cardState().faceUpCard(3)));
     }
     @Test
