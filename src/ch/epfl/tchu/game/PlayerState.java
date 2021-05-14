@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * represent the private part of the player's state, enhanced class from PublicPlayerState
+ * represent the private part of the player's state, enhanced class from PublicPlayerState.
  */
 public final class PlayerState extends PublicPlayerState {
 
@@ -18,7 +18,7 @@ public final class PlayerState extends PublicPlayerState {
     private final List<Route> routes;
 
     /**
-     * Primary constructor of a PlayerState, builds a PlayerState with its Tickets, Cards and Routes
+     * Primary constructor of a PlayerState, builds a PlayerState with its Tickets, Cards and Routes.
      *
      * @param tickets the sortedBag of the player's ticket
      * @param cards   the sortedBag of the player's cards
@@ -32,7 +32,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Static method building the initial PlayerState
+     * Static method building the initial PlayerState.
      *
      * @param initialCards the initial cards of the player
      * @return (PlayerState) a new PlayerState with only some initial cards
@@ -44,7 +44,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Getter for the private field tickets
+     * Getter for the private field tickets.
      *
      * @return (SortedBag < Ticket >) the PlayerState tickets
      */
@@ -53,7 +53,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Computes a new PlayerState with more tickets
+     * Computes a new PlayerState with more tickets.
      *
      * @return (PlayerState) new PlayerState with more tickets
      */
@@ -61,7 +61,7 @@ public final class PlayerState extends PublicPlayerState {
         return new PlayerState(tickets.union(newTickets), cards, routes);
     }
     /**
-     * Computes a new PlayerState with one additional card
+     * Computes a new PlayerState with one additional card.
      *
      * @param card the card that will be added to the player's cards
      * @return (PlayerState) new PlayerState with one more card
@@ -71,7 +71,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Getter for the private field cards
+     * Getter for the private field cards.
      *
      * @return (SortedBag < Card >) the PlayerState cards
      */
@@ -80,7 +80,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Tests if the player can claim the specified route
+     * Tests if the player can claim the specified route.
      *
      * @param route the route that the player try to claim
      * @return (boolean) true iff the player can take possession of the given Route according to his car and cards
@@ -90,7 +90,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Computes the list of all possible cards the player can play to take possession of the given Route
+     * Computes the list of all possible cards the player can play to take possession of the given Route.
      *
      * @param route the Route for which this method compute the possible claim cards
      * @return (List < SortedBag < Card > >) the list of all possible cards the player can use to take possession of the Route
@@ -108,7 +108,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Computes the list of all possible additional cards the player can play to take possession of the given Route
+     * Computes the list of all possible additional cards the player can play to take possession of the given Route.
      * according the initial cards he played and the cards he drawn
      *
      * @param additionalCardsCount the number of cards the player must play
@@ -138,7 +138,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Computes a new PlayerState with one route added to his routes and the cards he used removed from his cards
+     * Computes a new PlayerState with one route added to his routes and the cards he used removed from his cards.
      *
      * @param route      the Route that the player claimed
      * @param claimCards the cards used for it
@@ -151,7 +151,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Computes the points obtained by the player according to its tickets, can be negative
+     * Computes the points obtained by the player according to its tickets, can be negative.
      *
      * @return (int) the number of points per tickets
      */
@@ -174,7 +174,7 @@ public final class PlayerState extends PublicPlayerState {
     }
 
     /**
-     * Computes the total points the player obtained during the game
+     * Computes the total points the player obtained during the game.
      *
      * @return (int) the total number of points
      * @see #claimPoints()

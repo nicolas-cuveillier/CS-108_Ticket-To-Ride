@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * represent the notion of stationPartition (flattened), implements StationConnectivity
+ * represent the notion of stationPartition (flattened), implements StationConnectivity.
  */
 public final class StationPartition implements StationConnectivity {
     private final int[] representativeId;
@@ -17,7 +17,7 @@ public final class StationPartition implements StationConnectivity {
     }
 
     /**
-     * {@inheritDoc} by checking the equality of their representative
+     * {@inheritDoc} by checking the equality of their representative.
      */
     @Override
     public boolean connected(Station st1, Station st2) {
@@ -25,14 +25,14 @@ public final class StationPartition implements StationConnectivity {
     }
 
     /**
-     * Builder for a StationPartition
+     * Builder for a StationPartition.
      */
     public static final class Builder {
         private final int[] representativeId;
 
         /**
          * Compute the representative of the station, is used in connect when connecting two stations so it
-         * always return the representative of the partition
+         * always return the representative of the partition.
          *
          * @param id id of the station you want to compute the representative
          * @return (int) the representative
@@ -48,8 +48,7 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * Constructor for the StationPartition Builder
-         * instantiates the representative id table of size stationCount
+         * Constructor for the StationPartition Builder. Instantiates the representative id table of size stationCount.
          *
          * @param stationCount the biggest id of the Stations
          * @throws IllegalArgumentException if stationCount is negative
@@ -58,13 +57,12 @@ public final class StationPartition implements StationConnectivity {
             Preconditions.checkArgument(stationCount >= 0);
 
             representativeId = new int[stationCount];
-            for (int i = 0; i < stationCount; i++) {
+            for (int i = 0; i < stationCount; i++)
                 representativeId[i] = i;
-            }
         }
 
         /**
-         * Connects the two stations ,joins the two stations sets and chooses a representative for the new set
+         * Connects the two stations ,joins the two stations sets and chooses a representative for the new set.
          *
          * @param s1 the first Station to connect
          * @param s2 the second Station to connect
@@ -77,20 +75,14 @@ public final class StationPartition implements StationConnectivity {
         }
 
         /**
-         * Builds the StationPartition following the representativeId mapping and flattened the partition
+         * Builds the StationPartition following the representativeId mapping and flattened the partition.
          *
          * @return a new StationPartition with the built table and flattened partition
          */
         public StationPartition build() {
 
-            for (int i = 0; i < representativeId.length; i++) {
-                int representative = i;
-
-                while (representative(representative) != representative) {
-                    representative = representative(representative);
-                }
-                representativeId[i] = representative;
-            }
+            for (int i = 0; i < representativeId.length; i++)
+                representativeId[i] = representative(i);
 
             return new StationPartition(Arrays.copyOf(representativeId,representativeId.length));
         }

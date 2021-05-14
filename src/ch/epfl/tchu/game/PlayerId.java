@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * Different Player in the game
+ * Different Player in the game.
  * {@link #PLAYER_1},
  * {@link #PLAYER_2},
  */
@@ -13,7 +13,7 @@ public enum PlayerId {
     PLAYER_1,
     PLAYER_2;
     /**
-     * an unmodifiable list of all players.
+     * An unmodifiable list of all players.
      */
     public static final List<PlayerId> ALL = List.of(PlayerId.values());
     /**
@@ -22,7 +22,7 @@ public enum PlayerId {
     public static final int COUNT = ALL.size();
 
     /**
-     * return the other player's id, given a player's id.
+     * Return the other player's id, given a player's id.
      *
      * @return (PlayerId) the other PlayerId.
      */
