@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * implements the public part of the notion of game state
+ * implements the public part of the notion of game state.
  */
 public class PublicGameState {
 
@@ -22,7 +22,7 @@ public class PublicGameState {
     private final PlayerId lastPlayer;
 
     /**
-     * Constructor for a PublicGameState, defines the game state with the public part of it's attribute
+     * Constructor for a PublicGameState, defines the game state with the public part of it's attribute.
      *
      * @param ticketsCount    the number of tickets
      * @param cardState       the public state of the cards
@@ -46,7 +46,7 @@ public class PublicGameState {
 
 
     /**
-     * tests whether it is possible to draw tickets or not
+     * Tests whether it is possible to draw tickets or not.
      *
      * @return true iff there are still tickets left
      */
@@ -55,7 +55,7 @@ public class PublicGameState {
     }
 
     /**
-     * Tests whether it is possible to draw cards from the deck or not
+     * Tests whether it is possible to draw cards from the deck or not.
      *
      * @return true iff the cards overall are more or equal to five, the minimum cards to fulfill all emplacement
      */
@@ -64,7 +64,7 @@ public class PublicGameState {
     }
 
     /**
-     * Getter for the private field ticketsCount
+     * Getter for the private field ticketsCount.
      *
      * @return the number of tickets
      */
@@ -73,7 +73,7 @@ public class PublicGameState {
     }
 
     /**
-     * Getter for the PublicCardState computed with the private cardState property
+     * Getter for the PublicCardState computed with the private cardState property.
      *
      * @return the PublicCardState
      */
@@ -83,7 +83,7 @@ public class PublicGameState {
 
 
     /**
-     * Getter for the private field currentPlayerId
+     * Getter for the private field currentPlayerId.
      *
      * @return a playerId
      */
@@ -92,7 +92,7 @@ public class PublicGameState {
     }
 
     /**
-     * Getter for the PublicPlayerState computed using the specified PlayerId
+     * Getter for the PublicPlayerState computed using the specified PlayerId.
      *
      * @param playerId the player for which it will return its PublicPLayerState
      * @return a PublicPlayerState
@@ -102,7 +102,7 @@ public class PublicGameState {
     }
 
     /**
-     * Getter for the PublicPlayerState for the currentPlayer
+     * Getter for the PublicPlayerState for the currentPlayer.
      *
      * @return a PublicPlayerState
      * @see #playerState(PlayerId)
@@ -112,7 +112,7 @@ public class PublicGameState {
     }
 
     /**
-     * Getter for every Route claimed by the currentPlayer
+     * Getter for every Route claimed by the currentPlayer.
      *
      * @return all claimed Route
      */
@@ -123,7 +123,7 @@ public class PublicGameState {
     }
 
     /**
-     * Getter for the Id of the last player
+     * Getter for the Id of the last player.
      *
      * @return the lastPlayer PlayerId
      */
