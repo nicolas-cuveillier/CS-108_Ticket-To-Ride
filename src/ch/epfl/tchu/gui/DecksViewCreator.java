@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- *
+ * <p>
  * none instanciable class that handle the creation of the differents deck of the game
  */
 final class DecksViewCreator {
@@ -65,7 +65,7 @@ final class DecksViewCreator {
         return view;
     }
 
-    private static void makeCardPane(StackPane pane){
+    private static void makeCardPane(StackPane pane) {
         Rectangle outsideRect = new Rectangle(60, 90);
         outsideRect.getStyleClass().add("outside");
         Rectangle insideRect = new Rectangle(40, 70);
@@ -88,11 +88,11 @@ final class DecksViewCreator {
      * static method that will create a node containing all the different component of the right part of the tchu's GUI
      * like the deck and the face-up cards. Handle also, interaction between the GUI and the action of a human player.
      *
-     * @param gameState an instance of ObservableGameState that gives to this method the properties of some components
+     * @param gameState              an instance of ObservableGameState that gives to this method the properties of some components
      * @param ticketsHandlerProperty a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawTicketsHandler} that will
      *                               handle the drawing of tickets
-     * @param cardHandlerProperty a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawCardHandler} that will handle
-     *                            the drawing of cards
+     * @param cardHandlerProperty    a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawCardHandler} that will handle
+     *                               the drawing of cards
      * @return (Node) the Node of the second part of the Tchu's GUI that represent the deck of cards, deck of tickets
      * and the face-up cards
      */
@@ -117,22 +117,19 @@ final class DecksViewCreator {
 
         view.getChildren().add(ticketsButton);
 
-        for (Integer index: Constants.FACE_UP_CARD_SLOTS) {
+        for (Integer index : Constants.FACE_UP_CARD_SLOTS) {
             StackPane cardPane = new StackPane();
             cardPane.getStyleClass().add(STYLE_CARD);
 
             gameState.faceUpCardProperty(index).addListener((o, oV, nV) -> {
-                if (oV != nV){
-                    if(nV.color() != null)
-                        cardPane.getStyleClass().add(nV.color().name());
-                    else
-                        cardPane.getStyleClass().add("NEUTRAL");
-                }
+                if (nV.color() != null)
+                    if (oV != null) cardPane.getStyleClass().set(1, nV.color().name());
+                    else cardPane.getStyleClass().add(nV.color().name());
+                else cardPane.getStyleClass().add("NEUTRAL");
             });
 
             cardPane.setOnMouseClicked(o -> {
                 if (cardHandlerProperty.isNotNull().get()) cardHandlerProperty.get().onDrawCard(index);
-                else o.consume();//good?
             });
 
             makeCardPane(cardPane);
