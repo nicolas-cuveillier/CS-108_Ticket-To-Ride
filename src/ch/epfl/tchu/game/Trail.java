@@ -2,14 +2,13 @@ package ch.epfl.tchu.game;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * implement the notion of Trail in the game
+ * implement the notion of Trail in the game.
  */
 public final class Trail {
 
@@ -17,6 +16,7 @@ public final class Trail {
     private final List<Route> routes;
     private final Station station1;
     private final Station station2;
+    private final static String TRAIL_WITH_NO_ROUTES = "Empty Trail";
 
 
     private Trail(List<Route> routes, Station station1, Station station2) {
@@ -29,7 +29,7 @@ public final class Trail {
     }
 
     /**
-     * Computes the longest or one of the longest Trail for a given List of Route
+     * Computes the longest or one of the longest Trail for a given List of Route.
      *
      * @param routes the list of all Route(s) to make the Trail
      * @return (Trail) the longest trail given all Route(s)
@@ -53,6 +53,7 @@ public final class Trail {
                 if (longestTrail != null)
                     length = longestTrail.length;
 
+                //go through all routes and search possible candidate to continue the trail
                 routes.stream()
                         .filter(route -> !c.routes().contains(route))
                         .forEach(route -> { //TODO meilleure modularisation possible
@@ -64,7 +65,6 @@ public final class Trail {
                         });
 
                 longestTrail = length < c.length() ? c : longestTrail;
-
             }
             cs = cs2;
         }
@@ -97,7 +97,7 @@ public final class Trail {
      * @return textual representation of a trail
      */
     @Override
-    public String toString() { //TODO method trop longue
+    public String toString() {
         StringBuilder text = new StringBuilder();
 
         int totalLength = routes.stream()
@@ -105,42 +105,19 @@ public final class Trail {
                 .sum();
 
         if (routes.size() != 0) {
-            if (this.station1() == routes.get(0).station1()) {
-
-                routes.forEach(route -> {
-                    if (route == routes.get(0)){
-                        text.append(route.station1().name());
-                    } else {
-                        text.append(" - ")
-                                .append(route.station1().name());
-                    }
-                });
-
-                text.append(" - ").append(routes.get(routes.size() - 1).station2().name());
-            } else if (this.station1() == routes.get(routes.size() - 1).station2()) {
-
-                for (int i = routes.size() - 1; i >= 0; i--) {
-                    text.append(" - ")
-                            .append(routes.get(i).station2().name());
-
-                    if (i == routes.size() - 1) text.append(routes.get(i).station2().name());
-                }
-
-                text.append(" - ")
-                        .append(routes.get(0).station1().name());
-            }
-
-            text.append(" (")
+            text.append(routes.get(0).station1().name())
+                    .append(routes.get(routes.size() - 1).station2())
+                    .append(" (")
                     .append(totalLength)
                     .append(")");
         } else
-            text.append("Empty Trail");
+            text.append(TRAIL_WITH_NO_ROUTES);
 
         return text.toString();
     }
 
     /**
-     * Getter for the private field length
+     * Getter for the private field length.
      *
      * @return (int) the length
      */
@@ -149,16 +126,16 @@ public final class Trail {
     }
 
     /**
-     * Getter for the private field routes
+     * Getter for the private field routes.
      *
      * @return (List < Route >) the list of all Route(s)
      */
     public List<Route> routes() {
-        return Collections.unmodifiableList(routes);
+        return routes;
     }
 
     /**
-     * Getter for the first Station
+     * Getter for the first Station.
      *
      * @return (Station) the first Station
      */
@@ -167,7 +144,7 @@ public final class Trail {
     }
 
     /**
-     * Getter for the last Station
+     * Getter for the last Station.
      *
      * @return (Station) the second Station
      */
