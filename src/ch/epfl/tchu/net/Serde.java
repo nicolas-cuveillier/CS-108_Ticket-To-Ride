@@ -13,12 +13,12 @@ import java.util.regex.Pattern;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * implement several ways to build an object able to (de)serialize all components of the game
+ * implement several ways to build an object able to (de)serialize all components of the game.
  */
 public interface Serde<T> {
 
     /**
-     * serialize an object as a string of characters
+     * Serialize an object as a string of characters.
      *
      * @param obj the object of type T that will be serialize
      * @return a string representation of the object
@@ -26,7 +26,7 @@ public interface Serde<T> {
     String serialize(T obj);
 
     /**
-     * deserialize an object as a string of characters, to the inverse of the serialize method
+     * Deserialize a string of characters in an object. Do the inverse of the serialize method.
      *
      * @param message the string which represent the the object of type T
      * @return an object of type T according to its serialized representation
@@ -34,7 +34,7 @@ public interface Serde<T> {
     T deserialize(String message);
 
     /**
-     * static method that build a Serde able to (de)serialize object of parameter < T >
+     * Static method that build a Serde able to (de)serialize object of parameter < T >.
      *
      * @param serializableFunc   the function that will serialize the object
      * @param deserializableFunc the function that will deserialize the object
@@ -58,7 +58,7 @@ public interface Serde<T> {
     }
 
     /**
-     * static method that build a Serde able to (de)serialize one object in the list of parameter < T >
+     * Static method that build a Serde able to (de)serialize one object in the list of parameter < T >.
      *
      * @param list list of the objects that will potentially be (de)serialize
      * @param <T>  the type of the elements that compose the list
@@ -69,8 +69,8 @@ public interface Serde<T> {
     }
 
     /**
-     * static method that build a Serde able to (de)serialize a whole list of parameter < T > according
-     * to the way of (de)serialize each object
+     * Static method that build a Serde able to (de)serialize a whole list of parameter < T > according
+     * to the way of (de)serialize each object.
      *
      * @param serde     Serde that can (de)serialize object of type T
      * @param separator character that will separate the different elements of the list
@@ -99,8 +99,8 @@ public interface Serde<T> {
     }
 
     /**
-     * static method that build a Serde able to (de)serialize a whole SortedBag of parameter < T > according
-     * to the way of (de)serialize each object
+     * Static method that build a Serde able to (de)serialize a whole SortedBag of parameter < T > according
+     * to the way of (de)serialize each object.
      *
      * @param serde     Serde that can (de)serialize object of type T
      * @param separator character that will separate the different elements of the list

@@ -14,86 +14,88 @@ import java.util.regex.Pattern;
 
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * define all constant related to the (de)serialization process for all element of the Game
+ * <p></p>
+ * Define all constant related to the (de)serialization process for all element of the Game.
  */
 public final class Serdes {
+    private final static char SEPARATOR_COMMA = ',';
+    private final static char SEPARATOR_SEMI_COLON= ';';
+    private final static String STRING_SEPARATOR_SEMI_COLON = ";";
 
     private Serdes() {
     }
 
     //Single Objects
     /**
-     * a Serde able to (de)serialize an Integer
+     * A Serde able to (de)serialize an Integer.
      */
     public static final Serde<Integer> INT = Serde.of(i -> Integer.toString(i), Integer::parseInt);
     /**
-     * a Serde able to (de)serialize a String
+     * A Serde able to (de)serialize a String.
      */
     public static final Serde<String> STRING = Serde.of(i -> Base64.getEncoder().encodeToString(i.getBytes(StandardCharsets.UTF_8)), i -> new String(Base64.getDecoder().decode(i.getBytes(StandardCharsets.UTF_8))));
     /**
-     * a Serde able to (de)serialize one element of the PlayerId enum
+     * A Serde able to (de)serialize one element of the PlayerId enum.
      */
     public static final Serde<PlayerId> PLAYER_ID = Serde.oneOf(PlayerId.ALL);
     /**
-     * a Serde able to (de)serialize one element of the TurnKind enum
+     * A Serde able to (de)serialize one element of the TurnKind enum.
      */
     public static final Serde<Player.TurnKind> TURN_KIND = Serde.oneOf(Player.TurnKind.ALL);
     /**
-     * a Serde able to (de)serialize one element of the Card enum
+     * A Serde able to (de)serialize one element of the Card enum.
      */
     public static final Serde<Card> CARD = Serde.oneOf(Card.ALL);
     /**
-     * a Serde able to (de)serialize one element of the Routes that compose the Game
+     * A Serde able to (de)serialize one element of the Routes that compose the Game.
      */
     public static final Serde<Route> ROUTE = Serde.oneOf(ChMap.routes());
     /**
-     * a Serde able to (de)serialize one element of the Tickets that compose the Game
+     * A Serde able to (de)serialize one element of the Tickets that compose the Game.
      */
     public static final Serde<Ticket> TICKET = Serde.oneOf(ChMap.tickets());
 
-
     //Collections
     /**
-     * a Serde able to (de)serialize a whole list of Strings
+     * A Serde able to (de)serialize a whole list of Strings.
      */
-    public static final Serde<List<String>> L_STRING = Serde.listOf(STRING, ',');
+    public static final Serde<List<String>> L_STRING = Serde.listOf(STRING, SEPARATOR_COMMA);
     /**
-     * a Serde able to (de)serialize a whole list of Cards
+     * A Serde able to (de)serialize a whole list of Cards.
      */
-    public static final Serde<List<Card>> L_CARD = Serde.listOf(CARD, ',');
+    public static final Serde<List<Card>> L_CARD = Serde.listOf(CARD, SEPARATOR_COMMA);
     /**
-     * a Serde able to (de)serialize a whole list of Routes
+     * A Serde able to (de)serialize a whole list of Routes.
      */
-    public static final Serde<List<Route>> L_ROUTE = Serde.listOf(ROUTE, ',');
+    public static final Serde<List<Route>> L_ROUTE = Serde.listOf(ROUTE, SEPARATOR_COMMA);
     /**
-     * a Serde able to (de)serialize a whole SortedBag of Cards
+     * A Serde able to (de)serialize a whole SortedBag of Cards.
      */
-    public static final Serde<SortedBag<Card>> SB_CARD = Serde.bagOf(CARD, ',');
+    public static final Serde<SortedBag<Card>> SB_CARD = Serde.bagOf(CARD, SEPARATOR_COMMA);
     /**
-     * a Serde able to (de)serialize a whole SortedBag of Tickets
+     * A Serde able to (de)serialize a whole SortedBag of Tickets.
      */
-    public static final Serde<SortedBag<Ticket>> SB_TICKET = Serde.bagOf(TICKET, ',');
+    public static final Serde<SortedBag<Ticket>> SB_TICKET = Serde.bagOf(TICKET, SEPARATOR_COMMA);
     /**
-     * a Serde able to (de)serialize a whole list of SortedBag of Cards
+     * A Serde able to (de)serialize a whole list of SortedBag of Cards.
      */
-    public static final Serde<List<SortedBag<Card>>> L_SB_CARD = Serde.listOf(SB_CARD, ';');
+    public static final Serde<List<SortedBag<Card>>> L_SB_CARD = Serde.listOf(SB_CARD, SEPARATOR_SEMI_COLON);
 
     //Serializable Classes
     /**
-     * a Serde able to (de)serialize a Public Card State
+     * A Serde able to (de)serialize a Public Card State.
      */
     public static final Serde<PublicCardState> SC_PUBLIC_CARD_STATE = Serde.of(pcsFunctionSer(), pcsFunctionDeSer());
     /**
-     * a Serde able to (de)serialize a Public Player State
+     * A Serde able to (de)serialize a Public Player State.
      */
     public static final Serde<PublicPlayerState> SC_PUBLIC_PLAYER_STATE = Serde.of(ppsFunctionSer(), ppsFunctionDeSer());
     /**
-     * a Serde able to (de)serialize a Player State
+     * A Serde able to (de)serialize a Player State.
      */
     public static final Serde<PlayerState> SC_PLAYER_STATE = Serde.of(psFunctionSer(), psFunctionDeSer());
     /**
-     * a Serde able to (de)serialize a Public Game State
+     * A Serde able to (de)serialize a Public Game State.
      */
     public static final Serde<PublicGameState> SC_PUBLIC_GAME_STATE = Serde.of(pgsFunctionSer(), pgsFunctionDeSer());
 
@@ -122,7 +124,7 @@ public final class Serdes {
 
     private static Function<PlayerState, String> psFunctionSer() {
         return playerState -> {
-            StringJoiner joiner = new StringJoiner(";");
+            StringJoiner joiner = new StringJoiner(STRING_SEPARATOR_SEMI_COLON);
             joiner.add(SB_TICKET.serialize(playerState.tickets()))
                     .add(SB_CARD.serialize(playerState.cards()))
                     .add(L_ROUTE.serialize(playerState.routes()));
@@ -132,14 +134,14 @@ public final class Serdes {
 
     private static Function<String, PlayerState> psFunctionDeSer() {
         return message -> {
-            String[] t = message.split(Pattern.quote(";"), -1);
+            String[] t = message.split(Pattern.quote(STRING_SEPARATOR_SEMI_COLON), -1);
             return new PlayerState((t[0].equals("")) ? SortedBag.of() : SB_TICKET.deserialize(t[0]), (t[1].equals("")) ? SortedBag.of() : SB_CARD.deserialize(t[1]), (t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 
     private static Function<PublicPlayerState, String> ppsFunctionSer() {
         return publicPlayerState -> {
-            StringJoiner joiner = new StringJoiner(";");
+            StringJoiner joiner = new StringJoiner(STRING_SEPARATOR_SEMI_COLON);
             joiner.add(INT.serialize(publicPlayerState.ticketCount()))
                     .add(INT.serialize(publicPlayerState.cardCount()))
                     .add((publicPlayerState.routes() == null) ? "" : L_ROUTE.serialize(publicPlayerState.routes()));
@@ -149,14 +151,14 @@ public final class Serdes {
 
     private static Function<String, PublicPlayerState> ppsFunctionDeSer() {
         return message -> {
-            String[] t = message.split(Pattern.quote(";"), -1);
+            String[] t = message.split(Pattern.quote(STRING_SEPARATOR_SEMI_COLON), -1);
             return new PublicPlayerState(INT.deserialize(t[0]), INT.deserialize(t[1]), (t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 
     private static Function<PublicCardState, String> pcsFunctionSer() {
         return publicCardState -> {
-            StringJoiner joiner = new StringJoiner(";");
+            StringJoiner joiner = new StringJoiner(STRING_SEPARATOR_SEMI_COLON);
             joiner.add(L_CARD.serialize(publicCardState.faceUpCards()))
                     .add(INT.serialize(publicCardState.deckSize()))
                     .add(INT.serialize(publicCardState.discardsSize()));
@@ -166,7 +168,7 @@ public final class Serdes {
 
     private static Function<String, PublicCardState> pcsFunctionDeSer() {
         return message -> {
-            String[] t = message.split(Pattern.quote(";"), -1);
+            String[] t = message.split(Pattern.quote(STRING_SEPARATOR_SEMI_COLON), -1);
             return new PublicCardState(L_CARD.deserialize(t[0]), INT.deserialize(t[1]), INT.deserialize(t[2]));
         };
     }
