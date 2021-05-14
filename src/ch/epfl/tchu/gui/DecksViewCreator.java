@@ -105,13 +105,13 @@ final class DecksViewCreator {
 
         Button ticketsButton = new Button(StringsFr.TICKETS);
         ticketsButton.getStyleClass().add("gauged");
-        ticketsButton.setGraphic(getGraphicButtonGroup(gameState.ticketsInDeckPercent()));
+        ticketsButton.setGraphic(getGraphicButtonGroup(gameState.ticketsInDeckPercentProperty()));
         ticketsButton.disableProperty().bind(ticketsHandlerProperty.isNull());
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
 
         Button cardsButton = new Button(StringsFr.CARDS);
         cardsButton.getStyleClass().add("gauged");
-        cardsButton.setGraphic(getGraphicButtonGroup(gameState.cardsInDeckPercent()));
+        cardsButton.setGraphic(getGraphicButtonGroup(gameState.cardsInDeckPercentProperty()));
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
@@ -121,7 +121,7 @@ final class DecksViewCreator {
             StackPane cardPane = new StackPane();
             cardPane.getStyleClass().add(STYLE_CARD);
 
-            gameState.faceUpCard(index).addListener((o, oV, nV) -> {
+            gameState.faceUpCardProperty(index).addListener((o, oV, nV) -> {
                 if (oV != nV){
                     if(nV.color() != null)
                         cardPane.getStyleClass().add(nV.color().name());

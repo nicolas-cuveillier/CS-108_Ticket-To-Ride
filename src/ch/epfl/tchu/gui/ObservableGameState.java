@@ -39,7 +39,7 @@ public final class ObservableGameState {
      * Unique constructor for an ObservableGameState, specific to a player. Initialise all properties with default
      * value such as false, null, 0
      *
-     * @param playerId the identity of its corresponding player in {@link Card}
+     * @param playerId the identity of its corresponding player in {@link PlayerId}
      */
     public ObservableGameState(PlayerId playerId) {
         this.publicGameState = null;
@@ -95,8 +95,8 @@ public final class ObservableGameState {
     }
 
     /**
-     * method that will update all properties that have changed during a player turn according to the new game state
-     * and to the actual playerState
+     * Method that will update all properties that have changed during a player turn according to the new game state
+     * and to the actual playerState.
      *
      * @param newGameState the new PublicGameState that has been updated during the game
      * @param playerState  actual PlayerState specific to the corresponding PlayerId
@@ -134,19 +134,11 @@ public final class ObservableGameState {
 
         for (Route route : ChMap.routes()) {
             Route nextRoute = getDoubleRoute(route);
-            List<SortedBag<Card>> playerOptions = possibleClaimCards(route);
 
-            if (!playerOptions.isEmpty()) {
-                if (!newGameState.claimedRoutes().contains(route)) {
-                    if (nextRoute != null) {
-                        if (!newGameState.claimedRoutes().contains(nextRoute))
-                            claimableRoutes.get(route).setValue(true);
-                    } else
-                        claimableRoutes.get(route).setValue(true);
-                } else {
-                    if (nextRoute != null)
-                        claimableRoutes.get(nextRoute).setValue(false);
-                }
+            if (!possibleClaimCards(route).isEmpty()
+                    && (!newGameState.claimedRoutes().contains(route) ||
+                    (nextRoute != null && !newGameState.claimedRoutes().contains(nextRoute)))) {
+                claimableRoutes.get(route).setValue(true);
             }
         }
     }
@@ -159,90 +151,85 @@ public final class ObservableGameState {
         return null;
     }
 
-    public ReadOnlyIntegerProperty ticketsInDeckPercent() {
+    /**
+     * Getter for the percentage of Tickets in deck properties.
+     * @return a ReadOnlyIntegerProperty of the property containing the percentage of tickets
+     */
+    public ReadOnlyIntegerProperty ticketsInDeckPercentProperty() {
         return ReadOnlyIntegerProperty.readOnlyIntegerProperty(ticketsInDeckPercent);
     }
 
     /**
-     * getter for the percentage of cards in deck properties
+     * Getter for the percentage of cards in deck properties.
      *
-     * @return a ReadOnlyIntegerProperty of the property
+     * @return a ReadOnlyIntegerProperty of the property containing the percentage of cards
      */
-    public ReadOnlyIntegerProperty cardsInDeckPercent() {
+    public ReadOnlyIntegerProperty cardsInDeckPercentProperty() {
         return ReadOnlyIntegerProperty.readOnlyIntegerProperty(cardsInDeckPercent);
     }
 
     /**
-     * getter for the index card's property
+     * Getter for the index card's property.
      *
      * @param index the index of the wanted faceUpCard
      * @return a ReadOnlyObjectProperty< Card > of the property
      */
-    public ReadOnlyObjectProperty<Card> faceUpCard(int index) {
+    public ReadOnlyObjectProperty<Card> faceUpCardProperty(int index) {
         return faceUpCards.get(index);
     }
 
     /**
-     * getter for the PlayerId's property that is the owner of the route
+     * Getter for the PlayerId's property that is the owner of the route.
      *
      * @param route Route for which it will gives the corresponding PlayerId's property
      * @return a ReadOnlyObjectProperty< PlayerId > of the corresponding route
      */
-    public ReadOnlyObjectProperty<PlayerId> routeOwner(Route route) {
+    public ReadOnlyObjectProperty<PlayerId> routeOwnerProperty(Route route) {
         return routeOwner.get(route);
     }
 
     /**
-     * getter for the ticketsCount's property of the corresponding PlayerId
+     * Getter for the ticketsCount's property of the corresponding PlayerId.
      *
      * @param playerId the PlayerId for the one it will compute his tickets' count
      * @return in a ReadOnlyIntegerProperty, the number of tickets
      */
-    public ReadOnlyIntegerProperty ticketsCount(PlayerId playerId) {
+    public ReadOnlyIntegerProperty ticketsCountProperty(PlayerId playerId) {
         return ReadOnlyIntegerProperty.readOnlyIntegerProperty(ticketsCount.get(playerId));
     }
 
     /**
-     * getter for the ticketsCount's property of the current PlayerId
-     *
-     * @return in a ReadOnlyIntegerProperty, the number of tickets of the current PlayerId
-     */
-    public ReadOnlyIntegerProperty currentPlayerIdTicketsCount() {
-        return ReadOnlyIntegerProperty.readOnlyIntegerProperty(ticketsCount.get(publicGameState.currentPlayerId()));
-    }
-
-    /**
-     * getter for the cardsCount's property of the corresponding PlayerId
+     * Getter for the cardsCount's property of the corresponding PlayerId.
      *
      * @param playerId the PlayerId for the one it will compute his cards' count
      * @return in a ReadOnlyIntegerProperty, the number of cards
      */
-    public ReadOnlyIntegerProperty cardsCount(PlayerId playerId) {
+    public ReadOnlyIntegerProperty cardsCountProperty(PlayerId playerId) {
         return ReadOnlyIntegerProperty.readOnlyIntegerProperty(cardsCount.get(playerId));
     }
 
     /**
-     * getter for the carsCount's property of the corresponding PlayerId
+     * Getter for the carsCount's property of the corresponding PlayerId.
      *
      * @param playerId the PlayerId for the one it will compute his cars' count
      * @return in a ReadOnlyIntegerProperty, the number of cars
      */
-    public ReadOnlyIntegerProperty carsCount(PlayerId playerId) {
+    public ReadOnlyIntegerProperty carsCountProperty(PlayerId playerId) {
         return ReadOnlyIntegerProperty.readOnlyIntegerProperty(carsCount.get(playerId));
     }
 
     /**
-     * getter for the pointsCount's property of the corresponding PlayerId
+     * Getter for the pointsCount's property of the corresponding PlayerId.
      *
      * @param playerId the PlayerId for the one it will compute his points' count
      * @return in a ReadOnlyIntegerProperty, the number of points
      */
-    public ReadOnlyIntegerProperty pointsCount(PlayerId playerId) {
+    public ReadOnlyIntegerProperty pointsCountProperty(PlayerId playerId) {
         return ReadOnlyIntegerProperty.readOnlyIntegerProperty(pointsCount.get(playerId));
     }
 
     /**
-     * getter for the properties of the actual player
+     * Getter for the properties of the actual player.
      *
      * @return an unmodifiable ObservableList< Ticket > containing the properties of the players' tickets
      */
@@ -251,7 +238,7 @@ public final class ObservableGameState {
     }
 
     /**
-     * getter for the number of card that the actual player has
+     * Getter for the number of card that the actual player has.
      *
      * @param card the card in {@link Card} for which its count in the actual player cards will be computed
      * @return a ReadOnlyIntegerProperty of the number of cards
@@ -261,7 +248,7 @@ public final class ObservableGameState {
     }
 
     /**
-     * getter for the boolean property containing a boolean saying if the route can be claimed
+     * Getter for the boolean property containing a boolean saying if the route can be claimed.
      *
      * @param route the route for which its boolean property will be return
      * @return a ReadOnlyBooleanProperty saying if the route can be claim
@@ -271,7 +258,7 @@ public final class ObservableGameState {
     }
 
     /**
-     * getter for the list of possible claim cards for a given route according to the actual player cards
+     * Getter for the list of possible claim cards for a given route according to the actual player cards.
      *
      * @param route the route that the player wants to claim
      * @return a List< SortedBag < Card > > containing all possibilities that the player has for claiming the route
@@ -282,7 +269,7 @@ public final class ObservableGameState {
     }
 
     /**
-     * getter for the publicGameState.canDrawTickets method in {@link PublicGameState}
+     * Getter for the publicGameState.canDrawTickets method in {@link PublicGameState}.
      *
      * @return (boolean) true iff the PublicGameState tickets' count is different from 0
      * @see PublicGameState
@@ -292,7 +279,7 @@ public final class ObservableGameState {
     }
 
     /**
-     * getter for the publicGameState.canDrawCards method in {@link PublicGameState}
+     * Getter for the publicGameState.canDrawCards method in {@link PublicGameState}.
      *
      * @return (boolean) true iff the PublicGameState cards overall are more or equal to five
      * @see PublicGameState

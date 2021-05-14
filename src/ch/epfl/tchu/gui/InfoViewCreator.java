@@ -52,11 +52,11 @@ final class InfoViewCreator {
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
-            Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCount(pId)
-                    , gameState.cardsCount(pId), gameState.carsCount(pId), gameState.pointsCount(pId)));
+            Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCountProperty(pId)
+                    , gameState.cardsCountProperty(pId), gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
 
-            playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCount(pId)
-                    , gameState.cardsCount(pId), gameState.carsCount(pId), gameState.pointsCount(pId)));
+            playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCountProperty(pId)
+                    , gameState.cardsCountProperty(pId), gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
 
             text.getChildren().addAll(coloredCircle, playerInfo);
             playersStatView.getChildren().add(text);
