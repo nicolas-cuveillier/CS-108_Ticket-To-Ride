@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * Represents the Card status which are not possessed by any of the players, specialised from PublicCardState
+ * Represents the Card status which are not possessed by any of the players, specialised from PublicCardState.
  */
 public final class CardState extends PublicCardState {
     private final Deck<Card> deck;
@@ -24,7 +24,7 @@ public final class CardState extends PublicCardState {
     }
 
     /**
-     * Generic CardState instance with five face-up cards, a deck and an empty discard set using the given deck
+     * Generic CardState instance with five face-up cards, a deck and an empty discard set using the given deck.
      *
      * @param deck deck of cards from which faceUpCards and deck will be built
      * @return (CardState) a complete part of CardState with five faceUpCards and an empty discard set
@@ -39,7 +39,7 @@ public final class CardState extends PublicCardState {
     }
 
     /**
-     * Computes a card state where the card in the faceUpCards at the given slot has been replaced by the first card in the deck
+     * Computes a card state where the card in the faceUpCards at the given slot has been replaced by the first card in the deck.
      *
      * @param slot the index of the card's slot which will be replaced
      * @return (CardState) a new CardState with the card in faceUpCards at the given slot was replaced by the top deck card
@@ -57,7 +57,7 @@ public final class CardState extends PublicCardState {
     }
 
     /**
-     * Returns the first Card of the deck
+     * Returns the first Card of the deck.
      *
      * @return (Card) the top deck card
      * @throws IllegalArgumentException if the deck is empty
@@ -68,7 +68,7 @@ public final class CardState extends PublicCardState {
     }
 
     /**
-     * Returns the CardState with the same deck minus the first card (top card)
+     * Returns the CardState with the same deck minus the first card (top card).
      *
      * @return (CardState) a CardState without it's deck's top card
      * @throws IllegalArgumentException if the deck is empty
@@ -79,7 +79,7 @@ public final class CardState extends PublicCardState {
     }
 
     /**
-     * Computes a new CardState where the deck is formed using the shuffled discarded cards
+     * Computes a new CardState where the deck is formed using the shuffled discarded cards.
      *
      * @param rng (Random) used to shuffle the deck
      * @return (CardState) a new CardState where the deck is the shuffled discard
@@ -91,7 +91,7 @@ public final class CardState extends PublicCardState {
     }
 
     /**
-     * return the CardState with Cards added to the discard
+     * return the CardState with Cards added to the discard.
      *
      * @param additionalDiscards cards that will be added to the discard
      * @return (CardState) a new CardState with the discarded cards

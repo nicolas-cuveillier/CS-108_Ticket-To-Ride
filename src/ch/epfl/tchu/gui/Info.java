@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * @author GGrégory Preisig (299489) & Nicolas Cuveillier (329672)
  * <p>
- * Information that player will see during the game gives as String
+ * Information that player will see during the game gives as String.
  */
 public final class Info {
     private final String playerName;
 
     /**
-     * Build a message generator link to the player
+     * Build a message generator link to the player.
      *
      * @param payerName the player name
      */
@@ -26,7 +26,7 @@ public final class Info {
     }
 
     /**
-     * compute a card name according to its count
+     * Compute a card name according to its count.
      *
      * @param card  the card that the name will be return
      * @param count the number of card(s)
@@ -59,7 +59,7 @@ public final class Info {
     }
 
     /**
-     * message when the game end and player are ex æqo
+     * message when the game end and player are ex æqo.
      *
      * @param playerNames the list all player
      * @param points      the winners point
@@ -77,7 +77,7 @@ public final class Info {
     }
 
     /**
-     * message saying that this player is going to play first
+     * message saying that this player is going to play first.
      *
      * @return (String)
      */
@@ -86,7 +86,7 @@ public final class Info {
     }
 
     /**
-     * message saying that this player is keeping count billets
+     * message saying that this player is keeping count billets.
      *
      * @param count the number of ticket(s)
      * @return (String)
@@ -96,7 +96,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player can now playing
+     * message saying that the player can now playing.
      *
      * @return (String)
      */
@@ -105,7 +105,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew count tickets
+     * message saying that the player drew count tickets.
      *
      * @param count the number of ticket(s)
      * @return (String)
@@ -115,7 +115,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew a blind card from the deck
+     * message saying that the player drew a blind card from the deck.
      *
      * @return (String)
      */
@@ -124,7 +124,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew a visible card
+     * message saying that the player drew a visible card.
      *
      * @param card the card that is drew
      * @return (String)
@@ -134,7 +134,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player took this Route with these cards
+     * message saying that the player took this Route with these cards.
      *
      * @param route the taken Route
      * @param cards the cards that the player used to claim the Route
@@ -145,7 +145,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player claim this tunnel with these cards
+     * message saying that the player claim this tunnel with these cards.
      *
      * @param route        the Route that the player want to claim
      * @param initialCards the cards that the player initially used to ask for the Route
@@ -171,7 +171,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player did not took this tunnel
+     * message saying that the player did not took this tunnel.
      *
      * @param route the route that the player didn't claimed
      * @return (String)
@@ -181,7 +181,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the last turn of the game begins
+     * message saying that the last turn of the game begins.
      *
      * @param carCount the number of car the player has left
      * @return (String)
@@ -201,7 +201,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player won
+     * message saying that the player won.
      *
      * @param points      the points of the winner
      * @param loserPoints the loser's point
