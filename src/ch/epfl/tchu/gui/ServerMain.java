@@ -1,7 +1,10 @@
 package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.SortedBag;
-import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.game.ChMap;
+import ch.epfl.tchu.game.Game;
+import ch.epfl.tchu.game.Player;
+import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.net.RemotePlayerProxy;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -38,8 +41,9 @@ public final class ServerMain extends Application {
         String name1 = parameters.get(0);
         String name2 = parameters.get(1);
 
-        try (ServerSocket s0 = new ServerSocket(5108);
-             Socket s = s0.accept()) {
+        try {
+            ServerSocket s0 = new ServerSocket(5108);
+            Socket s = s0.accept();
 
             GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
             RemotePlayerProxy remotePlayerProxy = new RemotePlayerProxy(s);

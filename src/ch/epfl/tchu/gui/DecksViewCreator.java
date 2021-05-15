@@ -66,24 +66,6 @@ final class DecksViewCreator {
         return view;
     }
 
-    private static void makeCardPane(StackPane pane) {
-        Rectangle outsideRect = new Rectangle(60, 90);
-        outsideRect.getStyleClass().add("outside");
-        Rectangle insideRect = new Rectangle(40, 70);
-        insideRect.getStyleClass().addAll("filled", "inside");
-        Rectangle trainImage = new Rectangle(40, 70);
-        trainImage.getStyleClass().add("train-image");
-        pane.getChildren().addAll(outsideRect, insideRect, trainImage);
-    }
-
-    private static void makeCardPaneWithCount(StackPane pane, ReadOnlyIntegerProperty count) {
-        makeCardPane(pane);
-        Text textCount = new Text();
-        textCount.getStyleClass().add("count");
-        textCount.textProperty().bind(Bindings.convert(count));
-        textCount.visibleProperty().bind(Bindings.greaterThan(count, 1));
-        pane.getChildren().add(textCount);
-    }
 
     /**
      * Static method that will create a node containing all the different component of the right part of the tchu's GUI
@@ -124,9 +106,12 @@ final class DecksViewCreator {
 
             gameState.faceUpCardProperty(index).addListener((o, oV, nV) -> {
                 if (nV.color() != null) {
-                    if (oV != null) cardPane.getStyleClass().set(1, nV.color().name());
+                    if(cardPane.getStyleClass().size() >= 2 ) cardPane.getStyleClass().set(1,nV.color().name());
                     else cardPane.getStyleClass().add(nV.color().name());
-                } else cardPane.getStyleClass().add(STYLE_NEUTRAL);
+                } else {
+                    if(cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1,STYLE_NEUTRAL);
+                    else cardPane.getStyleClass().add(STYLE_NEUTRAL);
+                }
             });
 
             cardPane.setOnMouseClicked(o -> {
@@ -151,4 +136,24 @@ final class DecksViewCreator {
         group.getChildren().addAll(background, foreground);
         return group;
     }
+
+    private static void makeCardPane(StackPane pane) {
+        Rectangle outsideRect = new Rectangle(60, 90);
+        outsideRect.getStyleClass().add("outside");
+        Rectangle insideRect = new Rectangle(40, 70);
+        insideRect.getStyleClass().addAll("filled", "inside");
+        Rectangle trainImage = new Rectangle(40, 70);
+        trainImage.getStyleClass().add("train-image");
+        pane.getChildren().addAll(outsideRect, insideRect, trainImage);
+    }
+
+    private static void makeCardPaneWithCount(StackPane pane, ReadOnlyIntegerProperty count) {
+        makeCardPane(pane);
+        Text textCount = new Text();
+        textCount.getStyleClass().add("count");
+        textCount.textProperty().bind(Bindings.convert(count));
+        textCount.visibleProperty().bind(Bindings.greaterThan(count, 1));
+        pane.getChildren().add(textCount);
+    }
+
 }

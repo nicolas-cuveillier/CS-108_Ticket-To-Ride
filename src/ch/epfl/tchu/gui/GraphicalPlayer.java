@@ -62,7 +62,7 @@ public final class GraphicalPlayer {
         Node mapView = MapViewCreator.createMapView(gameState, claimRoute, this::chooseClaimCards);
         Node cardsView = DecksViewCreator.createCardsView(gameState, drawTickets, drawCard);
         Node handView = DecksViewCreator.createHandView(gameState);
-        Node infoView = InfoViewCreator.createInfoView(player, playersName, gameState, information);
+        Node infoView = InfoViewCreator.createInfoView(this.player, this.playersName, gameState, information);
         BorderPane borderPane =
                 new BorderPane(mapView, null, cardsView, handView, infoView);
 
@@ -71,6 +71,7 @@ public final class GraphicalPlayer {
         mainView.setTitle("tChu" + " \u2014 " + playersName.get(player));
         mainView.show();
     }
+
 
     /**
      * method that will update all properties of the actual game state that have changed during a player turn according to the new game state
@@ -160,7 +161,7 @@ public final class GraphicalPlayer {
     public void chooseClaimCards(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
         assert isFxApplicationThread();
         //cards selection window
-        Stage cardsSelectorStage = cardsSelector(options, chooseCardsH);
+        Stage cardsSelectorStage = cardsSelector(options, chooseCardsH, StringsFr.CHOOSE_CARDS,false);
         cardsSelectorStage.show();
     }
 
@@ -174,7 +175,7 @@ public final class GraphicalPlayer {
     public void chooseAdditionalCards(List<SortedBag<Card>> additionalCards, ActionHandler.ChooseCardsHandler chooseCardsH) {
         assert isFxApplicationThread();
         //In Game cards selection window
-        Stage additionalCardsSelectorStage = additionalCardsSelector(additionalCards, chooseCardsH);
+        Stage additionalCardsSelectorStage = cardsSelector(additionalCards, chooseCardsH,StringsFr.CHOOSE_ADDITIONAL_CARDS,true);
         additionalCardsSelectorStage.show();
     }
 
@@ -185,41 +186,14 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the additional cards selector panel, a stage own by the main stage, according to a list of option and a
-     * ChooseCardsHandler
-     */
-    private Stage additionalCardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
-        Stage additionalCardsSelectorStage = new Stage(StageStyle.UTILITY);
-
-        VBox additionalCardsSelectorBox = new VBox();
-
-        TextFlow additionalCardsSelectorTextFlow = new TextFlow();
-        Text additionalCardsSelectorText = new Text(StringsFr.CHOOSE_ADDITIONAL_CARDS);
-        additionalCardsSelectorTextFlow.getChildren().add(additionalCardsSelectorText);
-
-        ListView<SortedBag<Card>> additionalCardsSelectorListView = new ListView<>(FXCollections.observableArrayList(options));
-        additionalCardsSelectorListView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
-
-        Button additionalCardsSelectorButton = new Button("Choisir");
-        additionalCardsSelectorButton.setOnAction(e -> {
-            additionalCardsSelectorStage.hide();
-            chooseCardsH.onChooseCards(additionalCardsSelectorListView.getSelectionModel().getSelectedItem());
-        });
-
-        additionalCardsSelectorBox.getChildren()
-                .addAll(additionalCardsSelectorTextFlow, additionalCardsSelectorButton, additionalCardsSelectorListView);
-
-        return setStageFromBox(additionalCardsSelectorStage, additionalCardsSelectorBox, StringsFr.CARDS);
-    }
-    /**
      * create the claim cards selector panel, a stage own by the main stage, according to a list of option and a
      * ChooseCardsHandler
      */
-    private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
+    private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH,String title, boolean isAdditionalCardSelector){
         Stage initialCardsSelectorStage = new Stage(StageStyle.UTILITY);
 
         TextFlow cardsSelectorTextFlow = new TextFlow();
-        Text cardsSelectorText = new Text(StringsFr.CHOOSE_CARDS);
+        Text cardsSelectorText = new Text(title);
         cardsSelectorTextFlow.getChildren().add(cardsSelectorText);
 
         ListView<SortedBag<Card>> cardsSelectorListView = new ListView<>(FXCollections.observableArrayList(options));
@@ -228,7 +202,7 @@ public final class GraphicalPlayer {
         ObservableList<SortedBag<Card>> chosenCards = cardsSelectorListView.getSelectionModel().getSelectedItems();
 
         Button cardsSelectorButton = new Button("Choisir");
-        cardsSelectorButton.disableProperty().bind(Bindings.size(chosenCards).isEqualTo(0));
+        if(!isAdditionalCardSelector) cardsSelectorButton.disableProperty().bind(Bindings.size(chosenCards).isEqualTo(0));
 
         cardsSelectorButton.setOnAction(e -> {
             initialCardsSelectorStage.hide();
@@ -240,6 +214,7 @@ public final class GraphicalPlayer {
 
         return setStageFromBox(initialCardsSelectorStage, cardsSelectorBox,StringsFr.CARDS);
     }
+
     /**
      * create the tickets selector panel, a stage own by the main stage, according to a sortedBag of tickets and a
      * ChooseTicketsHandler
@@ -249,9 +224,9 @@ public final class GraphicalPlayer {
 
         ListView<Ticket> ticketsSelectorListView = new ListView<>(FXCollections.observableArrayList(options.toList()));
         ticketsSelectorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ObservableList<Ticket> chosenTickets = ticketsSelectorListView.getSelectionModel().getSelectedItems();
 
         Button ticketsSelectorButton = new Button("Choisir");
-        ObservableList<Ticket> chosenTickets = ticketsSelectorListView.getSelectionModel().getSelectedItems();
         ticketsSelectorButton.disableProperty().bind(Bindings.size(chosenTickets)
                 .lessThan(ticketsSelectorListView.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT));
         ticketsSelectorButton.setOnAction(e -> {
