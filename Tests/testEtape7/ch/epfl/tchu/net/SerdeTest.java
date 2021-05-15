@@ -21,6 +21,13 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 public class SerdeTest {
 
     @Test
+    void checkEmptySortedBag(){
+        Assertions.assertEquals("",Serdes.SB_CARD.serialize(SortedBag.of()));
+        Assertions.assertEquals(SortedBag.of(),Serdes.SB_CARD.deserialize(""));
+        Assertions.assertEquals(List.of().size(),Serdes.L_CARD.deserialize("").size());
+    }
+
+    @Test
     void checkSerdesOfInt() {
         int i = 2021;
         Assertions.assertEquals("2021", Serdes.INT.serialize(i));

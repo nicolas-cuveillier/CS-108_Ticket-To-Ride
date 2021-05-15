@@ -92,6 +92,9 @@ public interface Serde<T> {
             public List<T> deserialize(String message) {
                 String[] t = message.split(Pattern.quote(s), -1);
                 List<T> list = new ArrayList<>();
+                if(message.equals("")){
+                    return list;
+                }
                 Arrays.asList(t).forEach(i -> list.add(serde.deserialize(i)));
                 return list;
             }

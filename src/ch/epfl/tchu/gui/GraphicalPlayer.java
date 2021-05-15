@@ -208,6 +208,8 @@ public final class GraphicalPlayer {
             initialCardsSelectorStage.hide();
             if(!chosenCards.isEmpty()){
                 chooseCardsH.onChooseCards(chosenCards.get(0));
+            } else {
+                chooseCardsH.onChooseCards(SortedBag.of());
             }
         });
 
