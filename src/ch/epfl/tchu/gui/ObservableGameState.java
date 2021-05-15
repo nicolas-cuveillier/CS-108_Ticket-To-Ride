@@ -135,10 +135,15 @@ public final class ObservableGameState {
         for (Route route : ChMap.routes()) {
             Route nextRoute = getDoubleRoute(route);
 
-            if (!possibleClaimCards(route).isEmpty()
-                    && (!newGameState.claimedRoutes().contains(route) ||
-                    (nextRoute != null && !newGameState.claimedRoutes().contains(nextRoute)))) {
-                claimableRoutes.get(route).setValue(true);
+            if (!possibleClaimCards(route).isEmpty() && !newGameState.claimedRoutes().contains(route)) {
+                if(nextRoute != null && newGameState.claimedRoutes().contains(nextRoute)){
+                    claimableRoutes.get(route).setValue(false);
+                } else {
+                    claimableRoutes.get(route).setValue(true);
+                }
+
+            } else {
+                claimableRoutes.get(route).setValue(false);
             }
         }
     }
@@ -153,6 +158,7 @@ public final class ObservableGameState {
 
     /**
      * Getter for the percentage of Tickets in deck properties.
+     *
      * @return a ReadOnlyIntegerProperty of the property containing the percentage of tickets
      */
     public ReadOnlyIntegerProperty ticketsInDeckPercentProperty() {
