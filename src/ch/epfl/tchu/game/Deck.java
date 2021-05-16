@@ -7,11 +7,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Generic class to implement the notion of deck in the game.
+/**<h1>Deck</h1>
+ * Implements a generic Deck for the game. Used as a generic class, inherits from Comparable
  * 
  * @param <C> the type of elements in the Deck
- * <p></p>
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Deck<C extends Comparable<C>> {

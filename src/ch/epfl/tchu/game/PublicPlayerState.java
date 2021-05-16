@@ -4,7 +4,7 @@ import ch.epfl.tchu.Preconditions;
 
 import java.util.List;
 
-/**
+/**<h1>PublicPlayerState</h1>
  * Represents the public part of the player's state.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)

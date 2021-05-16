@@ -5,8 +5,8 @@ import ch.epfl.tchu.Preconditions;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Represents the Card status which are known by players.
+/**<h1>PublicCardState</h1>
+ * Represents the public part of the cards' state, namely the cards which are not owned by any of the players but known to them.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

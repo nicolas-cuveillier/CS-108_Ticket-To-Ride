@@ -5,8 +5,8 @@ import ch.epfl.tchu.SortedBag;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Implements the notion of player of the tchu game.
+/**<h1>Player</h1>
+ * Interfaces the Player of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

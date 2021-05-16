@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Implements the notion of Trail in the game.
+/**<h1>Trail</h1>
+ * Implements a Trail of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

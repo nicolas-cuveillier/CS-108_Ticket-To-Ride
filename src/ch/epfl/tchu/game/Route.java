@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Implements the notion of route in the game.
+/**<h1>Route</h1>
+ * Implements a Route of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

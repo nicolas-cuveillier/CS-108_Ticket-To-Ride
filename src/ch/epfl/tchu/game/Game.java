@@ -10,14 +10,14 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-/**
- * Uninstantiable class that explicitly describe the procedure of the game.
+/**<h1>Game</h1>
+ * Uninstantiable class that implements the core step sequence of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Game {
     /**
-     * constant that express the numbers of cards that will be draw during a drawing cards turn.
+     * Constant that expresses the numbers of cards that will be draw during a drawing cards turn.
      */
     private static final int DRAWING_PER_DRAW_CARDS_TURN = 2;
 
@@ -25,9 +25,9 @@ public final class Game {
     }
 
     /**
-     * The game is played in three step :
+     * The game is played in three steps :
      * <p>
-     * Firstly, before the while loop, is the initialisation : the GameState is created, players are initialised,
+     * Firstly, before the while loop, is the initialization : the GameState is created, players are initialized,
      * tickets are chosen by the players and information are display.
      * <p>
      * Then, in the while loop, all the game takes place : the current player choose the kind of turn he wants

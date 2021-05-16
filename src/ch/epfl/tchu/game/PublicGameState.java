@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * Implements the public part of the notion of game state.
+/**<h1>PublicGameState</h1>
+ * Represents the public part of the Game's state. Can only return public states of the objects.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

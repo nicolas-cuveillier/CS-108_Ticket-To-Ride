@@ -2,8 +2,8 @@ package ch.epfl.tchu.game;
 
 import java.util.List;
 
-/**
- * Card that can be used in the tchu game :
+/**<h1>Card</h1>
+ * Cards that can be used in the game :
  * {@link #BLACK},
  * {@link #VIOLET},
  * {@link #BLUE},

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-/**
- * Represents the Card status which are not possessed by any of the players, specialised from PublicCardState.
+/**<h1>CardState</h1>
+ * Represents all the Cards which are not possessed by any of the players, inherits from PublicCardState.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

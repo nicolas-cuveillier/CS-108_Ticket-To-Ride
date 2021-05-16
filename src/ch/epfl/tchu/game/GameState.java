@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-/**
- * Implements the notion of GameState in its more complete form, specialised from PublicGameState.
+/**<h1>GameState</h1>
+ * Represents the Game's state in its complete form, inherits from PublicGameState.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

@@ -4,8 +4,8 @@ import ch.epfl.tchu.Preconditions;
 
 import java.util.Arrays;
 
-/**
- * Represents the notion of stationPartition (flattened), implements StationConnectivity.
+/**<h1>StationPartition</h1>
+ * Implements a flat partitioning of all the stations within the game, implements StationConnectivity.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

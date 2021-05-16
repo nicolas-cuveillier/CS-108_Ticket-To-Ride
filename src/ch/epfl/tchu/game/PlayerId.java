@@ -2,10 +2,10 @@ package ch.epfl.tchu.game;
 
 import java.util.List;
 
-/**
- * Different Players in the game.
+/**<h1>PlayerId</h1>
+ * Player's IDs used in the game.
  * {@link #PLAYER_1},
- * {@link #PLAYER_2},
+ * {@link #PLAYER_2}.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

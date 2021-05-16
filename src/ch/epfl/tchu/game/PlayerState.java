@@ -6,8 +6,8 @@ import ch.epfl.tchu.SortedBag;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Represents the private part of the player's state, enhanced class from PublicPlayerState.
+/**<h1>PlayerState</h1>
+ * Represents the player's state in its complete form, inherits from PublicPlayerState.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

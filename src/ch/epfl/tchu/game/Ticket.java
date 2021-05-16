@@ -5,8 +5,8 @@ import ch.epfl.tchu.Preconditions;
 import java.util.List;
 import java.util.TreeSet;
 
-/**
- * Represents a ticket of the tchu game.
+/**<h1>Ticket</h1>
+ * implements a ticket of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
