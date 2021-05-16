@@ -1,7 +1,7 @@
 package ch.epfl.tchu;
 
-/**
- * Use to easily check conditions.
+/**<h1>Preconditions</h1>
+ * Used to easily check true/false conditions on arguments.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
