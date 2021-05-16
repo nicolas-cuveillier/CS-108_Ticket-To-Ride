@@ -19,9 +19,9 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p></p>
  * Contains the main program of the tCHu client.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ServerMain extends Application {
     public static void main(String[] args) {

@@ -14,9 +14,10 @@ import javafx.scene.text.TextFlow;
 import java.util.Map;
 
 /**
+ * <h1>InfoViewCreator:</h1>
+ * <p>Uninstantiable class that handles the info panel display within the GUI</p>
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p></p>
- * None instanciable class that handle the creation of information pannel of the game's gui.
  */
 final class InfoViewCreator {
     private final static String STYLE_COLORS = "colors.css";

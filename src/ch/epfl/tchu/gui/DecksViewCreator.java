@@ -17,9 +17,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 /**
+ * Uninstanciable class that handles the creation of the different decks in the game.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * None instanciable class that handle the creation of the differents deck of the game.
  */
 final class DecksViewCreator {
     private DecksViewCreator() {

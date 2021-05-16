@@ -10,9 +10,9 @@ import java.util.*;
 
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
  * represent the observable PublicGameState, having properties for every sensible attributs of the game's state
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ObservableGameState {
 

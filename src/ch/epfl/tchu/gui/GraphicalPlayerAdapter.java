@@ -10,9 +10,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import static javafx.application.Platform.runLater;
 
 /**
+ * Spoofs the notion of graphical player to show a Player on server side.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * adapte the notion of graphical player as a real Player
  */
 public final class GraphicalPlayerAdapter implements Player {
     private GraphicalPlayer graphicalPlayer;

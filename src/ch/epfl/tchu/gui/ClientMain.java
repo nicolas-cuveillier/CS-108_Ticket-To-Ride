@@ -7,9 +7,9 @@ import javafx.stage.Stage;
 import java.util.List;
 
 /**
+ * Contains the main program for the tchu server.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p></p>
- * Contains the main program of the tCHu server.
  */
 public final class ClientMain extends Application {
     public static void main(String[] args) {

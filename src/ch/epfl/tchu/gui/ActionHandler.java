@@ -6,9 +6,9 @@ import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Ticket;
 
 /**
+ * Implements the notion of handler for the game tchu.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * Implement the notion of handler for several actions in Tchu.
  */
 public interface ActionHandler {
 

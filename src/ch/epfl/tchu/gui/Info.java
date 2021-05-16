@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author GGrégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * Information that player will see during the game gives as String.
+ * Handles the creation of info messages displayed to the players during the game. Returns the message as a String.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Info {
     private final String playerName;
