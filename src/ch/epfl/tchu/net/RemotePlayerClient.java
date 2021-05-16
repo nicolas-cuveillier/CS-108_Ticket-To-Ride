@@ -13,9 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-/**
- * represent a remote player client that make the connection with listening its port, between the server,
- * hosted by one player, to the other player.
+/**<h1>RemotePlayerClient</h1>
+ * Implements a remote player client that connects to the server and listens for messages sent through the socket (slave behaviour) by the distant server (master behaviour) hosted by the distant player.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
@@ -28,7 +27,7 @@ public final class RemotePlayerClient {
      * Unique constructor of a RemotePlayerClient, build it with an instance of Player for which it has tout get a proxy,
      * the name of the host and the port.
      *
-     * @param player    The player that need a proxy
+     * @param player    The player that needs a proxy
      * @param proxyName the host name
      * @param proxyPort the port name
      */

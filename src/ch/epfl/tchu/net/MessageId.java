@@ -2,7 +2,7 @@ package ch.epfl.tchu.net;
 
 import java.util.List;
 
-/**
+/**<h1>MessageId</h1>
  * Message that can be sent to the server :
  * {@link #INIT_PLAYERS},
  * {@link #RECEIVE_INFO},

@@ -10,8 +10,8 @@ import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-/**
- * implement several ways to build an object able to (de)serialize all components of the game.
+/**<h1>Serde</h1>
+ * Implements generic methods to serialize and unserialize the components of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

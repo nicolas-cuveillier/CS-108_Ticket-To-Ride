@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-/**
- * represent the remote player on the locale machine, local side of the bridge between the two players.
+/**<h1>RemotePlayerProxy</h1>
+ * Implements a proxy for the remote player on the local computer, used on the server side to let the RemotePlayer connect to the server.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

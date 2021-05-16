@@ -12,8 +12,8 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 
-/**
- * Define all constant related to the (de)serialization process for all element of the Game.
+/**<h1>Serdes</h1>
+ * Defines every constant related to serialization and unserialization processes for the elements of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
