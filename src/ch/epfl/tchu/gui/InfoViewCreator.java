@@ -50,12 +50,12 @@ final class InfoViewCreator {
         for (PlayerId pId : PlayerId.ALL) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
+            
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
             Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCountProperty(pId)
                     , gameState.cardsCountProperty(pId), gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
-
             playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCountProperty(pId)
                     , gameState.cardsCountProperty(pId), gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
 
