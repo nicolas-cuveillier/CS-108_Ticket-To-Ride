@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @param <C> the type of elements in the Deck
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p></p>
  * Generic class to implement the notion of deck in the game.
+ * 
+ * @param <C> the type of elements in the Deck
+ * <p></p>
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Deck<C extends Comparable<C>> {
     private final List<C> cards;

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Represents a trip of the tchu game.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * Simulate a trip from the tchu game.
  */
 public final class Trip {
     private final Station from;

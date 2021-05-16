@@ -3,8 +3,6 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
  * Card that can be used in the tchu game :
  * {@link #BLACK},
  * {@link #VIOLET},
@@ -15,6 +13,8 @@ import java.util.List;
  * {@link #RED},
  * {@link #WHITE},
  * {@link #LOCOMOTIVE}.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public enum Card {
 

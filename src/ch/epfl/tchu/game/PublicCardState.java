@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Represents the Card status which are known by players.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * represent the Card status which are known by players.
  */
 public class PublicCardState {
     private final List<Card> faceUpCards;

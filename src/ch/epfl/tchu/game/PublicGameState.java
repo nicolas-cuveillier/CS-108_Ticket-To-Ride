@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * Implements the public part of the notion of game state.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * implements the public part of the notion of game state.
  */
 public class PublicGameState {
 

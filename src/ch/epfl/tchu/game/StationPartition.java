@@ -5,9 +5,9 @@ import ch.epfl.tchu.Preconditions;
 import java.util.Arrays;
 
 /**
+ * Represents the notion of stationPartition (flattened), implements StationConnectivity.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * represent the notion of stationPartition (flattened), implements StationConnectivity.
  */
 public final class StationPartition implements StationConnectivity {
     private final int[] representativeId;

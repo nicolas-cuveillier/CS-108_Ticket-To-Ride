@@ -9,9 +9,9 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
  * Represents the Card status which are not possessed by any of the players, specialised from PublicCardState.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class CardState extends PublicCardState {
     private final Deck<Card> deck;

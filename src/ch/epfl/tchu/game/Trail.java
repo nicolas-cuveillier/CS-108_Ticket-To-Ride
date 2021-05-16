@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Implements the notion of Trail in the game.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * implement the notion of Trail in the game.
  */
 public final class Trail {
 

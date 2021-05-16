@@ -9,9 +9,9 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
+ * Implements the notion of GameState in its more complete form, specialised from PublicGameState.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * implements the notion of GameState in its more complete form, specialised from PublicGameState.
  */
 public final class GameState extends PublicGameState {
 

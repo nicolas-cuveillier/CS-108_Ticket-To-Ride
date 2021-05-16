@@ -11,9 +11,9 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
+ * Uninstantiable class that explicitly describe the procedure of the game.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p></p>
- * A none instantiable class that explicitly describe the procedure of the game.
  */
 public final class Game {
     /**

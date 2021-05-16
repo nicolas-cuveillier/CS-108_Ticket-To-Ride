@@ -1,9 +1,9 @@
 package ch.epfl.tchu.game;
 
 /**
+ * Implements the notion of connecitvity between station
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * implement the notion of connecitvity between station
  */
 public interface StationConnectivity {
     /**

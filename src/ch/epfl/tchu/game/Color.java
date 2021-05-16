@@ -3,8 +3,6 @@ package ch.epfl.tchu.game;
 import java.util.List;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
  * Color that can be used in the tchu game :
  * {@link #BLACK},
  * {@link #VIOLET},
@@ -14,6 +12,8 @@ import java.util.List;
  * {@link #ORANGE},
  * {@link #RED},
  * {@link #WHITE}.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public enum Color {
     BLACK,

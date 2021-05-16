@@ -3,9 +3,9 @@ package ch.epfl.tchu.game;
 import ch.epfl.tchu.Preconditions;
 
 /**
+ * Represents a Station of the tchu game.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * Simulate a Station from the tchu game.
  */
 public final class Station {
 

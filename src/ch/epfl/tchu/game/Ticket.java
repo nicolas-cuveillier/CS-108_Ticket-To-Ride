@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
+ * Represents a ticket of the tchu game.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * simulate a ticket from the tchu game.
  */
 public final class Ticket implements Comparable<Ticket> {
 

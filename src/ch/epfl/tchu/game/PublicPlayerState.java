@@ -5,9 +5,9 @@ import ch.epfl.tchu.Preconditions;
 import java.util.List;
 
 /**
+ * Represents the public part of the player's state.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
- * represent the public part of the player's state.
  */
 public class PublicPlayerState {
 
