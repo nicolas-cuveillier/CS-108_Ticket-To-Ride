@@ -3,8 +3,6 @@ package ch.epfl.tchu.net;
 import java.util.List;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p></p>
  * Message that can be sent to the server :
  * {@link #INIT_PLAYERS},
  * {@link #RECEIVE_INFO},
@@ -16,6 +14,8 @@ import java.util.List;
  * {@link #ROUTE},
  * {@link #CARDS},
  * {@link #CHOOSE_ADDITIONAL_CARDS}.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public enum MessageId {
     INIT_PLAYERS,

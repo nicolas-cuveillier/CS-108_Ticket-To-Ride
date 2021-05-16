@@ -11,9 +11,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
  * implement several ways to build an object able to (de)serialize all components of the game.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public interface Serde<T> {
 

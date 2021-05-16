@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p></p>
  * Define all constant related to the (de)serialization process for all element of the Game.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Serdes {
     private final static char SEPARATOR_COMMA = ',';

@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
  * represent the remote player on the locale machine, local side of the bridge between the two players.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class RemotePlayerProxy implements Player {
     private final Socket socket;
