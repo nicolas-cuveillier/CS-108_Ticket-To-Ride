@@ -13,9 +13,8 @@ import javafx.scene.text.TextFlow;
 
 import java.util.Map;
 
-/**
- * <h1>InfoViewCreator:</h1>
- * <p>Uninstantiable class that handles the info panel display within the GUI</p>
+/**<h1>InfoViewCreator:</h1>
+ * Uninstantiable class that handles the info panel display within the GUI
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

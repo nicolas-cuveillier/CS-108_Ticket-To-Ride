@@ -27,7 +27,9 @@ import java.util.Map;
 
 import static javafx.application.Platform.isFxApplicationThread;
 
-/**
+/**<h1>GraphicalPlayer</h1>
+ * Implements the distant player's UI and replicates the behaviour of the Player for the distant player.
+ * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GraphicalPlayer {
@@ -41,10 +43,9 @@ public final class GraphicalPlayer {
     private final ObjectProperty<ActionHandler.DrawCardHandler> drawCard;
 
     /**
-     * Unique constructor for a GraphicalPlayer. Build a GraphicalPlayer with initializing its properties to default
-     * value, building an ObservableGameState according to the player. Then, build all the different components pf the
-     * tchu's gui (mapView, cardsView, handView, infoView) in one main BorderPane that will be the scene of the main
-     * stage
+     * Unique constructor for a GraphicalPlayer. Builds a GraphicalPlayer, initializing its properties to default
+     * values, building an ObservableGameState according to the player and builds all the different components of the
+     * game's gui (mapView, cardsView, handView, infoView) in one main BorderPane that will be the main scene of the game.
      *
      * @param player      the id of the player for which the GraphicalPlayer is instantiated
      * @param playersName a map containing the id of all players linked to their name

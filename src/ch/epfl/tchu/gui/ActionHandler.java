@@ -5,8 +5,8 @@ import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Ticket;
 
-/**
- * Implements the notion of handler for the game tchu.
+/**<h1>ActionHandler</h1>
+ * Interfaces a generic action handler for the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

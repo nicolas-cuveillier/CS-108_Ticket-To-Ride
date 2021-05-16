@@ -16,8 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-/**
- * Uninstanciable class that handles the creation of the different decks in the game.
+/**<h1>DeckViewCreator</h1>
+ * Uninstanciable class that handles the creation and UI of the different decks in the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

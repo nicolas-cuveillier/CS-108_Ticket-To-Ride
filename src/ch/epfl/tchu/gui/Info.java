@@ -8,7 +8,7 @@ import ch.epfl.tchu.game.Trail;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**<h1>Info</h1>
  * Handles the creation of info messages displayed to the players during the game. Returns the message as a String.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)

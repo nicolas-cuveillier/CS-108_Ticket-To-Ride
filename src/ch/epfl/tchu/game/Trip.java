@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**<h1>Trip</h1>
- * Implements a trip of the game.
+ * Implements a Trip of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

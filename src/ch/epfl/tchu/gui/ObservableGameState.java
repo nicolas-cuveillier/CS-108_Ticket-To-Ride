@@ -9,8 +9,8 @@ import javafx.collections.ObservableList;
 import java.util.*;
 
 
-/**
- * represent the observable PublicGameState, having properties for every sensible attributs of the game's state
+/**<h1>ObservableGameState</h1>
+ * Implements the observable PublicGameState and offers property encapsulation for attributes of GameState when needed.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

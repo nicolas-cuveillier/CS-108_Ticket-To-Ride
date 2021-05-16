@@ -9,8 +9,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import static javafx.application.Platform.runLater;
 
-/**
- * Spoofs the notion of graphical player to show a Player on server side.
+/**<h1>GraphicalPlayerAdapter</h1>
+ * Hides the GraphicalPlayer component behind a Player on server side and bridges the Player's method to the corresponding GraphicalPlayer's method.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

@@ -18,8 +18,8 @@ import java.util.Random;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 
-/**
- * Contains the main program of the tCHu client.
+/**<h1>ServerMain</h1>
+ * Contains the main program of the local client (local player).
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

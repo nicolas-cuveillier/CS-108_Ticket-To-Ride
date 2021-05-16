@@ -6,8 +6,8 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-/**
- * Contains the main program for the tchu server.
+/**<h1>ClientMain</h1>
+ * Contains the main program for the game server.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */

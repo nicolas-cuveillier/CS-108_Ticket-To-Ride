@@ -14,8 +14,8 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
-/**
- * Uninstanciable class that handle the creation of the map.
+/**<h1>MapViewCreator</h1>
+ * Uninstantiable class that handle the creation of the map.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
