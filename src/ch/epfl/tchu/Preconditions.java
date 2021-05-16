@@ -1,9 +1,9 @@
 package ch.epfl.tchu;
 
 /**
- * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
- * <p>
  * Use to easily check conditions.
+ * 
+ * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Preconditions {
 
