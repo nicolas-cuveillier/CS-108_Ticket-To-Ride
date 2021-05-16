@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-/**<h1>DeckViewCreator</h1>
+/**<h1>DecksViewCreator</h1>
  * Uninstanciable class that handles the creation and UI of the different decks in the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
@@ -98,20 +98,16 @@ final class DecksViewCreator {
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
-        view.getChildren().add(ticketsButton);
 
         for (Integer index : Constants.FACE_UP_CARD_SLOTS) {
             StackPane cardPane = new StackPane();
             cardPane.getStyleClass().add(STYLE_CARD);
 
             gameState.faceUpCardProperty(index).addListener((o, oV, nV) -> {
-                if (nV.color() != null) {
-                    if(cardPane.getStyleClass().size() >= 2 ) cardPane.getStyleClass().set(1,nV.color().name());
-                    else cardPane.getStyleClass().add(nV.color().name());
-                } else {
-                    if(cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1,STYLE_NEUTRAL);
-                    else cardPane.getStyleClass().add(STYLE_NEUTRAL);
-                }
+                String styleClassName = (nV.color() != null)?nV.color().name():STYLE_NEUTRAL;
+                
+                if(cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1,  styleClassName);
+                else cardPane.getStyleClass().add(styleClassName);
             });
 
             cardPane.setOnMouseClicked(o -> {
@@ -122,6 +118,7 @@ final class DecksViewCreator {
             view.getChildren().add(cardPane);
         }
 
+        view.getChildren().add(ticketsButton);
         view.getChildren().add(cardsButton);
         return view;
     }
@@ -129,10 +126,12 @@ final class DecksViewCreator {
     private static Group getGraphicButtonGroup(ReadOnlyIntegerProperty percent) {
         Rectangle background = new Rectangle(50, 5);
         background.getStyleClass().add("background");
+        
         Rectangle foreground = new Rectangle(50, 5);
         foreground.getStyleClass().add("foreground");
-        Group group = new Group();
         foreground.widthProperty().bind(percent.multiply(50).divide(100));
+        
+        Group group = new Group();
         group.getChildren().addAll(background, foreground);
         return group;
     }
@@ -140,10 +139,13 @@ final class DecksViewCreator {
     private static void makeCardPane(StackPane pane) {
         Rectangle outsideRect = new Rectangle(60, 90);
         outsideRect.getStyleClass().add("outside");
+        
         Rectangle insideRect = new Rectangle(40, 70);
         insideRect.getStyleClass().addAll("filled", "inside");
+        
         Rectangle trainImage = new Rectangle(40, 70);
         trainImage.getStyleClass().add("train-image");
+        
         pane.getChildren().addAll(outsideRect, insideRect, trainImage);
     }
 
