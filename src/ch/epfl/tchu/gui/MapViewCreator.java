@@ -101,7 +101,7 @@ final class MapViewCreator {
          *
          * @param options a list of all possible set of possible card that can be used
          * @param handler an instance of the {@link ch.epfl.tchu.gui.ActionHandler.ChooseCardsHandler} that
-         *                will handle the choosing part
+         *                will handle the user action.
          */
         void chooseCards(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler handler);
     }
