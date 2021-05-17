@@ -11,15 +11,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-/**<h1>RemotePlayerProxy</h1>
+/**
+ * <h1>RemotePlayerProxy</h1>
  * Implements a proxy for the remote player on the local computer, used on the server side to let the RemotePlayer connect to the server.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class RemotePlayerProxy implements Player {
-    private final Socket socket;
     private final BufferedReader reader;
     private final BufferedWriter writer;
+    private final static String SEPARATOR = Character.toString(Character.SPACE_SEPARATOR);
+    private final static String EMPTY_SERDE = "";
 
     /**
      * Construct a RemotePlayerProxy according to a socket.
@@ -28,17 +30,22 @@ public final class RemotePlayerProxy implements Player {
      */
     public RemotePlayerProxy(Socket socket) {
         try {
-            this.socket = socket;
-            this.writer = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream(), StandardCharsets.US_ASCII));
-            this.reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream(), StandardCharsets.US_ASCII));
+            this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII));
+            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
+    /**
+     * Send a message in the socket thanks to the BufferedWriter.
+     *
+     * @param id            an element of {@link ch.epfl.tchu.net.MessageId}
+     * @param serialization the serialization of the information that will be sent
+     */
     private void writeMessage(MessageId id, String serialization) {
         try {
-            writer.write(id.name() + " " + serialization);
+            writer.write(id.name() + SEPARATOR + serialization);
             writer.write('\n');
             writer.flush();
         } catch (IOException e) {
@@ -46,6 +53,11 @@ public final class RemotePlayerProxy implements Player {
         }
     }
 
+    /**
+     * Read a message from the socket thanks to the BufferedReader.
+     *
+     * @return (String) the message that has been read
+     */
     private String readMessage() {
         try {
             return reader.readLine();
@@ -63,7 +75,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
-        StringJoiner joiner = new StringJoiner(" ");
+        StringJoiner joiner = new StringJoiner(SEPARATOR);
         joiner.add(Serdes.PLAYER_ID.serialize(ownId))
                 .add(Serdes.L_STRING.serialize(new ArrayList<>(playerNames.values())));
 
@@ -90,7 +102,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
-        StringJoiner joiner = new StringJoiner(" ");
+        StringJoiner joiner = new StringJoiner(SEPARATOR);
         joiner.add(Serdes.SC_PUBLIC_GAME_STATE.serialize(newState))
                 .add(Serdes.SC_PLAYER_STATE.serialize(ownState));
 
@@ -118,7 +130,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
-        writeMessage(MessageId.CHOOSE_INITIAL_TICKETS, "");
+        writeMessage(MessageId.CHOOSE_INITIAL_TICKETS, EMPTY_SERDE);
         return Serdes.SB_TICKET.deserialize(readMessage());
     }
 
@@ -131,7 +143,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public TurnKind nextTurn() {
-        writeMessage(MessageId.NEXT_TURN, "");
+        writeMessage(MessageId.NEXT_TURN, EMPTY_SERDE);
         return Serdes.TURN_KIND.deserialize(readMessage());
     }
 
@@ -160,7 +172,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public int drawSlot() {
-        writeMessage(MessageId.DRAW_SLOT, "");
+        writeMessage(MessageId.DRAW_SLOT, EMPTY_SERDE);
         return Serdes.INT.deserialize(readMessage());
     }
 
@@ -174,7 +186,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public Route claimedRoute() {
-        writeMessage(MessageId.ROUTE, "");
+        writeMessage(MessageId.ROUTE, EMPTY_SERDE);
         return Serdes.ROUTE.deserialize(readMessage());
     }
 
@@ -188,7 +200,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public SortedBag<Card> initialClaimCards() {
-        writeMessage(MessageId.CARDS, "");
+        writeMessage(MessageId.CARDS, EMPTY_SERDE);
         return Serdes.SB_CARD.deserialize(readMessage());
     }
 
