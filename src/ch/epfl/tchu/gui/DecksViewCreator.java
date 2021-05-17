@@ -98,6 +98,7 @@ final class DecksViewCreator {
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
+        view.getChildren().add(ticketsButton);
 
         for (Integer index : Constants.FACE_UP_CARD_SLOTS) {
             StackPane cardPane = new StackPane();
@@ -118,7 +119,6 @@ final class DecksViewCreator {
             view.getChildren().add(cardPane);
         }
 
-        view.getChildren().add(ticketsButton);
         view.getChildren().add(cardsButton);
         return view;
     }
