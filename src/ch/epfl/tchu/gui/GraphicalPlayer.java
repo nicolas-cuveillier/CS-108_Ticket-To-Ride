@@ -27,9 +27,10 @@ import java.util.Map;
 
 import static javafx.application.Platform.isFxApplicationThread;
 
-/**<h1>GraphicalPlayer</h1>
+/**
+ * <h1>GraphicalPlayer</h1>
  * Implements the distant player's UI and replicates the behaviour of the Player for the distant player.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GraphicalPlayer {
@@ -93,8 +94,7 @@ public final class GraphicalPlayer {
      */
     public void receiveInfo(String message) {
         assert isFxApplicationThread();
-        if (information.size() == 5)
-            information.remove(0);
+        if (information.size() == 5) information.remove(0);
         information.add(new Text(message));
     }
 
@@ -133,8 +133,8 @@ public final class GraphicalPlayer {
     public void chooseTickets(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         assert isFxApplicationThread();
         //tickets selection window
-        Stage initialTicketsSelectorStage = initialTicketsSelector(options, chooseTicketsH);
-        initialTicketsSelectorStage.show();
+        Stage ticketsSelectorStage = initialTicketsSelector(options, chooseTicketsH);
+        ticketsSelectorStage.show();
     }
 
     /**
@@ -162,7 +162,7 @@ public final class GraphicalPlayer {
     public void chooseClaimCards(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH) {
         assert isFxApplicationThread();
         //cards selection window
-        Stage cardsSelectorStage = cardsSelector(options, chooseCardsH, StringsFr.CHOOSE_CARDS,false);
+        Stage cardsSelectorStage = cardsSelector(options, chooseCardsH, StringsFr.CHOOSE_CARDS, false);
         cardsSelectorStage.show();
     }
 
@@ -176,7 +176,7 @@ public final class GraphicalPlayer {
     public void chooseAdditionalCards(List<SortedBag<Card>> additionalCards, ActionHandler.ChooseCardsHandler chooseCardsH) {
         assert isFxApplicationThread();
         //In Game cards selection window
-        Stage additionalCardsSelectorStage = cardsSelector(additionalCards, chooseCardsH,StringsFr.CHOOSE_ADDITIONAL_CARDS,true);
+        Stage additionalCardsSelectorStage = cardsSelector(additionalCards, chooseCardsH, StringsFr.CHOOSE_ADDITIONAL_CARDS, true);
         additionalCardsSelectorStage.show();
     }
 
@@ -190,31 +190,31 @@ public final class GraphicalPlayer {
      * create the claim cards selector panel, a stage own by the main stage, according to a list of option and a
      * ChooseCardsHandler
      */
-    private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH,String title, boolean isAdditionalCardSelector){
-        Stage initialCardsSelectorStage = new Stage(StageStyle.UTILITY);
+    private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH, String title, boolean isAdditionalCardSelector) {
+        Stage selectorStage = new Stage(StageStyle.UTILITY);
 
-        TextFlow cardsSelectorTextFlow = new TextFlow();
-        Text cardsSelectorText = new Text(title);
-        cardsSelectorTextFlow.getChildren().add(cardsSelectorText);
+        TextFlow textFlow = new TextFlow();
+        Text text = new Text(title);
+        textFlow.getChildren().add(text);
 
-        ListView<SortedBag<Card>> cardsSelectorListView = new ListView<>(FXCollections.observableArrayList(options));
-        cardsSelectorListView.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
+        ListView<SortedBag<Card>> listViewSelector = new ListView<>(FXCollections.observableArrayList(options));
+        listViewSelector.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
 
-        ObservableList<SortedBag<Card>> chosenCards = cardsSelectorListView.getSelectionModel().getSelectedItems();
+        ObservableList<SortedBag<Card>> chosenCards = listViewSelector.getSelectionModel().getSelectedItems();
 
-        Button cardsSelectorButton = new Button("Choisir");
-        if(!isAdditionalCardSelector) cardsSelectorButton.disableProperty().bind(Bindings.size(chosenCards).isEqualTo(0));
+        Button selectorButton = new Button("Choisir");
+        if (!isAdditionalCardSelector) selectorButton.disableProperty().bind(Bindings.size(chosenCards).isEqualTo(0));
 
-        cardsSelectorButton.setOnAction(e -> {
-            initialCardsSelectorStage.hide();
-            if(!chosenCards.isEmpty()) chooseCardsH.onChooseCards(chosenCards.get(0));
+        selectorButton.setOnAction(e -> {
+            selectorStage.hide();
+            if (!chosenCards.isEmpty()) chooseCardsH.onChooseCards(chosenCards.get(0));
             else chooseCardsH.onChooseCards(SortedBag.of());
         });
 
-        VBox cardsSelectorBox = new VBox();
-        cardsSelectorBox.getChildren().addAll(cardsSelectorTextFlow, cardsSelectorButton, cardsSelectorListView);
+        VBox selectorBox = new VBox();
+        selectorBox.getChildren().addAll(textFlow, selectorButton, listViewSelector);
 
-        return setStageFromBox(initialCardsSelectorStage, cardsSelectorBox,StringsFr.CARDS);
+        return setStageFromBox(selectorStage, selectorBox, StringsFr.CARDS);
     }
 
     /**
@@ -222,31 +222,31 @@ public final class GraphicalPlayer {
      * ChooseTicketsHandler
      */
     private Stage initialTicketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
-        Stage initialTicketsSelectorStage = new Stage(StageStyle.UTILITY);
+        Stage selectorStage = new Stage(StageStyle.UTILITY);
 
-        ListView<Ticket> ticketsSelectorListView = new ListView<>(FXCollections.observableArrayList(options.toList()));
-        ticketsSelectorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        ObservableList<Ticket> chosenTickets = ticketsSelectorListView.getSelectionModel().getSelectedItems();
+        ListView<Ticket> listViewSelector = new ListView<>(FXCollections.observableArrayList(options.toList()));
+        listViewSelector.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ObservableList<Ticket> chosenTickets = listViewSelector.getSelectionModel().getSelectedItems();
 
-        Button ticketsSelectorButton = new Button("Choisir");
-        ticketsSelectorButton.disableProperty().bind(Bindings.size(chosenTickets)
-                .lessThan(ticketsSelectorListView.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT));
-        ticketsSelectorButton.setOnAction(e -> {
-            initialTicketsSelectorStage.hide();
+        Button selectorButton = new Button("Choisir");
+        selectorButton.disableProperty().bind(Bindings.size(chosenTickets)
+                .lessThan(listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT));
+        selectorButton.setOnAction(e -> {
+            selectorStage.hide();
             chooseTicketsH.onChooseTickets(SortedBag.of(chosenTickets));
         });
 
-        TextFlow ticketsSelectorTextFlow = new TextFlow();
-        Text ticketsSelectorText = new Text(String.format(StringsFr.CHOOSE_TICKETS, ticketsSelectorListView.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT, "s"));
-        ticketsSelectorTextFlow.getChildren().add(ticketsSelectorText);
+        TextFlow textFlow = new TextFlow();
+        Text text = new Text(String.format(StringsFr.CHOOSE_TICKETS, listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT, "s"));
+        textFlow.getChildren().add(text);
 
-        VBox ticketsSelectorBox = new VBox();
-        ticketsSelectorBox.getChildren().addAll(ticketsSelectorTextFlow, ticketsSelectorButton, ticketsSelectorListView);
+        VBox selectorBox = new VBox();
+        selectorBox.getChildren().addAll(textFlow, selectorButton, listViewSelector);
 
-        return setStageFromBox(initialTicketsSelectorStage, ticketsSelectorBox,StringsFr.TICKETS);
+        return setStageFromBox(selectorStage, selectorBox, StringsFr.TICKETS);
     }
 
-    private Stage setStageFromBox(Stage stage, VBox box,String name) {
+    private Stage setStageFromBox(Stage stage, VBox box, String name) {
         Scene selectorScene = new Scene(box);
         selectorScene.getStylesheets().add("chooser.css");
 
