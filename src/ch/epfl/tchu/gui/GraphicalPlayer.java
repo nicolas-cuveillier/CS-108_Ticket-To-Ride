@@ -207,11 +207,8 @@ public final class GraphicalPlayer {
 
         cardsSelectorButton.setOnAction(e -> {
             initialCardsSelectorStage.hide();
-            if(!chosenCards.isEmpty()){
-                chooseCardsH.onChooseCards(chosenCards.get(0));
-            } else {
-                chooseCardsH.onChooseCards(SortedBag.of());
-            }
+            if(!chosenCards.isEmpty()) chooseCardsH.onChooseCards(chosenCards.get(0));
+            else chooseCardsH.onChooseCards(SortedBag.of());
         });
 
         VBox cardsSelectorBox = new VBox();

@@ -16,9 +16,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-/**<h1>DecksViewCreator</h1>
+/**
+ * <h1>DecksViewCreator</h1>
  * None instantiable class that handles the creation and UI of the different decks in the game.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 final class DecksViewCreator {
@@ -105,9 +106,9 @@ final class DecksViewCreator {
             cardPane.getStyleClass().add(STYLE_CARD);
 
             gameState.faceUpCardProperty(index).addListener((o, oV, nV) -> {
-                String styleClassName = (nV.color() != null)?nV.color().name():STYLE_NEUTRAL;
-                
-                if(cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1,  styleClassName);
+                String styleClassName = (nV.color() != null) ? nV.color().name() : STYLE_NEUTRAL;
+
+                if (cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1, styleClassName);
                 else cardPane.getStyleClass().add(styleClassName);
             });
 
@@ -126,11 +127,11 @@ final class DecksViewCreator {
     private static Group getGraphicButtonGroup(ReadOnlyIntegerProperty percent) {
         Rectangle background = new Rectangle(50, 5);
         background.getStyleClass().add("background");
-        
+
         Rectangle foreground = new Rectangle(50, 5);
         foreground.getStyleClass().add("foreground");
         foreground.widthProperty().bind(percent.multiply(50).divide(100));
-        
+
         Group group = new Group();
         group.getChildren().addAll(background, foreground);
         return group;
@@ -139,13 +140,13 @@ final class DecksViewCreator {
     private static void makeCardPane(StackPane pane) {
         Rectangle outsideRect = new Rectangle(60, 90);
         outsideRect.getStyleClass().add("outside");
-        
+
         Rectangle insideRect = new Rectangle(40, 70);
         insideRect.getStyleClass().addAll("filled", "inside");
-        
+
         Rectangle trainImage = new Rectangle(40, 70);
         trainImage.getStyleClass().add("train-image");
-        
+
         pane.getChildren().addAll(outsideRect, insideRect, trainImage);
     }
 
