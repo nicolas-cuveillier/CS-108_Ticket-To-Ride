@@ -17,7 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 /**<h1>DecksViewCreator</h1>
- * Uninstanciable class that handles the creation and UI of the different decks in the game.
+ * None instantiable class that handles the creation and UI of the different decks in the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
