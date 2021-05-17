@@ -10,9 +10,10 @@ import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-/**<h1>Serde</h1>
- * Implements generic methods to serialize and unserialize the components of the game.
- * 
+/**
+ * <h1>Serde</h1>
+ * Implements generic methods to serialize and deserialize the components of the game.
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public interface Serde<T> {
@@ -43,7 +44,6 @@ public interface Serde<T> {
      */
     static <T> Serde<T> of(Function<T, String> serializableFunc, Function<String, T> deserializableFunc) {
         return new Serde<>() {
-
             @Override
             public String serialize(T obj) {
                 return serializableFunc.apply(obj);
@@ -54,7 +54,6 @@ public interface Serde<T> {
                 return deserializableFunc.apply(message);
             }
         };
-
     }
 
     /**
@@ -80,7 +79,6 @@ public interface Serde<T> {
     static <T> Serde<List<T>> listOf(Serde<T> serde, char separator) {
         String s = Character.toString(separator);
         return new Serde<>() {
-
             @Override
             public String serialize(List<T> obj) {
                 StringJoiner joiner = new StringJoiner(s);
@@ -92,9 +90,7 @@ public interface Serde<T> {
             public List<T> deserialize(String message) {
                 String[] t = message.split(Pattern.quote(s), -1);
                 List<T> list = new ArrayList<>();
-                if(message.equals("")){
-                    return list;
-                }
+                if (message.equals("")) return list;
                 Arrays.asList(t).forEach(i -> list.add(serde.deserialize(i)));
                 return list;
             }
@@ -113,7 +109,6 @@ public interface Serde<T> {
     static <T extends Comparable<T>> Serde<SortedBag<T>> bagOf(Serde<T> serde, char separator) {
         Serde<List<T>> serdeList = Serde.listOf(serde, separator);
         return new Serde<>() {
-
             @Override
             public String serialize(SortedBag<T> obj) {
                 return serdeList.serialize(obj.toList());
@@ -125,5 +120,4 @@ public interface Serde<T> {
             }
         };
     }
-
 }
