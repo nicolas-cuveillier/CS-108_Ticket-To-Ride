@@ -12,15 +12,16 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 
-/**<h1>Serdes</h1>
- * Defines every constant related to serialization and unserialization processes for the elements of the game.
- * 
+/**
+ * <h1>Serdes</h1>
+ * Defines every constant related to serialization and deserialization processes for the elements of the game.
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
-public final class Serdes {
+public abstract class Serdes { //TODO abstract is necessary ?
     private final static char SEPARATOR_COMMA = ',';
-    private final static char SEPARATOR_SEMI_COLON= ';';
-    private final static String STRING_SEPARATOR_SEMI_COLON = ";";
+    private final static char SEPARATOR_SEMI_COLON = ';';
+    private final static char SEPARATOR_DOUBLE_POINTS = ':';
 
     private Serdes() {
     }
@@ -85,23 +86,27 @@ public final class Serdes {
     /**
      * A Serde able to (de)serialize a Public Card State.
      */
-    public static final Serde<PublicCardState> SC_PUBLIC_CARD_STATE = Serde.of(pcsFunctionSer(), pcsFunctionDeSer());
+    public static final Serde<PublicCardState> SC_PUBLIC_CARD_STATE = Serde.of(pcsSerFunction(), pcsDeSerFunction());
     /**
      * A Serde able to (de)serialize a Public Player State.
      */
-    public static final Serde<PublicPlayerState> SC_PUBLIC_PLAYER_STATE = Serde.of(ppsFunctionSer(), ppsFunctionDeSer());
+    public static final Serde<PublicPlayerState> SC_PUBLIC_PLAYER_STATE = Serde.of(ppsSerFunction(), ppsDeSerFunction());
     /**
      * A Serde able to (de)serialize a Player State.
      */
-    public static final Serde<PlayerState> SC_PLAYER_STATE = Serde.of(psFunctionSer(), psFunctionDeSer());
+    public static final Serde<PlayerState> SC_PLAYER_STATE = Serde.of(psSerFunction(), psDeSerFunction());
     /**
      * A Serde able to (de)serialize a Public Game State.
      */
-    public static final Serde<PublicGameState> SC_PUBLIC_GAME_STATE = Serde.of(pgsFunctionSer(), pgsFunctionDeSer());
+    public static final Serde<PublicGameState> SC_PUBLIC_GAME_STATE = Serde.of(pgsSerFunction(), pgsDeSerFunction());
 
-    private static Function<PublicGameState, String> pgsFunctionSer() {
+    //private methods
+    /**
+     * @return the function able to serialize a PublicGameState
+     */
+    private static Function<PublicGameState, String> pgsSerFunction() {
         return publicGameState -> {
-            StringJoiner joiner = new StringJoiner(":");
+            StringJoiner joiner = new StringJoiner(Character.toString(SEPARATOR_DOUBLE_POINTS));
             joiner.add(INT.serialize(publicGameState.ticketsCount()))
                     .add(SC_PUBLIC_CARD_STATE.serialize(publicGameState.cardState()))
                     .add(PLAYER_ID.serialize(publicGameState.currentPlayerId()))
@@ -112,19 +117,25 @@ public final class Serdes {
         };
     }
 
-    private static Function<String, PublicGameState> pgsFunctionDeSer() {
+    /**
+     * @return the function able to deserialize a PublicGameState
+     */
+    private static Function<String, PublicGameState> pgsDeSerFunction() {
         return message -> {
-            String[] t = message.split(Pattern.quote(":"), -1);
+            String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_DOUBLE_POINTS)), -1);
             return new PublicGameState(INT.deserialize(t[0]), SC_PUBLIC_CARD_STATE.deserialize(t[1]), PLAYER_ID.deserialize(t[2]),
-                    Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2, SC_PUBLIC_PLAYER_STATE.deserialize(t[4]))
-                    , (t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]));
+                    Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2,
+                            SC_PUBLIC_PLAYER_STATE.deserialize(t[4])), (t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]));
         };
 
     }
 
-    private static Function<PlayerState, String> psFunctionSer() {
+    /**
+     * @return the function able to serialize a PlayerState
+     */
+    private static Function<PlayerState, String> psSerFunction() {
         return playerState -> {
-            StringJoiner joiner = new StringJoiner(STRING_SEPARATOR_SEMI_COLON);
+            StringJoiner joiner = new StringJoiner(Character.toString(SEPARATOR_SEMI_COLON));
             joiner.add(SB_TICKET.serialize(playerState.tickets()))
                     .add(SB_CARD.serialize(playerState.cards()))
                     .add(L_ROUTE.serialize(playerState.routes()));
@@ -132,16 +143,22 @@ public final class Serdes {
         };
     }
 
-    private static Function<String, PlayerState> psFunctionDeSer() {
+    /**
+     * @return the function able to deserialize a PlayerState
+     */
+    private static Function<String, PlayerState> psDeSerFunction() {
         return message -> {
-            String[] t = message.split(Pattern.quote(STRING_SEPARATOR_SEMI_COLON), -1);
+            String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_SEMI_COLON)), -1);
             return new PlayerState((t[0].equals("")) ? SortedBag.of() : SB_TICKET.deserialize(t[0]), (t[1].equals("")) ? SortedBag.of() : SB_CARD.deserialize(t[1]), (t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 
-    private static Function<PublicPlayerState, String> ppsFunctionSer() {
+    /**
+     * @return the function able to serialize a PublicPlayerState
+     */
+    private static Function<PublicPlayerState, String> ppsSerFunction() {
         return publicPlayerState -> {
-            StringJoiner joiner = new StringJoiner(STRING_SEPARATOR_SEMI_COLON);
+            StringJoiner joiner = new StringJoiner(Character.toString(SEPARATOR_SEMI_COLON));
             joiner.add(INT.serialize(publicPlayerState.ticketCount()))
                     .add(INT.serialize(publicPlayerState.cardCount()))
                     .add((publicPlayerState.routes() == null) ? "" : L_ROUTE.serialize(publicPlayerState.routes()));
@@ -149,16 +166,22 @@ public final class Serdes {
         };
     }
 
-    private static Function<String, PublicPlayerState> ppsFunctionDeSer() {
+    /**
+     * @return the function able to deserialize a PublicPlayerState
+     */
+    private static Function<String, PublicPlayerState> ppsDeSerFunction() {
         return message -> {
-            String[] t = message.split(Pattern.quote(STRING_SEPARATOR_SEMI_COLON), -1);
+            String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_SEMI_COLON)), -1);
             return new PublicPlayerState(INT.deserialize(t[0]), INT.deserialize(t[1]), (t[2].equals("")) ? List.of() : L_ROUTE.deserialize(t[2]));
         };
     }
 
-    private static Function<PublicCardState, String> pcsFunctionSer() {
+    /**
+     * @return the function able to deserialize a PublicCardState
+     */
+    private static Function<PublicCardState, String> pcsSerFunction() {
         return publicCardState -> {
-            StringJoiner joiner = new StringJoiner(STRING_SEPARATOR_SEMI_COLON);
+            StringJoiner joiner = new StringJoiner(Character.toString(SEPARATOR_SEMI_COLON));
             joiner.add(L_CARD.serialize(publicCardState.faceUpCards()))
                     .add(INT.serialize(publicCardState.deckSize()))
                     .add(INT.serialize(publicCardState.discardsSize()));
@@ -166,9 +189,12 @@ public final class Serdes {
         };
     }
 
-    private static Function<String, PublicCardState> pcsFunctionDeSer() {
+    /**
+     * @return the function able to deserialize a PublicCardState
+     */
+    private static Function<String, PublicCardState> pcsDeSerFunction() {
         return message -> {
-            String[] t = message.split(Pattern.quote(STRING_SEPARATOR_SEMI_COLON), -1);
+            String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_SEMI_COLON)), -1);
             return new PublicCardState(L_CARD.deserialize(t[0]), INT.deserialize(t[1]), INT.deserialize(t[2]));
         };
     }
