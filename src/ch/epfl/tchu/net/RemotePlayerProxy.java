@@ -20,7 +20,6 @@ import java.util.StringJoiner;
 public final class RemotePlayerProxy implements Player {
     private final BufferedReader reader;
     private final BufferedWriter writer;
-    private final static String SEPARATOR = Character.toString(Character.SPACE_SEPARATOR);
     private final static String EMPTY_SERDE = "";
 
     /**
@@ -45,7 +44,7 @@ public final class RemotePlayerProxy implements Player {
      */
     private void writeMessage(MessageId id, String serialization) {
         try {
-            writer.write(id.name() + SEPARATOR + serialization);
+            writer.write(id.name() + " " + serialization);
             writer.write('\n');
             writer.flush();
         } catch (IOException e) {
@@ -75,7 +74,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
-        StringJoiner joiner = new StringJoiner(SEPARATOR);
+        StringJoiner joiner = new StringJoiner(" ");
         joiner.add(Serdes.PLAYER_ID.serialize(ownId))
                 .add(Serdes.L_STRING.serialize(new ArrayList<>(playerNames.values())));
 
@@ -102,7 +101,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
-        StringJoiner joiner = new StringJoiner(SEPARATOR);
+        StringJoiner joiner = new StringJoiner(" ");
         joiner.add(Serdes.SC_PUBLIC_GAME_STATE.serialize(newState))
                 .add(Serdes.SC_PLAYER_STATE.serialize(ownState));
 
