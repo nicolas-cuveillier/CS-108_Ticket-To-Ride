@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
-public abstract class Serdes { //TODO abstract is necessary ?
+public final class Serdes { //TODO abstract is necessary ?
     private final static char SEPARATOR_COMMA = ',';
     private final static char SEPARATOR_SEMI_COLON = ';';
     private final static char SEPARATOR_DOUBLE_POINTS = ':';
