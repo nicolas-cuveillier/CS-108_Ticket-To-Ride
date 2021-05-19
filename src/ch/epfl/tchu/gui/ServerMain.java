@@ -37,9 +37,15 @@ public final class ServerMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        String name1 = "Ada";
+        String name2 = "Charles";
+        
         List<String> parameters = getParameters().getRaw();
-        String name1 = parameters.get(0);
-        String name2 = parameters.get(1);
+        
+        if(parameters.size() >= 2) {
+            name1 = parameters.get(0);
+            name2 = parameters.get(1);
+        }
 
         try {
             ServerSocket s0 = new ServerSocket(5108);

@@ -12,10 +12,26 @@ import java.util.List;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ClientMain extends Application {
+    private final String DEFAULT_HOSTNAME = "localhost";
+    private final int DEFAULT_PORT = 5108;
+    
+    private String hostname = DEFAULT_HOSTNAME;
+    private int port = DEFAULT_PORT;
+    
     public static void main(String[] args) {
         launch(args);
     }
 
+    @Override
+    public void init() throws Exception {
+        List<String> parameters = getParameters().getRaw();
+        if(parameters.size() == 2) {
+            hostname = parameters.get(0);
+            port = Integer.parseInt(parameters.get(1));
+        }
+        super.init();
+    }
+    
     /**
      * Firstly, analysing the arguments passed to the program to determine the names of the two players. Then, waiting
      * for a connection from the client on port and creating the two players, the first being a graphical player,
@@ -26,13 +42,8 @@ public final class ClientMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
-        List<String> parameters = getParameters().getRaw();
-        String hostName = parameters.get(0);
-        int port = Integer.parseInt(parameters.get(1));
-
         try {
-            RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostName, port);
+            RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port);
             new Thread(remotePlayerClient::run).start();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,4 +51,5 @@ public final class ClientMain extends Application {
         }
 
     }
+    
 }
