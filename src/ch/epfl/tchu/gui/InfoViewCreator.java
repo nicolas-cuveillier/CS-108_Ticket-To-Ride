@@ -11,6 +11,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.util.List;
 import java.util.Map;
 
 /**<h1>InfoViewCreator:</h1>
@@ -45,14 +46,16 @@ final class InfoViewCreator {
         Separator separator = new Separator(Orientation.HORIZONTAL);
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
+        List<PlayerId> playerIds = List.of(player, player.next());
 
         //players info
-        for (PlayerId pId : PlayerId.ALL) {
+        for (PlayerId pId : playersName.keySet()) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
             
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
+
 
             Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCountProperty(pId)
                     , gameState.cardsCountProperty(pId), gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));

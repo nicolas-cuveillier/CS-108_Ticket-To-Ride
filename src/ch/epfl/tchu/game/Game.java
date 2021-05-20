@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 /**<h1>Game</h1>
- * Uninstantiable class that implements the core step sequence of the game.
+ * None instantiable class that implements the core step sequence of the game.
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
@@ -206,6 +206,9 @@ public final class Game {
 
         }
 
+        //update (4)
+        updateGameState(players, gameState);
+
         // Compute longestTrail and winner(s)
         final Map<PlayerId, Trail> longestTrail = new EnumMap<>(PlayerId.class);
         final Map<PlayerId, Integer> playerPoints = new EnumMap<>(PlayerId.class);
@@ -224,7 +227,7 @@ public final class Game {
         //Info for longestTrailBonus
         for (PlayerId p : longestTrail.keySet()) {
             int length = longestTrail.get(p).length();
-            Info playerInfo = new Info(p.name());
+            Info playerInfo = new Info(playerNames.get(p));
 
             if (length == lengthMax) {
                 receiveInfoForBothPlayer(players, playerInfo.getsLongestTrailBonus(longestTrail.get(p)));
@@ -234,28 +237,20 @@ public final class Game {
 
         }
 
-        //update (4)
-        updateGameState(players, gameState);
-
-        final boolean winnerIsAlone = playerPoints.values()
-                .stream()
-                .distinct()
-                .count() == 1;
-
         final int winnerPoints = playerPoints.values()
                 .stream()
                 .max(Integer::compareTo)
                 .orElse(0);
 
-        if (winnerIsAlone) {
+        List<PlayerId> winnerList = playerPoints.keySet()
+                .stream()
+                .filter(e -> playerPoints.get(e).equals(winnerPoints))
+                .collect(Collectors.toList());
 
-            PlayerId winner = playerPoints.keySet()
-                    .stream()
-                    .filter(e -> playerPoints.get(e).equals(winnerPoints))
-                    .collect(Collectors.toList()).get(0);
+        if (winnerList.size() == 1) {
 
-            if (winner != null)
-                receiveInfoForBothPlayer(players, new Info(winner.name()).won(winnerPoints, playerPoints.get(winner.next())));
+            PlayerId winner = winnerList.get(0);
+            receiveInfoForBothPlayer(players, new Info(winner.name()).won(winnerPoints, playerPoints.get(winner.next())));
 
         } else {
             List<PlayerId> winners = playerPoints.keySet().stream()
