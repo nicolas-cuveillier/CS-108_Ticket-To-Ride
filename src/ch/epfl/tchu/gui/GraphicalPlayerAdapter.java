@@ -198,7 +198,7 @@ public final class GraphicalPlayerAdapter implements Player {
     public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
         runLater(() -> graphicalPlayer.chooseAdditionalCards(options, blockingCardsQueue::add));
         try {
-            return blockingCardsQueue.take();//todo return rien si pas de choix
+            return blockingCardsQueue.take();
         } catch (InterruptedException e) {
             throw new Error();
         }

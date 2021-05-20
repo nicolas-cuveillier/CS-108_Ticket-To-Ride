@@ -46,10 +46,9 @@ final class InfoViewCreator {
         Separator separator = new Separator(Orientation.HORIZONTAL);
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
-        List<PlayerId> playerIds = List.of(player, player.next());
 
         //players info
-        for (PlayerId pId : playersName.keySet()) {
+        for (PlayerId pId : PlayerId.values()) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
             

@@ -224,7 +224,7 @@ public final class Game {
                 .max()
                 .orElse(0);
 
-        //Info for longestTrailBonus
+        //Info for longestTrailBonus //todo finalpoints doesn't return the good points
         for (PlayerId p : longestTrail.keySet()) {
             int length = longestTrail.get(p).length();
             Info playerInfo = new Info(playerNames.get(p));
@@ -234,7 +234,6 @@ public final class Game {
                 playerPoints.put(p, gameState.playerState(p).finalPoints() + Constants.LONGEST_TRAIL_BONUS_POINTS);
             } else
                 playerPoints.put(p, gameState.playerState(p).finalPoints());
-
         }
 
         final int winnerPoints = playerPoints.values()
@@ -250,15 +249,12 @@ public final class Game {
         if (winnerList.size() == 1) {
 
             PlayerId winner = winnerList.get(0);
-            receiveInfoForBothPlayer(players, new Info(winner.name()).won(winnerPoints, playerPoints.get(winner.next())));
+            receiveInfoForBothPlayer(players, new Info(playerNames.get(winner)).won(winnerPoints, playerPoints.get(winner.next())));
 
         } else {
-            List<PlayerId> winners = playerPoints.keySet().stream()
-                    .filter(e -> playerPoints.get(e).equals(winnerPoints))
-                    .collect(Collectors.toList());
 
             List<String> names = playerNames.values().stream()
-                    .filter(winners::contains)
+                    .filter(winnerList::contains)
                     .collect(Collectors.toList());
 
             receiveInfoForBothPlayer(players, Info.draw(names, winnerPoints));
