@@ -231,7 +231,7 @@ public final class GameState extends PublicGameState {
      * @return true iff the last player is still unknown and the current player has less than two car
      */
     public boolean lastTurnBegins() {
-        return lastPlayer() == null && currentPlayerState().carCount() <= 35;//MINIMUM_CAR_FOR_LAST_TURN_BEGIN;
+        return lastPlayer() == null && currentPlayerState().carCount() <= MINIMUM_CAR_FOR_LAST_TURN_BEGIN;
     }
 
     /**
