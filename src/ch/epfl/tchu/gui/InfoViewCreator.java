@@ -11,7 +11,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.util.List;
 import java.util.Map;
 
 /**<h1>InfoViewCreator:</h1>
@@ -48,18 +47,19 @@ final class InfoViewCreator {
         playersStatView.setId("player-stats");
 
         //players info
-        for (PlayerId pId : PlayerId.values()) {
+        for (PlayerId pId : PlayerId.ALL) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
             
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
-
-            Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCountProperty(pId)
-                    , gameState.cardsCountProperty(pId), gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
-            playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playersName.get(pId), gameState.ticketsCountProperty(pId)
-                    , gameState.cardsCountProperty(pId), gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
+            Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId),
+                    gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
+                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
+            playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playersName.get(pId),
+                    gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
+                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
 
             text.getChildren().addAll(coloredCircle, playerInfo);
             playersStatView.getChildren().add(text);

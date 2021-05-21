@@ -87,15 +87,11 @@ final class DecksViewCreator {
         view.getStylesheets().addAll(STYLE_DECK, STYLE_COLORS);
         view.setId("card-pane");
 
-        Button ticketsButton = new Button(StringsFr.TICKETS);
-        ticketsButton.getStyleClass().add(STYLE_GAUGED);
-        ticketsButton.setGraphic(getGraphicButtonGroup(gameState.ticketsInDeckPercentProperty()));
+        Button ticketsButton = makeButtonFromGraphic(StringsFr.TICKETS, gameState.ticketsInDeckPercentProperty());
         ticketsButton.disableProperty().bind(ticketsHandlerProperty.isNull());
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
 
-        Button cardsButton = new Button(StringsFr.CARDS);
-        cardsButton.getStyleClass().add(STYLE_GAUGED);
-        cardsButton.setGraphic(getGraphicButtonGroup(gameState.cardsInDeckPercentProperty()));
+        Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
@@ -112,9 +108,8 @@ final class DecksViewCreator {
                 else cardPane.getStyleClass().add(styleClassName);
             });
 
-            cardPane.setOnMouseClicked(o -> {
-                if (cardHandlerProperty.isNotNull().get()) cardHandlerProperty.get().onDrawCard(index);
-            });
+            cardPane.disableProperty().bind(cardHandlerProperty.isNull());
+            cardPane.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(index));
 
             makeCardPane(cardPane);
             view.getChildren().add(cardPane);
@@ -122,6 +117,13 @@ final class DecksViewCreator {
 
         view.getChildren().add(cardsButton);
         return view;
+    }
+
+    private static Button makeButtonFromGraphic(String name, ReadOnlyIntegerProperty percentage) {
+        Button button = new Button(name);
+        button.getStyleClass().add(STYLE_GAUGED);
+        button.setGraphic(getGraphicButtonGroup(percentage));
+        return button;
     }
 
     private static Group getGraphicButtonGroup(ReadOnlyIntegerProperty percent) {

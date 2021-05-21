@@ -12,11 +12,11 @@ import java.util.List;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ClientMain extends Application {
-    private final String DEFAULT_HOSTNAME = "localhost";
-    private final int DEFAULT_PORT = 5108;
+    private final static String DEFAULT_HOSTNAME = "localhost";
+    private final static int DEFAULT_PORT = 5108;
     
-    private String hostname = DEFAULT_HOSTNAME;
-    private int port = DEFAULT_PORT;
+    private String hostname;
+    private int port;
     
     public static void main(String[] args) {
         launch(args);
@@ -28,6 +28,9 @@ public final class ClientMain extends Application {
         if(parameters.size() == 2) {
             hostname = parameters.get(0);
             port = Integer.parseInt(parameters.get(1));
+        } else {
+            hostname = DEFAULT_HOSTNAME;
+            port = DEFAULT_PORT;
         }
         super.init();
     }
