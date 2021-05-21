@@ -13,7 +13,7 @@ public class PublicGameStateTest {
     private static PublicGameState normalPublicState(){
         int ticketsCountOk = 3;
 
-        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),3,3);
+        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),3,3, topDeckCard);
         Map<PlayerId, PublicPlayerState> playerState = Map.of(PlayerId.PLAYER_1,new PublicPlayerState(2,2,List.of()),
                 PlayerId.PLAYER_2,new PublicPlayerState(2,3,List.of()));
         PublicGameState p = new PublicGameState(ticketsCountOk,cardState,PlayerId.PLAYER_1,playerState,null);
@@ -23,7 +23,7 @@ public class PublicGameStateTest {
     void checkConstructor(){
         int ticketsCountNeg = -1;
         int ticketsCountOk = 3;
-        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),2,3);
+        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),2,3, topDeckCard);
         Map<PlayerId, PublicPlayerState> playerState = Map.of(PlayerId.PLAYER_1,new PublicPlayerState(2,2,List.of()),
                 PlayerId.PLAYER_2,new PublicPlayerState(2,3,List.of()));
 
@@ -36,7 +36,7 @@ public class PublicGameStateTest {
     void checkCanDrawCards(){
         int ticketsCountOk = 3;
 
-        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),1,3);
+        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),1,3, topDeckCard);
         Map<PlayerId, PublicPlayerState> playerState = Map.of(PlayerId.PLAYER_1,new PublicPlayerState(2,2,List.of()),
                 PlayerId.PLAYER_2,new PublicPlayerState(2,3,List.of()));
         PublicGameState p = new PublicGameState(ticketsCountOk,cardState,PlayerId.PLAYER_1,playerState,null);
@@ -59,7 +59,7 @@ public class PublicGameStateTest {
     void checkClaimedRoute(){
 
         int ticketsCountOk = 3;
-        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),1,3);
+        PublicCardState cardState = new PublicCardState(List.of(Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK,Card.BLACK),1,3, topDeckCard);
         Map<PlayerId, PublicPlayerState> playerState = Map.of(PlayerId.PLAYER_1,new PublicPlayerState(2,2,ChMap.routes().subList(0,3)),
                 PlayerId.PLAYER_2,new PublicPlayerState(2,3,ChMap.routes().subList(3,8)));
         PublicGameState p = new PublicGameState(ticketsCountOk,cardState,PlayerId.PLAYER_1,playerState,null);

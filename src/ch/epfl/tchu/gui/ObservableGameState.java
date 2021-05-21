@@ -34,6 +34,9 @@ public final class ObservableGameState {
     private final Map<Card, IntegerProperty> cards;
     private final Map<Route, BooleanProperty> claimableRoutes;
 
+    //property for the top deck card
+    private final ObjectProperty<Card> topDeckCard;
+
 
     /**
      * Unique constructor for an ObservableGameState, specific to a player. Initialise all properties with default
@@ -73,6 +76,8 @@ public final class ObservableGameState {
 
         this.claimableRoutes = new HashMap<>(ChMap.routes().size());
         for (Route route : ChMap.routes())claimableRoutes.put(route, new SimpleBooleanProperty(false));
+
+        this.topDeckCard = new SimpleObjectProperty<>(null);
     }
 
     //Private Methods
@@ -133,6 +138,8 @@ public final class ObservableGameState {
                 claimableRoutes.get(route).setValue(nextRoute == null || !newGameState.claimedRoutes().contains(nextRoute));
             else claimableRoutes.get(route).setValue(false);
         }
+
+        topDeckCard.setValue(newGameState.cardState().topDeckCard());
     }
 
     private Route getDoubleRoute(Route route) {
@@ -279,5 +286,13 @@ public final class ObservableGameState {
      */
     protected boolean canDrawCards() {
         return publicGameState.canDrawCards();
+    }
+
+    public Card getTopDeckCard() {
+        return topDeckCard.get();
+    }
+
+    public ObjectProperty<Card> topDeckCardProperty() {
+        return topDeckCard;
     }
 }

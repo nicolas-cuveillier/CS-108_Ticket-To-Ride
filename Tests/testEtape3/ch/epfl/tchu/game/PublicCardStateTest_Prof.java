@@ -22,7 +22,7 @@ class PublicCardStateTest_Prof {
 
             var faceUpCards = new ArrayList<>(Collections.nCopies(i, Card.BLACK));
             assertThrows(IllegalArgumentException.class, () -> {
-                new PublicCardState(faceUpCards, 0, 0);
+                new PublicCardState(faceUpCards, 0, 0, topDeckCard);
             });
         }
     }
@@ -30,24 +30,24 @@ class PublicCardStateTest_Prof {
     @Test
     void constructorFailsWithNegativeDeckOrDiscardsSize() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new PublicCardState(FACE_UP_CARDS, -1, 0);
+            new PublicCardState(FACE_UP_CARDS, -1, 0, topDeckCard);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            new PublicCardState(FACE_UP_CARDS, 0, -1);
+            new PublicCardState(FACE_UP_CARDS, 0, -1, topDeckCard);
         });
     }
 
     @Test
     void constructorCopiesFaceUpCards() {
         var faceUpCards = new ArrayList<>(FACE_UP_CARDS);
-        var cardState = new PublicCardState(faceUpCards, 0, 0);
+        var cardState = new PublicCardState(faceUpCards, 0, 0, topDeckCard);
         faceUpCards.clear();
         assertEquals(FACE_UP_CARDS, cardState.faceUpCards());
     }
 
     @Test
     void faceUpCardsReturnsImmutableListOrCopy() {
-        var cardState = new PublicCardState(FACE_UP_CARDS, 0, 0);
+        var cardState = new PublicCardState(FACE_UP_CARDS, 0, 0, topDeckCard);
         try {
             cardState.faceUpCards().clear();
         } catch (UnsupportedOperationException e) {
@@ -58,7 +58,7 @@ class PublicCardStateTest_Prof {
 
     @Test
     void faceUpCardFailsWithInvalidSlotIndex() {
-        var cardState = new PublicCardState(FACE_UP_CARDS, 0, 0);
+        var cardState = new PublicCardState(FACE_UP_CARDS, 0, 0, topDeckCard);
         for (int i = -20; i < 0; i++) {
             var slot = i;
             assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -80,7 +80,7 @@ class PublicCardStateTest_Prof {
             var cards = new ArrayList<>(Card.ALL);
             Collections.shuffle(cards, new Random(i * 2021L));
             var faceUpCards = List.copyOf(cards.subList(0, 5));
-            var cardState = new PublicCardState(faceUpCards, 0, 0);
+            var cardState = new PublicCardState(faceUpCards, 0, 0, topDeckCard);
             for (int j = 0; j < faceUpCards.size(); j++)
                 assertEquals(faceUpCards.get(j), cardState.faceUpCard(j));
         }
@@ -89,16 +89,16 @@ class PublicCardStateTest_Prof {
     @Test
     void deckSizeReturnsDeckSize() {
         for (int i = 0; i < 100; i++) {
-            var cardState = new PublicCardState(FACE_UP_CARDS, i, i + 1);
+            var cardState = new PublicCardState(FACE_UP_CARDS, i, i + 1, topDeckCard);
             assertEquals(i, cardState.deckSize());
         }
     }
 
     @Test
     void isDeckEmptyReturnsTrueOnlyWhenDeckEmpty() {
-        assertTrue(new PublicCardState(FACE_UP_CARDS, 0, 1).isDeckEmpty());
+        assertTrue(new PublicCardState(FACE_UP_CARDS, 0, 1, topDeckCard).isDeckEmpty());
         for (int i = 0; i < 100; i++) {
-            var cardState = new PublicCardState(FACE_UP_CARDS, i + 1, i);
+            var cardState = new PublicCardState(FACE_UP_CARDS, i + 1, i, topDeckCard);
             assertFalse(cardState.isDeckEmpty());
         }
     }
@@ -106,7 +106,7 @@ class PublicCardStateTest_Prof {
     @Test
     void discardsSizeReturnsDiscardsSize() {
         for (int i = 0; i < 100; i++) {
-            var cardState = new PublicCardState(FACE_UP_CARDS, i + 1, i);
+            var cardState = new PublicCardState(FACE_UP_CARDS, i + 1, i, topDeckCard);
             assertEquals(i, cardState.discardsSize());
         }
     }

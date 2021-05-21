@@ -3,9 +3,12 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Constants;
 import ch.epfl.tchu.game.Ticket;
+import javafx.animation.PathTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.event.Event;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,8 +16,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 /**
  * <h1>DecksViewCreator</h1>
@@ -93,7 +98,29 @@ final class DecksViewCreator {
 
         Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
-        cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
+        cardsButton.setOnMouseClicked(o -> {
+            StackPane cardPane = new StackPane();
+            cardPane.getStyleClass().add(STYLE_CARD);
+            //todo better way to show the card
+            gameState.topDeckCardProperty().addListener((obs, oV, nV) -> {
+                String styleClassName = (oV.color() != null) ? oV.color().name() : STYLE_NEUTRAL;
+
+                if (cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1, styleClassName);
+                else cardPane.getStyleClass().add(styleClassName);
+            });
+
+            Duration duration = Duration.millis(1500);
+
+            TranslateTransition transition = new TranslateTransition(duration,cardPane);
+            transition.setByX(-450);
+            transition.play();
+            transition.setOnFinished(oe -> view.getChildren().remove(cardPane));
+
+            makeCardPane(cardPane);
+            view.getChildren().add(cardPane);
+
+            cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT);
+        });
 
         view.getChildren().add(ticketsButton);
 

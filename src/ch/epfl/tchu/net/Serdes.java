@@ -184,7 +184,8 @@ public final class Serdes { //TODO abstract is necessary ?
             StringJoiner joiner = new StringJoiner(Character.toString(SEPARATOR_SEMI_COLON));
             joiner.add(L_CARD.serialize(publicCardState.faceUpCards()))
                     .add(INT.serialize(publicCardState.deckSize()))
-                    .add(INT.serialize(publicCardState.discardsSize()));
+                    .add(INT.serialize(publicCardState.discardsSize()))
+                    .add(CARD.serialize(publicCardState.topDeckCard()));
             return joiner.toString();
         };
     }
@@ -195,7 +196,7 @@ public final class Serdes { //TODO abstract is necessary ?
     private static Function<String, PublicCardState> pcsDeSerFunction() {
         return message -> {
             String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_SEMI_COLON)), -1);
-            return new PublicCardState(L_CARD.deserialize(t[0]), INT.deserialize(t[1]), INT.deserialize(t[2]));
+            return new PublicCardState(L_CARD.deserialize(t[0]), INT.deserialize(t[1]), INT.deserialize(t[2]), CARD.deserialize(t[3]));
         };
     }
 }

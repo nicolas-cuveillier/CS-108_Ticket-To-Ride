@@ -115,7 +115,7 @@ public class SerdeTest {
 
     @Test
     void checkSerdesPublicCardState() {
-        PublicCardState p = new PublicCardState(List.of(Card.BLACK, Card.VIOLET, Card.BLACK, Card.BLACK, Card.BLACK), 12, 11);
+        PublicCardState p = new PublicCardState(List.of(Card.BLACK, Card.VIOLET, Card.BLACK, Card.BLACK, Card.BLACK), 12, 11, topDeckCard);
         Assertions.assertEquals("0,1,0,0,0;12;11", Serdes.SC_PUBLIC_CARD_STATE.serialize(p));
         Assertions.assertEquals(12, Serdes.SC_PUBLIC_CARD_STATE.deserialize("0,1,0,0,0;12;11").deckSize());
     }
@@ -140,7 +140,7 @@ public class SerdeTest {
     @Test
     void checkSerdesPublicGameState() {
         List<Card> fu = List.of(RED, WHITE, BLUE, BLACK, RED);
-        PublicCardState cs = new PublicCardState(fu, 30, 31);
+        PublicCardState cs = new PublicCardState(fu, 30, 31, topDeckCard);
         List<Route> rs1 = ChMap.routes().subList(0, 2);
         Map<PlayerId, PublicPlayerState> ps = Map.of(
                 PLAYER_1, new PublicPlayerState(10, 11, rs1),

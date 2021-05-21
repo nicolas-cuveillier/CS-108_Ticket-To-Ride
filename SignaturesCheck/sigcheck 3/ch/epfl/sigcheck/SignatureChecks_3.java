@@ -19,7 +19,7 @@ final class SignatureChecks_3 {
     }
 
     void checkPublicCardState() {
-        v10 = new ch.epfl.tchu.game.PublicCardState(v11, v06, v06);
+       // v10 = new ch.epfl.tchu.game.PublicCardState(v11, v06, v06, topDeckCard);
         v06 = v10.deckSize();
         v06 = v10.discardsSize();
         v12 = v10.faceUpCard(v06);

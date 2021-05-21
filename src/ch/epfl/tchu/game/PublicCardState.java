@@ -14,6 +14,7 @@ public class PublicCardState {
     private final List<Card> faceUpCards;
     private final int deckSize;
     private final int discardsSize;
+    private final Card topDeckCard;
 
     /**
      * Constructor for a PublicCardState with face-up cards, the size of the deck and the discard.
@@ -21,12 +22,14 @@ public class PublicCardState {
      * @param faceUpCards  the list of cards that can be seen by players
      * @param deckSize     the size of the deck
      * @param discardsSize the size of the discard
+     * @param topDeckCard
      * @throws IllegalArgumentException if there aren't five face up cards
      *                                  if deck and discard are negative
      */
-    public PublicCardState(List<Card> faceUpCards, int deckSize, int discardsSize) {
+    public PublicCardState(List<Card> faceUpCards, int deckSize, int discardsSize, Card topDeckCard) {
         Preconditions.checkArgument(faceUpCards.size() == Constants.FACE_UP_CARDS_COUNT && deckSize >= 0 && discardsSize >= 0);
 
+        this.topDeckCard = topDeckCard;
         this.faceUpCards = List.copyOf(faceUpCards);
         this.deckSize = deckSize;
         this.discardsSize = discardsSize;
@@ -78,4 +81,7 @@ public class PublicCardState {
         return discardsSize;
     }
 
+    public Card topDeckCard(){
+        return topDeckCard;
+    }
 }

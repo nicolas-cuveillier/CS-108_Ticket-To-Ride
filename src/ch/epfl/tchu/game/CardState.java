@@ -18,7 +18,7 @@ public final class CardState extends PublicCardState {
     private final SortedBag<Card> discard;
 
     private CardState(List<Card> faceUpCards, Deck<Card> deck, SortedBag<Card> discard) {
-        super(faceUpCards, deck.size(), discard.size());
+        super(faceUpCards, deck.size(), discard.size(), deck.topCard());
         this.deck = deck;
         this.discard = discard;
     }
