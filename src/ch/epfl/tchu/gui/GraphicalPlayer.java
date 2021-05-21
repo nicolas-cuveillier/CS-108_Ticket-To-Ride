@@ -34,8 +34,7 @@ import static javafx.application.Platform.isFxApplicationThread;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GraphicalPlayer {
-    private final PlayerId player;
-    private final Map<PlayerId, String> playersName;
+
     private final ObservableGameState gameState;
     private final ObservableList<Text> information;
     private final Stage mainView;
@@ -52,8 +51,6 @@ public final class GraphicalPlayer {
      * @param playersName a map containing the id of all players linked to their name
      */
     public GraphicalPlayer(PlayerId player, Map<PlayerId, String> playersName) {
-        this.player = player;
-        this.playersName = Map.copyOf(playersName);
         this.gameState = new ObservableGameState(player);
         this.information = FXCollections.observableArrayList();
 
@@ -64,7 +61,7 @@ public final class GraphicalPlayer {
         Node mapView = MapViewCreator.createMapView(gameState, claimRoute, this::chooseClaimCards);
         Node cardsView = DecksViewCreator.createCardsView(gameState, drawTickets, drawCard);
         Node handView = DecksViewCreator.createHandView(gameState);
-        Node infoView = InfoViewCreator.createInfoView(this.player, this.playersName, gameState, information);
+        Node infoView = InfoViewCreator.createInfoView(player, playersName, gameState, information);
         BorderPane borderPane =
                 new BorderPane(mapView, null, cardsView, handView, infoView);
 

@@ -11,6 +11,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.util.List;
 import java.util.Map;
 
 /**<h1>InfoViewCreator:</h1>
@@ -47,7 +48,7 @@ final class InfoViewCreator {
         playersStatView.setId("player-stats");
 
         //players info
-        for (PlayerId pId : PlayerId.ALL) {
+        for (PlayerId pId : List.of(player, player.next())) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
             
