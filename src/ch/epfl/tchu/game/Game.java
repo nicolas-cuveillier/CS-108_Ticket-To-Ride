@@ -224,7 +224,7 @@ public final class Game {
                 .max()
                 .orElse(0);
 
-        //Info for longestTrailBonus //todo finalpoints doesn't return the good points
+        //Info for longestTrailBonus
         for (PlayerId p : longestTrail.keySet()) {
             int length = longestTrail.get(p).length();
             Info playerInfo = new Info(playerNames.get(p));
