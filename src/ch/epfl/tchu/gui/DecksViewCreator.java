@@ -101,6 +101,8 @@ final class DecksViewCreator {
         cardsButton.setOnMouseClicked(o -> {
             StackPane cardPane = new StackPane();
             cardPane.getStyleClass().add(STYLE_CARD);
+            TranslateTransition transition = new TranslateTransition(Duration.millis(1500), cardPane);
+
             //todo better way to show the card
             gameState.topDeckCardProperty().addListener((obs, oV, nV) -> {
                 String styleClassName = (oV.color() != null) ? oV.color().name() : STYLE_NEUTRAL;
@@ -109,10 +111,38 @@ final class DecksViewCreator {
                 else cardPane.getStyleClass().add(styleClassName);
             });
 
-            Duration duration = Duration.millis(1500);
-
-            TranslateTransition transition = new TranslateTransition(duration,cardPane);
-            transition.setByX(-450);
+            switch (gameState.topDeckCardProperty().get()) {
+                case RED:
+                    transition.setByX(-950);
+                    break;
+                case BLUE:
+                    transition.setByX(-850);
+                    break;
+                case BLACK:
+                    transition.setByX(-750);
+                    break;
+                case GREEN:
+                    transition.setByX(-450);
+                    break;
+                case WHITE:
+                    transition.setByX(-400);
+                    break;
+                case ORANGE:
+                    transition.setByX(-350);
+                    break;
+                case VIOLET:
+                    transition.setByX(-300);
+                    break;
+                case YELLOW:
+                    transition.setByX(-250);
+                    break;
+                case LOCOMOTIVE:
+                    transition.setByX(-200);
+                    break;
+                default:
+                    transition.setByX(10);
+                    break;
+            }
             transition.play();
             transition.setOnFinished(oe -> view.getChildren().remove(cardPane));
 
