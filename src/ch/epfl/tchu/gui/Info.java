@@ -8,9 +8,10 @@ import ch.epfl.tchu.game.Trail;
 import java.util.ArrayList;
 import java.util.List;
 
-/**<h1>Info</h1>
+/**
+ * <h1>Info</h1>
  * Handles the creation of info messages displayed to the players during the game. Returns the message as a String.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Info {
@@ -59,7 +60,7 @@ public final class Info {
     }
 
     /**
-     * message when the game end and player are ex æqo.
+     * Message when the game end and player are ex æqo.
      *
      * @param playerNames the list all player
      * @param points      the winners point
@@ -77,7 +78,7 @@ public final class Info {
     }
 
     /**
-     * message saying that this player is going to play first.
+     * Message saying that this player is going to play first.
      *
      * @return (String)
      */
@@ -86,7 +87,7 @@ public final class Info {
     }
 
     /**
-     * message saying that this player is keeping count billets.
+     * Message saying that this player is keeping count billets.
      *
      * @param count the number of ticket(s)
      * @return (String)
@@ -96,7 +97,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player can now playing.
+     * Message saying that the player can now playing.
      *
      * @return (String)
      */
@@ -105,7 +106,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew count tickets.
+     * Message saying that the player drew count tickets.
      *
      * @param count the number of ticket(s)
      * @return (String)
@@ -115,7 +116,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew a blind card from the deck.
+     * Message saying that the player drew a blind card from the deck.
      *
      * @return (String)
      */
@@ -124,7 +125,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew a visible card.
+     * Message saying that the player drew a visible card.
      *
      * @param card the card that is drew
      * @return (String)
@@ -134,7 +135,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player took this Route with these cards.
+     * Message saying that the player took this Route with these cards.
      *
      * @param route the taken Route
      * @param cards the cards that the player used to claim the Route
@@ -145,7 +146,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player claim this tunnel with these cards.
+     * Message saying that the player claim this tunnel with these cards.
      *
      * @param route        the Route that the player want to claim
      * @param initialCards the cards that the player initially used to ask for the Route
@@ -165,13 +166,13 @@ public final class Info {
         if (additionalCost != 0)
             text.append(String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost)));
         else
-            text.append(String.format(StringsFr.NO_ADDITIONAL_COST));
+            text.append(StringsFr.NO_ADDITIONAL_COST);
 
         return text.toString();
     }
 
     /**
-     * message saying that the player did not took this tunnel.
+     * Message saying that the player did not took this tunnel.
      *
      * @param route the route that the player didn't claimed
      * @return (String)
@@ -181,7 +182,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the last turn of the game begins.
+     * Message saying that the last turn of the game begins.
      *
      * @param carCount the number of car the player has left
      * @return (String)
@@ -191,7 +192,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player got the 10 points bonus thanks to the longest Trail
+     * Message saying that the player got the 10 points bonus thanks to the longest Trail
      *
      * @param longestTrail the Trail that allowed the player to have bonus
      * @return (String)
@@ -201,7 +202,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player won.
+     * Message saying that the player won.
      *
      * @param points      the points of the winner
      * @param loserPoints the loser's point
@@ -216,7 +217,7 @@ public final class Info {
     }
 
     /**
-     * compute the text representing the sortedBag of cards in a human way.
+     * Compute the text representing the sortedBag of cards in a human way.
      *
      * @param cards the sortedBag of cards for which the text will be computed
      * @return a string which correspond to the textual representation of a sortedBag of cards
