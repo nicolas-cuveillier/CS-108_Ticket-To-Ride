@@ -14,9 +14,10 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
-/**<h1>MapViewCreator</h1>
+/**
+ * <h1>MapViewCreator</h1>
  * None instantiable class that handle the creation of the map.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 final class MapViewCreator {
@@ -27,6 +28,7 @@ final class MapViewCreator {
     private static final String STYLE_MAP = "map.css";
     private static final String STYLE_ROUTE = "route";
     private static final String STYLE_CAR = "car";
+    private static final String STYLE_FILLED = "filled";
 
     /**
      * Static method that will create a node containing all the different component of the tchu's map.
@@ -51,23 +53,10 @@ final class MapViewCreator {
 
             //define all case of the route
             for (int i = 1; i <= route.length(); i++) {
-                Group routeCas = new Group();
-                routeCas.setId(routeGroup.getId() + "_" + i);
-
-                Group carGroup = new Group();
-                carGroup.getStyleClass().add(STYLE_CAR);
-
-                Rectangle carRectangle = new Rectangle(36, 12);
-                carRectangle.getStyleClass().add("filled");
-                Circle carCircle1 = new Circle(12, 6, 3);
-                Circle carCircle2 = new Circle(24, 6, 3);
-
-                Rectangle trackRectangle = new Rectangle(36, 12);
-                trackRectangle.getStyleClass().addAll("track", "filled");
-
-                carGroup.getChildren().addAll(carRectangle, carCircle1, carCircle2);
-                routeCas.getChildren().addAll(trackRectangle, carGroup);
-                routeGroup.getChildren().add(routeCas);
+                Group routeCase = new Group();
+                routeCase.setId(routeGroup.getId() + "_" + i);
+                makeCarGroup(routeCase);
+                routeGroup.getChildren().add(routeCase);
             }
 
             //set properties
@@ -78,9 +67,8 @@ final class MapViewCreator {
             routeGroup.setOnMouseClicked(o -> {
                 List<SortedBag<Card>> possibleClaimCards = gameState.possibleClaimCards(route);
 
-                if (possibleClaimCards.size() == 1) {
-                    claimRouteH.get().onClaimRoute(route, possibleClaimCards.get(0));
-                } else {
+                if (possibleClaimCards.size() == 1) claimRouteH.get().onClaimRoute(route, possibleClaimCards.get(0));
+                else {
                     ActionHandler.ChooseCardsHandler chooseCardsH = (chosenCards -> claimRouteH.get().onClaimRoute(route, chosenCards));
                     cardChooser.chooseCards(possibleClaimCards, chooseCardsH);
                 }
@@ -88,6 +76,22 @@ final class MapViewCreator {
             view.getChildren().add(routeGroup);
         }
         return view;
+    }
+
+    private static void makeCarGroup(Group routeCase) {
+        Group carGroup = new Group();
+        carGroup.getStyleClass().add(STYLE_CAR);
+
+        Rectangle carRectangle = new Rectangle(36, 12);
+        carRectangle.getStyleClass().add(STYLE_FILLED);
+        Circle carCircle1 = new Circle(12, 6, 3);
+        Circle carCircle2 = new Circle(24, 6, 3);
+
+        Rectangle trackRectangle = new Rectangle(36, 12);
+        trackRectangle.getStyleClass().addAll("track", STYLE_FILLED);
+
+        carGroup.getChildren().addAll(carRectangle, carCircle1, carCircle2);
+        routeCase.getChildren().addAll(trackRectangle, carGroup);
     }
 
     /**
