@@ -6,26 +6,33 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-/**<h1>ClientMain</h1>
+/**
+ * <h1>ClientMain</h1>
  * Contains the main program for the game server.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ClientMain extends Application {
     private final static String DEFAULT_HOSTNAME = "localhost";
     private final static int DEFAULT_PORT = 5108;
-    
+
     private String hostname;
     private int port;
-    
+
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Analyze the parameters given to the program. If the parameters contains two information, get the information with
+     * the host's name in first and the port number in second. If there aren't these two parameters, default value are use.
+     *
+     * @throws Exception if something goes wrong
+     */
     @Override
     public void init() throws Exception {
         List<String> parameters = getParameters().getRaw();
-        if(parameters.size() == 2) {
+        if (parameters.size() == 2) {
             hostname = parameters.get(0);
             port = Integer.parseInt(parameters.get(1));
         } else {
@@ -34,7 +41,7 @@ public final class ClientMain extends Application {
         }
         super.init();
     }
-    
+
     /**
      * Firstly, analysing the arguments passed to the program to determine the names of the two players. Then, waiting
      * for a connection from the client on port and creating the two players, the first being a graphical player,
@@ -54,5 +61,5 @@ public final class ClientMain extends Application {
         }
 
     }
-    
+
 }
