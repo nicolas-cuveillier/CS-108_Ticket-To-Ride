@@ -10,8 +10,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import static javafx.application.Platform.runLater;
 
 /**<h1>GraphicalPlayerAdapter</h1>
- * Hides the GraphicalPlayer component behind a Player on server side and bridges the Player's method to the corresponding GraphicalPlayer's method.
- * 
+ * Hides the GraphicalPlayer component behind a Player on server side and bridges the Player's method to the
+ * corresponding GraphicalPlayer's method.
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GraphicalPlayerAdapter implements Player {
@@ -26,16 +27,16 @@ public final class GraphicalPlayerAdapter implements Player {
      * Unique constructor of a Graphical adapter which is in charge to simply initialize BlockingQueue
      */
     public GraphicalPlayerAdapter() {
-        blockingTicketsQueue = new ArrayBlockingQueue<>(5);
+        blockingTicketsQueue = new ArrayBlockingQueue<>(1);
         blockingTurnKindQueue = new ArrayBlockingQueue<>(1);
         blockingCardIndexQueue = new ArrayBlockingQueue<>(1);
         blockingRouteQueue = new ArrayBlockingQueue<>(1);
-        blockingCardsQueue = new ArrayBlockingQueue<>(Constants.ALL_CARDS.size());
+        blockingCardsQueue = new ArrayBlockingQueue<>(1);
         graphicalPlayer = null;
     }
 
     /**
-     * Build an instance of the JavaFX thread an instance of Graphical player.
+     * Build an instance of Graphical player on the JavaFX thread.
      *
      * @param ownId       Id of the player (self)
      * @param playerNames Ids of all the payers, mapped to their name (includes self)
@@ -46,7 +47,7 @@ public final class GraphicalPlayerAdapter implements Player {
     }
 
     /**
-     * Call the method receiveInfo of the graphicalPlayer on the JavaFX thread
+     * Call the method receiveInfo of the graphicalPlayer on the JavaFX thread.
      *
      * @param info Information to give to the player, parsed by the class Info
      */
@@ -56,7 +57,7 @@ public final class GraphicalPlayerAdapter implements Player {
     }
 
     /**
-     * Call the method setState of the graphicalPlayer on the JavaFX thread
+     * Call the method setState of the graphicalPlayer on the JavaFX thread.
      *
      * @param newState new state of the game
      * @param ownState current state of the player
@@ -68,7 +69,7 @@ public final class GraphicalPlayerAdapter implements Player {
 
     /**
      * Call the method chooseTickets of the graphicalPlayer on the JavaFX thread so that the human player choose
-     * tickets and those tickets will be added to the corresponding blocking queue
+     * tickets and those tickets will be added to the corresponding blocking queue.
      *
      * @param tickets 5 initial tickets assigned to the player
      */
@@ -78,7 +79,7 @@ public final class GraphicalPlayerAdapter implements Player {
     }
 
     /**
-     * The Blocking Queue of tickets waits until the human player made its choice and then return its choice
+     * The Blocking Queue of tickets waits until the human player made its choice and then return its choice.
      *
      * @return the sortedBag of tickets that the human player has chosen
      */
@@ -102,14 +103,14 @@ public final class GraphicalPlayerAdapter implements Player {
     @Override
     public TurnKind nextTurn() {
         runLater(() -> graphicalPlayer.startTurn(() -> blockingTurnKindQueue.add(TurnKind.DRAW_TICKETS),
-                (s) -> {
+                (index) -> {
                     blockingTurnKindQueue.add(TurnKind.DRAW_CARDS);
-                    blockingCardIndexQueue.add(s);
+                    blockingCardIndexQueue.add(index);
                 },
-                (r, s) -> {
+                (route, cards) -> {
                     blockingTurnKindQueue.add(TurnKind.CLAIM_ROUTE);
-                    blockingRouteQueue.add(r);
-                    blockingCardsQueue.add(s);
+                    blockingRouteQueue.add(route);
+                    blockingCardsQueue.add(cards);
                 }));
 
         try {
