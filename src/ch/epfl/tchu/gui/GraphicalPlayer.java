@@ -35,6 +35,7 @@ import static javafx.application.Platform.isFxApplicationThread;
  */
 public final class GraphicalPlayer {
 
+    private final static int VISIBLE_INFORMATION_COUNT = 5;
     private final ObservableGameState gameState;
     private final ObservableList<Text> information;
     private final Stage mainView;
@@ -62,8 +63,7 @@ public final class GraphicalPlayer {
         Node cardsView = DecksViewCreator.createCardsView(gameState, drawTickets, drawCard);
         Node handView = DecksViewCreator.createHandView(gameState);
         Node infoView = InfoViewCreator.createInfoView(player, playersName, gameState, information);
-        BorderPane borderPane =
-                new BorderPane(mapView, null, cardsView, handView, infoView);
+        BorderPane borderPane = new BorderPane(mapView, null, cardsView, handView, infoView);
 
         this.mainView = new Stage();
         mainView.setScene(new Scene(borderPane));
@@ -71,10 +71,9 @@ public final class GraphicalPlayer {
         mainView.show();
     }
 
-
     /**
-     * method that will update all properties of the actual game state that have changed during a player turn according to the new game state
-     * and to the actual playerState. This method call the setState method from the ObservableGameState class
+     * Method that will update all properties of the actual game state that have changed during a player turn according to the new game state
+     * and to the actual playerState. This method call the setState method from the ObservableGameState class.
      *
      * @param newGameState the new PublicGameState from which properties will be updated
      * @param playerState  the current playerState
@@ -85,19 +84,21 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * add the message to the left hand side of the gui to display it and remove one if the number of messages exceed 5
+     * Add the message to the left hand side of the gui to display it and remove one if the number of messages exceed
+     * the decided number of information that will be display.
      *
      * @param message the message that will be display in the InfoView at the left of the screen
      */
     public void receiveInfo(String message) {
         assert isFxApplicationThread();
-        if (information.size() == 5) information.remove(0);
+        if (information.size() == VISIBLE_INFORMATION_COUNT) information.remove(0);
         information.add(new Text(message));
     }
 
     /**
-     * method that handle the choice of the player in a turn with setting the different ActionHandler in their
-     * correspondent property. If the action is possible, all past properties are assigned to null and this property is set
+     * Method that handle the choice of the player in a turn with setting the different ActionHandler in their
+     * correspondent property. If the action is possible, all past properties are assigned to null and this property
+     * is set.
      *
      * @param drawTicketsH an instance of DrawTicketsHandler which describe how the graphical player is drawing a ticket
      * @param drawCardH    an instance of DrawCardsHandler which describe how the graphical player is drawing a card
@@ -122,7 +123,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the ticket's selector pop-up that will force the player to choose a certain minimum number of tickets
+     * Create the ticket's selector pop-up that will force the player to choose a certain minimum number of tickets.
      *
      * @param options        a sortedBag of the tickets from which the player will have to choose
      * @param chooseTicketsH an instance of ChooseTicketsHandler that will be use when the player's choice will be made
@@ -135,7 +136,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * allows the player to choose a card, either one of the five face-up cards or the one at the top of the deck.
+     * Allows the player to choose a card, either one of the five face-up cards or the one at the top of the deck.
      * According to the chosen card the handler is called up with the player's choice to make the move. This method is
      * intended to be called up when the player has already drawn a first card and must now draw the second.
      *
@@ -150,8 +151,8 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the claim cards' selector pop-up that will force the player to choose a sortedBag of cards that
-     * will be used to claim the route
+     * Create the claim cards' selector pop-up that will force the player to choose a sortedBag of cards that
+     * will be used to claim the route.
      *
      * @param options      a List of all the different option that the player has to claim the route
      * @param chooseCardsH an instance of ChooseCardsHandler that will be use when the player's choice will be made
@@ -164,8 +165,8 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the additional cards' selector pop-up that will force the player to choose a sortedBag of cards that
-     * will be used as additional cards to claim the route
+     * Create the additional cards' selector pop-up that will force the player to choose a sortedBag of cards that
+     * will be used as additional cards to claim the route.
      *
      * @param additionalCards a List of all the different option of additional cards that the player has to claim the route
      * @param chooseCardsH    an instance of ChooseCardsHandler that will be use when the player's choice will be made
@@ -173,7 +174,8 @@ public final class GraphicalPlayer {
     public void chooseAdditionalCards(List<SortedBag<Card>> additionalCards, ActionHandler.ChooseCardsHandler chooseCardsH) {
         assert isFxApplicationThread();
         //In Game cards selection window
-        Stage additionalCardsSelectorStage = cardsSelector(additionalCards, chooseCardsH, StringsFr.CHOOSE_ADDITIONAL_CARDS, true);
+        Stage additionalCardsSelectorStage = cardsSelector(additionalCards, chooseCardsH,
+                StringsFr.CHOOSE_ADDITIONAL_CARDS, true);
         additionalCardsSelectorStage.show();
     }
 
@@ -187,7 +189,8 @@ public final class GraphicalPlayer {
      * create the claim cards selector panel, a stage own by the main stage, according to a list of option and a
      * ChooseCardsHandler
      */
-    private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH, String title, boolean isAdditionalCardSelector) {
+    private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH,
+                                String title, boolean isAdditionalCardSelector) {
         Stage selectorStage = new Stage(StageStyle.UTILITY);
 
         TextFlow textFlow = new TextFlow();
@@ -195,7 +198,7 @@ public final class GraphicalPlayer {
         textFlow.getChildren().add(text);
 
         ListView<SortedBag<Card>> listViewSelector = new ListView<>(FXCollections.observableArrayList(options));
-        listViewSelector.setCellFactory(v -> new TextFieldListCell<>(new CardBagStringConverter()));
+        listViewSelector.setCellFactory(cellFactory -> new TextFieldListCell<>(new CardBagStringConverter()));
 
         ObservableList<SortedBag<Card>> chosenCards = listViewSelector.getSelectionModel().getSelectedItems();
 
@@ -234,7 +237,9 @@ public final class GraphicalPlayer {
         });
 
         TextFlow textFlow = new TextFlow();
-        Text text = new Text(String.format(StringsFr.CHOOSE_TICKETS, listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT, "s"));
+        Text text = new Text(String.format(StringsFr.CHOOSE_TICKETS,
+                listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT,
+                StringsFr.plural(listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT)));
         textFlow.getChildren().add(text);
 
         VBox selectorBox = new VBox();
