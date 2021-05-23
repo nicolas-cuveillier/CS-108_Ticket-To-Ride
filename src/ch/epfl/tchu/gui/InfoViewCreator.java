@@ -2,6 +2,7 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.PlayerId;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -14,9 +15,10 @@ import javafx.scene.text.TextFlow;
 import java.util.List;
 import java.util.Map;
 
-/**<h1>InfoViewCreator:</h1>
- * None instantiable class that handles the info panel display within the GUI
- * 
+/**
+ * <h1>InfoViewCreator:</h1>
+ * None instantiable class that handles the info panel display within the GUI.
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 final class InfoViewCreator {
@@ -51,16 +53,13 @@ final class InfoViewCreator {
         for (PlayerId pId : List.of(player, player.next())) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
-            
+
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
-            Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId),
+            Text playerInfo = makePlayerInfoText(playersName.get(pId),
                     gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
-                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
-            playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playersName.get(pId),
-                    gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
-                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
+                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId));
 
             text.getChildren().addAll(coloredCircle, playerInfo);
             playersStatView.getChildren().add(text);
@@ -74,5 +73,17 @@ final class InfoViewCreator {
 
         infoView.getChildren().addAll(playersStatView, separator, inGameInfoText);
         return infoView;
+    }
+
+    private static Text makePlayerInfoText(String playerName, ReadOnlyIntegerProperty ticketsCount,
+                                           ReadOnlyIntegerProperty cardsCount, ReadOnlyIntegerProperty carsCount,
+                                           ReadOnlyIntegerProperty pointsCount) {
+
+        Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playerName,
+                ticketsCount, cardsCount, carsCount, pointsCount));
+        playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playerName,
+                ticketsCount, cardsCount, carsCount, pointsCount));
+
+        return playerInfo;
     }
 }
