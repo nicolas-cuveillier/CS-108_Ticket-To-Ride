@@ -87,11 +87,11 @@ final class DecksViewCreator {
         view.getStylesheets().addAll(STYLE_DECK, STYLE_COLORS);
         view.setId("card-pane");
 
-        Button ticketsButton = makeButtonFromGraphic(StringsFr.TICKETS, gameState.ticketsInDeckPercentProperty());
+        Button ticketsButton = makeButton(StringsFr.TICKETS, gameState.ticketsInDeckPercentProperty());
         ticketsButton.disableProperty().bind(ticketsHandlerProperty.isNull());
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
 
-        Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
+        Button cardsButton = makeButton(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
@@ -119,7 +119,7 @@ final class DecksViewCreator {
         return view;
     }
 
-    private static Button makeButtonFromGraphic(String name, ReadOnlyIntegerProperty percentage) {
+    private static Button makeButton(String name, ReadOnlyIntegerProperty percentage) {
         Button button = new Button(name);
         button.getStyleClass().add(STYLE_GAUGED);
         button.setGraphic(getGraphicButtonGroup(percentage));
