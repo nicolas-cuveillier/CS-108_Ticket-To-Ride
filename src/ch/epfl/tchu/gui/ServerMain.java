@@ -62,4 +62,13 @@ public final class ServerMain extends Application {
             System.exit(0);
         }
     }
+    
+    /**
+     * Called when the application should stop.
+     * Causes the JVM to stop, and the program to exit.
+     */
+    @Override
+    public void stop() {
+        System.exit(0);
+    }
 }

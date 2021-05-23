@@ -55,4 +55,13 @@ public final class ClientMain extends Application {
 
     }
     
+    /**
+     * Called when the application should stop.
+     * Causes the JVM to stop, and the program to exit.
+     */
+    @Override
+    public void stop() {
+        System.exit(0);
+    }
+    
 }
