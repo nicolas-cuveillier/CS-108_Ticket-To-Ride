@@ -24,6 +24,7 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ServerMain extends Application {
+    ServerSocket s0;
     public static void main(String[] args) {
         launch(args);
     }
@@ -48,7 +49,7 @@ public final class ServerMain extends Application {
         }
 
         try {
-            ServerSocket s0 = new ServerSocket(5108);
+            s0 = new ServerSocket(5108);
             Socket s = s0.accept();
 
             GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
