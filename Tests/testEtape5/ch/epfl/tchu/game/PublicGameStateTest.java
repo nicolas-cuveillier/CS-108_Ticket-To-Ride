@@ -5,12 +5,21 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 @SuppressWarnings(value = {"unused"})
 public class PublicGameStateTest {
+    
+    private static final Card topDeckCard = (Card) echo("topDeckCard",Card.ALL.get(new Random().nextInt(Card.ALL.size())));
+    
+    private static Object echo(String label, Object o) {
+        System.out.println(label + ": " + o.toString());
+        return o;
+    }
+    
     private static PublicGameState normalPublicState(){
         int ticketsCountOk = 3;
 

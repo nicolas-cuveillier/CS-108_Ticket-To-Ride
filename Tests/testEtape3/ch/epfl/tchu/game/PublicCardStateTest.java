@@ -4,11 +4,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 public class PublicCardStateTest {
+    
+    private static final Card topDeckCard = (Card) echo("topDeckCard",Card.ALL.get(new Random().nextInt(Card.ALL.size())));
+    
+    private static Object echo(String label, Object o) {
+        System.out.println(label + ": " + o.toString());
+        return o;
+    }
+    
     @Test
     void checkException(){
        Assertions.assertThrows(IllegalArgumentException.class,

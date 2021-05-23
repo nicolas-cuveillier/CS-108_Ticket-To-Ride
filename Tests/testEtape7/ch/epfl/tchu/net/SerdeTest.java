@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.StringJoiner;
 
 import static ch.epfl.tchu.game.Card.*;
@@ -19,7 +20,14 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
  * @author Grégory Preisig & Nicolas Cuveillier
  */
 public class SerdeTest {
-
+    
+    private static final Card topDeckCard = (Card) echo("topDeckCard",Card.ALL.get(new Random().nextInt(Card.ALL.size())));
+    
+    private static Object echo(String label, Object o) {
+        System.out.println(label + ": " + o.toString());
+        return o;
+    }
+    
     @Test
     void checkEmptySortedBag(){
         Assertions.assertEquals("",Serdes.SB_CARD.serialize(SortedBag.of()));

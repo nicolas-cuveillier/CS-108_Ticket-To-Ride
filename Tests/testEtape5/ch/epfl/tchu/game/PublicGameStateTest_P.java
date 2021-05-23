@@ -11,6 +11,14 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PublicGameStateTest_p {
+    
+    private static final Card topDeckCard = (Card) echo("topDeckCard",Card.ALL.get(new Random().nextInt(Card.ALL.size())));
+    
+    private static Object echo(String label, Object o) {
+        System.out.println(label + ": " + o.toString());
+        return o;
+    }
+    
     @Test
     void publicGameStateConstructorFailsWithInvalidTicketsCount() {
         var faceUpCards = SortedBag.of(5, Card.LOCOMOTIVE).toList();

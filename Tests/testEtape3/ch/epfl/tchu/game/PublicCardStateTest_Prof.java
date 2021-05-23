@@ -14,6 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PublicCardStateTest_Prof {
     private static final List<Card> FACE_UP_CARDS =
             List.of(Card.BLUE, Card.BLACK, Card.ORANGE, Card.ORANGE, Card.RED);
+    private static final Card topDeckCard = (Card) echo("topDeckCard",Card.ALL.get(new Random().nextInt(Card.ALL.size())));
+    
+    private static Object echo(String label, Object o) {
+        System.out.println(label + ": " + o.toString());
+        return o;
+    }
 
     @Test
     void publicCardStateConstructorFailsWithInvalidNumberOfFaceUpCards() {
