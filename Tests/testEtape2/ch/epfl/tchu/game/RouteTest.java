@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
+@SuppressWarnings(value = {"rawtypes", "unchecked", "unused"})
 public class RouteTest {
     @Test
     void checkIllegalArgumentExceptionWhenSameStation() {

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings(value = {"static-access"})
 class InfoTest {
 
     String p1 = "Player 1";

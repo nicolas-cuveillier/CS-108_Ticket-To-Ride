@@ -5,7 +5,7 @@ import ch.epfl.tchu.SortedBag;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
+@SuppressWarnings(value = {"null", "unused"})
 public final class TestPlayer implements Player {
     private static final int TURN_LIMIT = 1000;
 
@@ -53,6 +53,7 @@ public final class TestPlayer implements Player {
         return null;
     }
 
+    
     @Override
     public TurnKind nextTurn() {
         turnCounter += 1;

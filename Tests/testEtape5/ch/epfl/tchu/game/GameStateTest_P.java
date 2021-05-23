@@ -10,6 +10,7 @@ import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings(value = {"unused"})
 class GameStateTest_P {
     private static final int INITIAL_CARD_DECK_SIZE =
             (8 * 12 + 14) - 5 - 2 * 4;

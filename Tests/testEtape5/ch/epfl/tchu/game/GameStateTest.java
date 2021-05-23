@@ -9,6 +9,8 @@ import java.util.Random;
 /**
  * @author Grégory Preisig & Nicolas Cuveillier
  */
+
+@SuppressWarnings(value = {"unused"})
 public class GameStateTest {
     
 

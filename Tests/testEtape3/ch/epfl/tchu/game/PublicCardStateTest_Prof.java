@@ -10,6 +10,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings(value = {"unused"})
 class PublicCardStateTest_Prof {
     private static final List<Card> FACE_UP_CARDS =
             List.of(Card.BLUE, Card.BLACK, Card.ORANGE, Card.ORANGE, Card.RED);

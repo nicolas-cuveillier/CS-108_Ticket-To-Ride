@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@SuppressWarnings(value = {"unused"})
 class StationPartitionTest_P {
     @Test
     void stationPartitionInitiallyConnectsStationsWithThemselvesOnly() {

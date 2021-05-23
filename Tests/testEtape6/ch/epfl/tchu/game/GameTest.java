@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import static ch.epfl.tchu.game.GameTest.PlayerMethod.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings(value = {"serial"})
 class GameTest {
     enum PlayerMethod {
         INIT_PLAYERS,
