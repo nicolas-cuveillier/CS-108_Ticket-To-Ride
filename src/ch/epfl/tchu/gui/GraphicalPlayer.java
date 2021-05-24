@@ -2,14 +2,12 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
-import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +21,6 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.util.List;
 import java.util.Map;
@@ -202,7 +199,7 @@ public final class GraphicalPlayer {
 
         ObservableList<SortedBag<Card>> chosenCards = listViewSelector.getSelectionModel().getSelectedItems();
 
-        Button selectorButton = new Button("Choisir");
+        Button selectorButton = new Button(StringsFr.CHOOSE);
         if (!isAdditionalCardSelector) selectorButton.disableProperty().bind(Bindings.size(chosenCards).isEqualTo(0));
 
         selectorButton.setOnAction(e -> {
@@ -214,7 +211,7 @@ public final class GraphicalPlayer {
         VBox selectorBox = new VBox();
         selectorBox.getChildren().addAll(textFlow, selectorButton, listViewSelector);
 
-        return setStageFromBox(selectorStage, selectorBox, StringsFr.CARDS);
+        return setStageFromBox(selectorStage, selectorBox, StringsFr.CARDS_CHOICE);
     }
 
     /**
@@ -228,7 +225,7 @@ public final class GraphicalPlayer {
         listViewSelector.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ObservableList<Ticket> chosenTickets = listViewSelector.getSelectionModel().getSelectedItems();
 
-        Button selectorButton = new Button("Choisir");
+        Button selectorButton = new Button(StringsFr.CHOOSE);
         selectorButton.disableProperty().bind(Bindings.size(chosenTickets)
                 .lessThan(listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT));
         selectorButton.setOnAction(e -> {
@@ -243,7 +240,7 @@ public final class GraphicalPlayer {
         VBox selectorBox = new VBox();
         selectorBox.getChildren().addAll(textFlow, selectorButton, listViewSelector);
 
-        return setStageFromBox(selectorStage, selectorBox, StringsFr.TICKETS);
+        return setStageFromBox(selectorStage, selectorBox, StringsFr.TICKETS_CHOICE);
     }
 
     private Stage setStageFromBox(Stage stage, VBox box, String name) {

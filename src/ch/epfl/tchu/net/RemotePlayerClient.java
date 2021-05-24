@@ -5,6 +5,7 @@ import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.game.Ticket;
+import ch.epfl.tchu.gui.Launcher;
 
 import java.io.*;
 import java.net.Socket;
@@ -62,7 +63,12 @@ public final class RemotePlayerClient {
                 switch (MessageId.valueOf(message[0])) {
                     case INIT_PLAYERS:
                         List<String> names = Serdes.L_STRING.deserialize(message[2]);
-                        Map<PlayerId, String> playerNames = Map.of(PlayerId.PLAYER_1, names.get(0), PlayerId.PLAYER_2, names.get(1));
+                        Map<PlayerId, String> playerNames;
+                        if(Launcher.PLAYER_NUMBER == 2) {
+                            playerNames = Map.of(PlayerId.PLAYER_1, names.get(0), PlayerId.PLAYER_2, names.get(1));
+                        } else {
+                            //todo make for 3 player
+                        }
 
                         player.initPlayers(Serdes.PLAYER_ID.deserialize(message[1]), playerNames);
                         break;

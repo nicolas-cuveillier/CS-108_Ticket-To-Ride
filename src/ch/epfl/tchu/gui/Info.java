@@ -165,7 +165,7 @@ public final class Info {
         if (additionalCost != 0)
             text.append(String.format(StringsFr.SOME_ADDITIONAL_COST, additionalCost, StringsFr.plural(additionalCost)));
         else
-            text.append(String.format(StringsFr.NO_ADDITIONAL_COST));
+            text.append(StringsFr.NO_ADDITIONAL_COST);
 
         return text.toString();
     }
@@ -209,6 +209,26 @@ public final class Info {
      */
     public String won(int points, int loserPoints) {
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
+    }
+
+    /**
+     * message when the game end, saying that some players are ex æqo and that a third player is last.
+     *
+     * @param playerNames the list all player being ex æqo
+     * @param winnerPoints the winners point
+     * @param looserName name of the player who have loose the game
+     * @param looserPoints the looser point
+     * @return (String)
+     */
+    public static String drawAndLast(List<String> playerNames, int winnerPoints,String looserName, int looserPoints){
+        final StringBuilder text = new StringBuilder();
+
+        for (int i = 0; i < playerNames.size(); i++) {
+            text.append(playerNames.get(i));
+            if (i != playerNames.size() - 1)
+                text.append(StringsFr.AND_SEPARATOR);
+        }
+        return String.format(StringsFr.DRAW_AND_LAST, text, winnerPoints,looserName,looserPoints);
     }
 
     private static String routeText(Route route) {

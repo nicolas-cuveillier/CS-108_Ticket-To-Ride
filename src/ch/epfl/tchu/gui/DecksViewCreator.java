@@ -3,12 +3,10 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Constants;
 import ch.epfl.tchu.game.Ticket;
-import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.event.Event;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,8 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -113,16 +110,16 @@ final class DecksViewCreator {
 
             switch (gameState.topDeckCardProperty().get()) {
                 case RED:
-                    transition.setByX(-950);
+                    transition.setByX(-470);
                     break;
                 case BLUE:
                     transition.setByX(-850);
                     break;
                 case BLACK:
-                    transition.setByX(-750);
+                    transition.setByX(-930);
                     break;
                 case GREEN:
-                    transition.setByX(-450);
+                    transition.setByX(-720);
                     break;
                 case WHITE:
                     transition.setByX(-400);
@@ -137,20 +134,22 @@ final class DecksViewCreator {
                     transition.setByX(-250);
                     break;
                 case LOCOMOTIVE:
-                    transition.setByX(-200);
+                    transition.setByX(-270);
                     break;
                 default:
                     transition.setByX(10);
                     break;
             }
-            transition.play();
-            transition.setOnFinished(oe -> view.getChildren().remove(cardPane));
-
             makeCardPane(cardPane);
             view.getChildren().add(cardPane);
 
-            cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT);
+            transition.play();
+            transition.setOnFinished(oe -> {
+                view.getChildren().remove(cardPane);
+                cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT);
+            });
         });
+
 
         view.getChildren().add(ticketsButton);
 

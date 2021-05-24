@@ -102,14 +102,14 @@ public final class GraphicalPlayerAdapter implements Player {
     @Override
     public TurnKind nextTurn() {
         runLater(() -> graphicalPlayer.startTurn(() -> blockingTurnKindQueue.add(TurnKind.DRAW_TICKETS),
-                (s) -> {
+                (index) -> {
                     blockingTurnKindQueue.add(TurnKind.DRAW_CARDS);
-                    blockingCardIndexQueue.add(s);
+                    blockingCardIndexQueue.add(index);
                 },
-                (r, s) -> {
+                (route, cards) -> {
                     blockingTurnKindQueue.add(TurnKind.CLAIM_ROUTE);
-                    blockingRouteQueue.add(r);
-                    blockingCardsQueue.add(s);
+                    blockingRouteQueue.add(route);
+                    blockingCardsQueue.add(cards);
                 }));
 
         try {
