@@ -95,60 +95,7 @@ final class DecksViewCreator {
 
         Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
-        cardsButton.setOnMouseClicked(o -> {
-            StackPane cardPane = new StackPane();
-            cardPane.getStyleClass().add(STYLE_CARD);
-            TranslateTransition transition = new TranslateTransition(Duration.millis(1500), cardPane);
-
-            //todo better way to show the card
-            gameState.topDeckCardProperty().addListener((obs, oV, nV) -> {
-                String styleClassName = (oV.color() != null) ? oV.color().name() : STYLE_NEUTRAL;
-
-                if (cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1, styleClassName);
-                else cardPane.getStyleClass().add(styleClassName);
-            });
-
-            switch (gameState.topDeckCardProperty().get()) {
-                case RED:
-                    transition.setByX(-470);
-                    break;
-                case BLUE:
-                    transition.setByX(-850);
-                    break;
-                case BLACK:
-                    transition.setByX(-930);
-                    break;
-                case GREEN:
-                    transition.setByX(-720);
-                    break;
-                case WHITE:
-                    transition.setByX(-400);
-                    break;
-                case ORANGE:
-                    transition.setByX(-350);
-                    break;
-                case VIOLET:
-                    transition.setByX(-300);
-                    break;
-                case YELLOW:
-                    transition.setByX(-250);
-                    break;
-                case LOCOMOTIVE:
-                    transition.setByX(-270);
-                    break;
-                default:
-                    transition.setByX(10);
-                    break;
-            }
-            makeCardPane(cardPane);
-            view.getChildren().add(cardPane);
-
-            transition.play();
-            transition.setOnFinished(oe -> {
-                view.getChildren().remove(cardPane);
-                cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT);
-            });
-        });
+        cardsButton.setOnMouseClicked(o -> setOnMouseClickedForCardsButton(view,gameState,cardHandlerProperty));
 
 
         view.getChildren().add(ticketsButton);
@@ -173,6 +120,62 @@ final class DecksViewCreator {
 
         view.getChildren().add(cardsButton);
         return view;
+    }
+    //todo javadoc
+    private static void setOnMouseClickedForCardsButton(VBox view, ObservableGameState gameState,
+                                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty) {
+        StackPane cardPane = new StackPane();
+        cardPane.getStyleClass().add(STYLE_CARD);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(1500), cardPane);
+
+        //todo better way to show the card
+        gameState.topDeckCardProperty().addListener((obs, oV, nV) -> {
+            String styleClassName = (oV.color() != null) ? oV.color().name() : STYLE_NEUTRAL;
+
+            if (cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1, styleClassName);
+            else cardPane.getStyleClass().add(styleClassName);
+        });
+
+        switch (gameState.topDeckCardProperty().get()) {
+            case RED:
+                transition.setByX(-470);
+                break;
+            case BLUE:
+                transition.setByX(-750);
+                break;
+            case BLACK:
+                transition.setByX(-930);
+                break;
+            case GREEN:
+                transition.setByX(-700);
+                break;
+            case WHITE:
+                transition.setByX(-400);
+                break;
+            case ORANGE:
+                transition.setByX(-600);
+                break;
+            case VIOLET:
+                transition.setByX(-650);
+                break;
+            case YELLOW:
+                transition.setByX(-550);
+                break;
+            case LOCOMOTIVE:
+                transition.setByX(-320);
+                break;
+            default:
+                transition.setByX(10);
+                break;
+        }
+        makeCardPane(cardPane);
+        view.getChildren().add(cardPane);
+
+        transition.play();
+        transition.setOnFinished(oe -> {
+            view.getChildren().remove(cardPane);
+            cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT);
+        });
     }
 
     private static Button makeButtonFromGraphic(String name, ReadOnlyIntegerProperty percentage) {

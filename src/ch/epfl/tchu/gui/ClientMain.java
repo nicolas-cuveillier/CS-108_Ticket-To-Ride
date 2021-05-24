@@ -23,7 +23,7 @@ public final class ClientMain extends Application {
     }
 
     @Override
-    public void init() throws Exception {
+    public void init() throws Exception {   //todo make this info be returned by the pop-up
         List<String> parameters = getParameters().getRaw();
         if(parameters.size() == 2) {
             hostname = parameters.get(0);
