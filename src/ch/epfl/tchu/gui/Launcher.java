@@ -112,6 +112,20 @@ final class LauncherViewCreator {
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
         hbBtn.visibleProperty().bind(playButtonBinding(yesButton, hostNameText, portName, textField, name1textField, name2textField, name3textField));
+        btn.setOnMouseClicked(e -> {
+            if (yesButton.selectedProperty().get()) {
+                if (textField.getText().equals("3")) {
+                    ServerMain.launch(name1textField.getText(), name2textField.getText(), name3textField.getText());
+                } else {
+                    ServerMain.launch(name1textField.getText(), name2textField.getText());
+                }
+            } else {
+                String[] args = new String[]{
+                        hostNameText.getText(),
+                        portName.getText()};
+                ClientMain.launch(args);
+            }
+        });
         grid.add(hbBtn, 4, 6);
 
         box.getChildren().add(grid);
@@ -130,11 +144,12 @@ final class LauncherViewCreator {
                                                     TextField playersNumber, TextField name1,
                                                     TextField name2, TextField name3) {
         if (but.selectedProperty().get()) {
+            System.out.println("in");
             return playersNumber.textProperty().isNotEmpty()
-                    .and(name1.textProperty().isNotEmpty())
-                    .and(name2.textProperty().isNotEmpty());
-                    //.and(playersNumber.textProperty().isEqualTo("3").get() ? name3.textProperty().isNotEmpty()
-                            //: name3.textProperty().isEmpty());
+                    .or(name1.textProperty().isNotEmpty())
+                    .or(name2.textProperty().isNotEmpty());
+            //.and(playersNumber.textProperty().isEqualTo("3").get() ? name3.textProperty().isNotEmpty()
+            //: name3.textProperty().isEmpty());
         } else {
             return hostName.textProperty().isNotEmpty().and(port.textProperty().isNotEmpty());
         }

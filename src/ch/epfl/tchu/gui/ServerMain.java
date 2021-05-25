@@ -41,23 +41,29 @@ public final class ServerMain extends Application {
     public void start(Stage primaryStage) {
         String name1 = "Ada";
         String name2 = "Charles";
+        String name3 = "Julien";
 
         List<String> parameters = getParameters().getRaw();
-
-        if (parameters.size() >= 2) {
-            name1 = parameters.get(0);
-            name2 = parameters.get(1);
-        }
 
         try {
             s0 = new ServerSocket(5108);
             Socket s = s0.accept();
-            Socket s2 = s0.accept();
-
-            GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
             RemotePlayerProxy remotePlayerProxy = new RemotePlayerProxy(s);
-            Map<PlayerId, String> playersName = Map.of(PLAYER_1, name1, PLAYER_2, name2, PLAYER_3, "test");
-            Map<PlayerId, Player> players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy, PLAYER_3, new RemotePlayerProxy(s));
+            GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
+            Map<PlayerId, String> playersName;
+            Map<PlayerId, Player> players;
+            name1 = parameters.get(0);
+            name2 = parameters.get(1);
+
+            if (parameters.size() == 3) {
+                Socket s2 = s0.accept();
+                name3 = parameters.get(3);
+                playersName =  Map.of(PLAYER_1, name1, PLAYER_2, name2, PLAYER_3, name3);
+                players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy, PLAYER_3, new RemotePlayerProxy(s2));
+            } else {
+                playersName = Map.of(PLAYER_1, name1, PLAYER_2, name2);
+                players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy);
+            }
 
             new Thread(() -> Game.play(players, playersName, SortedBag.of(ChMap.tickets()), new Random())).start();
         } catch (Exception e) {
