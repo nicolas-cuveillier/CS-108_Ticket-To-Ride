@@ -30,7 +30,7 @@ public interface Player {
         public static final List<TurnKind> ALL = List.of(values());
 
     }
-    
+    //todo javadoc
     String name();
     void name(String n);
 
