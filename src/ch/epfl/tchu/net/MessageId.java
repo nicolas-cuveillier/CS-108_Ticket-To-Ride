@@ -18,6 +18,7 @@ import java.util.List;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public enum MessageId {
+    SEND_NAME,
     INIT_PLAYERS,
     RECEIVE_INFO,
     UPDATE_STATE,

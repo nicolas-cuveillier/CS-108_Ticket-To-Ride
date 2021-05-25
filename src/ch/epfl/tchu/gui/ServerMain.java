@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -44,28 +46,25 @@ public final class ServerMain extends Application {
         String name3 = "Julien";
 
         List<String> parameters = getParameters().getRaw();
-
+        int nbPlayers = Integer.parseInt(parameters.get(0));
+        
         try {
             s0 = new ServerSocket(5108);
             Socket s = s0.accept();
-            RemotePlayerProxy remotePlayerProxy = new RemotePlayerProxy(s);
-            GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
-            Map<PlayerId, String> playersName;
-            Map<PlayerId, Player> players;
-            name1 = parameters.get(0);
-            name2 = parameters.get(1);
+            Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
+            Map<PlayerId, String> playerNames = new LinkedHashMap<>(nbPlayers);
 
-            if (parameters.size() == 3) {
-                Socket s2 = s0.accept();
-                name3 = parameters.get(2);
-                playersName =  Map.of(PLAYER_1, name1, PLAYER_2, name2, PLAYER_3, name3);
-                players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy, PLAYER_3, new RemotePlayerProxy(s2));
-            } else {
-                playersName = Map.of(PLAYER_1, name1, PLAYER_2, name2);
-                players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy);
+
+            Socket[] sockets = new Socket[nbPlayers];
+
+            
+            for(int i = 0; i < nbPlayers; i++) {
+                sockets[i] = s0.accept();
+                players.put(PlayerId.ALL.get(i), new RemotePlayerProxy(sockets[i], i));
+                playerNames.put(PlayerId.ALL.get(i), players.get(PlayerId.ALL.get(i)).name());
             }
-
-            new Thread(() -> Game.play(players, playersName, SortedBag.of(ChMap.tickets()), new Random())).start();
+                
+            new Thread(() -> Game.play(players, playerNames, SortedBag.of(ChMap.tickets()), new Random())).start();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);

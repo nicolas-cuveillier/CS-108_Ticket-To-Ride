@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 @SuppressWarnings(value = {"null", "unused"})
 public final class TestPlayer implements Player {
+    private String name;
     private static final int TURN_LIMIT = 1000;
 
     private final Random rng;
@@ -27,6 +28,17 @@ public final class TestPlayer implements Player {
         this.turnCounter = 0;
     }
 
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public void name(String n) {
+        name = n;
+        
+    }
+    
     @Override
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
 

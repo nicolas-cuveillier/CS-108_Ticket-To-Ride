@@ -266,6 +266,8 @@ class GameTest {
     }
 
     private static final class TestPlayer implements Player {
+        private String name;
+        
         private static final int CALLS_LIMIT = 10_000;
         private static final int MIN_CARD_COUNT = 16;
         private static final int DRAW_TICKETS_ODDS = 15;
@@ -321,6 +323,18 @@ class GameTest {
             this.allRoutes = List.copyOf(allRoutes);
         }
 
+        
+        @Override
+        public String name() {
+            return name;
+        }
+
+        @Override
+        public void name(String n) {
+            name = n;
+            
+        }
+        
         @Override
         public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
             registerCall(PlayerMethod.INIT_PLAYERS);

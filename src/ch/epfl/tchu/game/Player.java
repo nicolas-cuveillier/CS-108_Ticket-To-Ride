@@ -11,7 +11,6 @@ import java.util.Map;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public interface Player {
-
     /**
      * @author Grégory Preisig & Nicolas Cuveillier
      * <p>
@@ -31,6 +30,9 @@ public interface Player {
         public static final List<TurnKind> ALL = List.of(values());
 
     }
+    
+    String name();
+    void name(String n);
 
     /**
      * Called at the beginning of the game to communicate to the player his own id and names of the other players.

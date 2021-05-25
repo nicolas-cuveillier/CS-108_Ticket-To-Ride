@@ -15,12 +15,14 @@ public class ClientTest {
         RemotePlayerClient playerClient =
                 new RemotePlayerClient(new TestPlayer(),
                         "localhost",
-                        5108);
+                        5108, "TestClient_Name");
         playerClient.run();
         System.out.println("Client done!");
     }
 
     private final static class TestPlayer implements Player {
+        private String name;
+        
         @Override
         public void initPlayers(PlayerId ownId,
                                 Map<PlayerId, String> names) {
@@ -80,6 +82,17 @@ public class ClientTest {
             var additionalCards = options.get(0);
             System.out.printf(" additional cards : %s \n", additionalCards);
             return additionalCards;
+        }
+
+        @Override
+        public String name() {
+            return name;
+        }
+
+        @Override
+        public void name(String n) {
+            name = n;
+            
         }
 
         // … autres méthodes de Player

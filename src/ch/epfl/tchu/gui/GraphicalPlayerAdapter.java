@@ -15,6 +15,7 @@ import static javafx.application.Platform.runLater;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GraphicalPlayerAdapter implements Player {
+    private String name;
     private GraphicalPlayer graphicalPlayer;
     private final ArrayBlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
     private final ArrayBlockingQueue<TurnKind> blockingTurnKindQueue;
@@ -34,6 +35,16 @@ public final class GraphicalPlayerAdapter implements Player {
         graphicalPlayer = null;
     }
 
+    @Override
+    public void name(String n) {
+        name = n;
+    }
+    
+    @Override
+    public String name() {
+        return name;
+    }
+    
     /**
      * Build an instance of the JavaFX thread an instance of Graphical player.
      *

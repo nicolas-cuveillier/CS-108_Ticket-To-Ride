@@ -6,6 +6,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
@@ -38,97 +41,82 @@ final class LauncherViewCreator {
 
     public static void createLauncherView(Stage primaryStage) {
         VBox box = new VBox();
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(10, 10, 10, 10));
+        TabPane tabPane = new TabPane();
+        
+        Text sceneTitleC = new Text("Welcome to the Tchu Game");
+        sceneTitleC.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        Text sceneTitleS = new Text("Welcome to the Tchu Game");
+        sceneTitleS.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        
+        
 
-        Text sceneTitle = new Text("Welcome on the Tchu Game");
-        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(sceneTitle, 0, 0, 2, 1);
-
-        Label userName = new Label("Will you host the game ? ");
-        grid.add(userName, 0, 1);
-
-        ToggleButton yesButton = new ToggleButton("Yes/No");
-        grid.add(yesButton, 1, 1);
-
+        //Server Tab UI
+        GridPane serverGrid = new GridPane();
+        serverGrid.setAlignment(Pos.CENTER);
+        serverGrid.setHgap(10);
+        serverGrid.setVgap(10);
+        serverGrid.setPadding(new Insets(10, 10, 10, 10));
+        
+        serverGrid.add(sceneTitleS, 0, 0, 2, 1);
+        
         Label text = new Label("number of players : ");
-        text.visibleProperty().bind(yesButton.selectedProperty());
-        grid.add(text, 0, 2);
-        TextField textField = new TextField();
-        textField.visibleProperty().bind(yesButton.selectedProperty());
-        grid.add(textField, 1, 2);
-        Label errorText = new Label("invalid number");
-        errorText.visibleProperty().bind((textField.textProperty().isNotEqualTo("2")
-                .and(textField.textProperty().isNotEqualTo("3")))
-                .and(textField.textProperty().isNotEmpty()));
-        grid.add(errorText, 3, 2);
+        serverGrid.add(text, 0, 2);
+        
+        Slider nbPlayers = new Slider(2, 5, 2);
+        nbPlayers.setBlockIncrement(1.0);
+        nbPlayers.setMajorTickUnit(1.0);
+        nbPlayers.setMinorTickCount(0);
+        nbPlayers.setSnapToTicks(true);
+        nbPlayers.setShowTickMarks(true);
+        nbPlayers.setShowTickLabels(true);
+        serverGrid.add(nbPlayers, 1, 2);
+        
+        Label nbPlayersText = new Label(Long.toString(Math.round(nbPlayers.getValue())));
+        nbPlayers.valueProperty().addListener((obs,oV,nV) -> {nbPlayers.setValue(Math.round(nV.doubleValue())); nbPlayersText.setText(Long.toString(Math.round(nV.doubleValue())));});
+        serverGrid.add(nbPlayersText, 3, 2);
+        
+        Tab serverTab = new Tab("Server", serverGrid);
 
-        Label name1 = new Label("Enter the first player's name :");
-        name1.visibleProperty().bind(yesButton.selectedProperty());
-        grid.add(name1, 0, 3);
-        TextField name1textField = new TextField();
-        name1textField.visibleProperty().bind(yesButton.selectedProperty());
-        grid.add(name1textField, 1, 3);
-        Label name2 = new Label("Enter the second player's name :");
-        name2.visibleProperty().bind(yesButton.selectedProperty());
-        grid.add(name2, 0, 4);
-        TextField name2textField = new TextField();
-        name2textField.visibleProperty().bind(yesButton.selectedProperty());
-        grid.add(name2textField, 1, 4);
-        Label name3 = new Label("Enter the last player's name :");
-        name3.visibleProperty().bind(textField.textProperty().isEqualTo("3").and(yesButton.selectedProperty()));
-        grid.add(name3, 0, 5);
-        TextField name3textField = new TextField();
-        name3textField.visibleProperty().bind(textField.textProperty().isEqualTo("3").and(yesButton.selectedProperty()));
-        grid.add(name3textField, 1, 5);
-
+        //Client Tab UI
+        GridPane clientGrid = new GridPane();
+        clientGrid.setAlignment(Pos.CENTER);
+        clientGrid.setHgap(10);
+        clientGrid.setVgap(10);
+        clientGrid.setPadding(new Insets(10, 10, 10, 10));
+        
+        clientGrid.add(sceneTitleC, 0, 0, 2, 1);
+        
         Label hostName = new Label("HostName : ");
-        hostName.visibleProperty().bind(yesButton.selectedProperty().not());
-        grid.add(hostName, 0, 6);
+        clientGrid.add(hostName, 0, 2);
         TextField hostNameText = new TextField();
-        hostNameText.visibleProperty().bind(yesButton.selectedProperty().not());
-        grid.add(hostNameText, 1, 6);
+        clientGrid.add(hostNameText, 1, 2);
         Label port = new Label("Port : ");
-        port.visibleProperty().bind(yesButton.selectedProperty().not());
-        grid.add(port, 2, 6);
+        clientGrid.add(port, 2, 2);
         TextField portName = new TextField();
-        portName.visibleProperty().bind(yesButton.selectedProperty().not());
-        grid.add(portName, 3, 6);
 
-        Button btn = new Button("play !");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn);
-
-       /* BooleanBinding binding = (textField.textProperty().isNotEmpty()
-                .and(name1textField.textProperty().isNotEmpty())
-                .and(name2textField.textProperty().isNotEmpty())
-                .and(name3textField.textProperty().isEqualTo("3").get() ? name3textField.textProperty().isNotEmpty()
-                        : name3textField.textProperty().isEmpty()))
-                .or(hostName.textProperty().isNotEmpty().and(port.textProperty().isNotEmpty()));*/
-
-       //todo find binding btn.visibleProperty().bind(binding);
-
-        btn.setOnMouseClicked(e -> {
-            if (yesButton.selectedProperty().get()) {
-                if (textField.getText().equals("3")) {
-                    ServerMain.launch(name1textField.getText(), name2textField.getText(), name3textField.getText());
-                } else {
-                    ServerMain.launch(name1textField.getText(), name2textField.getText());
-                }
-            } else {
-                String[] args = new String[]{
-                        hostNameText.getText(),
-                        portName.getText()};
-               ClientMain.main(args);
-            }
+        clientGrid.add(portName, 3, 2);
+        
+        Tab clientTab = new Tab("Client", clientGrid);
+        
+        tabPane.getTabs().add(clientTab);
+        tabPane.getTabs().add(serverTab);
+        
+        Button btnServer = new Button("Launch Server");
+        btnServer.setOnMouseClicked(e -> {
+            String[] args = new String[]{nbPlayersText.getText()};
+            ServerMain.main(args);
         });
-        grid.add(hbBtn, 4, 6);
+        
+        Button btnClient = new Button("Launch Client");
+        btnClient.setOnMouseClicked(e -> {
+            String[] args = new String[]{hostNameText.getText(), portName.getText()};
+            ClientMain.main(args);
+        });
+                
+        serverGrid.add(btnServer, 4, 6);    
+        clientGrid.add(btnClient, 2, 4);
 
-        box.getChildren().add(grid);
+        box.getChildren().add(tabPane);
         Scene scene = new Scene(box, 680, 280);
         Stage stage = new Stage(StageStyle.UTILITY);
         stage.setScene(scene);

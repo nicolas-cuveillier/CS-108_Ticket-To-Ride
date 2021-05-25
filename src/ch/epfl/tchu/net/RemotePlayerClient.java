@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
  */
 public final class RemotePlayerClient {
     private final Player player;
+    private final String name;
     private final String proxyName;
     private final int proxyPort;
 
@@ -33,8 +34,9 @@ public final class RemotePlayerClient {
      * @param proxyName the host name
      * @param proxyPort the port name
      */
-    public RemotePlayerClient(Player player, String proxyName, int proxyPort) {
+    public RemotePlayerClient(Player player, String proxyName, int proxyPort, String name) {
         this.player = player;
+        this.name = name;
         this.proxyName = proxyName;
         this.proxyPort = proxyPort;
     }
@@ -61,6 +63,10 @@ public final class RemotePlayerClient {
                 String[] message = messagesFromReader.split(Pattern.quote(" "), -1);
 
                 switch (MessageId.valueOf(message[0])) {
+                    case SEND_NAME:
+                        String n = (name == "Player_"?name.concat(message[1]):name);
+                        writeMessage(writer, Serdes.STRING.serialize(n));
+                        break;
                     case INIT_PLAYERS:
                         List<String> names = Serdes.L_STRING.deserialize(message[2]);
                         Map<PlayerId, String> playerNames;
