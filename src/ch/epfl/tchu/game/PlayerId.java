@@ -27,8 +27,18 @@ public enum PlayerId {
      */
     public static final int COUNT = ALL.size();
     //todo javadoc
-    public static final List<PlayerId> CURRENT_PLAYERS = (Launcher.PLAYER_NUMBER == 2) ? List.of(PLAYER_1, PLAYER_2) : ALL;
+    public static final List<PlayerId> CURRENT_PLAYERS = computeCurrentPlayer();
     public static final int COUNT_FOR_CURRENT_PLAYERS = CURRENT_PLAYERS.size();
+
+    private static List<PlayerId> computeCurrentPlayer(){
+        switch (Launcher.PLAYER_NUMBER) {
+            case 2 : return ALL.subList(0,2);
+            case 3 : return ALL.subList(0,3);
+            case 4 : return ALL.subList(0,4);
+            case 5 : return ALL.subList(0,5);
+            default: throw new Error();
+        }
+    }
 
     /**
      * Return the other player's id, given a player's id.

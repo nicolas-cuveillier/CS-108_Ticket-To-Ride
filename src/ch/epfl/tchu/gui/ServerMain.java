@@ -11,13 +11,10 @@ import javafx.stage.Stage;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import static ch.epfl.tchu.game.PlayerId.*;
 
 /**
  * <h1>ServerMain</h1>
@@ -58,7 +55,7 @@ public final class ServerMain extends Application {
         String name3 = "Julien";
 
         
-        
+
         try {
             s0 = new ServerSocket(5108);
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
@@ -71,8 +68,8 @@ public final class ServerMain extends Application {
             for(int i = 0; i < nbPlayers; i++) {
                 System.out.println("Waiting on player: " + i);
                 sockets[i] = s0.accept();
-                players.put(PlayerId.ALL.get(i), new RemotePlayerProxy(sockets[i], i));
-                playerNames.put(PlayerId.ALL.get(i), players.get(PlayerId.ALL.get(i)).name());
+                players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
+                playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
                 System.out.println("Player " + i + " connected !");
             }
                 
