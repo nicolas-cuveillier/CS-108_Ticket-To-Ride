@@ -1,15 +1,16 @@
 package ch.epfl.tchu.gui;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -17,25 +18,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import static javafx.geometry.HPos.RIGHT;
-
 public class Launcher extends Application {
-    private final String DEFAULT_HOSTNAME = "localhost";
-    private final int DEFAULT_PORT = 5108;
-
     public static final int PLAYER_NUMBER = 3;
-    private final String DEFAULT_P1NAME = "Ada";
-    private final String DEFAULT_P2NAME = "Charles";
-    private final String Default_PXNAME = "Player_";
 
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    //public static void main(String[] args) {
+     ///   launch(args);
+    //}
 
     @Override
     public void start(Stage primaryStage) {
-        // TODO Auto-generated method stub
         LauncherViewCreator.createLauncherView(primaryStage);
     }
 }
@@ -111,7 +102,16 @@ final class LauncherViewCreator {
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        hbBtn.visibleProperty().bind(playButtonBinding(yesButton, hostNameText, portName, textField, name1textField, name2textField, name3textField));
+
+       /* BooleanBinding binding = (textField.textProperty().isNotEmpty()
+                .and(name1textField.textProperty().isNotEmpty())
+                .and(name2textField.textProperty().isNotEmpty())
+                .and(name3textField.textProperty().isEqualTo("3").get() ? name3textField.textProperty().isNotEmpty()
+                        : name3textField.textProperty().isEmpty()))
+                .or(hostName.textProperty().isNotEmpty().and(port.textProperty().isNotEmpty()));*/
+
+       //todo find binding btn.visibleProperty().bind(binding);
+
         btn.setOnMouseClicked(e -> {
             if (yesButton.selectedProperty().get()) {
                 if (textField.getText().equals("3")) {
@@ -123,7 +123,7 @@ final class LauncherViewCreator {
                 String[] args = new String[]{
                         hostNameText.getText(),
                         portName.getText()};
-                ClientMain.launch(args);
+               ClientMain.main(args);
             }
         });
         grid.add(hbBtn, 4, 6);
@@ -139,23 +139,4 @@ final class LauncherViewCreator {
         stage.setY(400);
         stage.show();
     }
-
-    private static BooleanBinding playButtonBinding(ToggleButton but, TextField hostName, TextField port,
-                                                    TextField playersNumber, TextField name1,
-                                                    TextField name2, TextField name3) {
-        if (but.selectedProperty().get()) {
-            System.out.println("in");
-            return playersNumber.textProperty().isNotEmpty()
-                    .or(name1.textProperty().isNotEmpty())
-                    .or(name2.textProperty().isNotEmpty());
-            //.and(playersNumber.textProperty().isEqualTo("3").get() ? name3.textProperty().isNotEmpty()
-            //: name3.textProperty().isEmpty());
-        } else {
-            return hostName.textProperty().isNotEmpty().and(port.textProperty().isNotEmpty());
-        }
-
-
-    }
-
-
 }
