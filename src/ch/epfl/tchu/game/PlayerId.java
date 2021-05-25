@@ -14,7 +14,8 @@ import java.util.List;
  */
 public enum PlayerId {
     PLAYER_1,
-    PLAYER_2;
+    PLAYER_2,
+    PLAYER_3;
     /**
      * An unmodifiable list of all players.
      */
@@ -25,6 +26,7 @@ public enum PlayerId {
     public static final int COUNT = ALL.size();
     //todo javadoc
     public static final List<PlayerId> CURRENT_PLAYERS = (Launcher.PLAYER_NUMBER == 2) ? List.of(PLAYER_1, PLAYER_2) : ALL;
+    public static final int COUNT_FOR_CURRENT_PLAYERS = CURRENT_PLAYERS.size();
 
     /**
      * Return the other player's id, given a player's id.
@@ -33,6 +35,6 @@ public enum PlayerId {
      */
     //todo change ALL for currentPlayer
     public PlayerId next() {
-        return (this.ordinal() == (ALL.size() - 1)) ? ALL.get(0) : ALL.get(this.ordinal() + 1);
+        return (this.ordinal() == (CURRENT_PLAYERS.size() - 1)) ? CURRENT_PLAYERS.get(0) : CURRENT_PLAYERS.get(this.ordinal() + 1);
     }
 }

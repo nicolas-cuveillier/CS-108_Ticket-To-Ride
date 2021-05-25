@@ -45,7 +45,7 @@ public final class Game {
      */
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument(players.size() == PlayerId.COUNT && playerNames.size() == PlayerId.COUNT);
-
+        List<PlayerId> playerIds = new ArrayList<>(players.keySet());
         //1.communicate names
         players.forEach((id, player) -> player.initPlayers(id, playerNames));
 
@@ -58,7 +58,7 @@ public final class Game {
         receiveInfoForAllPlayer(players, currentPlayerInfo.willPlayFirst());
 
         //4.setInitialTicketChoice
-        for (PlayerId p : players.keySet()) {
+        for (PlayerId p : playerIds) {
             players.get(p).setInitialTicketChoice(gameState.topTickets(Constants.INITIAL_TICKETS_COUNT));
             gameState = gameState.withoutTopTickets(Constants.INITIAL_TICKETS_COUNT);
         }
@@ -67,19 +67,19 @@ public final class Game {
         updateGameState(players, gameState);
 
         //6.chooseInitialTickets
-        for (PlayerId p : players.keySet()) {
+        for (PlayerId p : playerIds) {
             SortedBag<Ticket> chosenTickets = players.get(p).chooseInitialTickets();
             gameState = gameState.withInitiallyChosenTickets(p, chosenTickets);
         }
 
         //7.receive info
-        for (PlayerId p : players.keySet()) {
+        for (PlayerId p : playerIds) {
             receiveInfoForAllPlayer(players, new Info(playerNames.get(p)).keptTickets(gameState.playerState(p).ticketCount()));
         }
 
         //set a map for Info
         EnumMap<PlayerId, Info> playersInfo = new EnumMap<>(PlayerId.class);
-        for (PlayerId playerId : PlayerId.ALL) {
+        for (PlayerId playerId : playerIds) {
             playersInfo.put(playerId, new Info(playerNames.get(playerId)));
         }
 
@@ -172,7 +172,6 @@ public final class Game {
                             if (!option.isEmpty())
                                 playedCard = players.get(currentPlayer).chooseAdditionalCards(option);
 
-
                             if (playedCard.isEmpty()) {
                                 receiveInfoForAllPlayer(players, currentPlayerInfo.didNotClaimRoute(claimRoute));
                             } else {
@@ -210,7 +209,7 @@ public final class Game {
         final Map<PlayerId, Trail> longestTrail = new EnumMap<>(PlayerId.class);
         final Map<PlayerId, Integer> playerPoints = new EnumMap<>(PlayerId.class);
 
-        for (PlayerId p : players.keySet()) {
+        for (PlayerId p : playerIds) {
             longestTrail.put(p, Trail.longest(gameState.playerState(p).routes()));
         }
 
@@ -222,7 +221,7 @@ public final class Game {
                 .orElse(0);
 
         //Info for longestTrailBonus
-        for (PlayerId p : longestTrail.keySet()) {
+        for (PlayerId p : playerIds) {
             int length = longestTrail.get(p).length();
             Info playerInfo = new Info(playerNames.get(p));
 
@@ -294,6 +293,7 @@ public final class Game {
      */
     private static void updateGameState(Map<PlayerId, Player> players, GameState newGameState) {
         players.forEach((pi, p) -> p.updateState(newGameState, newGameState.playerState(pi)));
+
     }
 
     /**

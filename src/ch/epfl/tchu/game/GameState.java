@@ -42,7 +42,7 @@ public final class GameState extends PublicGameState {
         Deck<Card> deck = Deck.of(cards, rng);
 
         SortedBag.Builder<Card> playerCards;
-        for (PlayerId playerId: PlayerId.ALL) {
+        for (PlayerId playerId: PlayerId.CURRENT_PLAYERS) {
             playerCards = new SortedBag.Builder<>();
             for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
                 playerCards.add(deck.topCard());
@@ -52,7 +52,7 @@ public final class GameState extends PublicGameState {
         }
         CardState cardState = CardState.of(deck);
 
-        return new GameState(PlayerId.ALL.get(rng.nextInt(PlayerId.COUNT)), Deck.of(tickets, rng), playerState, cardState, null);
+        return new GameState(PlayerId.CURRENT_PLAYERS.get(rng.nextInt(PlayerId.COUNT_FOR_CURRENT_PLAYERS)), Deck.of(tickets, rng), playerState, cardState, null);
     }
 
     /**

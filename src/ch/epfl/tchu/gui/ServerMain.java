@@ -15,16 +15,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
-import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
+import static ch.epfl.tchu.game.PlayerId.*;
 
-/**<h1>ServerMain</h1>
+/**
+ * <h1>ServerMain</h1>
  * Contains the main program of the local client (local player).
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ServerMain extends Application {
     ServerSocket s0;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -40,10 +41,10 @@ public final class ServerMain extends Application {
     public void start(Stage primaryStage) {
         String name1 = "Ada";
         String name2 = "Charles";
-        
+
         List<String> parameters = getParameters().getRaw();
-        
-        if(parameters.size() >= 2) {
+
+        if (parameters.size() >= 2) {
             name1 = parameters.get(0);
             name2 = parameters.get(1);
         }
@@ -54,15 +55,15 @@ public final class ServerMain extends Application {
 
             GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
             RemotePlayerProxy remotePlayerProxy = new RemotePlayerProxy(s);
-            Map<PlayerId, String> playersName = Map.of(PLAYER_1, name1, PLAYER_2, name2);
-            Map<PlayerId, Player> players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy);
+            Map<PlayerId, String> playersName = Map.of(PLAYER_1, name1, PLAYER_2, name2, PLAYER_3, "test");
+            Map<PlayerId, Player> players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy, PLAYER_3, new RemotePlayerProxy(s));
 
             new Thread(() -> Game.play(players, playersName, SortedBag.of(ChMap.tickets()), new Random())).start();
         } catch (Exception e) {
             System.exit(0);
         }
     }
-    
+
     /**
      * Called when the application should stop.
      * Causes the JVM to stop, and the program to exit.

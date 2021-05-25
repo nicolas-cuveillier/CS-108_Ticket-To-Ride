@@ -67,7 +67,8 @@ public final class RemotePlayerClient {
                         if(Launcher.PLAYER_NUMBER == 2) {
                             playerNames = Map.of(PlayerId.PLAYER_1, names.get(0), PlayerId.PLAYER_2, names.get(1));
                         } else {
-                            //todo make for 3 player
+                            playerNames = Map.of(PlayerId.PLAYER_1, names.get(0),
+                                    PlayerId.PLAYER_2, names.get(1),PlayerId.PLAYER_3,names.get(2));
                         }
 
                         player.initPlayers(Serdes.PLAYER_ID.deserialize(message[1]), playerNames);

@@ -2,6 +2,7 @@ package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.gui.Launcher;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -101,6 +102,7 @@ public final class Serdes { //TODO abstract is necessary ?
     public static final Serde<PublicGameState> SC_PUBLIC_GAME_STATE = Serde.of(pgsSerFunction(), pgsDeSerFunction());
 
     //private methods
+
     /**
      * @return the function able to serialize a PublicGameState
      */
@@ -112,6 +114,7 @@ public final class Serdes { //TODO abstract is necessary ?
                     .add(PLAYER_ID.serialize(publicGameState.currentPlayerId()))
                     .add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_1)))
                     .add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_2)))
+                    .add(Launcher.PLAYER_NUMBER == 3 ? SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_3)) : "")
                     .add((publicGameState.lastPlayer() == null) ? "" : PLAYER_ID.serialize(publicGameState.lastPlayer()));
             return joiner.toString();
         };
@@ -123,9 +126,19 @@ public final class Serdes { //TODO abstract is necessary ?
     private static Function<String, PublicGameState> pgsDeSerFunction() {
         return message -> {
             String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_DOUBLE_POINTS)), -1);
+            Map<PlayerId, PublicPlayerState> playerState;
+            PlayerId lastPlayer;
+            if (Launcher.PLAYER_NUMBER == 3) {
+                playerState = Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2,
+                        SC_PUBLIC_PLAYER_STATE.deserialize(t[4]), PlayerId.PLAYER_3, SC_PUBLIC_PLAYER_STATE.deserialize(t[5]));
+                lastPlayer = (t[6].equals("")) ? null : PLAYER_ID.deserialize(t[6]);
+            } else {
+                playerState = Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2,
+                        SC_PUBLIC_PLAYER_STATE.deserialize(t[4]));
+                lastPlayer = (t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]);
+            }
             return new PublicGameState(INT.deserialize(t[0]), SC_PUBLIC_CARD_STATE.deserialize(t[1]), PLAYER_ID.deserialize(t[2]),
-                    Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2,
-                            SC_PUBLIC_PLAYER_STATE.deserialize(t[4])), (t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]));
+                    playerState, lastPlayer);
         };
 
     }

@@ -14,9 +14,10 @@ import javafx.scene.text.TextFlow;
 import java.util.List;
 import java.util.Map;
 
-/**<h1>InfoViewCreator:</h1>
+/**
+ * <h1>InfoViewCreator:</h1>
  * None instantiable class that handles the info panel display within the GUI
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 final class InfoViewCreator {
@@ -46,9 +47,10 @@ final class InfoViewCreator {
         Separator separator = new Separator(Orientation.HORIZONTAL);
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
-
+        List<PlayerId> sortedPlayers = (Launcher.PLAYER_NUMBER == 3) ? List.of(player, player.next(), player.next().next())
+                : List.of(player, player.next());
         //players info
-        for (PlayerId pId : List.of(player, player.next())) {
+        for (PlayerId pId : sortedPlayers) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
             

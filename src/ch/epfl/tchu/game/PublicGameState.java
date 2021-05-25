@@ -35,7 +35,7 @@ public class PublicGameState {
      */
     public PublicGameState(int ticketsCount, PublicCardState cardState, PlayerId currentPlayerId, Map<PlayerId, PublicPlayerState> playerState, PlayerId lastPlayer) {
         Preconditions.checkArgument(ticketsCount >= 0);
-        Preconditions.checkArgument(playerState.size() == PlayerId.COUNT);
+        Preconditions.checkArgument(playerState.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS);
 
         this.ticketsCount = ticketsCount;
         this.cardState = Objects.requireNonNull(cardState);
@@ -43,7 +43,6 @@ public class PublicGameState {
         this.playerState = Map.copyOf(playerState);
         this.lastPlayer = lastPlayer;
     }
-
 
     /**
      * Tests whether it is possible to draw tickets or not.

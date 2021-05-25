@@ -14,7 +14,7 @@ public class Launcher extends Application {
     private final String DEFAULT_HOSTNAME = "localhost";
     private final int DEFAULT_PORT = 5108;
 
-    public static final int PLAYER_NUMBER = 2;
+    public static final int PLAYER_NUMBER = 3;
     private final String DEFAULT_P1NAME = "Ada";
     private final String DEFAULT_P2NAME = "Charles";
     private final String Default_PXNAME = "Player_";
