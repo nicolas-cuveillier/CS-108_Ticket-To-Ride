@@ -57,7 +57,7 @@ public final class ServerMain extends Application {
 
             if (parameters.size() == 3) {
                 Socket s2 = s0.accept();
-                name3 = parameters.get(3);
+                name3 = parameters.get(2);
                 playersName =  Map.of(PLAYER_1, name1, PLAYER_2, name2, PLAYER_3, name3);
                 players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy, PLAYER_3, new RemotePlayerProxy(s2));
             } else {
@@ -67,6 +67,7 @@ public final class ServerMain extends Application {
 
             new Thread(() -> Game.play(players, playersName, SortedBag.of(ChMap.tickets()), new Random())).start();
         } catch (Exception e) {
+            e.printStackTrace();
             System.exit(0);
         }
     }
