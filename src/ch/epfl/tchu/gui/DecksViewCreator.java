@@ -121,7 +121,16 @@ final class DecksViewCreator {
         view.getChildren().add(cardsButton);
         return view;
     }
-    //todo javadoc
+
+    /**
+     * handle the action that will happen after clicking on the drawing card Button. Namely adding a listener to the
+     * top deck card for to design the card pane. Then, making the right transition according to the card.
+     *
+     * @param view an instance of Vbox on which the transition will be settle
+     * @param gameState the observableGameState given to the createCardView method
+     * @param cardHandlerProperty a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawCardHandler} that will handle
+     *      *                               the drawing of cards
+     */
     private static void setOnMouseClickedForCardsButton(VBox view, ObservableGameState gameState,
                                                         ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty) {
         StackPane cardPane = new StackPane();

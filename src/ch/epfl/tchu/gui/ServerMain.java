@@ -52,6 +52,7 @@ public final class ServerMain extends Application {
         try {
             s0 = new ServerSocket(5108);
             Socket s = s0.accept();
+            Socket s2 = s0.accept();
 
             GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
             RemotePlayerProxy remotePlayerProxy = new RemotePlayerProxy(s);

@@ -53,7 +53,7 @@ final class InfoViewCreator {
         for (PlayerId pId : sortedPlayers) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
-            
+
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
