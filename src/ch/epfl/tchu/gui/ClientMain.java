@@ -14,6 +14,7 @@ import java.util.List;
 public final class ClientMain extends Application {
     private final static String DEFAULT_HOSTNAME = "localhost";
     private final static int DEFAULT_PORT = 5108;
+    private final static String DEFAULT_NAME = "Player_";
     
     private String hostname;
     private int port;
@@ -38,6 +39,23 @@ public final class ClientMain extends Application {
         super.init();
     }
     
+    public void init(String[] args) throws Exception {   //todo make this info be returned by the pop-up
+        List<String> parameters = List.of(args);
+        if(parameters.get(0) != "" && parameters.get(1) != "") {
+            System.out.println(args[0] != "");
+            System.out.println(parameters.get(1) != "");
+            System.out.println(parameters.get(0) != "" && parameters.get(1) != "");
+            hostname = parameters.get(0).isBlank()? DEFAULT_HOSTNAME:parameters.get(0);
+            port = parameters.get(1).isBlank()? DEFAULT_PORT:Integer.parseInt(parameters.get(1));
+            name = parameters.get(2).isBlank()? DEFAULT_NAME:parameters.get(2);
+            
+        } else {
+            hostname = DEFAULT_HOSTNAME;
+            port = DEFAULT_PORT;
+        }
+        super.init();
+    }
+    
     /**
      * Firstly, analysing the arguments passed to the program to determine the names of the two players. Then, waiting
      * for a connection from the client on port and creating the two players, the first being a graphical player,
@@ -48,7 +66,11 @@ public final class ClientMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        System.out.println("Started");
         try {
+            System.out.println("host: " + hostname);
+            System.out.println("port: " + port);
+            System.out.println("name: " + name);
             RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port, name);
             new Thread(remotePlayerClient::run).start();
         } catch (Exception e) {

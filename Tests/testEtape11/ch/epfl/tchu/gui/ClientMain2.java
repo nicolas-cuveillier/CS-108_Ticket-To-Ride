@@ -17,6 +17,7 @@ public final class ClientMain2 extends Application {
 
     private String hostname;
     private int port;
+    private String name;
 
     public static void main(String[] args) {
         launch(args);
@@ -25,9 +26,11 @@ public final class ClientMain2 extends Application {
     @Override
     public void init() throws Exception {   //todo make this info be returned by the pop-up
         List<String> parameters = getParameters().getRaw();
-        if(parameters.size() == 2) {
+        if(parameters.size() >= 2) {
             hostname = parameters.get(0);
             port = Integer.parseInt(parameters.get(1));
+            name = parameters.size() == 3?parameters.get(2):"Player_";
+            
         } else {
             hostname = DEFAULT_HOSTNAME;
             port = DEFAULT_PORT;
@@ -46,7 +49,7 @@ public final class ClientMain2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port);
+            RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port, name);
             new Thread(remotePlayerClient::run).start();
         } catch (Exception e) {
             e.printStackTrace();

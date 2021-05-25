@@ -19,6 +19,7 @@ public final class GameState extends PublicGameState {
     private final Deck<Ticket> tickets;
     private final Map<PlayerId, PlayerState> playerState;
     private final CardState cardState;
+    //private final int nbPlayers;
 
     private GameState(PlayerId currentPlayerId, Deck<Ticket> tickets, Map<PlayerId, PlayerState> playerState, CardState cardState, PlayerId lastPlayer) {
         super(tickets.size(), new PublicCardState(cardState.faceUpCards(), cardState.deckSize(),
@@ -27,6 +28,7 @@ public final class GameState extends PublicGameState {
         this.tickets = Objects.requireNonNull(tickets);
         this.playerState = Map.copyOf(playerState);
         this.cardState = Objects.requireNonNull(cardState);
+        //this.nbPlayers = nbPlayers;
     }
 
     /**

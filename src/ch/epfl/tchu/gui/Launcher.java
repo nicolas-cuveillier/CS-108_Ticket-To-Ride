@@ -24,9 +24,9 @@ import javafx.stage.StageStyle;
 public class Launcher extends Application {
     public static final int PLAYER_NUMBER = 3;
 
-    //public static void main(String[] args) {
-     ///   launch(args);
-    //}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -86,15 +86,20 @@ final class LauncherViewCreator {
         
         clientGrid.add(sceneTitleC, 0, 0, 2, 1);
         
+        Label name = new Label("Name : ");
+        clientGrid.add(name, 0, 1);
+        TextField nameText = new TextField();
+        clientGrid.add(nameText, 1, 1);
+        
         Label hostName = new Label("HostName : ");
         clientGrid.add(hostName, 0, 2);
         TextField hostNameText = new TextField();
         clientGrid.add(hostNameText, 1, 2);
+        
         Label port = new Label("Port : ");
         clientGrid.add(port, 2, 2);
-        TextField portName = new TextField();
-
-        clientGrid.add(portName, 3, 2);
+        TextField portText = new TextField();
+        clientGrid.add(portText, 3, 2);
         
         Tab clientTab = new Tab("Client", clientGrid);
         
@@ -104,13 +109,26 @@ final class LauncherViewCreator {
         Button btnServer = new Button("Launch Server");
         btnServer.setOnMouseClicked(e -> {
             String[] args = new String[]{nbPlayersText.getText()};
-            ServerMain.main(args);
+            ServerMain server = new ServerMain();
+            try {
+                server.init(args);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            server.start(new Stage());
         });
         
-        Button btnClient = new Button("Launch Client");
+        Button btnClient = new Button("Connect to server");
         btnClient.setOnMouseClicked(e -> {
-            String[] args = new String[]{hostNameText.getText(), portName.getText()};
-            ClientMain.main(args);
+            String[] args = new String[]{hostNameText.getText(), portText.getText(), nameText.getText()};
+            ClientMain client = new ClientMain();
+            try {
+                client.init(args);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            client.start(new Stage());
+            //ClientMain.main(args);
         });
                 
         serverGrid.add(btnServer, 4, 6);    

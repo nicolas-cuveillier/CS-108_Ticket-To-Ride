@@ -27,11 +27,23 @@ import static ch.epfl.tchu.game.PlayerId.*;
  */
 public final class ServerMain extends Application {
     ServerSocket s0;
+    private int nbPlayers = 2;
 
     public static void main(String[] args) {
         launch(args);
     }
-
+    
+    @Override
+    public void init() throws Exception {
+        super.init();
+        List<String> parameters = getParameters().getRaw();
+        nbPlayers = Integer.parseInt(parameters.get(0));
+    }
+    
+    public void init(String[] args) throws Exception {
+        List<String> parameters = List.of(args);
+        nbPlayers = Integer.parseInt(parameters.get(0));
+    }
     /**
      * Starting point of the server part of the tCHu game. Firstly parsing the arguments passed to the program to
      * determine the host name and port number of the server. Then, creating a remote client associated with a graphical
@@ -45,12 +57,10 @@ public final class ServerMain extends Application {
         String name2 = "Charles";
         String name3 = "Julien";
 
-        List<String> parameters = getParameters().getRaw();
-        int nbPlayers = Integer.parseInt(parameters.get(0));
+        
         
         try {
             s0 = new ServerSocket(5108);
-            Socket s = s0.accept();
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
             Map<PlayerId, String> playerNames = new LinkedHashMap<>(nbPlayers);
 
@@ -59,9 +69,11 @@ public final class ServerMain extends Application {
 
             
             for(int i = 0; i < nbPlayers; i++) {
+                System.out.println("Waiting on player: " + i);
                 sockets[i] = s0.accept();
                 players.put(PlayerId.ALL.get(i), new RemotePlayerProxy(sockets[i], i));
                 playerNames.put(PlayerId.ALL.get(i), players.get(PlayerId.ALL.get(i)).name());
+                System.out.println("Player " + i + " connected !");
             }
                 
             new Thread(() -> Game.play(players, playerNames, SortedBag.of(ChMap.tickets()), new Random())).start();
