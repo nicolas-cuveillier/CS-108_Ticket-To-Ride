@@ -27,9 +27,9 @@ public enum PlayerId {
      */
     public static final int COUNT = ALL.size();
     //todo javadoc
-    public static final List<PlayerId> CURRENT_PLAYERS = ALL.subList(0,Launcher.PLAYER_NUMBER);
+    public static List<PlayerId> CURRENT_PLAYERS = ALL.subList(0,Launcher.PLAYER_NUMBER);
 
-    public static final int COUNT_FOR_CURRENT_PLAYERS = CURRENT_PLAYERS.size();
+    public static int COUNT_FOR_CURRENT_PLAYERS = CURRENT_PLAYERS.size();
 
 
     /**
