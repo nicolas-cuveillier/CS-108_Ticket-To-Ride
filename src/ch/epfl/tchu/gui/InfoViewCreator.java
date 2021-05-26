@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,9 @@ final class InfoViewCreator {
         Separator separator = new Separator(Orientation.HORIZONTAL);
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
-        List<PlayerId> sortedPlayers = makeSortedListOfPlayers(player);
+        
+        List<PlayerId> sortedPlayers = new ArrayList<>(PlayerId.CURRENT_PLAYERS);
+        Collections.rotate(sortedPlayers, -player.ordinal());
         //players info
         for (PlayerId pId : sortedPlayers) {
             TextFlow text = new TextFlow();
@@ -76,23 +79,6 @@ final class InfoViewCreator {
         return infoView;
     }
 
-    /**
-     * Compute a sorted list of players, putting the actual gui's owner in first and all next player in a row
-     *
-     * @param player the owner of the actual GUI
-     * @return a sorted list of the players
-     */
-    private static List<PlayerId> makeSortedListOfPlayers(PlayerId player){
-        List<PlayerId> sortedPlayers = new ArrayList<>();
-        PlayerId firstPlayer = player;
-        sortedPlayers.add(firstPlayer);
-        for (int i = 1; i < PlayerId.COUNT_FOR_CURRENT_PLAYERS; i++) {
-            sortedPlayers.add(firstPlayer.next());
-            firstPlayer = firstPlayer.next();
-        }
-        return sortedPlayers;
-    }
-    
     private static Text makePlayerInfoText(String playerName, ReadOnlyIntegerProperty ticketsCount,
                                            ReadOnlyIntegerProperty cardsCount, ReadOnlyIntegerProperty carsCount,
                                            ReadOnlyIntegerProperty pointsCount) {
