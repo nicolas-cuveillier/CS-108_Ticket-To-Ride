@@ -1,13 +1,19 @@
 package ch.epfl.tchu.gui;
 
+import java.text.ParsePosition;
+import java.text.DecimalFormat;
+
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -36,72 +42,83 @@ final class LauncherViewCreator {
         VBox box = new VBox();
         TabPane tabPane = new TabPane();
         
-        Text sceneTitleC = new Text("Welcome to the Tchu Game");
-        sceneTitleC.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        Text sceneTitleS = new Text("Welcome to the Tchu Game");
-        sceneTitleS.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         
-        
-
-        //Server Tab UI
+        /// ***Server Tab UI***
         GridPane serverGrid = new GridPane();
-        serverGrid.setAlignment(Pos.CENTER);
+        serverGrid.setAlignment(Pos.TOP_CENTER);
         serverGrid.setHgap(10);
         serverGrid.setVgap(10);
         serverGrid.setPadding(new Insets(10, 10, 10, 10));
         
-        serverGrid.add(sceneTitleS, 0, 0, 2, 1);
+        //Server tab title
+        Text sceneTitleS = new Text("Welcome to the Tchu Game");
+        sceneTitleS.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        GridPane.setHalignment(sceneTitleS, HPos.CENTER);
+        serverGrid.add(sceneTitleS, 0, 0, 10, 1);
         
-        Label text = new Label("number of players : ");
-        serverGrid.add(text, 0, 2);
-        
+        //Player number slider
         Slider nbPlayers = new Slider(2, 5, 2);
         nbPlayers.setBlockIncrement(1.0);
         nbPlayers.setMajorTickUnit(1.0);
         nbPlayers.setMinorTickCount(0);
         nbPlayers.setSnapToTicks(true);
         nbPlayers.setShowTickMarks(true);
-        nbPlayers.setShowTickLabels(true);
         serverGrid.add(nbPlayers, 1, 2);
-        
-        Label nbPlayersText = new Label(Long.toString(Math.round(nbPlayers.getValue())));
-        nbPlayers.valueProperty().addListener((obs,oV,nV) -> {nbPlayers.setValue(Math.round(nV.doubleValue())); nbPlayersText.setText(Long.toString(Math.round(nV.doubleValue())));});
-        serverGrid.add(nbPlayersText, 3, 2);
-        
-        Tab serverTab = new Tab("Server", serverGrid);
 
-        //Client Tab UI
-        GridPane clientGrid = new GridPane();
-        clientGrid.setAlignment(Pos.CENTER);
-        clientGrid.setHgap(10);
-        clientGrid.setVgap(10);
-        clientGrid.setPadding(new Insets(10, 10, 10, 10));
+        //Player number slider text label
+        Label nbPlayersLabel = new Label("number of players : ");
+        nbPlayersLabel.setLabelFor(nbPlayers);
+        serverGrid.add(nbPlayersLabel, 0, 2);
         
-        clientGrid.add(sceneTitleC, 0, 0, 2, 1);
+        //Player number slider value label
+        Label nbPlayerValueLabel = new Label(Long.toString(Math.round(nbPlayers.getValue())));
+        nbPlayerValueLabel.setLabelFor(nbPlayers);
+        nbPlayers.valueProperty().addListener((obs,oV,nV) -> {nbPlayers.setValue(Math.round(nV.doubleValue())); nbPlayerValueLabel.setText(Long.toString(Math.round(nV.doubleValue())));});
+        serverGrid.add(nbPlayerValueLabel, 2, 2);
         
-        Label name = new Label("Name : ");
-        clientGrid.add(name, 0, 1);
-        TextField nameText = new TextField();
-        clientGrid.add(nameText, 1, 1);
+        //Port text box warning label
+        Text portWarntextS = new Text("WARNING: TCP port 0 is reserved !");
+        portWarntextS.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, FontPosture.REGULAR, Font.getDefault().getSize()));
+        portWarntextS.setFill(Color.RED);
+        portWarntextS.setVisible(false);
+        serverGrid.add(portWarntextS, 4, 1);
+
+        //Port text box
+        TextField portTextS = new TextField();
+        portTextS.setTextFormatter(new TextFormatter<>(c -> {
+            
+            String s = c.getControlNewText();
+            ParsePosition parsePos = new ParsePosition(0);
+            
+            if(s.isEmpty()) {
+                portWarntextS.setVisible(false);
+                return c;
+            }
+            Number n = new DecimalFormat().parse(s, parsePos);
+
+            if(n == null || parsePos.getIndex()<s.length()) {
+                portWarntextS.setVisible(false);
+                return null;
+            }else {
+                if(n.intValue() == 0) {
+                    portWarntextS.setVisible(true);
+                }else {
+                    portWarntextS.setVisible(false);
+                }
+                return c;
+            }
+        }));
+        serverGrid.add(portTextS, 4, 2);
         
-        Label hostName = new Label("HostName : ");
-        clientGrid.add(hostName, 0, 2);
-        TextField hostNameText = new TextField();
-        clientGrid.add(hostNameText, 1, 2);
+        //Port text box label
+        Label portLabelS = new Label("Server port : ");
+        portLabelS.setLabelFor(portTextS);
+        serverGrid.add(portLabelS, 3, 2);
         
-        Label port = new Label("Port : ");
-        clientGrid.add(port, 2, 2);
-        TextField portText = new TextField();
-        clientGrid.add(portText, 3, 2);
-        
-        Tab clientTab = new Tab("Client", clientGrid);
-        
-        tabPane.getTabs().add(clientTab);
-        tabPane.getTabs().add(serverTab);
-        
+        //Launch server button
         Button btnServer = new Button("Launch Server");
         btnServer.setOnMouseClicked(e -> {
-            String[] args = new String[]{nbPlayersText.getText()};
+            String[] args = new String[]{nbPlayerValueLabel.getText()};
             ServerMain server = new ServerMain();
             try {
                 server.init(args);
@@ -110,10 +127,91 @@ final class LauncherViewCreator {
             }
             server.start(new Stage());
         });
+        serverGrid.add(btnServer, 4, 3);
         
+        Tab serverTab = new Tab("Server", serverGrid);
+        serverTab.setClosable(false);
+        
+        
+        
+        /// ***Client Tab UI***
+        GridPane clientGrid = new GridPane();
+        clientGrid.setAlignment(Pos.TOP_CENTER);
+        clientGrid.setHgap(10);
+        clientGrid.setVgap(10);
+        clientGrid.setPadding(new Insets(10, 10, 10, 10));
+        
+        //Client tab title
+        Text sceneTitleC = new Text("Welcome to the Tchu Game");
+        sceneTitleC.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        GridPane.setHalignment(sceneTitleC, HPos.CENTER);
+        clientGrid.add(sceneTitleC, 0, 0, 4, 1);
+        
+        //Name text box
+        TextField nameText = new TextField();
+        clientGrid.add(nameText, 1, 1);
+        
+        //Name text box label
+        Label nameLabel = new Label("Name : ");
+        nameLabel.setLabelFor(nameText);
+        GridPane.setHalignment(nameLabel, HPos.RIGHT);
+        clientGrid.add(nameLabel, 0, 1);
+        
+        //Hostname text box
+        TextField hostnameText = new TextField();
+        clientGrid.add(hostnameText, 1, 2);
+        
+        //Hostname text box label
+        Label hostnameLabel = new Label("Hostname : ");
+        hostnameLabel.setLabelFor(hostnameText);
+        GridPane.setHalignment(hostnameLabel, HPos.RIGHT);
+        clientGrid.add(hostnameLabel, 0, 2);
+        
+        //Port text box warning label
+        Text portWarntextC = new Text("WARNING: TCP port 0 is reserved !");
+        portWarntextC.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, FontPosture.REGULAR, Font.getDefault().getSize()));
+        portWarntextC.setFill(Color.RED);
+        portWarntextC.setVisible(false);
+        clientGrid.add(portWarntextC, 3, 1);
+        
+        //Port text box
+        TextField portTextC = new TextField();
+        portTextC.setTextFormatter(new TextFormatter<>(c -> {
+            
+            String s = c.getControlNewText();
+            ParsePosition parsePos = new ParsePosition(0);
+            
+            if(s.isEmpty()) {
+                portWarntextC.setVisible(false);
+                return c;
+            }
+            Number n = new DecimalFormat().parse(s, parsePos);
+
+            if(n == null || parsePos.getIndex()<s.length()) {
+                portWarntextC.setVisible(false);
+                return null;
+            }else {
+                if(n.intValue() == 0) {
+                    portWarntextC.setVisible(true);
+                }else {
+                    portWarntextC.setVisible(false);
+                }
+                return c;
+            }
+        }));
+        clientGrid.add(portTextC, 3, 2);
+        
+        //Port text box label
+        Label portLabelC = new Label("Port : ");
+        portLabelC.setAlignment(Pos.CENTER_LEFT);
+        portLabelC.setLabelFor(portTextC);
+        GridPane.setHalignment(portLabelC, HPos.RIGHT);
+        clientGrid.add(portLabelC, 2, 2);
+        
+        //Run client button
         Button btnClient = new Button("Connect to server");
         btnClient.setOnMouseClicked(e -> {
-            String[] args = new String[]{hostNameText.getText(), portText.getText(), nameText.getText()};
+            String[] args = new String[]{hostnameText.getText(), portTextC.getText(), nameText.getText()};
             ClientMain client = new ClientMain();
             try {
                 client.init(args);
@@ -121,12 +219,21 @@ final class LauncherViewCreator {
                 e1.printStackTrace();
             }
             client.start(new Stage());
-            //ClientMain.main(args);
         });
-                
-        serverGrid.add(btnServer, 4, 6);    
-        clientGrid.add(btnClient, 2, 4);
+        clientGrid.add(btnClient, 3, 3);
 
+        clientGrid.setGridLinesVisible(true);
+        serverGrid.setGridLinesVisible(true);
+        
+        Tab clientTab = new Tab("Client", clientGrid);
+        clientTab.setClosable(false);
+        
+        tabPane.getTabs().add(clientTab);
+        tabPane.getTabs().add(serverTab);
+                
+        
+        
+        /// ***Main scene UI***
         box.getChildren().add(tabPane);
         Scene scene = new Scene(box, 680, 280);
         Stage stage = new Stage(StageStyle.UTILITY);
