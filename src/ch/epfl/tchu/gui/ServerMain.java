@@ -24,6 +24,8 @@ import java.util.Random;
  */
 public final class ServerMain extends Application {
     private final String[] names = new String[] {"Ada", "Charles", "Player_", "Player_", "Player_"};
+    private Boolean localPlayer = false;
+    private String localPlayerName = "Ada";
     ServerSocket s0;
     private int nbPlayers = 2;
 
@@ -41,6 +43,9 @@ public final class ServerMain extends Application {
     public void init(String[] args) throws Exception {
         List<String> parameters = List.of(args);
         nbPlayers = Integer.parseInt(parameters.get(0));
+        localPlayer = parameters.size() >= 2;
+        localPlayerName = localPlayer?parameters.get(1):"";
+        
     }
     /**
      * Starting point of the server part of the tCHu game. Firstly parsing the arguments passed to the program to
@@ -61,11 +66,16 @@ public final class ServerMain extends Application {
 
             
             for(int i = 0; i < nbPlayers; i++) {
-                System.out.println("Waiting on player: " + i);
-                sockets[i] = s0.accept();
-                players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
-                playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
-                System.out.println("Player " + i + " connected !");
+                if(localPlayer && i == 0) {
+                    players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
+                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
+                }else {
+                    System.out.println("Waiting on player: " + i);
+                    sockets[i] = s0.accept();
+                    players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
+                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
+                    System.out.println("Player " + i + " connected !");
+                }
             }
                 
             new Thread(() -> Game.play(players, playerNames, SortedBag.of(ChMap.tickets()), new Random())).start();
