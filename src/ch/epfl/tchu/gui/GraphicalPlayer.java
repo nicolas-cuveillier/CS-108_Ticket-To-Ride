@@ -130,7 +130,7 @@ public final class GraphicalPlayer {
     public void chooseTickets(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         assert isFxApplicationThread();
         //tickets selection window
-        Stage ticketsSelectorStage = initialTicketsSelector(options, chooseTicketsH);
+        Stage ticketsSelectorStage = ticketsSelector(options, chooseTicketsH);
         ticketsSelectorStage.show();
     }
 
@@ -218,7 +218,7 @@ public final class GraphicalPlayer {
      * create the tickets selector panel, a stage own by the main stage, according to a sortedBag of tickets and a
      * ChooseTicketsHandler
      */
-    private Stage initialTicketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
+    private Stage ticketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         Stage selectorStage = new Stage(StageStyle.UTILITY);
 
         ListView<Ticket> listViewSelector = new ListView<>(FXCollections.observableArrayList(options.toList()));

@@ -2,6 +2,7 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.game.PlayerId;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -11,6 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +49,7 @@ final class InfoViewCreator {
         Separator separator = new Separator(Orientation.HORIZONTAL);
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
-        List<PlayerId> sortedPlayers = (Launcher.PLAYER_NUMBER == 3) ? List.of(player, player.next(), player.next().next())
-                : List.of(player, player.next());
+        List<PlayerId> sortedPlayers = makeSortedListOfPlayers(player);
         //players info
         for (PlayerId pId : sortedPlayers) {
             TextFlow text = new TextFlow();
@@ -57,12 +58,9 @@ final class InfoViewCreator {
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
-            Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playersName.get(pId),
+            Text playerInfo = makePlayerInfoText(playersName.get(pId),
                     gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
-                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
-            playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playersName.get(pId),
-                    gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
-                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId)));
+                    gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId));
 
             text.getChildren().addAll(coloredCircle, playerInfo);
             playersStatView.getChildren().add(text);
@@ -76,5 +74,34 @@ final class InfoViewCreator {
 
         infoView.getChildren().addAll(playersStatView, separator, inGameInfoText);
         return infoView;
+    }
+
+    /**
+     * Compute a sorted list of players, putting the actual gui's owner in first and all next player in a row
+     *
+     * @param player the owner of the actual GUI
+     * @return a sorted list of the players
+     */
+    private static List<PlayerId> makeSortedListOfPlayers(PlayerId player){
+        List<PlayerId> sortedPlayers = new ArrayList<>();
+        PlayerId firstPlayer = player;
+        sortedPlayers.add(firstPlayer);
+        for (int i = 1; i < PlayerId.COUNT_FOR_CURRENT_PLAYERS; i++) {
+            sortedPlayers.add(firstPlayer.next());
+            firstPlayer = firstPlayer.next();
+        }
+        return sortedPlayers;
+    }
+    
+    private static Text makePlayerInfoText(String playerName, ReadOnlyIntegerProperty ticketsCount,
+                                           ReadOnlyIntegerProperty cardsCount, ReadOnlyIntegerProperty carsCount,
+                                           ReadOnlyIntegerProperty pointsCount) {
+
+        Text playerInfo = new Text(String.format(StringsFr.PLAYER_STATS, playerName,
+                ticketsCount, cardsCount, carsCount, pointsCount));
+        playerInfo.textProperty().bind(Bindings.format(StringsFr.PLAYER_STATS, playerName,
+                ticketsCount, cardsCount, carsCount, pointsCount));
+
+        return playerInfo;
     }
 }

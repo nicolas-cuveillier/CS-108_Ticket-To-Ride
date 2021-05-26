@@ -5,11 +5,11 @@ import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.game.Ticket;
-import ch.epfl.tchu.gui.Launcher;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -64,17 +64,16 @@ public final class RemotePlayerClient {
 
                 switch (MessageId.valueOf(message[0])) {
                     case SEND_NAME:
-                        String n = (name == "Player_"?name.concat(message[1]):name);
+                        String n = (name.equals("Player_") ? name.concat(message[1]) : name);
                         writeMessage(writer, Serdes.STRING.serialize(n));
                         break;
                     case INIT_PLAYERS:
                         List<String> names = Serdes.L_STRING.deserialize(message[2]);
-                        Map<PlayerId, String> playerNames;
-                        if(Launcher.PLAYER_NUMBER == 2) {
-                            playerNames = Map.of(PlayerId.PLAYER_1, names.get(0), PlayerId.PLAYER_2, names.get(1));
-                        } else {
-                            playerNames = Map.of(PlayerId.PLAYER_1, names.get(0),
-                                    PlayerId.PLAYER_2, names.get(1),PlayerId.PLAYER_3,names.get(2));
+                        Map<PlayerId, String> playerNames = new HashMap<>();
+                        int index = 0;
+                        for (PlayerId p : PlayerId.CURRENT_PLAYERS) {
+                            playerNames.put(p, names.get(index));
+                            ++index;
                         }
 
                         player.initPlayers(Serdes.PLAYER_ID.deserialize(message[1]), playerNames);
