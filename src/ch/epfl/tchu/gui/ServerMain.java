@@ -23,6 +23,7 @@ import java.util.Random;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ServerMain extends Application {
+    private final String[] names = new String[] {"Ada", "Charles", "Player_", "Player_", "Player_"};
     ServerSocket s0;
     private int nbPlayers = 2;
 
@@ -50,12 +51,6 @@ public final class ServerMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        String name1 = "Ada";
-        String name2 = "Charles";
-        String name3 = "Julien";
-
-        
-
         try {
             s0 = new ServerSocket(5108);
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
@@ -69,7 +64,7 @@ public final class ServerMain extends Application {
                 System.out.println("Waiting on player: " + i);
                 sockets[i] = s0.accept();
                 players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
-                playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
+                playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
                 System.out.println("Player " + i + " connected !");
             }
                 
