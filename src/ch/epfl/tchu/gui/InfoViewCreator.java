@@ -50,7 +50,7 @@ final class InfoViewCreator {
         Separator separator = new Separator(Orientation.HORIZONTAL);
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
-        
+
         List<PlayerId> sortedPlayers = new ArrayList<>(PlayerId.CURRENT_PLAYERS);
         Collections.rotate(sortedPlayers, -player.ordinal());
         //players info
