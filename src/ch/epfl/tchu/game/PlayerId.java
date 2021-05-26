@@ -27,25 +27,16 @@ public enum PlayerId {
      */
     public static final int COUNT = ALL.size();
     //todo javadoc
-    public static final List<PlayerId> CURRENT_PLAYERS = computeCurrentPlayer();
+    public static final List<PlayerId> CURRENT_PLAYERS = ALL.subList(0,Launcher.PLAYER_NUMBER);
+
     public static final int COUNT_FOR_CURRENT_PLAYERS = CURRENT_PLAYERS.size();
 
-    private static List<PlayerId> computeCurrentPlayer(){
-        switch (Launcher.PLAYER_NUMBER) {
-            case 2 : return ALL.subList(0,2);
-            case 3 : return ALL.subList(0,3);
-            case 4 : return ALL.subList(0,4);
-            case 5 : return ALL.subList(0,5);
-            default: throw new Error();
-        }
-    }
 
     /**
      * Return the other player's id, given a player's id.
      *
      * @return (PlayerId) the other PlayerId.
      */
-    //todo change ALL for currentPlayer
     public PlayerId next() {
         return (this.ordinal() == (CURRENT_PLAYERS.size() - 1)) ? CURRENT_PLAYERS.get(0) : CURRENT_PLAYERS.get(this.ordinal() + 1);
     }

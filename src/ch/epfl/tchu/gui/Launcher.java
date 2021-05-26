@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Launcher extends Application {
-    public static final int PLAYER_NUMBER = 3;
+    public static final int PLAYER_NUMBER = 2;
 
     public static void main(String[] args) {
         launch(args);

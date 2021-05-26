@@ -46,6 +46,7 @@ public final class Game {
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
         Preconditions.checkArgument(players.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS && playerNames.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS);
         List<PlayerId> playerIds = new ArrayList<>(players.keySet());
+
         //1.communicate names
         players.forEach((id, player) -> player.initPlayers(id, playerNames));
 
@@ -231,6 +232,7 @@ public final class Game {
             } else playerPoints.put(p, gameState.playerState(p).finalPoints());
         }
 
+
         final int winnerPoints = playerPoints.values()
                 .stream()
                 .max(Integer::compareTo)
@@ -239,6 +241,10 @@ public final class Game {
         List<PlayerId> winnerList = playerPoints.keySet()
                 .stream()
                 .filter(e -> playerPoints.get(e).equals(winnerPoints))
+                .collect(Collectors.toList());
+        List<PlayerId> looserList = players.keySet()
+                .stream()
+                .filter(e -> !winnerList.contains(e))
                 .collect(Collectors.toList());
 
 
