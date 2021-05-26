@@ -41,18 +41,9 @@ public final class ClientMain extends Application {
     
     public void init(String[] args) throws Exception {   //todo make this info be returned by the pop-up
         List<String> parameters = List.of(args);
-        if(!parameters.get(0).equals("") && !parameters.get(1).equals("")) {
-            System.out.println(!args[0].equals(""));
-            System.out.println(!parameters.get(1).equals(""));
-            System.out.println(!parameters.get(0).equals("") && !parameters.get(1).equals(""));
-            hostname = parameters.get(0).isBlank()? DEFAULT_HOSTNAME:parameters.get(0);
-            port = parameters.get(1).isBlank()? DEFAULT_PORT:Integer.parseInt(parameters.get(1));
-            name = parameters.get(2).isBlank()? DEFAULT_NAME:parameters.get(2);
-            
-        } else {
-            hostname = DEFAULT_HOSTNAME;
-            port = DEFAULT_PORT;
-        }
+        hostname = parameters.get(0).isBlank()? DEFAULT_HOSTNAME:parameters.get(0);
+        port = parameters.get(1).isBlank()? DEFAULT_PORT:Integer.parseInt(parameters.get(1));
+        name = parameters.get(2).isBlank()? DEFAULT_NAME:parameters.get(2);
         super.init();
     }
     
