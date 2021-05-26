@@ -202,7 +202,7 @@ public final class GraphicalPlayer {
 
         ObservableList<SortedBag<Card>> chosenCards = listViewSelector.getSelectionModel().getSelectedItems();
 
-        Button selectorButton = new Button("Choisir");
+        Button selectorButton = new Button(StringsFr.CHOOSE);
         if (!isAdditionalCardSelector) selectorButton.disableProperty().bind(Bindings.size(chosenCards).isEqualTo(0));
 
         selectorButton.setOnAction(e -> {
@@ -226,14 +226,13 @@ public final class GraphicalPlayer {
 
         ListView<Ticket> listViewSelector = new ListView<>(FXCollections.observableArrayList(options.toList()));
         listViewSelector.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        ObservableList<Ticket> chosenTickets = listViewSelector.getSelectionModel().getSelectedItems();
 
-        Button selectorButton = new Button("Choisir");
-        selectorButton.disableProperty().bind(Bindings.size(chosenTickets)
+        Button selectorButton = new Button(StringsFr.CHOOSE);
+        selectorButton.disableProperty().bind(Bindings.size(listViewSelector.getSelectionModel().getSelectedItems())
                 .lessThan(listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT));
         selectorButton.setOnAction(e -> {
+            chooseTicketsH.onChooseTickets(SortedBag.of(listViewSelector.getSelectionModel().getSelectedItems()));
             selectorStage.hide();
-            chooseTicketsH.onChooseTickets(SortedBag.of(chosenTickets));
         });
 
         TextFlow textFlow = new TextFlow();

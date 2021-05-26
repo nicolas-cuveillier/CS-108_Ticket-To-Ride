@@ -9,7 +9,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import static javafx.application.Platform.runLater;
 
-/**<h1>GraphicalPlayerAdapter</h1>
+/**
+ * <h1>GraphicalPlayerAdapter</h1>
  * Hides the GraphicalPlayer component behind a Player on server side and bridges the Player's method to the
  * corresponding GraphicalPlayer's method.
  *
