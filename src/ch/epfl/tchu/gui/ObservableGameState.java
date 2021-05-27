@@ -131,8 +131,7 @@ public final class ObservableGameState {
             Route nextRoute = getDoubleRoute(route);
 
             if (!possibleClaimCards(route).isEmpty() && !newGameState.claimedRoutes().contains(route))
-                if (nextRoute == null) claimableRoutes.get(route).setValue(true);
-                else claimableRoutes.get(route).setValue(!newGameState.claimedRoutes().contains(nextRoute));
+                claimableRoutes.get(route).setValue(nextRoute == null || !newGameState.claimedRoutes().contains(nextRoute));
             else claimableRoutes.get(route).setValue(false);
         }
     }
