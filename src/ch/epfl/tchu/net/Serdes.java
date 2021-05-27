@@ -3,9 +3,11 @@ package ch.epfl.tchu.net;
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
 import ch.epfl.tchu.gui.Launcher;
+import ch.epfl.tchu.gui.ServerMain;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -111,11 +113,12 @@ public final class Serdes { //TODO abstract is necessary ?
             StringJoiner joiner = new StringJoiner(Character.toString(SEPARATOR_DOUBLE_POINTS));
             joiner.add(INT.serialize(publicGameState.ticketsCount()))
                     .add(SC_PUBLIC_CARD_STATE.serialize(publicGameState.cardState()))
-                    .add(PLAYER_ID.serialize(publicGameState.currentPlayerId()))
-                    .add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_1)))
-                    .add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_2)))
-                    .add(Launcher.PLAYER_NUMBER == 3 ? SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(PlayerId.PLAYER_3)) : "")
-                    .add((publicGameState.lastPlayer() == null) ? "" : PLAYER_ID.serialize(publicGameState.lastPlayer()));
+                    .add(PLAYER_ID.serialize(publicGameState.currentPlayerId()));
+            
+            for(PlayerId p : PlayerId.CURRENT_PLAYERS)
+                joiner.add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(p)));
+            
+            joiner.add((publicGameState.lastPlayer() == null) ? "" : PLAYER_ID.serialize(publicGameState.lastPlayer()));
             return joiner.toString();
         };
     }
@@ -126,17 +129,12 @@ public final class Serdes { //TODO abstract is necessary ?
     private static Function<String, PublicGameState> pgsDeSerFunction() {
         return message -> {
             String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_DOUBLE_POINTS)), -1);
-            Map<PlayerId, PublicPlayerState> playerState;
+            Map<PlayerId, PublicPlayerState> playerState = new LinkedHashMap<>(ServerMain.nbPlayers);
             PlayerId lastPlayer;
-            if (Launcher.PLAYER_NUMBER == 3) {
-                playerState = Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2,
-                        SC_PUBLIC_PLAYER_STATE.deserialize(t[4]), PlayerId.PLAYER_3, SC_PUBLIC_PLAYER_STATE.deserialize(t[5]));
-                lastPlayer = (t[6].equals("")) ? null : PLAYER_ID.deserialize(t[6]);
-            } else {
-                playerState = Map.of(PlayerId.PLAYER_1, SC_PUBLIC_PLAYER_STATE.deserialize(t[3]), PlayerId.PLAYER_2,
-                        SC_PUBLIC_PLAYER_STATE.deserialize(t[4]));
-                lastPlayer = (t[5].equals("")) ? null : PLAYER_ID.deserialize(t[5]);
-            }
+            
+            for(int i = 0; i<ServerMain.nbPlayers;i++)
+                playerState.put(PlayerId.CURRENT_PLAYERS.get(i), SC_PUBLIC_PLAYER_STATE.deserialize(t[i+3]));
+            lastPlayer = (t[ServerMain.nbPlayers+3].equals("") ? null : PLAYER_ID.deserialize(t[ServerMain.nbPlayers+3]));
             return new PublicGameState(INT.deserialize(t[0]), SC_PUBLIC_CARD_STATE.deserialize(t[1]), PLAYER_ID.deserialize(t[2]),
                     playerState, lastPlayer);
         };

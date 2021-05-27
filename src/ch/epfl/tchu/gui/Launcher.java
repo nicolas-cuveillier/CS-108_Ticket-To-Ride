@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Launcher extends Application {
-    public static int PLAYER_NUMBER = 2; //todo
 
     public static void main(String[] args) {
         launch(args);
@@ -216,8 +215,8 @@ final class LauncherViewCreator {
         });
         clientGrid.add(btnClient, 3, 3);
 
-        clientGrid.setGridLinesVisible(true);
-        serverGrid.setGridLinesVisible(true);
+        //clientGrid.setGridLinesVisible(true);
+        //serverGrid.setGridLinesVisible(true);
 
         Tab clientTab = new Tab("Client", clientGrid);
         clientTab.setClosable(false);

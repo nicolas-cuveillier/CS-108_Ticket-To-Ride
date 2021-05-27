@@ -1,6 +1,7 @@
 package ch.epfl.tchu.game;
 
 import ch.epfl.tchu.gui.Launcher;
+import ch.epfl.tchu.gui.ServerMain;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public enum PlayerId {
      */
     public static final int COUNT = ALL.size();
     //todo javadoc
-    public static List<PlayerId> CURRENT_PLAYERS = ALL.subList(0,Launcher.PLAYER_NUMBER);
+    public static List<PlayerId> CURRENT_PLAYERS = ALL.subList(0,ServerMain.nbPlayers);
 
     public static int COUNT_FOR_CURRENT_PLAYERS = CURRENT_PLAYERS.size();
 

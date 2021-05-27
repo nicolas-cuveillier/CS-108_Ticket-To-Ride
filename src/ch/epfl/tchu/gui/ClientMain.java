@@ -57,11 +57,7 @@ public final class ClientMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        System.out.println("Started");
         try {
-            System.out.println("host: " + hostname);
-            System.out.println("port: " + port);
-            System.out.println("name: " + name);
             RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port, name);
             new Thread(remotePlayerClient::run).start();
         } catch (Exception e) {

@@ -4,6 +4,8 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
+import ch.epfl.tchu.game.PlayerState;
+import ch.epfl.tchu.game.PublicGameState;
 import ch.epfl.tchu.game.Ticket;
 
 import java.io.*;
@@ -84,7 +86,9 @@ public final class RemotePlayerClient {
                         break;
 
                     case UPDATE_STATE:
-                        player.updateState(Serdes.SC_PUBLIC_GAME_STATE.deserialize(message[1]), Serdes.SC_PLAYER_STATE.deserialize(message[2]));
+                        PublicGameState pgs = Serdes.SC_PUBLIC_GAME_STATE.deserialize(message[1]);
+                        PlayerState ps = Serdes.SC_PLAYER_STATE.deserialize(message[2]);
+                        player.updateState(pgs, ps);
                         break;
 
                     case SET_INITIAL_TICKETS:

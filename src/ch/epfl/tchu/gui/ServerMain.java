@@ -27,7 +27,7 @@ public final class ServerMain extends Application {
     private Boolean localPlayer = false;
     private String localPlayerName = "Ada";
     ServerSocket s0;
-    private int nbPlayers = 2;
+    public static int nbPlayers = 2;
 
     public static void main(String[] args) {
         launch(args);
@@ -56,6 +56,7 @@ public final class ServerMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        System.out.println(nbPlayers);
         try {
             s0 = new ServerSocket(5108);
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
