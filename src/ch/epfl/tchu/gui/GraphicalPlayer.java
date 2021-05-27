@@ -131,7 +131,7 @@ public final class GraphicalPlayer {
     public void chooseTickets(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         assert isFxApplicationThread();
         //tickets selection window
-        Stage ticketsSelectorStage = initialTicketsSelector(options, chooseTicketsH);
+        Stage ticketsSelectorStage = ticketsSelector(options, chooseTicketsH);
         ticketsSelectorStage.show();
     }
 
@@ -221,7 +221,7 @@ public final class GraphicalPlayer {
      * create the tickets selector panel, a stage own by the main stage, according to a sortedBag of tickets and a
      * ChooseTicketsHandler
      */
-    private Stage initialTicketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
+    private Stage ticketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {
         Stage selectorStage = new Stage(StageStyle.UTILITY);
 
         ListView<Ticket> listViewSelector = new ListView<>(FXCollections.observableArrayList(options.toList()));
@@ -230,19 +230,19 @@ public final class GraphicalPlayer {
         Button selectorButton = new Button(StringsFr.CHOOSE);
         selectorButton.disableProperty().bind(Bindings.size(listViewSelector.getSelectionModel().getSelectedItems())
                 .lessThan(listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT));
-        selectorButton.setOnAction(e -> {
-            chooseTicketsH.onChooseTickets(SortedBag.of(listViewSelector.getSelectionModel().getSelectedItems()));
-            selectorStage.hide();
-        });
 
+        int minSize = listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT;
         TextFlow textFlow = new TextFlow();
-        Text text = new Text(String.format(StringsFr.CHOOSE_TICKETS,
-                listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT,
-                StringsFr.plural(listViewSelector.getItems().size() - Constants.DISCARDABLE_TICKETS_COUNT)));
+        Text text = new Text(String.format(StringsFr.CHOOSE_TICKETS, minSize, StringsFr.plural(minSize)));
         textFlow.getChildren().add(text);
 
         VBox selectorBox = new VBox();
         selectorBox.getChildren().addAll(textFlow, selectorButton, listViewSelector);
+
+        selectorButton.setOnAction(e -> {
+            chooseTicketsH.onChooseTickets(SortedBag.of(listViewSelector.getSelectionModel().getSelectedItems()));
+            selectorStage.hide();
+        });
 
         return setStageFromBox(selectorStage, selectorBox, StringsFr.TICKETS);
     }

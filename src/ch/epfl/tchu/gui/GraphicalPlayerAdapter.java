@@ -6,6 +6,7 @@ import ch.epfl.tchu.game.*;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import static javafx.application.Platform.runLater;
 
@@ -18,11 +19,11 @@ import static javafx.application.Platform.runLater;
  */
 public final class GraphicalPlayerAdapter implements Player {
     private GraphicalPlayer graphicalPlayer;
-    private final ArrayBlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
-    private final ArrayBlockingQueue<TurnKind> blockingTurnKindQueue;
-    private final ArrayBlockingQueue<Integer> blockingCardIndexQueue;
-    private final ArrayBlockingQueue<Route> blockingRouteQueue;
-    private final ArrayBlockingQueue<SortedBag<Card>> blockingCardsQueue;
+    private final BlockingQueue<SortedBag<Ticket>> blockingTicketsQueue;
+    private final BlockingQueue<TurnKind> blockingTurnKindQueue;
+    private final BlockingQueue<Integer> blockingCardIndexQueue;
+    private final BlockingQueue<Route> blockingRouteQueue;
+    private final BlockingQueue<SortedBag<Card>> blockingCardsQueue;
 
     /**
      * Unique constructor of a Graphical adapter which is in charge to simply initialize BlockingQueue
@@ -105,13 +106,13 @@ public final class GraphicalPlayerAdapter implements Player {
     public TurnKind nextTurn() {
         runLater(() -> graphicalPlayer.startTurn(() -> blockingTurnKindQueue.add(TurnKind.DRAW_TICKETS),
                 (index) -> {
-                    blockingTurnKindQueue.add(TurnKind.DRAW_CARDS);
                     blockingCardIndexQueue.add(index);
+                    blockingTurnKindQueue.add(TurnKind.DRAW_CARDS);
                 },
                 (route, cards) -> {
-                    blockingTurnKindQueue.add(TurnKind.CLAIM_ROUTE);
                     blockingRouteQueue.add(route);
                     blockingCardsQueue.add(cards);
+                    blockingTurnKindQueue.add(TurnKind.CLAIM_ROUTE);
                 }));
 
         try {

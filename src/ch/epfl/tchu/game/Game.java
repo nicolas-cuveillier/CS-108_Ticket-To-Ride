@@ -111,7 +111,7 @@ public final class Game {
                     receiveInfoForBothPlayer(players, currentPlayerInfo.drewTickets(drawnTickets.size()));
 
                     SortedBag<Ticket> chosenTickets = players.get(currentPlayer).chooseTickets(drawnTickets);
-                    gameState = gameState.withoutTopTickets(Constants.IN_GAME_TICKETS_COUNT);
+                    gameState = gameState.withChosenAdditionalTickets(drawnTickets,chosenTickets);
 
                     receiveInfoForBothPlayer(players, currentPlayerInfo.keptTickets(chosenTickets.size()));
                     break;
