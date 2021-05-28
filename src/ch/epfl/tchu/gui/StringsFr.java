@@ -67,6 +67,10 @@ public final class StringsFr {
             "\n%s sont ex æqo avec %s points !\n";
     public static final String DRAW_AND_LAST =
             "\n%s sont ex æqo avec %s points !%s est dernier avec %s!\n";
+    public static final String RANKING =
+            "\n ======CLASSEMENT=====\n";
+    public static final String PLAYER_POINTS =
+            "\n %s : %3d points\n";
 
     // Statistiques des joueurs
     public static final String PLAYER_STATS =

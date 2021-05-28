@@ -2,15 +2,18 @@ package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.Card;
+import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.game.Route;
 import ch.epfl.tchu.game.Trail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-/**<h1>Info</h1>
+/**
+ * <h1>Info</h1>
  * Handles the creation of info messages displayed to the players during the game. Returns the message as a String.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class Info {
@@ -214,13 +217,13 @@ public final class Info {
     /**
      * message when the game end, saying that some players are ex æqo and that a third player is last.
      *
-     * @param playerNames the list all player being ex æqo
+     * @param playerNames  the list all player being ex æqo
      * @param winnerPoints the winners point
-     * @param looserName name of the player who have loose the game
+     * @param looserName   name of the player who have loose the game
      * @param looserPoints the looser point
      * @return (String)
      */
-    public static String drawAndLast(List<String> playerNames, int winnerPoints,String looserName, int looserPoints){
+    public static String drawAndLast(List<String> playerNames, int winnerPoints, String looserName, int looserPoints) {
         final StringBuilder text = new StringBuilder();
 
         for (int i = 0; i < playerNames.size(); i++) {
@@ -228,7 +231,7 @@ public final class Info {
             if (i != playerNames.size() - 1)
                 text.append(StringsFr.AND_SEPARATOR);
         }
-        return String.format(StringsFr.DRAW_AND_LAST, text, winnerPoints,looserName,looserPoints);
+        return String.format(StringsFr.DRAW_AND_LAST, text, winnerPoints, looserName, looserPoints);
     }
 
     private static String routeText(Route route) {
@@ -265,6 +268,17 @@ public final class Info {
         }
 
         return text.toString();
+    }
+
+    public static String ranking(Map<PlayerId, Integer> playersPoint, Map<PlayerId, String> playersName) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(StringsFr.RANKING);
+
+        for (PlayerId pId : playersPoint.keySet()) {
+            builder.append(String.format(StringsFr.PLAYER_POINTS, playersName.get(pId), playersPoint.get(pId)));
+        }
+
+        return builder.toString();
     }
 
 }

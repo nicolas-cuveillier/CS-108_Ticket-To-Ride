@@ -5,7 +5,6 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.gui.Info;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <h1>Game</h1>
@@ -110,7 +109,7 @@ public final class Game {
                     receiveInfoForAllPlayer(players, currentPlayerInfo.drewTickets(drawnTickets.size()));
 
                     SortedBag<Ticket> chosenTickets = players.get(currentPlayer).chooseTickets(drawnTickets);
-                    gameState = gameState.withChosenAdditionalTickets(drawnTickets,chosenTickets);
+                    gameState = gameState.withChosenAdditionalTickets(drawnTickets, chosenTickets);
 
                     receiveInfoForAllPlayer(players, currentPlayerInfo.keptTickets(chosenTickets.size()));
                     break;
@@ -232,63 +231,18 @@ public final class Game {
             } else playerPoints.put(p, gameState.playerState(p).finalPoints());
         }
 
+        //used to sort players according to their points for computing ranking
+        Map<PlayerId, Integer> sortedPLayersPoints = new TreeMap<>(((o1, o2) -> {
+            if (playerPoints.get(o1).equals(playerPoints.get(o2))) return 0;
+            else if (playerPoints.get(o1) > playerPoints.get(o2)) return 1;
+            else return -1;
+        }));
 
-        final int winnerPoints = playerPoints.values()
-                .stream()
-                .max(Integer::compareTo)
-                .orElse(0);
-
-        List<PlayerId> winnerList = playerPoints.keySet()
-                .stream()
-                .filter(e -> playerPoints.get(e).equals(winnerPoints))
-                .collect(Collectors.toList());
-        List<PlayerId> looserList = players.keySet()
-                .stream()
-                .filter(e -> !winnerList.contains(e))
-                .collect(Collectors.toList());
-
-
-        int numberOfWinner = winnerList.size();
-
-        //end of the game, sending message for win or loose
-        switch (numberOfWinner) {
-            case 1:
-                PlayerId winner = winnerList.get(0);
-                if (players.size() == 2) {
-                    receiveInfoForAllPlayer(players, new Info(playerNames.get(winner)).won(winnerPoints,
-                            playerPoints.get(winner.next())));
-                } else {
-                    //todo message
-                }
-
-                break;
-            case 2:
-                List<String> winnerNames = playerNames.keySet().stream()
-                        .filter(winnerList::contains)
-                        .map(playerNames::get)
-                        .collect(Collectors.toList());
-
-                if (players.size() == 2) receiveInfoForAllPlayer(players, Info.draw(winnerNames, winnerPoints));
-                else {
-                    String looserName = playerNames.keySet().stream()
-                            .filter(player -> !winnerList.contains(player))
-                            .map(playerNames::get)
-                            .collect(Collectors.toList()).get(0);
-                    int looserPoints = playerPoints.values()
-                            .stream()
-                            .filter(e -> !e.equals(winnerPoints))
-                            .collect(Collectors.toList()).get(0);
-
-                    receiveInfoForAllPlayer(players, Info.drawAndLast(winnerNames, winnerPoints, looserName, looserPoints));
-                }
-                break;
-            case 3:
-                receiveInfoForAllPlayer(players, Info.draw(new ArrayList<>(playerNames.values()), winnerPoints));
-                break;
-            default:
-                throw new Error();
+        for (PlayerId pId : playerPoints.keySet()) {
+            sortedPLayersPoints.put(pId, playerPoints.get(pId));
         }
 
+        receiveInfoForAllPlayer(players, Info.ranking(sortedPLayersPoints, playerNames));
     }
 
     /**

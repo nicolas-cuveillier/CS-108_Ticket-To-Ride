@@ -1,8 +1,5 @@
 package ch.epfl.tchu.gui;
 
-import java.text.ParsePosition;
-import java.text.DecimalFormat;
-
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -19,6 +16,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
 
 public class Launcher extends Application {
 

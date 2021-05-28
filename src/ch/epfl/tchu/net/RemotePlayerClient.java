@@ -1,12 +1,7 @@
 package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.SortedBag;
-import ch.epfl.tchu.game.Card;
-import ch.epfl.tchu.game.Player;
-import ch.epfl.tchu.game.PlayerId;
-import ch.epfl.tchu.game.PlayerState;
-import ch.epfl.tchu.game.PublicGameState;
-import ch.epfl.tchu.game.Ticket;
+import ch.epfl.tchu.game.*;
 
 import java.io.*;
 import java.net.Socket;
