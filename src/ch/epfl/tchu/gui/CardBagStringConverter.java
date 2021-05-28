@@ -12,7 +12,8 @@ import javafx.util.StringConverter;
 public final class CardBagStringConverter extends StringConverter<SortedBag<Card>> {
 
     /**
-     * Compute the textual representation of sortedBag of cards, namely, the human way to read it.
+     * Compute the textual representation of sortedBag of cards, namely, the human way to read it according the way of
+     * display it in the {@link Info} class.
      *
      * @param cards the sortedBag of cards for which the textual representation will be computed
      * @return a String which is the textual representation of sortedBag of cards

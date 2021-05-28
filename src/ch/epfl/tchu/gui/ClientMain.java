@@ -16,42 +16,25 @@ public final class ClientMain extends Application {
     private final static String DEFAULT_HOSTNAME = "localhost";
     private final static int DEFAULT_PORT = 5108;
 
-    private String hostname;
-    private int port;
-
     public static void main(String[] args) {
         launch(args);
     }
 
     /**
-     * Analyze the parameters given to the program. If the parameters contains two information, get the information with
-     * the host's name in first and the port number in second. If there aren't these two parameters, default value are use.
-     *
-     * @throws Exception if something goes wrong
-     */
-    @Override
-    public void init() throws Exception {
-        List<String> parameters = getParameters().getRaw();
-        if (parameters.size() == 2) {
-            hostname = parameters.get(0);
-            port = Integer.parseInt(parameters.get(1));
-        } else {
-            hostname = DEFAULT_HOSTNAME;
-            port = DEFAULT_PORT;
-        }
-        super.init();
-    }
-
-    /**
-     * Firstly, analysing the arguments passed to the program to determine the names of the two players. Then, waiting
-     * for a connection from the client on port and creating the two players, the first being a graphical player,
-     * the second a proxy for the remote player on the client. Finally, starting the thread that runs the game, which
-     * execute the play method of Game.
+     * Firstly parsing the arguments passed to the program to determine the hostname and port number or use default
+     * name and port. Then, creating a RemotePLayerClient according to an instance of a GraphicalPlayerAdapter used by
+     * the human player. From this point, the client begin starting the network access thread, which execute the run
+     * method of the remote client.
      *
      * @param primaryStage argument that is ignored in the context of the tCHu game
      */
     @Override
     public void start(Stage primaryStage) {
+        List<String> parameters = getParameters().getRaw();
+
+        final String hostname = (parameters.size() == 2) ? parameters.get(0) : DEFAULT_HOSTNAME;
+        final int port = (parameters.size() == 2) ? Integer.parseInt(parameters.get(1)) : DEFAULT_PORT;
+
         try {
             RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port);
             new Thread(remotePlayerClient::run).start();
@@ -59,7 +42,6 @@ public final class ClientMain extends Application {
             e.printStackTrace();
             System.exit(0);
         }
-
     }
 
 }

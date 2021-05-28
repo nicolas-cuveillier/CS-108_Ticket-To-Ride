@@ -35,7 +35,7 @@ public interface Serde<T> {
     T deserialize(String message);
 
     /**
-     * Static method that build a Serde able to (de)serialize object of parameter < T >.
+     * Static method that build a Serde able to (de)serialize object of parameter < T > according to function.
      *
      * @param serializableFunc   the function that will serialize the object
      * @param deserializableFunc the function that will deserialize the object
@@ -99,7 +99,7 @@ public interface Serde<T> {
 
     /**
      * Static method that build a Serde able to (de)serialize a whole SortedBag of parameter < T > according
-     * to the way of (de)serialize each object.
+     * to the way of (de)serialize each object and actually using the way to (de)serialize a list.
      *
      * @param serde     Serde that can (de)serialize object of type T
      * @param separator character that will separate the different elements of the list

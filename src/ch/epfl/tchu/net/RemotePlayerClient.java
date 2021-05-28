@@ -43,9 +43,9 @@ public final class RemotePlayerClient {
      * sent by the RemotePlayerProxy.
      * <p>
      * Then, according to the id of the Message that is decrypted with the first String
-     * of the table and using the {@link MessageId}, it deserializes the arguments and call the same method with the Player that is given to
-     * the constructor so the graphic interface will be changed and the (human) player will be able to see and possibly
-     * to give a response.
+     * of the table and using the {@link MessageId}, it deserializes the arguments and call the same method with the
+     * Player that is given to the constructor so the graphic interface will be changed and the (human) player will be
+     * able to see and possibly to give a response.
      * <p>
      * if this method returns a result, serializes the player's response to send it back to the proxy in response.
      */
@@ -122,7 +122,8 @@ public final class RemotePlayerClient {
     }
 
     /**
-     * Send the message in the socket thanks to thw BufferedWriter.
+     * Send the message in the socket thanks to the BufferedWriter. BufferedWriter that has been creating according to
+     * the socket OutputStream.
      *
      * @param writer  BufferedWriter build according to a socket
      * @param message message to will be sent

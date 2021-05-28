@@ -90,7 +90,7 @@ public final class ObservableGameState {
     }
 
     /**
-     * Method that will update all properties that have changed during a player turn according to the new game state
+     * Method that will update all properties that have changed during a player turn according to the new gameState
      * and to the actual playerState.
      *
      * @param newGameState the new PublicGameState that has been updated during the game
@@ -115,11 +115,11 @@ public final class ObservableGameState {
             }
         }
 
-        for (PlayerId player : PlayerId.ALL) {
-            ticketsCount.get(player).setValue(newGameState.playerState(player).ticketCount());
-            cardsCount.get(player).setValue(newGameState.playerState(player).cardCount());
-            carsCount.get(player).setValue(newGameState.playerState(player).carCount());
-            pointsCount.get(player).setValue(newGameState.playerState(player).claimPoints());
+        for (PlayerId pId : PlayerId.ALL) {
+            ticketsCount.get(pId).setValue(newGameState.playerState(pId).ticketCount());
+            cardsCount.get(pId).setValue(newGameState.playerState(pId).cardCount());
+            carsCount.get(pId).setValue(newGameState.playerState(pId).carCount());
+            pointsCount.get(pId).setValue(newGameState.playerState(pId).claimPoints());
         }
 
         tickets.setAll(playerState.tickets().toList());
@@ -130,9 +130,10 @@ public final class ObservableGameState {
         for (Route route : ChMap.routes()) {
             Route nextRoute = getDoubleRoute(route);
 
-            if (!possibleClaimCards(route).isEmpty() && !newGameState.claimedRoutes().contains(route))
-                claimableRoutes.get(route).setValue(nextRoute == null || !newGameState.claimedRoutes().contains(nextRoute));
-            else claimableRoutes.get(route).setValue(false);
+            claimableRoutes.get(route).setValue(newGameState.currentPlayerId() == playerId
+                    && !possibleClaimCards(route).isEmpty()
+                    && !newGameState.claimedRoutes().contains(route)
+                    && (nextRoute == null || !newGameState.claimedRoutes().contains(nextRoute)));
         }
     }
 

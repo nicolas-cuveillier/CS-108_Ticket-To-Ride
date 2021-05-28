@@ -214,7 +214,7 @@ public final class GraphicalPlayer {
         VBox selectorBox = new VBox();
         selectorBox.getChildren().addAll(textFlow, selectorButton, listViewSelector);
 
-        return setStageFromBox(selectorStage, selectorBox, StringsFr.CARDS);
+        return setStageFromBox(selectorStage, selectorBox, StringsFr.CARDS_CHOICE);
     }
 
     /**
@@ -244,7 +244,7 @@ public final class GraphicalPlayer {
             selectorStage.hide();
         });
 
-        return setStageFromBox(selectorStage, selectorBox, StringsFr.TICKETS);
+        return setStageFromBox(selectorStage, selectorBox, StringsFr.TICKETS_CHOICE);
     }
 
     private Stage setStageFromBox(Stage stage, VBox box, String name) {

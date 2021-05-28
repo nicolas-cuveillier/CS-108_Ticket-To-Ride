@@ -29,22 +29,24 @@ public final class ServerMain extends Application {
     }
 
     /**
-     * Starting point of the server part of the tCHu game. Firstly parsing the arguments passed to the program to
-     * determine the host name and port number of the server. Then, creating a remote client associated with a graphical
-     * player and starting the network access thread, which execute the run method of the remote client.
+     * Starting point of the server part of the tCHu game. Firstly, analysing the arguments passed to the program to
+     * determine the names of the two players. Then, waiting for a connection from the client on port and creating the
+     * two players, the first being a graphical player, the second a RemotePlayerProxy associated with a
+     * RemotePLayerClient that will start with the client. Finally, starting the thread that runs the game, which
+     * execute the play method of Game.
      *
      * @param primaryStage argument that is ignored in the context of the tCHu game
      */
     @Override
     public void start(Stage primaryStage) {
-        String name1 = "Ada";
-        String name2 = "Charles";
+        String firstPlayerName = "Ada";
+        String secondPlayerName = "Charles";
         
         List<String> parameters = getParameters().getRaw();
         
-        if(parameters.size() >= 2) {
-            name1 = parameters.get(0);
-            name2 = parameters.get(1);
+        if(parameters.size() == 2) {
+            firstPlayerName = parameters.get(0);
+            secondPlayerName = parameters.get(1);
         }
 
         try {
@@ -53,7 +55,7 @@ public final class ServerMain extends Application {
 
             GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();
             RemotePlayerProxy remotePlayerProxy = new RemotePlayerProxy(s);
-            Map<PlayerId, String> playersName = Map.of(PLAYER_1, name1, PLAYER_2, name2);
+            Map<PlayerId, String> playersName = Map.of(PLAYER_1, firstPlayerName, PLAYER_2, secondPlayerName);
             Map<PlayerId, Player> players = Map.of(PLAYER_1, graphicalPlayer, PLAYER_2, remotePlayerProxy);
 
             new Thread(() -> Game.play(players, playersName, SortedBag.of(ChMap.tickets()), new Random())).start();

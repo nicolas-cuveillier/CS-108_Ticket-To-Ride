@@ -14,11 +14,12 @@ import java.util.regex.Pattern;
 
 /**
  * <h1>Serdes</h1>
- * Defines every constant related to serialization and deserialization processes for the elements of the game.
+ * None instantiable class that defines every constant related to serialization and deserialization processes for the
+ * elements of the game.
  *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
-public final class Serdes { //TODO abstract is necessary ?
+public final class Serdes {
     private final static char SEPARATOR_COMMA = ',';
     private final static char SEPARATOR_SEMI_COLON = ';';
     private final static char SEPARATOR_DOUBLE_POINTS = ':';

@@ -21,9 +21,11 @@ public final class RemotePlayerProxy implements Player {
     private final BufferedReader reader;
     private final BufferedWriter writer;
     private final static String EMPTY_SERDE = "";
+    private final static String SPACE_JOINER = " ";
 
     /**
-     * Construct a RemotePlayerProxy according to a socket.
+     * Construct a RemotePlayerProxy according to a socket. For this, build a BufferedWriter and a BufferedReader
+     * according to the socket output stream
      *
      * @param socket socket that the proxy is using for listening and sending textual message through the network
      */
@@ -44,7 +46,7 @@ public final class RemotePlayerProxy implements Player {
      */
     private void writeMessage(MessageId id, String serialization) {
         try {
-            writer.write(id.name() + " " + serialization);
+            writer.write(id.name() + SPACE_JOINER + serialization);
             writer.write('\n');
             writer.flush();
         } catch (IOException e) {
@@ -74,7 +76,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public void initPlayers(PlayerId ownId, Map<PlayerId, String> playerNames) {
-        StringJoiner joiner = new StringJoiner(" ");
+        StringJoiner joiner = new StringJoiner(SPACE_JOINER);
         joiner.add(Serdes.PLAYER_ID.serialize(ownId))
                 .add(Serdes.L_STRING.serialize(new ArrayList<>(playerNames.values())));
 
@@ -101,7 +103,7 @@ public final class RemotePlayerProxy implements Player {
      */
     @Override
     public void updateState(PublicGameState newState, PlayerState ownState) {
-        StringJoiner joiner = new StringJoiner(" ");
+        StringJoiner joiner = new StringJoiner(SPACE_JOINER);
         joiner.add(Serdes.SC_PUBLIC_GAME_STATE.serialize(newState))
                 .add(Serdes.SC_PLAYER_STATE.serialize(ownState));
 
