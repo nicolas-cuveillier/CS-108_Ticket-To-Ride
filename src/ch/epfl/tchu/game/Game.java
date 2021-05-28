@@ -110,7 +110,7 @@ public final class Game {
                     receiveInfoForAllPlayer(players, currentPlayerInfo.drewTickets(drawnTickets.size()));
 
                     SortedBag<Ticket> chosenTickets = players.get(currentPlayer).chooseTickets(drawnTickets);
-                    gameState = gameState.withoutTopTickets(Constants.IN_GAME_TICKETS_COUNT);
+                    gameState = gameState.withChosenAdditionalTickets(drawnTickets,chosenTickets);
 
                     receiveInfoForAllPlayer(players, currentPlayerInfo.keptTickets(chosenTickets.size()));
                     break;
