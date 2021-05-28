@@ -114,7 +114,6 @@ public final class GraphicalPlayerAdapter implements Player {
                     blockingCardsQueue.add(cards);
                     blockingTurnKindQueue.add(TurnKind.CLAIM_ROUTE);
                 }));
-
         try {
             return blockingTurnKindQueue.take();
         } catch (InterruptedException e) {
@@ -146,8 +145,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public int drawSlot() {
-        if (!blockingCardIndexQueue.isEmpty())
-            return blockingCardIndexQueue.remove();
+        if (!blockingCardIndexQueue.isEmpty()) return blockingCardIndexQueue.remove();
         else {
             runLater(() -> graphicalPlayer.drawCard(blockingCardIndexQueue::add));
             try {

@@ -45,11 +45,11 @@ final class InfoViewCreator {
         VBox infoView = new VBox();
         infoView.getStylesheets().addAll(STYLE_INFO, STYLE_COLORS);
 
-        Separator separator = new Separator(Orientation.HORIZONTAL);
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
 
-        //players info
+        //create the two player's stat view, putting the owner of the gui in first and binding all info of the text with
+        //with the corresponding properties
         for (PlayerId pId : List.of(player, player.next())) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
@@ -57,6 +57,7 @@ final class InfoViewCreator {
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
+            //make the text and update it
             Text playerInfo = makePlayerInfoText(playersName.get(pId),
                     gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
                     gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId));
@@ -64,6 +65,8 @@ final class InfoViewCreator {
             text.getChildren().addAll(coloredCircle, playerInfo);
             playersStatView.getChildren().add(text);
         }
+
+        Separator separator = new Separator(Orientation.HORIZONTAL);
 
         //game info
         TextFlow inGameInfoText = new TextFlow();
@@ -75,6 +78,10 @@ final class InfoViewCreator {
         return infoView;
     }
 
+    /**
+     * Create an instance of Text according to the {@link StringsFr#PLAYER_STATS} string and bind each element according
+     * to the property pass to the method.
+     */
     private static Text makePlayerInfoText(String playerName, ReadOnlyIntegerProperty ticketsCount,
                                            ReadOnlyIntegerProperty cardsCount, ReadOnlyIntegerProperty carsCount,
                                            ReadOnlyIntegerProperty pointsCount) {

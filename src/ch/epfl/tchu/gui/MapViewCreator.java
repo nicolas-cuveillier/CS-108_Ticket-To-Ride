@@ -46,6 +46,8 @@ final class MapViewCreator {
         ImageView imageView = new ImageView();
         view.getChildren().add(imageView);
 
+        //for each route of the game, create its representation with creating all sub pane according to position of all
+        //individual tracks segment in file map.css
         for (Route route : ChMap.routes()) {
             Group routeGroup = new Group();
             routeGroup.setId(route.id());
@@ -59,7 +61,7 @@ final class MapViewCreator {
                 routeGroup.getChildren().add(routeCase);
             }
 
-            //set properties
+            //set properties of the group containing all the Route
             gameState.routeOwnerProperty(route).addListener((obj, oV, nV) -> {
                 if (nV != null) routeGroup.getStyleClass().add(nV.name());
             });

@@ -45,12 +45,14 @@ final class DecksViewCreator {
         HBox view = new HBox();
         view.getStylesheets().addAll(STYLE_DECK, STYLE_COLORS);
 
+        //create the scroll down menu for the player's tickets
         ListView<Ticket> ticketsView = new ListView<>(gameState.ticketsProperties());
         ticketsView.setId("tickets");
 
         HBox handBox = new HBox();
         handBox.setId("hand-pane");
 
+        //create a StackPane for each Card according to its color and count in the player's hand
         for (Card card : Card.ALL) {
             StackPane cardPane = new StackPane();
 
@@ -87,27 +89,29 @@ final class DecksViewCreator {
         view.getStylesheets().addAll(STYLE_DECK, STYLE_COLORS);
         view.setId("card-pane");
 
+        //create the button that will be use for drawing tickets
         Button ticketsButton = makeButton(StringsFr.TICKETS, gameState.ticketsInDeckPercentProperty());
         ticketsButton.disableProperty().bind(ticketsHandlerProperty.isNull());
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
 
+        //create the button that will be use for drawing the top deck card
         Button cardsButton = makeButton(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
         cardsButton.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT));
 
         view.getChildren().add(ticketsButton);
 
+        //create a StackPane for each faceUpCard according to its color
+        //and add a listener to it to update this color through the game
         for (Integer index : Constants.FACE_UP_CARD_SLOTS) {
             StackPane cardPane = new StackPane();
             cardPane.getStyleClass().add(STYLE_CARD);
 
             gameState.faceUpCardProperty(index).addListener((o, oV, nV) -> {
                 String styleClassName = (nV.color() != null) ? nV.color().name() : STYLE_NEUTRAL;
-
                 if (cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1, styleClassName);
                 else cardPane.getStyleClass().add(styleClassName);
             });
-
             cardPane.disableProperty().bind(cardHandlerProperty.isNull());
             cardPane.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(index));
 
