@@ -51,7 +51,7 @@ final class InfoViewCreator {
         VBox playersStatView = new VBox();
         playersStatView.setId("player-stats");
 
-        List<PlayerId> sortedPlayers = new ArrayList<>(PlayerId.CURRENT_PLAYERS);
+        List<PlayerId> sortedPlayers = new ArrayList<>(PlayerId.CURRENT_PLAYERS());
         Collections.rotate(sortedPlayers, -player.ordinal());
 
         //create players info putting the owner of the gui in first

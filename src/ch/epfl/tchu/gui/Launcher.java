@@ -128,7 +128,7 @@ final class LauncherViewCreator {
         //Launch server button
         Button btnServer = new Button("Launch Server");
         btnServer.setOnMouseClicked(e -> {
-            String[] args = new String[]{nbPlayerValueLabel.getText()};
+            String[] args = new String[]{nbPlayerValueLabel.getText(),portTextS.getText()};
             ServerMain server = new ServerMain();
             try {
                 server.init(args);
@@ -225,6 +225,9 @@ final class LauncherViewCreator {
                 e1.printStackTrace();
             }
             client.start(new Stage());
+            serverTab.setDisable(true);
+            btnClient.setText("Waiting on server");
+            btnClient.setDisable(true);
         });
         clientGrid.add(btnClient, 3, 3);
 

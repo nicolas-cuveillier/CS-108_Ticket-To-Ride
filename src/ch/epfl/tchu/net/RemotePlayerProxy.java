@@ -2,6 +2,7 @@ package ch.epfl.tchu.net;
 
 import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.*;
+import ch.epfl.tchu.gui.ServerMain;
 
 import java.io.*;
 import java.net.Socket;
@@ -29,18 +30,20 @@ public final class RemotePlayerProxy implements Player {
      *
      * @param socket socket that the proxy is using for listening and sending textual message through the network
      */
-    public RemotePlayerProxy(Socket socket, int id) {
+    public RemotePlayerProxy(Socket socket, String defaultName, int nbPlayers) {
         String s = "";
+        name = defaultName;
         try {
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII));
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
-            writeMessage(MessageId.SEND_NAME, Integer.toString(id));
+            initClient(name, nbPlayers);
             do {
 
                 s = Serdes.STRING.deserialize(readMessage());
 
             } while (s == null);
             name = s;
+            System.out.println("name: \"" + name + "\"");
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -77,6 +80,13 @@ public final class RemotePlayerProxy implements Player {
         }
     }
 
+    
+    private void initClient(String defaultName, int nbPlayers) {
+        StringJoiner joiner = new StringJoiner(" ");
+        joiner.add(Serdes.STRING.serialize(defaultName)).add(Serdes.INT.serialize(nbPlayers));
+        writeMessage(MessageId.INIT_CLIENT, joiner.toString());
+    }
+    
     @Override
     public void name(String n) {
         name = n;

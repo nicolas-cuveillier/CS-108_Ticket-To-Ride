@@ -23,7 +23,7 @@ public class ServerTest {
         System.out.println("Starting server!");
         try (ServerSocket serverSocket = new ServerSocket(5108);
              Socket socket = serverSocket.accept()) {
-            Player playerProxy = new RemotePlayerProxy(socket, 1);
+            Player playerProxy = new RemotePlayerProxy(socket, "testPlayer", 2);
             var playerNames = Map.of(PLAYER_1, "Ada",
                     PLAYER_2, "Charles");
 

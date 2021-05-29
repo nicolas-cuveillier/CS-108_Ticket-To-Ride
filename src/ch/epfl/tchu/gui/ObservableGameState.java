@@ -63,7 +63,7 @@ public final class ObservableGameState {
         this.cardsCount = new EnumMap<>(PlayerId.class);
         this.carsCount = new EnumMap<>(PlayerId.class);
         this.pointsCount = new EnumMap<>(PlayerId.class);
-        for (PlayerId pId : PlayerId.CURRENT_PLAYERS) {
+        for (PlayerId pId : PlayerId.CURRENT_PLAYERS()) {
             ticketsCount.put(pId, new SimpleIntegerProperty());
             cardsCount.put(pId, new SimpleIntegerProperty());
             carsCount.put(pId, new SimpleIntegerProperty());
@@ -114,13 +114,13 @@ public final class ObservableGameState {
         }
 
         for (Route claimedRoute : newGameState.claimedRoutes()) {
-            for (PlayerId pId : PlayerId.CURRENT_PLAYERS) {
+            for (PlayerId pId : PlayerId.CURRENT_PLAYERS()) {
                 if (newGameState.playerState(pId).routes().contains(claimedRoute))
                     routeOwner.get(claimedRoute).setValue(pId);
             }
         }
 
-        for (PlayerId player : PlayerId.CURRENT_PLAYERS) {
+        for (PlayerId player : PlayerId.CURRENT_PLAYERS()) {
             ticketsCount.get(player).setValue(newGameState.playerState(player).ticketCount());
             cardsCount.get(player).setValue(newGameState.playerState(player).cardCount());
             carsCount.get(player).setValue(newGameState.playerState(player).carCount());

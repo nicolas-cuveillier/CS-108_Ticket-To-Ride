@@ -23,6 +23,7 @@ public final class RemotePlayerClient {
     private final Player player;
     private final String proxyName;
     private final int proxyPort;
+    private int nbPlayers = 2;
 
     /**
      * Unique constructor of a RemotePlayerClient, build it with an instance of Player for which it has tout get a proxy,
@@ -61,15 +62,21 @@ public final class RemotePlayerClient {
                 String[] message = messagesFromReader.split(Pattern.quote(" "), -1);
 
                 switch (MessageId.valueOf(message[0])) {
-                    case SEND_NAME:
-                        name = (name.equals("Player_") ? name.concat(message[1]) : name);
+
+                    case INIT_CLIENT:
+                        String n = (name.equals("Player_") ? Serdes.STRING.deserialize(message[1]) : name);
+                        name = n;
+                        player.name(name);
+                        nbPlayers = Serdes.INT.deserialize(message[2]);
+                        PlayerId.nbPlayers = nbPlayers;
+
                         writeMessage(writer, Serdes.STRING.serialize(name));
                         break;
                     case INIT_PLAYERS:
                         List<String> names = Serdes.L_STRING.deserialize(message[2]);
                         Map<PlayerId, String> playerNames = new HashMap<>();
                         int index = 0;
-                        for (PlayerId p : PlayerId.CURRENT_PLAYERS) {
+                        for (PlayerId p : PlayerId.CURRENT_PLAYERS()) {
                             playerNames.put(p, names.get(index));
                             ++index;
                         }

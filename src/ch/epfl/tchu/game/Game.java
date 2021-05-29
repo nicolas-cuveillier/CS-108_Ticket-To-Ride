@@ -43,7 +43,9 @@ public final class Game {
      * @throws IllegalArgumentException if players or playerNames doesn't contains the number of PlayerIds
      */
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
-        //Preconditions.checkArgument(players.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS && playerNames.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS);
+
+        Preconditions.checkArgument(players.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS() && playerNames.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS());
+
         List<PlayerId> playerIds = new ArrayList<>(players.keySet());
 
         //1.communicate names
@@ -68,6 +70,7 @@ public final class Game {
 
         //6.chooseInitialTickets
         for (PlayerId p : playerIds) {
+            System.out.println(p.ordinal());
             SortedBag<Ticket> chosenTickets = players.get(p).chooseInitialTickets();
             gameState = gameState.withInitiallyChosenTickets(p, chosenTickets);
         }
