@@ -18,8 +18,9 @@ import java.util.regex.Pattern;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class RemotePlayerClient {
+    public String name;
+    
     private final Player player;
-    private final String name;
     private final String proxyName;
     private final int proxyPort;
 
@@ -62,7 +63,8 @@ public final class RemotePlayerClient {
                 switch (MessageId.valueOf(message[0])) {
                     case SEND_NAME:
                         String n = (name.equals("Player_") ? name.concat(message[1]) : name);
-                        writeMessage(writer, Serdes.STRING.serialize(n));
+                        name = n;
+                        writeMessage(writer, Serdes.STRING.serialize(name));
                         break;
                     case INIT_PLAYERS:
                         List<String> names = Serdes.L_STRING.deserialize(message[2]);

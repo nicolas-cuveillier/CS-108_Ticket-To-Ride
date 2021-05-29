@@ -37,7 +37,7 @@ public final class RemotePlayerProxy implements Player {
             writeMessage(MessageId.SEND_NAME, Integer.toString(id));
             do {
                 try {
-                    s = readMessage();
+                    s = Serdes.STRING.deserialize(readMessage());
                 }catch(UncheckedIOException e) {
                     
                 }
