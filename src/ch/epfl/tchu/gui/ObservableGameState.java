@@ -9,9 +9,10 @@ import javafx.collections.ObservableList;
 import java.util.*;
 
 
-/**<h1>ObservableGameState</h1>
+/**
+ * <h1>ObservableGameState</h1>
  * Implements the observable PublicGameState and offers property encapsulation for attributes of GameState when needed.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ObservableGameState {
@@ -53,10 +54,10 @@ public final class ObservableGameState {
         this.cardsInDeckPercent = new SimpleIntegerProperty(0);
 
         this.faceUpCards = new ArrayList<>(Constants.FACE_UP_CARDS_COUNT);
-        for (int i = 0; i < Constants.FACE_UP_CARDS_COUNT; i++)faceUpCards.add(new SimpleObjectProperty<>(null));
+        for (int i = 0; i < Constants.FACE_UP_CARDS_COUNT; i++) faceUpCards.add(new SimpleObjectProperty<>(null));
 
         this.routeOwner = new HashMap<>(ChMap.routes().size());
-        for (Route route : ChMap.routes())routeOwner.put(route, new SimpleObjectProperty<>(null));
+        for (Route route : ChMap.routes()) routeOwner.put(route, new SimpleObjectProperty<>(null));
 
         this.ticketsCount = new EnumMap<>(PlayerId.class);
         this.cardsCount = new EnumMap<>(PlayerId.class);
@@ -72,10 +73,10 @@ public final class ObservableGameState {
         this.tickets = FXCollections.observableArrayList();
 
         this.cards = new EnumMap<>(Card.class);
-        for (Card card : Card.ALL)cards.put(card, new SimpleIntegerProperty());
+        for (Card card : Card.ALL) cards.put(card, new SimpleIntegerProperty());
 
         this.claimableRoutes = new HashMap<>(ChMap.routes().size());
-        for (Route route : ChMap.routes())claimableRoutes.put(route, new SimpleBooleanProperty(false));
+        for (Route route : ChMap.routes()) claimableRoutes.put(route, new SimpleBooleanProperty(false));
 
         this.topDeckCard = new SimpleObjectProperty<>(null);
     }
@@ -83,13 +84,13 @@ public final class ObservableGameState {
     //Private Methods
     private int ticketsPercent(int ticketCount) {
         int totalTickets = ChMap.tickets().size();
-        if (ticketCount < totalTickets && ticketCount >= 0)return ((ticketCount * 100) / totalTickets);
+        if (ticketCount < totalTickets && ticketCount >= 0) return ((ticketCount * 100) / totalTickets);
         return 0;
     }
 
     private int cardsPercent(int cardCount) {
         int totalCards = Constants.CAR_CARDS_COUNT * Card.CARS.size() + Constants.LOCOMOTIVE_CARDS_COUNT;
-        if (cardCount < totalCards && cardCount >= 0)return ((cardCount * 100) / totalCards);
+        if (cardCount < totalCards && cardCount >= 0) return ((cardCount * 100) / totalCards);
         return 0;
     }
 
@@ -134,9 +135,10 @@ public final class ObservableGameState {
         for (Route route : ChMap.routes()) {
             Route nextRoute = getDoubleRoute(route);
 
-            if (!possibleClaimCards(route).isEmpty() && !newGameState.claimedRoutes().contains(route))
-                claimableRoutes.get(route).setValue(nextRoute == null || !newGameState.claimedRoutes().contains(nextRoute));
-            else claimableRoutes.get(route).setValue(false);
+            claimableRoutes.get(route).setValue(newGameState.currentPlayerId() == playerId
+                    && !possibleClaimCards(route).isEmpty()
+                    && !newGameState.claimedRoutes().contains(route)
+                    && (nextRoute == null || !newGameState.claimedRoutes().contains(nextRoute)));
         }
 
         topDeckCard.setValue(newGameState.cardState().topDeckCard());

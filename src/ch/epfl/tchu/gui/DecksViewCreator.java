@@ -55,6 +55,7 @@ final class DecksViewCreator {
 
         for (Card card : Card.ALL) {
             StackPane cardPane = new StackPane();
+            System.out.println(card +" : "+ cardPane.getAlignment());//todo debug
 
             cardPane.getStyleClass().addAll((card.name().equals("LOCOMOTIVE")) ? STYLE_NEUTRAL : card.color().name(), STYLE_CARD);
 
