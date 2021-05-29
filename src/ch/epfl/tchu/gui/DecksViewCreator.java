@@ -113,8 +113,8 @@ final class DecksViewCreator {
 
             cardPane.disableProperty().bind(cardHandlerProperty.isNull());
             cardPane.setOnMouseClicked(o -> cardHandlerProperty.get().onDrawCard(index));
-
             makeCardPane(cardPane);
+
             view.getChildren().add(cardPane);
         }
 
@@ -124,7 +124,7 @@ final class DecksViewCreator {
         //create button use to draw cards and define action when mouse click
         Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
-        cardsButton.setOnMouseClicked(o -> setOnMouseClickedForCardsButton(gameState,cardHandlerProperty,topCardPane));
+        cardsButton.setOnMouseClicked(o -> setOnMouseClickedForCardsButton(gameState, cardHandlerProperty, topCardPane));
         view.getChildren().add(cardsButton);
 
         //create the top deck card StackPane and hide it until cardsButton is pressed
@@ -134,10 +134,12 @@ final class DecksViewCreator {
             if (topCardPane.getStyleClass().size() >= 2) topCardPane.getStyleClass().set(1, styleClassName);
             else topCardPane.getStyleClass().add(styleClassName);
         });
+
+        //by default, top card isn't visible
         topCardPane.visibleProperty().setValue(false);
         makeCardPane(topCardPane);
-        view.getChildren().add(topCardPane);
 
+        view.getChildren().add(topCardPane);
         return view;
     }
 
@@ -145,13 +147,14 @@ final class DecksViewCreator {
      * Static method that will handle the transition when the top deck card is draw.
      */
     public static void setOnMouseClickedForCardsButton(ObservableGameState gameState,
-                                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty,
-                                                        StackPane cardPane) {
+                                                       ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty,
+                                                       StackPane cardPane) {
+
         cardPane.visibleProperty().setValue(true);
 
         Path path = new Path();
         path.getElements().add(new MoveTo(0, 0));
-        CubicCurveTo curveTo = new CubicCurveTo(0,0,-315,-125,0,100);
+        CubicCurveTo curveTo = new CubicCurveTo(0, 0, -315, -125, 0, 100);
 
         path.getElements().add(curveTo);
         PathTransition pathTransition = new PathTransition(Duration.millis(1700), path, cardPane);
