@@ -38,9 +38,21 @@ final class LauncherViewCreator {
     }
 
     public static void createLauncherView(Stage primaryStage) {
+        
+        /// ***Main scene UI***
         VBox box = new VBox();
         TabPane tabPane = new TabPane();
 
+        box.getChildren().add(tabPane);
+        
+        Scene scene = new Scene(box, 680, 280);
+        Stage stage = new Stage(StageStyle.UTILITY);
+        
+        stage.setScene(scene);
+        stage.setTitle("tChu");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(primaryStage);
+        stage.centerOnScreen();
 
         /// ***Server Tab UI***
         GridPane serverGrid = new GridPane();
@@ -124,6 +136,7 @@ final class LauncherViewCreator {
                 e1.printStackTrace();
             }
             server.start(new Stage());
+            stage.close();
         });
         serverGrid.add(btnServer, 4, 3);
 
@@ -224,16 +237,6 @@ final class LauncherViewCreator {
         tabPane.getTabs().add(clientTab);
         tabPane.getTabs().add(serverTab);
 
-
-        /// ***Main scene UI***
-        box.getChildren().add(tabPane);
-        Scene scene = new Scene(box, 680, 280);
-        Stage stage = new Stage(StageStyle.UTILITY);
-        stage.setScene(scene);
-        stage.setTitle("tChu");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(primaryStage);
-        stage.centerOnScreen();
         stage.show();
     }
 }
