@@ -22,7 +22,7 @@ public class PublicCardState {
      * @param faceUpCards  the list of cards that can be seen by players
      * @param deckSize     the size of the deck
      * @param discardsSize the size of the discard
-     * @param topDeckCard
+     * @param topDeckCard  the top Card of the deck
      * @throws IllegalArgumentException if there aren't five face up cards
      *                                  if deck and discard are negative
      */

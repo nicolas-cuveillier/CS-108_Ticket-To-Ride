@@ -21,7 +21,7 @@ public final class RemotePlayerProxy implements Player {
     private final BufferedReader reader;
     private final BufferedWriter writer;
     private final static String EMPTY_SERDE = "";
-    
+
     private String name;
 
     /**
@@ -36,18 +36,16 @@ public final class RemotePlayerProxy implements Player {
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
             writeMessage(MessageId.SEND_NAME, Integer.toString(id));
             do {
-                try {
-                    s = Serdes.STRING.deserialize(readMessage());
-                }catch(UncheckedIOException e) {
-                    
-                }
-            }while(s == null);
+
+                s = Serdes.STRING.deserialize(readMessage());
+
+            } while (s == null);
             name = s;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        
-        
+
+
     }
 
     /**
@@ -78,17 +76,17 @@ public final class RemotePlayerProxy implements Player {
             throw new UncheckedIOException(e);
         }
     }
-    
+
     @Override
     public void name(String n) {
         name = n;
     }
-    
+
     @Override
     public String name() {
         return name;
     }
-    
+
     /**
      * Write in the BufferedWriter built with the socket the serialize information that this method has been called
      * and so the graphic interface must be updated displaying the name of the players.

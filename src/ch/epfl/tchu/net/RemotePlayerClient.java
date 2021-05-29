@@ -62,8 +62,7 @@ public final class RemotePlayerClient {
 
                 switch (MessageId.valueOf(message[0])) {
                     case SEND_NAME:
-                        String n = (name.equals("Player_") ? name.concat(message[1]) : name);
-                        name = n;
+                        name = (name.equals("Player_") ? name.concat(message[1]) : name);
                         writeMessage(writer, Serdes.STRING.serialize(name));
                         break;
                     case INIT_PLAYERS:

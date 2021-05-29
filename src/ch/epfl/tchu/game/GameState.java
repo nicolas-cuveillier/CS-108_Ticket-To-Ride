@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-/**<h1>GameState</h1>
+/**
+ * <h1>GameState</h1>
  * Represents the Game's state in its complete form, inherits from PublicGameState.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GameState extends PublicGameState {
@@ -19,16 +20,14 @@ public final class GameState extends PublicGameState {
     private final Deck<Ticket> tickets;
     private final Map<PlayerId, PlayerState> playerState;
     private final CardState cardState;
-    //private final int nbPlayers;
 
     private GameState(PlayerId currentPlayerId, Deck<Ticket> tickets, Map<PlayerId, PlayerState> playerState, CardState cardState, PlayerId lastPlayer) {
         super(tickets.size(), new PublicCardState(cardState.faceUpCards(), cardState.deckSize(),
-                        cardState.discardsSize(), cardState.topDeckCard()), currentPlayerId, Map.copyOf(playerState), lastPlayer);
+                cardState.discardsSize(), cardState.topDeckCard()), currentPlayerId, Map.copyOf(playerState), lastPlayer);
 
         this.tickets = Objects.requireNonNull(tickets);
         this.playerState = Map.copyOf(playerState);
         this.cardState = Objects.requireNonNull(cardState);
-        //this.nbPlayers = nbPlayers;
     }
 
     /**
@@ -44,7 +43,7 @@ public final class GameState extends PublicGameState {
         Deck<Card> deck = Deck.of(cards, rng);
 
         SortedBag.Builder<Card> playerCards;
-        for (PlayerId playerId: PlayerId.CURRENT_PLAYERS) {
+        for (PlayerId playerId : PlayerId.CURRENT_PLAYERS) {
             playerCards = new SortedBag.Builder<>();
             for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
                 playerCards.add(deck.topCard());
@@ -82,7 +81,7 @@ public final class GameState extends PublicGameState {
      * Getter for the specified count of top ticket(s) from all tickets.
      *
      * @param count the number of top tickets needed
-     * @return (SortedBag<Ticket>) the SortedBag of the top count Tickets
+     * @return (SortedBag < Ticket >) the SortedBag of the top count Tickets
      * @throws IllegalArgumentException if counts is negative or superior than tickets' size
      */
     public SortedBag<Ticket> topTickets(int count) {

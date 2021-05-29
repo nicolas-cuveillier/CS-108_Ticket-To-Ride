@@ -23,30 +23,31 @@ import java.util.Random;
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ServerMain extends Application {
-    private final String[] names = new String[] {"Ada", "Charles", "Player_", "Player_", "Player_"};
+    private final String[] names = new String[]{"Ada", "Charles", "Player_", "Player_", "Player_"};
     private Boolean localPlayer = false;
     private String localPlayerName = "Ada";
-    ServerSocket s0;
-    public static int nbPlayers = 2;
+    private ServerSocket s0;
+    public static int nbPlayers;
 
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     @Override
     public void init() throws Exception {
         super.init();
         List<String> parameters = getParameters().getRaw();
         nbPlayers = Integer.parseInt(parameters.get(0));
     }
-    
-    public void init(String[] args) throws Exception {
+
+    public void init(String[] args) {
         List<String> parameters = List.of(args);
         nbPlayers = Integer.parseInt(parameters.get(0));
         localPlayer = parameters.size() >= 2;
-        localPlayerName = localPlayer?(parameters.get(1).isBlank()?"Ada":parameters.get(1)):"Ada";
-        
+        localPlayerName = localPlayer ? (parameters.get(1).isBlank() ? "Ada" : parameters.get(1)) : "Ada";
+
     }
+
     /**
      * Starting point of the server part of the tCHu game. Firstly parsing the arguments passed to the program to
      * determine the host name and port number of the server. Then, creating a remote client associated with a graphical
@@ -56,7 +57,7 @@ public final class ServerMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        System.out.println(nbPlayers);
+        System.out.println(nbPlayers + " number of players");
         try {
             s0 = new ServerSocket(5108);
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
@@ -65,18 +66,17 @@ public final class ServerMain extends Application {
 
             Socket[] sockets = new Socket[nbPlayers];
 
-            
-            for(int i = 0; i < nbPlayers; i++) {
-                if(localPlayer && i == 0) {
+            for (int i = 0; i < nbPlayers; i++) {
+                if (localPlayer && i == 0) {
                     players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
-                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
-                }else {
-                    System.out.println("Waiting on player: " + (i+1));
+                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name().equals(String.format("Player_%s", i)) ? names[i] : players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
+                } else {
+                    System.out.println("Waiting on player: " + (i + 1));
                     sockets[i] = s0.accept();
                     players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
-                    String st = players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name();
-                    System.out.println(st);
-                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), st);
+                    String name = players.get(PlayerId.CURRENT_PLAYERS.get(i)).name().equals(String.format("Player_%s", i)) ? names[i] : players.get(PlayerId.CURRENT_PLAYERS.get(i)).name();
+                    System.out.println(name);
+                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), name);
                     System.out.println("Player " + playerNames.get(PlayerId.CURRENT_PLAYERS.get(i)) + " connected !");
                 }
             }

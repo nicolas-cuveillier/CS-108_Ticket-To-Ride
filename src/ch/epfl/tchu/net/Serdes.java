@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
-public final class Serdes { //TODO abstract is necessary ?
+public final class Serdes {
     private final static char SEPARATOR_COMMA = ',';
     private final static char SEPARATOR_SEMI_COLON = ';';
     private final static char SEPARATOR_DOUBLE_POINTS = ':';
@@ -109,10 +109,10 @@ public final class Serdes { //TODO abstract is necessary ?
             joiner.add(INT.serialize(publicGameState.ticketsCount()))
                     .add(SC_PUBLIC_CARD_STATE.serialize(publicGameState.cardState()))
                     .add(PLAYER_ID.serialize(publicGameState.currentPlayerId()));
-            
-            for(PlayerId p : PlayerId.CURRENT_PLAYERS)
+
+            for (PlayerId p : PlayerId.CURRENT_PLAYERS)
                 joiner.add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(p)));
-            
+
             joiner.add((publicGameState.lastPlayer() == null) ? "" : PLAYER_ID.serialize(publicGameState.lastPlayer()));
             return joiner.toString();
         };
@@ -126,14 +126,14 @@ public final class Serdes { //TODO abstract is necessary ?
             String[] t = message.split(Pattern.quote(Character.toString(SEPARATOR_DOUBLE_POINTS)), -1);
             Map<PlayerId, PublicPlayerState> playerState = new LinkedHashMap<>(ServerMain.nbPlayers);
             PlayerId lastPlayer;
-            
-            for(int i = 0; i<ServerMain.nbPlayers;i++)
-                playerState.put(PlayerId.CURRENT_PLAYERS.get(i), SC_PUBLIC_PLAYER_STATE.deserialize(t[i+3]));
-            lastPlayer = (t[ServerMain.nbPlayers+3].equals("") ? null : PLAYER_ID.deserialize(t[ServerMain.nbPlayers+3]));
+
+            for (int i = 0; i < ServerMain.nbPlayers; i++)
+                playerState.put(PlayerId.CURRENT_PLAYERS.get(i), SC_PUBLIC_PLAYER_STATE.deserialize(t[i + 3]));
+
+            lastPlayer = (t[ServerMain.nbPlayers + 3].equals("") ? null : PLAYER_ID.deserialize(t[ServerMain.nbPlayers + 3]));
             return new PublicGameState(INT.deserialize(t[0]), SC_PUBLIC_CARD_STATE.deserialize(t[1]), PLAYER_ID.deserialize(t[2]),
                     playerState, lastPlayer);
         };
-
     }
 
     /**
