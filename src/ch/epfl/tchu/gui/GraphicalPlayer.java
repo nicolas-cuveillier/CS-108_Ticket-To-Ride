@@ -73,8 +73,8 @@ public final class GraphicalPlayer {
 
 
     /**
-     * method that will update all properties of the actual game state that have changed during a player turn according to the new game state
-     * and to the actual playerState. This method call the setState method from the ObservableGameState class
+     * Method that will update all properties of the actual game state that have changed during a player turn according to the new game state
+     * and to the actual playerState. This method call the setState method from the ObservableGameState class.
      *
      * @param newGameState the new PublicGameState from which properties will be updated
      * @param playerState  the current playerState

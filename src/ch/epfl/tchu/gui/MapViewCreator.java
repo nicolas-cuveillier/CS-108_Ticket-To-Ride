@@ -44,6 +44,7 @@ final class MapViewCreator {
         ImageView imageView = new ImageView();
         view.getChildren().add(imageView);
 
+        //create each route according to each smaller rectangle of the route
         for (Route route : ChMap.routes()) {
             Group routeGroup = new Group();
             routeGroup.setId(route.id());
@@ -53,24 +54,11 @@ final class MapViewCreator {
             for (int i = 1; i <= route.length(); i++) {
                 Group routeCas = new Group();
                 routeCas.setId(routeGroup.getId() + "_" + i);
-
-                Group carGroup = new Group();
-                carGroup.getStyleClass().add(STYLE_CAR);
-
-                Rectangle carRectangle = new Rectangle(36, 12);
-                carRectangle.getStyleClass().add("filled");
-                Circle carCircle1 = new Circle(12, 6, 3);
-                Circle carCircle2 = new Circle(24, 6, 3);
-
-                Rectangle trackRectangle = new Rectangle(36, 12);
-                trackRectangle.getStyleClass().addAll("track", "filled");
-
-                carGroup.getChildren().addAll(carRectangle, carCircle1, carCircle2);
-                routeCas.getChildren().addAll(trackRectangle, carGroup);
+                makeCar(routeCas);
                 routeGroup.getChildren().add(routeCas);
             }
 
-            //set properties
+            //set properties and actions
             gameState.routeOwnerProperty(route).addListener((obj, oV, nV) -> {
                 if (nV != null) routeGroup.getStyleClass().add(nV.name());
             });
@@ -89,6 +77,22 @@ final class MapViewCreator {
         }
         return view;
     }
+
+    private static void makeCar(Group routeCase){
+        Group carGroup = new Group();
+        carGroup.getStyleClass().add(STYLE_CAR);
+
+        Rectangle carRectangle = new Rectangle(36, 12);
+        carRectangle.getStyleClass().add("filled");
+        Circle carCircle1 = new Circle(12, 6, 3);
+        Circle carCircle2 = new Circle(24, 6, 3);
+
+        Rectangle trackRectangle = new Rectangle(36, 12);
+        trackRectangle.getStyleClass().addAll("track", "filled");
+        carGroup.getChildren().addAll(carRectangle, carCircle1, carCircle2);
+        routeCase.getChildren().addAll(trackRectangle, carGroup);
+    }
+
 
     /**
      * Functional interface that implement the notion of Card chooser.

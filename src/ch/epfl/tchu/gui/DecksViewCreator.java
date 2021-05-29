@@ -3,7 +3,8 @@ package ch.epfl.tchu.gui;
 import ch.epfl.tchu.game.Card;
 import ch.epfl.tchu.game.Constants;
 import ch.epfl.tchu.game.Ticket;
-import javafx.animation.TranslateTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -14,6 +15,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -55,7 +59,6 @@ final class DecksViewCreator {
 
         for (Card card : Card.ALL) {
             StackPane cardPane = new StackPane();
-            System.out.println(card +" : "+ cardPane.getAlignment());//todo debug
 
             cardPane.getStyleClass().addAll((card.name().equals("LOCOMOTIVE")) ? STYLE_NEUTRAL : card.color().name(), STYLE_CARD);
 
@@ -90,17 +93,13 @@ final class DecksViewCreator {
         view.getStylesheets().addAll(STYLE_DECK, STYLE_COLORS);
         view.setId("card-pane");
 
+        //create button use to draw tickets
         Button ticketsButton = makeButtonFromGraphic(StringsFr.TICKETS, gameState.ticketsInDeckPercentProperty());
         ticketsButton.disableProperty().bind(ticketsHandlerProperty.isNull());
         ticketsButton.setOnMouseClicked(o -> ticketsHandlerProperty.get().onDrawTickets());
-
-        Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
-        cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
-        cardsButton.setOnMouseClicked(o -> setOnMouseClickedForCardsButton(view,gameState,cardHandlerProperty));
-
-
         view.getChildren().add(ticketsButton);
 
+        //create a StackPane for each faceUpCard according to its color and attach listener to the faceUpCard property
         for (Integer index : Constants.FACE_UP_CARD_SLOTS) {
             StackPane cardPane = new StackPane();
             cardPane.getStyleClass().add(STYLE_CARD);
@@ -119,71 +118,79 @@ final class DecksViewCreator {
             view.getChildren().add(cardPane);
         }
 
+        StackPane topCardPane = new StackPane();
+        topCardPane.getStyleClass().add(STYLE_CARD);
+
+        //create button use to draw cards and define action when mouse click
+        Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
+        cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
+        cardsButton.setOnMouseClicked(o -> setOnMouseClickedForCardsButton(gameState,cardHandlerProperty,topCardPane));
         view.getChildren().add(cardsButton);
+
+        //create the top deck card StackPane and hide it until cardsButton is pressed
+        gameState.topDeckCardProperty().addListener((obs, oV, nV) -> {
+            String styleClassName = (nV.color() != null) ? nV.color().name() : STYLE_NEUTRAL;
+
+            if (topCardPane.getStyleClass().size() >= 2) topCardPane.getStyleClass().set(1, styleClassName);
+            else topCardPane.getStyleClass().add(styleClassName);
+        });
+        topCardPane.visibleProperty().setValue(false);
+        makeCardPane(topCardPane);
+        view.getChildren().add(topCardPane);
+
         return view;
     }
 
     /**
-     * handle the action that will happen after clicking on the drawing card Button. Namely adding a listener to the
-     * top deck card for to design the card pane. Then, making the right transition according to the card.
-     *
-     * @param view an instance of Vbox on which the transition will be settle
-     * @param gameState the observableGameState given to the createCardView method
-     * @param cardHandlerProperty a property of {@link ch.epfl.tchu.gui.ActionHandler.DrawCardHandler} that will handle
-     *      *                               the drawing of cards
+     * Static method that will handle the transition when the top deck card is draw.
      */
-    private static void setOnMouseClickedForCardsButton(VBox view, ObservableGameState gameState,
-                                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty) {
-        StackPane cardPane = new StackPane();
-        cardPane.getStyleClass().add(STYLE_CARD);
-        TranslateTransition transition = new TranslateTransition(Duration.millis(1500), cardPane);
+    public static void setOnMouseClickedForCardsButton(ObservableGameState gameState,
+                                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty,
+                                                        StackPane cardPane) {
+        cardPane.visibleProperty().setValue(true);
 
-        //todo better way to show the card
-        gameState.topDeckCardProperty().addListener((obs, oV, nV) -> {
-            String styleClassName = (oV.color() != null) ? oV.color().name() : STYLE_NEUTRAL;
+        Path path = new Path();
+        path.getElements().add(new MoveTo(0, 0));
+        CubicCurveTo curveTo = new CubicCurveTo(0,0,-315,-125,0,100);
 
-            if (cardPane.getStyleClass().size() >= 2) cardPane.getStyleClass().set(1, styleClassName);
-            else cardPane.getStyleClass().add(styleClassName);
-        });
+        path.getElements().add(curveTo);
+        PathTransition pathTransition = new PathTransition(Duration.millis(1700), path, cardPane);
+        pathTransition.setInterpolator(Interpolator.EASE_OUT);
 
         switch (gameState.topDeckCardProperty().get()) {
             case RED:
-                transition.setByX(-470);
+                curveTo.setX(-440);
                 break;
             case BLUE:
-                transition.setByX(-750);
+                curveTo.setX(-720);
                 break;
             case BLACK:
-                transition.setByX(-930);
+                curveTo.setX(-865);
                 break;
             case GREEN:
-                transition.setByX(-700);
+                curveTo.setX(-655);
                 break;
             case WHITE:
-                transition.setByX(-400);
+                curveTo.setX(-370);
                 break;
             case ORANGE:
-                transition.setByX(-600);
+                curveTo.setX(-510);
                 break;
             case VIOLET:
-                transition.setByX(-650);
+                curveTo.setX(-795);
                 break;
             case YELLOW:
-                transition.setByX(-550);
+                curveTo.setX(-570);
                 break;
             case LOCOMOTIVE:
-                transition.setByX(-320);
+                curveTo.setX(-295);
                 break;
             default:
-                transition.setByX(10);
                 break;
         }
-        makeCardPane(cardPane);
-        view.getChildren().add(cardPane);
-
-        transition.play();
-        transition.setOnFinished(oe -> {
-            view.getChildren().remove(cardPane);
+        pathTransition.play();
+        pathTransition.setOnFinished(oe -> {
+            cardPane.visibleProperty().setValue(false);
             cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT);
         });
     }

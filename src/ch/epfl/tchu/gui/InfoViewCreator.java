@@ -53,7 +53,8 @@ final class InfoViewCreator {
 
         List<PlayerId> sortedPlayers = new ArrayList<>(PlayerId.CURRENT_PLAYERS);
         Collections.rotate(sortedPlayers, -player.ordinal());
-        //players info
+
+        //create players info putting the owner of the gui in first
         for (PlayerId pId : sortedPlayers) {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
@@ -61,6 +62,7 @@ final class InfoViewCreator {
             Circle coloredCircle = new Circle(5);
             coloredCircle.getStyleClass().add("filled");
 
+            //create stat for a player and bind it with the corresponding game state properties
             Text playerInfo = makePlayerInfoText(playersName.get(pId),
                     gameState.ticketsCountProperty(pId), gameState.cardsCountProperty(pId),
                     gameState.carsCountProperty(pId), gameState.pointsCountProperty(pId));
@@ -69,7 +71,7 @@ final class InfoViewCreator {
             playersStatView.getChildren().add(text);
         }
 
-        //game info
+        //create game info view
         TextFlow inGameInfoText = new TextFlow();
         inGameInfoText.setId("game-info");
         inGameInfoText.getChildren().addAll(inGameInfo);
