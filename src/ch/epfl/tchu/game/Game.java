@@ -44,7 +44,7 @@ public final class Game {
      */
     public static void play(Map<PlayerId, Player> players, Map<PlayerId, String> playerNames, SortedBag<Ticket> tickets, Random rng) {
 
-        Preconditions.checkArgument(players.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS() && playerNames.size() == PlayerId.COUNT_FOR_CURRENT_PLAYERS());
+        Preconditions.checkArgument(players.size() == PlayerId.NUMBER_OF_PLAYER && playerNames.size() == PlayerId.NUMBER_OF_PLAYER);
 
         List<PlayerId> playerIds = new ArrayList<>(players.keySet());
 
@@ -186,6 +186,9 @@ public final class Game {
                             gameState = gameState.withClaimedRoute(claimRoute, initialClaimCards);
                         }
                     }
+
+                    updateGameState(players,gameState);
+
                     break;
 
                 default:

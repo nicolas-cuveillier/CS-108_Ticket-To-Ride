@@ -10,6 +10,9 @@
 .WHITE   .filled { -fx-fill: "#f5f5f5"; }
 .NEUTRAL .filled { -fx-fill: "#d3d3d3"; }
 
-.PLAYER_1 .filled { -fx-fill: lightblue; }
-.PLAYER_2 .filled { -fx-fill: lightpink; }
-.PLAYER_3 .filled { -fx-fill: DarkSeaGreen; }
+.PLAYER_1 .filled { -fx-fill: lightBlue; }
+.PLAYER_2 .filled { -fx-fill: lightPink; }
+.PLAYER_3 .filled { -fx-fill: LightSalmon; }
+.PLAYER_4 .filled { -fx-fill: DarkSeaGreen; }
+.PLAYER_5 .filled { -fx-fill: MediumPurple; }
+

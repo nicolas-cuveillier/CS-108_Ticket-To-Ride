@@ -59,9 +59,7 @@ final class MapViewCreator {
             }
 
             //set properties and actions
-            gameState.routeOwnerProperty(route).addListener((obj, oV, nV) -> {
-                if (nV != null) routeGroup.getStyleClass().add(nV.name());
-            });
+            gameState.routeOwnerProperty(route).addListener((obj, oV, nV) -> routeGroup.getStyleClass().add(nV.name()));
             routeGroup.disableProperty().bind(claimRouteH.isNull().or(gameState.claimableRouteProperty(route).not()));
             routeGroup.setOnMouseClicked(o -> {
                 List<SortedBag<Card>> possibleClaimCards = gameState.possibleClaimCards(route);

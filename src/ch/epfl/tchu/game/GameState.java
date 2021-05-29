@@ -54,7 +54,7 @@ public final class GameState extends PublicGameState {
         }
         CardState cardState = CardState.of(deck);
 
-        return new GameState(PlayerId.CURRENT_PLAYERS().get(rng.nextInt(PlayerId.COUNT_FOR_CURRENT_PLAYERS())), Deck.of(tickets, rng), playerState, cardState, null);
+        return new GameState(PlayerId.CURRENT_PLAYERS().get(rng.nextInt(PlayerId.NUMBER_OF_PLAYER)), Deck.of(tickets, rng), playerState, cardState, null);
     }
 
     /**

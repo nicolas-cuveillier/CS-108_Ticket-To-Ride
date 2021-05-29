@@ -36,18 +36,18 @@ final class LauncherViewCreator {
 
     private LauncherViewCreator() {
     }
-
+//todo javadoc
     public static void createLauncherView(Stage primaryStage) {
-        
+
         /// ***Main scene UI***
         VBox box = new VBox();
         TabPane tabPane = new TabPane();
 
         box.getChildren().add(tabPane);
-        
+
         Scene scene = new Scene(box, 680, 280);
         Stage stage = new Stage(StageStyle.UTILITY);
-        
+
         stage.setScene(scene);
         stage.setTitle("tChu");
         stage.initModality(Modality.WINDOW_MODAL);
@@ -128,7 +128,7 @@ final class LauncherViewCreator {
         //Launch server button
         Button btnServer = new Button("Launch Server");
         btnServer.setOnMouseClicked(e -> {
-            String[] args = new String[]{nbPlayerValueLabel.getText(),portTextS.getText()};
+            String[] args = new String[]{nbPlayerValueLabel.getText(), portTextS.getText()};
             ServerMain server = new ServerMain();
             try {
                 server.init(args);

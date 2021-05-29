@@ -25,7 +25,7 @@ import java.util.Random;
 public final class ServerMain extends Application {
 
     private final static int DEFAULT_PORT = 5108;
-    private final String[] names = new String[] {"Ada", "Charles", "Player_", "Player_", "Player_"};
+    private final String[] names = new String[]{"Ada", "Charles", "Player_", "Player_", "Player_"};
     private int port;
     private Boolean localPlayer = false;
     private String localPlayerName = "Ada";
@@ -43,15 +43,16 @@ public final class ServerMain extends Application {
         nbPlayers = Integer.parseInt(parameters.get(0));
     }
 
+    //todo javadoc + suprimer celle du dessus
     public void init(String[] args) {
         List<String> parameters = List.of(args);
         nbPlayers = Integer.parseInt(parameters.get(0));
 
-        port = parameters.get(1).isBlank()?DEFAULT_PORT:Integer.parseInt(parameters.get(1));
-        PlayerId.nbPlayers = nbPlayers;
+        port = parameters.get(1).isBlank() ? DEFAULT_PORT : Integer.parseInt(parameters.get(1));
+        PlayerId.NUMBER_OF_PLAYER = nbPlayers;
         localPlayer = parameters.size() >= 3;
-        localPlayerName = localPlayer?parameters.get(2).isBlank()?"Ada":parameters.get(2):"Ada";
-        
+        localPlayerName = localPlayer ? parameters.get(2).isBlank() ? "Ada" : parameters.get(2) : "Ada";
+
 
     }
 
@@ -76,15 +77,14 @@ public final class ServerMain extends Application {
             Socket[] sockets = new Socket[nbPlayers];
 
 
-            
-            for(int i = 0; i < nbPlayers; i++) {
-                if(localPlayer && i == 0) {
-                    players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], String.format("Player_%s", (i+1)), nbPlayers));
+            for (int i = 0; i < nbPlayers; i++) {
+                if (localPlayer && i == 0) {
+                    players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], String.format("Player_%s", (i + 1)), nbPlayers));
                     playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), localPlayerName);
-                }else {
-                    System.out.println("Waiting on player: " + (i+1));
+                } else {
+                    System.out.println("Waiting on player: " + (i + 1));
                     sockets[i] = s0.accept();
-                    players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], i>=2?String.format("Player_%s", (i+1)):names[i], nbPlayers));
+                    players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], i >= 2 ? String.format("Player_%s", (i + 1)) : names[i], nbPlayers));
                     playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), players.get(PlayerId.CURRENT_PLAYERS().get(i)).name());
                     System.out.println("Player " + playerNames.get(PlayerId.CURRENT_PLAYERS().get(i)) + " connected !");
 

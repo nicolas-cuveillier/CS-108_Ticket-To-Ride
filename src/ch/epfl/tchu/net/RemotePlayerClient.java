@@ -68,7 +68,7 @@ public final class RemotePlayerClient {
                         name = n;
                         player.name(name);
                         nbPlayers = Serdes.INT.deserialize(message[2]);
-                        PlayerId.nbPlayers = nbPlayers;
+                        PlayerId.NUMBER_OF_PLAYER = nbPlayers;
 
                         writeMessage(writer, Serdes.STRING.serialize(name));
                         break;
