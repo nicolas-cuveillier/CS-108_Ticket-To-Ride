@@ -44,7 +44,7 @@ public final class ServerMain extends Application {
         List<String> parameters = List.of(args);
         nbPlayers = Integer.parseInt(parameters.get(0));
         localPlayer = parameters.size() >= 2;
-        localPlayerName = localPlayer?parameters.get(1):"";
+        localPlayerName = localPlayer?(parameters.get(1).isBlank()?"Ada":parameters.get(1)):"Ada";
         
     }
     /**
@@ -71,14 +71,15 @@ public final class ServerMain extends Application {
                     players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
                     playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
                 }else {
-                    System.out.println("Waiting on player: " + i);
+                    System.out.println("Waiting on player: " + (i+1));
                     sockets[i] = s0.accept();
                     players.put(PlayerId.CURRENT_PLAYERS.get(i), new RemotePlayerProxy(sockets[i], i));
-                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name());
-                    System.out.println("Player " + i + " connected !");
+                    String st = players.get(PlayerId.CURRENT_PLAYERS.get(i)).name() == String.format("Player_%n", i)?names[i]:players.get(PlayerId.CURRENT_PLAYERS.get(i)).name();
+                    System.out.println(st);
+                    playerNames.put(PlayerId.CURRENT_PLAYERS.get(i), st);
+                    System.out.println("Player " + playerNames.get(PlayerId.CURRENT_PLAYERS.get(i)) + " connected !");
                 }
             }
-                
             new Thread(() -> Game.play(players, playerNames, SortedBag.of(ChMap.tickets()), new Random())).start();
         } catch (Exception e) {
             e.printStackTrace();
