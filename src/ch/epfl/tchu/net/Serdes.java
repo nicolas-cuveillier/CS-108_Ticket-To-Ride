@@ -99,10 +99,6 @@ public final class Serdes {
 
     //private methods
 
-    private static String echo(String label, String s) {
-        System.out.println(label + s);
-        return s;
-    }
 
     /**
      * @return the function able to serialize a PublicGameState
@@ -111,9 +107,9 @@ public final class Serdes {
         return publicGameState -> {
             StringJoiner joiner = new StringJoiner(Character.toString(SEPARATOR_DOUBLE_POINTS));
 
-            joiner.add(echo("ticket count: ", INT.serialize(publicGameState.ticketsCount())))
-                    .add(echo("public card state: ", SC_PUBLIC_CARD_STATE.serialize(publicGameState.cardState())))
-                    .add(echo("current player id: ", PLAYER_ID.serialize(publicGameState.currentPlayerId())));
+            joiner.add(INT.serialize(publicGameState.ticketsCount()))
+                    .add(SC_PUBLIC_CARD_STATE.serialize(publicGameState.cardState()))
+                    .add(PLAYER_ID.serialize(publicGameState.currentPlayerId()));
 
             for (PlayerId p : PlayerId.CURRENT_PLAYERS())
                 joiner.add(SC_PUBLIC_PLAYER_STATE.serialize(publicGameState.playerState(p)));
@@ -134,7 +130,6 @@ public final class Serdes {
 
 
             for (int i = 0; i < PlayerId.NUMBER_OF_PLAYER; i++) {
-                System.out.println((i + 1));
                 playerState.put(PlayerId.CURRENT_PLAYERS().get(i), SC_PUBLIC_PLAYER_STATE.deserialize(t[i + 3]));
             }
             lastPlayer = (t[PlayerId.NUMBER_OF_PLAYER + 3].equals("") ? null : PLAYER_ID.deserialize(t[PlayerId.NUMBER_OF_PLAYER + 3]));

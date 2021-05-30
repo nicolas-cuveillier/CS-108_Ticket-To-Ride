@@ -42,7 +42,6 @@ public final class RemotePlayerProxy implements Player {
             } while (s == null);
 
             name = s;
-            System.out.println("name: \"" + name + "\"");
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

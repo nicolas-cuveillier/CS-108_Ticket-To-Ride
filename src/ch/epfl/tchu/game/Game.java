@@ -70,7 +70,6 @@ public final class Game {
 
         //6.chooseInitialTickets
         for (PlayerId p : playerIds) {
-            System.out.println(p.ordinal());
             SortedBag<Ticket> chosenTickets = players.get(p).chooseInitialTickets();
             gameState = gameState.withInitiallyChosenTickets(p, chosenTickets);
         }
