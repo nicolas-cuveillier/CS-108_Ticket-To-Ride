@@ -133,25 +133,15 @@ public final class ObservableGameState {
             cards.get(card).setValue(playerState.cards().countOf(card));
 
         for (Route route : ChMap.routes()) {
-            Route nextRoute = getDoubleRoute(route);
 
             claimableRoutes.get(route).setValue(newGameState.currentPlayerId() == playerId
                     && !possibleClaimCards(route).isEmpty()
-                    && !newGameState.claimedRoutes().contains(route)
-                    && (nextRoute == null || !newGameState.claimedRoutes().contains(nextRoute)));
+                    && !newGameState.claimedRoutes().contains(route));
         }
 
         topDeckCard.setValue(newGameState.cardState().topDeckCard());
     }
-
-    private Route getDoubleRoute(Route route) {
-        for (Route r : ChMap.routes()) {
-            if (route.station1().id() == r.station1().id() && route.station2().id() == r.station2().id() && !r.id().equals(route.id()))
-                return r;
-        }
-        return null;
-    }
-
+    
     /**
      * Getter for the percentage of Tickets in deck properties.
      *
