@@ -98,8 +98,6 @@ public final class PlayerState extends PublicPlayerState {
      * @see #possibleClaimCards(Route)
      */
     public List<SortedBag<Card>> possibleClaimCards(Route route) {
-        Preconditions.checkArgument(this.carCount() >= route.length());
-
         final List<SortedBag<Card>> allCards = route.possibleClaimCards();
 
         return allCards.stream()
