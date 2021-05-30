@@ -74,6 +74,7 @@ public final class RemotePlayerProxy implements Player {
         try {
             return reader.readLine();
         } catch (IOException e) {
+            System.exit(0);
             throw new UncheckedIOException(e);
         }
     }

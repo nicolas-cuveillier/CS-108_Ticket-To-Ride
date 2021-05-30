@@ -30,6 +30,12 @@ public class Launcher extends Application {
     public void start(Stage primaryStage) {
         LauncherViewCreator.createLauncherView(primaryStage);
     }
+    
+    @Override
+    public void stop()
+    {
+        System.exit(0);
+    }
 }
 
 final class LauncherViewCreator {
@@ -46,12 +52,12 @@ final class LauncherViewCreator {
         box.getChildren().add(tabPane);
 
         Scene scene = new Scene(box, 680, 280);
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage stage = new Stage(StageStyle.DECORATED);
 
         stage.setScene(scene);
         stage.setTitle("tChu");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(primaryStage);
+        stage.initModality(Modality.NONE);
+        stage.setResizable(false);
         stage.centerOnScreen();
 
         /// ***Server Tab UI***
@@ -128,6 +134,7 @@ final class LauncherViewCreator {
         //Launch server button
         Button btnServer = new Button("Launch Server");
         btnServer.setOnMouseClicked(e -> {
+            stage.setIconified(true);
             String[] args = new String[]{nbPlayerValueLabel.getText(), portTextS.getText()};
             ServerMain server = new ServerMain();
             try {
@@ -136,7 +143,7 @@ final class LauncherViewCreator {
                 e1.printStackTrace();
             }
             server.start(new Stage());
-            stage.close();
+            
         });
         serverGrid.add(btnServer, 4, 3);
 
@@ -219,20 +226,22 @@ final class LauncherViewCreator {
         btnClient.setOnMouseClicked(e -> {
             String[] args = new String[]{hostnameText.getText(), portTextC.getText(), nameText.getText()};
             ClientMain client = new ClientMain();
-            try {
-                client.init(args);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
+            
+            client.init(args);
+           
             client.start(new Stage());
-            serverTab.setDisable(true);
             btnClient.setText("Waiting on server");
+            
+            serverTab.setDisable(true);
             btnClient.setDisable(true);
+            
+            hostnameText.setDisable(true);
+            portTextC.setDisable(true);
+            nameText.setDisable(true);
+            
+            stage.setIconified(true);
         });
         clientGrid.add(btnClient, 3, 3);
-
-        //clientGrid.setGridLinesVisible(true);
-        //serverGrid.setGridLinesVisible(true);
 
         Tab clientTab = new Tab("Client", clientGrid);
         clientTab.setClosable(false);
@@ -241,5 +250,6 @@ final class LauncherViewCreator {
         tabPane.getTabs().add(serverTab);
 
         stage.show();
+        
     }
 }

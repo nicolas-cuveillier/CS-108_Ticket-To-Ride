@@ -66,8 +66,11 @@ public final class GraphicalPlayer {
                 new BorderPane(mapView, null, cardsView, handView, infoView);
 
         this.mainView = new Stage();
+        mainView.setOnCloseRequest(e -> {System.exit(0);});
         mainView.setScene(new Scene(borderPane));
         mainView.setTitle("tChu" + " \u2014 " + playersName.get(player));
+        mainView.initStyle(StageStyle.DECORATED);
+        mainView.setResizable(false);
         mainView.show();
     }
 
