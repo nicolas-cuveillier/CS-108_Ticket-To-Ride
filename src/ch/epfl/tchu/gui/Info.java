@@ -9,6 +9,7 @@ import ch.epfl.tchu.game.Trail;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * <h1>Info</h1>
@@ -214,32 +215,12 @@ public final class Info {
         return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
     }
 
-    /**
-     * message when the game end, saying that some players are ex æqo and that a third player is last.
-     *
-     * @param playerNames  the list all player being ex æqo
-     * @param winnerPoints the winners point
-     * @param looserName   name of the player who have loose the game
-     * @param looserPoints the looser point
-     * @return (String)
-     */
-    public static String drawAndLast(List<String> playerNames, int winnerPoints, String looserName, int looserPoints) {
-        final StringBuilder text = new StringBuilder();
-
-        for (int i = 0; i < playerNames.size(); i++) {
-            text.append(playerNames.get(i));
-            if (i != playerNames.size() - 1)
-                text.append(StringsFr.AND_SEPARATOR);
-        }
-        return String.format(StringsFr.DRAW_AND_LAST, text, winnerPoints, looserName, looserPoints);
-    }
-
     private static String routeText(Route route) {
         return route.station1().name() + StringsFr.EN_DASH_SEPARATOR + route.station2().name();
     }
 
     /**
-     * compute the text representing the sortedBag of cards in a human way.
+     * Compute the text representing the sortedBag of cards in a human way.
      *
      * @param cards the sortedBag of cards for which the text will be computed
      * @return a string which correspond to the textual representation of a sortedBag of cards
@@ -270,14 +251,32 @@ public final class Info {
         return text.toString();
     }
 
+    /**
+     * Method use at the end of the game to compute the message for the ranking of the game.
+     *
+     * @param playersPoint the map of all players linked to their points
+     * @param playersName  the map of all players linked to their name
+     * @return a String which contains the ranking of all players
+     */
     public static String ranking(Map<PlayerId, Integer> playersPoint, Map<PlayerId, String> playersName) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(StringsFr.RANKING);
+
+        //used to sort players according to their points for computing ranking
+        Map<PlayerId, Integer> sortedPlayersPoints = new TreeMap<>(((o1, o2) -> {
+            if (playersPoint.get(o1).equals(playersPoint.get(o2))) return 0;
+            else if (playersPoint.get(o1) > playersPoint.get(o2)) return 1;
+            else return -1;
+        }));
 
         for (PlayerId pId : playersPoint.keySet()) {
-            builder.append(String.format(StringsFr.PLAYER_POINTS, playersName.get(pId), playersPoint.get(pId)));
+            sortedPlayersPoints.put(pId, playersPoint.get(pId));
         }
 
+        //compute the ranking
+        StringBuilder builder = new StringBuilder();
+        builder.append(StringsFr.RANKING);
+        for (PlayerId pId : sortedPlayersPoints.keySet()) {
+            builder.append(String.format(StringsFr.PLAYER_POINTS, playersName.get(pId), sortedPlayersPoints.get(pId)));
+        }
         return builder.toString();
     }
 

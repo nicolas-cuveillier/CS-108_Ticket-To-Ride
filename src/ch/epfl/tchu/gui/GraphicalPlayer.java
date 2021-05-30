@@ -66,7 +66,7 @@ public final class GraphicalPlayer {
                 new BorderPane(mapView, null, cardsView, handView, infoView);
 
         this.mainView = new Stage();
-        mainView.setOnCloseRequest(e -> {System.exit(0);});
+        mainView.setOnCloseRequest(e -> System.exit(0));
         mainView.setScene(new Scene(borderPane));
         mainView.setTitle("tChu" + " \u2014 " + playersName.get(player));
         mainView.initStyle(StageStyle.DECORATED);
@@ -88,18 +88,20 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * add the message to the left hand side of the gui to display it and remove one if the number of messages exceed 5
+     * Add the message to the left hand side of the gui to display it, remove one if the number of messages exceed 5
+     * and remove all before displaying the ranking.
      *
      * @param message the message that will be display in the InfoView at the left of the screen
      */
     public void receiveInfo(String message) {
         assert isFxApplicationThread();
         if (information.size() == 5) information.remove(0);
+        if (message.contains(StringsFr.RANKING)) information.clear();
         information.add(new Text(message));
     }
 
     /**
-     * method that handle the choice of the player in a turn with setting the different ActionHandler in their
+     * Method that handle the choice of the player in a turn with setting the different ActionHandler in their
      * correspondent property. If the action is possible, all past properties are assigned to null and this property is set
      *
      * @param drawTicketsH an instance of DrawTicketsHandler which describe how the graphical player is drawing a ticket
@@ -125,7 +127,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the ticket's selector pop-up that will force the player to choose a certain minimum number of tickets
+     * Create the ticket's selector pop-up that will force the player to choose a certain minimum number of tickets
      *
      * @param options        a sortedBag of the tickets from which the player will have to choose
      * @param chooseTicketsH an instance of ChooseTicketsHandler that will be use when the player's choice will be made
@@ -138,7 +140,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * allows the player to choose a card, either one of the five face-up cards or the one at the top of the deck.
+     * Allows the player to choose a card, either one of the five face-up cards or the one at the top of the deck.
      * According to the chosen card the handler is called up with the player's choice to make the move. This method is
      * intended to be called up when the player has already drawn a first card and must now draw the second.
      *
@@ -153,7 +155,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the claim cards' selector pop-up that will force the player to choose a sortedBag of cards that
+     * Create the claim cards' selector pop-up that will force the player to choose a sortedBag of cards that
      * will be used to claim the route
      *
      * @param options      a List of all the different option that the player has to claim the route
@@ -167,7 +169,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the additional cards' selector pop-up that will force the player to choose a sortedBag of cards that
+     * Create the additional cards' selector pop-up that will force the player to choose a sortedBag of cards that
      * will be used as additional cards to claim the route
      *
      * @param additionalCards a List of all the different option of additional cards that the player has to claim the route
@@ -187,7 +189,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the claim cards selector panel, a stage own by the main stage, according to a list of option and a
+     * Create the claim cards selector panel, a stage own by the main stage, according to a list of option and a
      * ChooseCardsHandler
      */
     private Stage cardsSelector(List<SortedBag<Card>> options, ActionHandler.ChooseCardsHandler chooseCardsH, String title, boolean isAdditionalCardSelector) {
@@ -218,7 +220,7 @@ public final class GraphicalPlayer {
     }
 
     /**
-     * create the tickets selector panel, a stage own by the main stage, according to a sortedBag of tickets and a
+     * Create the tickets selector panel, a stage own by the main stage, according to a sortedBag of tickets and a
      * ChooseTicketsHandler
      */
     private Stage ticketsSelector(SortedBag<Ticket> options, ActionHandler.ChooseTicketsHandler chooseTicketsH) {

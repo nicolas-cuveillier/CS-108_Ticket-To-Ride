@@ -121,6 +121,8 @@ public final class Game {
                     for (int i = 0; i < DRAWING_PER_DRAW_CARDS_TURN; ++i) {
                         gameState = gameState.withCardsDeckRecreatedIfNeeded(rng);
 
+                        updateGameState(players, gameState);// (3)
+
                         int slot = players.get(currentPlayer).drawSlot();
 
                         if (slot == Constants.DECK_SLOT) {
@@ -130,6 +132,7 @@ public final class Game {
                             receiveInfoForAllPlayer(players, currentPlayerInfo.drewVisibleCard(gameState.cardState().faceUpCard(slot)));
                             gameState = gameState.withDrawnFaceUpCard(slot);
                         }
+
                         updateGameState(players, gameState);// (3)
                     }
 
@@ -171,7 +174,8 @@ public final class Game {
                             List<SortedBag<Card>> option = gameState.currentPlayerState()
                                     .possibleAdditionalCards(additionalCardsCost, initialClaimCards);
 
-                            if (!option.isEmpty())playedCard = players.get(currentPlayer).chooseAdditionalCards(option);
+                            if (!option.isEmpty())
+                                playedCard = players.get(currentPlayer).chooseAdditionalCards(option);
 
                             if (playedCard.isEmpty()) {
                                 receiveInfoForAllPlayer(players, currentPlayerInfo.didNotClaimRoute(claimRoute));
@@ -186,7 +190,7 @@ public final class Game {
                         }
                     }
 
-                    updateGameState(players,gameState);
+                    updateGameState(players, gameState);
 
                     break;
 
@@ -235,18 +239,7 @@ public final class Game {
             } else playerPoints.put(p, gameState.playerState(p).finalPoints());
         }
 
-        //used to sort players according to their points for computing ranking
-        Map<PlayerId, Integer> sortedPLayersPoints = new TreeMap<>(((o1, o2) -> {
-            if (playerPoints.get(o1).equals(playerPoints.get(o2))) return 0;
-            else if (playerPoints.get(o1) > playerPoints.get(o2)) return 1;
-            else return -1;
-        }));
-
-        for (PlayerId pId : playerPoints.keySet()) {
-            sortedPLayersPoints.put(pId, playerPoints.get(pId));
-        }
-
-        receiveInfoForAllPlayer(players, Info.ranking(sortedPLayersPoints, playerNames));
+        receiveInfoForAllPlayer(players, Info.ranking(playerPoints, playerNames));
     }
 
     /**
