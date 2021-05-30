@@ -124,7 +124,7 @@ final class DecksViewCreator {
         //create button use to draw cards and define action when mouse click
         Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
-        cardsButton.setOnMouseClicked(o -> setOnMouseClickedForCardsButton(gameState, cardHandlerProperty, topCardPane));
+        cardsButton.setOnMouseClicked(o -> {setOnMouseClickedForCardsButton(gameState, cardHandlerProperty, topCardPane, cardsButton);});
         view.getChildren().add(cardsButton);
 
         //create the top deck card StackPane and hide it until cardsButton is pressed
@@ -148,8 +148,8 @@ final class DecksViewCreator {
      */
     public static void setOnMouseClickedForCardsButton(ObservableGameState gameState,
                                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty,
-                                                       StackPane cardPane) {
-
+                                                       StackPane cardPane, Button btn) {
+        btn.setMouseTransparent(true);
         cardPane.visibleProperty().setValue(true);
 
         Path path = new Path();
@@ -194,6 +194,7 @@ final class DecksViewCreator {
         pathTransition.play();
         pathTransition.setOnFinished(oe -> {
             cardPane.visibleProperty().setValue(false);
+            btn.setMouseTransparent(false);
             cardHandlerProperty.get().onDrawCard(Constants.DECK_SLOT);
         });
     }
