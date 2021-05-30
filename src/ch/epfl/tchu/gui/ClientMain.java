@@ -1,7 +1,6 @@
 package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.net.RemotePlayerClient;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * 
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
-public final class ClientMain extends Application {
+public final class ClientMain {
     private final static String DEFAULT_HOSTNAME = "localhost";
     private final static int DEFAULT_PORT = 5108;
     private final static String DEFAULT_NAME = "Player_";
@@ -19,32 +18,12 @@ public final class ClientMain extends Application {
     private String hostname;
     private int port;
     private String name;
-    
-    public static void main(String[] args) {
-        launch(args);
-    }
 
-    @Override
-    public void init() throws Exception {   //todo make this info be returned by the pop-up
-        List<String> parameters = getParameters().getRaw();
-        if(parameters.size() >= 2) {
-            hostname = parameters.get(0);
-            port = Integer.parseInt(parameters.get(1));
-            name = parameters.size() == 3?parameters.get(2):"Player_";
-            
-        } else {
-            hostname = DEFAULT_HOSTNAME;
-            port = DEFAULT_PORT;
-        }
-        super.init();
-    }
-    
-    public void init(String[] args) throws Exception {   //todo make this info be returned by the pop-up
+    public void init(String[] args) {   //todo make this info be returned by the pop-up
         List<String> parameters = List.of(args);
         hostname = parameters.get(0).isBlank()? DEFAULT_HOSTNAME:parameters.get(0);
         port = parameters.get(1).isBlank()? DEFAULT_PORT:Integer.parseInt(parameters.get(1));
         name = parameters.get(2).isBlank()? DEFAULT_NAME:parameters.get(2);
-        super.init();
     }
     
     /**
@@ -55,25 +34,17 @@ public final class ClientMain extends Application {
      *
      * @param primaryStage argument that is ignored in the context of the tCHu game
      */
-    @Override
     public void start(Stage primaryStage) {
+        Thread t;
         try {
             RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port, name);
-            new Thread(remotePlayerClient::run).start();
+            t = new Thread(remotePlayerClient::run);
+            t.start();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
 
     }
-    
-    /**
-     * Called when the application should stop.
-     * Causes the JVM to stop, and the program to exit.
-     */
-    @Override
-    public void stop() {
-        System.exit(0);
-    }
-    
+
 }

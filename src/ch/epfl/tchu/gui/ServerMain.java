@@ -6,7 +6,6 @@ import ch.epfl.tchu.game.Game;
 import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.net.RemotePlayerProxy;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.net.ServerSocket;
@@ -22,7 +21,7 @@ import java.util.Random;
  *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
-public final class ServerMain extends Application {
+public final class ServerMain {
 
     private final static int DEFAULT_PORT = 5108;
     private final String[] names = new String[]{"Ada", "Charles", "Player_", "Player_", "Player_"};
@@ -32,16 +31,6 @@ public final class ServerMain extends Application {
     private ServerSocket s0;
     public static int nbPlayers;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void init() throws Exception {
-        super.init();
-        List<String> parameters = getParameters().getRaw();
-        nbPlayers = Integer.parseInt(parameters.get(0));
-    }
 
     //todo javadoc + suprimer celle du dessus
     public void init(String[] args) {
@@ -63,10 +52,9 @@ public final class ServerMain extends Application {
      *
      * @param primaryStage argument that is ignored in the context of the tCHu game
      */
-    @Override
     public void start(Stage primaryStage) {
 
-        System.out.println("Launching a server for " + nbPlayers + " players");
+        System.out.printf("Launching a server for %s players\n", nbPlayers);
 
         try {
             s0 = new ServerSocket(port);
@@ -82,27 +70,19 @@ public final class ServerMain extends Application {
                     players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], String.format("Player_%s", (i + 1)), nbPlayers));
                     playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), localPlayerName);
                 } else {
-                    System.out.println("Waiting on player: " + (i + 1));
+                    System.out.printf("Waiting on player %s   ---   (%s/%s connected)\n", (i+1), i, nbPlayers);
                     sockets[i] = s0.accept();
                     players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], i >= 2 ? String.format("Player_%s", (i + 1)) : names[i], nbPlayers));
                     playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), players.get(PlayerId.CURRENT_PLAYERS().get(i)).name());
-                    System.out.println("Player " + playerNames.get(PlayerId.CURRENT_PLAYERS().get(i)) + " connected !");
+                    System.out.printf("Player %s connected !   (%s/%s)\n\n",  playerNames.get(PlayerId.CURRENT_PLAYERS().get(i)), (i+1), nbPlayers);
 
                 }
             }
             new Thread(() -> Game.play(players, playerNames, SortedBag.of(ChMap.tickets()), new Random())).start();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
-    }
-
-    /**
-     * Called when the application should stop.
-     * Causes the JVM to stop, and the program to exit.
-     */
-    @Override
-    public void stop() {
-        System.exit(0);
     }
 }
