@@ -1,7 +1,6 @@
 package ch.epfl.tchu.gui;
 
 import ch.epfl.tchu.net.RemotePlayerClient;
-import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public final class ClientMain {
     private int port;
     private String name;
 
-    public void init(String[] args) {   //todo make this info be returned by the pop-up
+    public void init(String[] args) {
         List<String> parameters = List.of(args);
         hostname = parameters.get(0).isBlank()? DEFAULT_HOSTNAME:parameters.get(0);
         port = parameters.get(1).isBlank()? DEFAULT_PORT:Integer.parseInt(parameters.get(1));
@@ -32,9 +31,8 @@ public final class ClientMain {
      * the second a proxy for the remote player on the client. Finally, starting the thread that runs the game, which
      * execute the play method of Game.
      *
-     * @param primaryStage argument that is ignored in the context of the tCHu game
      */
-    public void start(Stage primaryStage) {
+    public void start() {
         Thread t;
         try {
             RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port, name);

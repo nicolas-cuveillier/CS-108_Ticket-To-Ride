@@ -6,7 +6,6 @@ import ch.epfl.tchu.game.Game;
 import ch.epfl.tchu.game.Player;
 import ch.epfl.tchu.game.PlayerId;
 import ch.epfl.tchu.net.RemotePlayerProxy;
-import javafx.stage.Stage;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,11 +27,10 @@ public final class ServerMain {
     private int port;
     private Boolean localPlayer = false;
     private String localPlayerName = "Ada";
-    private ServerSocket s0;
     public static int nbPlayers;
 
 
-    //todo javadoc + suprimer celle du dessus
+    //todo javadoc + supprimer celle du dessus
     public void init(String[] args) {
         List<String> parameters = List.of(args);
         nbPlayers = Integer.parseInt(parameters.get(0));
@@ -49,15 +47,13 @@ public final class ServerMain {
      * Starting point of the server part of the tCHu game. Firstly parsing the arguments passed to the program to
      * determine the host name and port number of the server. Then, creating a remote client associated with a graphical
      * player and starting the network access thread, which execute the run method of the remote client.
-     *
-     * @param primaryStage argument that is ignored in the context of the tCHu game
      */
-    public void start(Stage primaryStage) {
+    public void start() {
 
         System.out.printf("Launching a server for %s players\n", nbPlayers);
 
         try {
-            s0 = new ServerSocket(port);
+            ServerSocket s0 = new ServerSocket(port);
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
             Map<PlayerId, String> playerNames = new LinkedHashMap<>(nbPlayers);
 
@@ -70,17 +66,16 @@ public final class ServerMain {
                     players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], String.format("Player_%s", (i + 1)), nbPlayers));
                     playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), localPlayerName);
                 } else {
-                    System.out.printf("Waiting on player %s   ---   (%s/%s connected)\n", (i+1), i, nbPlayers);
+                    System.out.printf("Waiting on player %s   ---   (%s/%s connected)\n", (i + 1), i, nbPlayers);
                     sockets[i] = s0.accept();
                     players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], i >= 2 ? String.format("Player_%s", (i + 1)) : names[i], nbPlayers));
                     playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), players.get(PlayerId.CURRENT_PLAYERS().get(i)).name());
-                    System.out.printf("Player %s connected !   (%s/%s)\n\n",  playerNames.get(PlayerId.CURRENT_PLAYERS().get(i)), (i+1), nbPlayers);
+                    System.out.printf("Player %s connected !   (%s/%s)\n\n", playerNames.get(PlayerId.CURRENT_PLAYERS().get(i)), (i + 1), nbPlayers);
 
                 }
             }
             new Thread(() -> Game.play(players, playerNames, SortedBag.of(ChMap.tickets()), new Random())).start();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }

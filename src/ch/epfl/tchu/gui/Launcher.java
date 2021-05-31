@@ -28,7 +28,7 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        LauncherViewCreator.createLauncherView(primaryStage);
+        LauncherViewCreator.createLauncherView();
     }
     
     @Override
@@ -43,7 +43,7 @@ final class LauncherViewCreator {
     private LauncherViewCreator() {
     }
 //todo javadoc
-    public static void createLauncherView(Stage primaryStage) {
+    public static void createLauncherView() {
 
         /// ***Main scene UI***
         VBox box = new VBox();
@@ -150,7 +150,7 @@ final class LauncherViewCreator {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-            server.start(new Stage());
+            server.start();
             
         });
 
@@ -241,7 +241,7 @@ final class LauncherViewCreator {
             
             client.init(args);
            
-            client.start(new Stage());
+            client.start();
             btnClient.setText("Waiting on server");
             
             serverTab.setDisable(true);

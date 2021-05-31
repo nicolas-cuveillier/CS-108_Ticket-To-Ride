@@ -1,7 +1,5 @@
 package ch.epfl.tchu.net;
 
-import java.util.List;
-
 /**<h1>MessageId</h1>
  * Message that can be sent to the server :
  * {@link #INIT_PLAYERS},
@@ -29,16 +27,5 @@ public enum MessageId {
     DRAW_SLOT,
     ROUTE,
     CARDS,
-    CHOOSE_ADDITIONAL_CARDS;
-
-    /**
-     * An unmodifiable list of all messages.
-     */
-    public static final List<MessageId> ALL = List.of(values());
-
-    /**
-     * The number of possible messages.
-     */
-    public static final int COUNT = ALL.size();
-
+    CHOOSE_ADDITIONAL_CARDS
 }

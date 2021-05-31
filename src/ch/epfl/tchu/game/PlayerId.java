@@ -4,9 +4,12 @@ import java.util.List;
 
 /**
  * <h1>PlayerId</h1>
- * Player's IDs used in the game.
+ * Possible Player's IDs used in the game.
  * {@link #PLAYER_1},
- * {@link #PLAYER_2}.
+ * {@link #PLAYER_2},
+ * {@link #PLAYER_3},
+ * {@link #PLAYER_4},
+ * {@link #PLAYER_5}.
  *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
@@ -23,17 +26,13 @@ public enum PlayerId {
     public static final List<PlayerId> ALL = List.of(PlayerId.values());
 
     /**
-     * Number of possible players.
+     * Number of actual player in the game. By default two.
      */
-    public static final int COUNT = ALL.size();
-
-    /**
-     * Number of player in the game
-     */
-    public static int NUMBER_OF_PLAYER;
+    public static int NUMBER_OF_PLAYER = 2;
 
     /**
      * Compute the list of the player that are actually playing the game.
+     *
      * @return a view of the {@link #ALL} list according to the actual number of human players.
      */
     public static List<PlayerId> CURRENT_PLAYERS() {
