@@ -90,10 +90,6 @@ final class LauncherViewCreator {
         //Player number slider value label
         Label nbPlayerValueLabel = new Label(Long.toString(Math.round(nbPlayers.getValue())));
         nbPlayerValueLabel.setLabelFor(nbPlayers);
-        nbPlayers.valueProperty().addListener((obs, oV, nV) -> {
-            nbPlayers.setValue(Math.round(nV.doubleValue()));
-            nbPlayerValueLabel.setText(Long.toString(Math.round(nV.doubleValue())));
-        });
         serverGrid.add(nbPlayerValueLabel, 2, 2);
 
         //Port text box warning label
@@ -105,6 +101,18 @@ final class LauncherViewCreator {
 
         //Port text box
         TextField portTextS = new TextField();
+        serverGrid.add(portTextS, 4, 2);
+
+        //Port text box label
+        Label portLabelS = new Label("Server port : ");
+        portLabelS.setLabelFor(portTextS);
+        serverGrid.add(portLabelS, 3, 2);
+
+        //Launch server button
+        Button btnServer = new Button("Launch Server");
+        serverGrid.add(btnServer, 4, 3);
+        
+        //Port text change event handler
         portTextS.setTextFormatter(new TextFormatter<>(c -> {
 
             String s = c.getControlNewText();
@@ -121,18 +129,18 @@ final class LauncherViewCreator {
                 return null;
             } else {
                 portWarntextS.setVisible(n.intValue() == 0);
+                btnServer.setDisable(n.intValue() == 0);
                 return c;
             }
         }));
-        serverGrid.add(portTextS, 4, 2);
-
-        //Port text box label
-        Label portLabelS = new Label("Server port : ");
-        portLabelS.setLabelFor(portTextS);
-        serverGrid.add(portLabelS, 3, 2);
-
-        //Launch server button
-        Button btnServer = new Button("Launch Server");
+        
+        //Player number slider value change event handler
+        nbPlayers.valueProperty().addListener((obs, oV, nV) -> {
+            nbPlayers.setValue(Math.round(nV.doubleValue()));
+            nbPlayerValueLabel.setText(Long.toString(Math.round(nV.doubleValue())));
+        });
+        
+        //Server button onClick event handler
         btnServer.setOnMouseClicked(e -> {
             stage.setIconified(true);
             String[] args = new String[]{nbPlayerValueLabel.getText(), portTextS.getText()};
@@ -145,7 +153,6 @@ final class LauncherViewCreator {
             server.start(new Stage());
             
         });
-        serverGrid.add(btnServer, 4, 3);
 
         Tab serverTab = new Tab("Server", serverGrid);
         serverTab.setClosable(false);
@@ -159,7 +166,7 @@ final class LauncherViewCreator {
         clientGrid.setPadding(new Insets(10, 10, 10, 10));
 
         //Client tab title
-        Text sceneTitleC = new Text("Welcome to the Tchu Game");
+        Text sceneTitleC = new Text("Bienvenue dans tCHu !");
         sceneTitleC.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         GridPane.setHalignment(sceneTitleC, HPos.CENTER);
         clientGrid.add(sceneTitleC, 0, 0, 4, 1);
@@ -169,7 +176,7 @@ final class LauncherViewCreator {
         clientGrid.add(nameText, 1, 1);
 
         //Name text box label
-        Label nameLabel = new Label("Name : ");
+        Label nameLabel = new Label("Nom : ");
         nameLabel.setLabelFor(nameText);
         GridPane.setHalignment(nameLabel, HPos.RIGHT);
         clientGrid.add(nameLabel, 0, 1);
@@ -179,20 +186,34 @@ final class LauncherViewCreator {
         clientGrid.add(hostnameText, 1, 2);
 
         //Hostname text box label
-        Label hostnameLabel = new Label("Hostname : ");
+        Label hostnameLabel = new Label("Nom d'hôte : ");
         hostnameLabel.setLabelFor(hostnameText);
         GridPane.setHalignment(hostnameLabel, HPos.RIGHT);
         clientGrid.add(hostnameLabel, 0, 2);
 
         //Port text box warning label
-        Text portWarntextC = new Text("WARNING: TCP port 0 is reserved !");
+        Text portWarntextC = new Text("ATTENTION: le port TCP 0 est réservé !");
         portWarntextC.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, FontPosture.REGULAR, Font.getDefault().getSize()));
         portWarntextC.setFill(Color.RED);
         portWarntextC.setVisible(false);
         clientGrid.add(portWarntextC, 3, 1);
 
         //Port text box
-        TextField portTextC = new TextField();
+        TextField portTextC = new TextField();        
+        clientGrid.add(portTextC, 3, 2);
+
+        //Port text box label
+        Label portLabelC = new Label("Port : ");
+        portLabelC.setAlignment(Pos.CENTER_LEFT);
+        portLabelC.setLabelFor(portTextC);
+        GridPane.setHalignment(portLabelC, HPos.RIGHT);
+        clientGrid.add(portLabelC, 2, 2);
+
+        //Run client button
+        Button btnClient = new Button("Connect to server");
+        clientGrid.add(btnClient, 3, 3);
+        
+        //Port text change event handler
         portTextC.setTextFormatter(new TextFormatter<>(c -> {
 
             String s = c.getControlNewText();
@@ -212,17 +233,8 @@ final class LauncherViewCreator {
                 return c;
             }
         }));
-        clientGrid.add(portTextC, 3, 2);
-
-        //Port text box label
-        Label portLabelC = new Label("Port : ");
-        portLabelC.setAlignment(Pos.CENTER_LEFT);
-        portLabelC.setLabelFor(portTextC);
-        GridPane.setHalignment(portLabelC, HPos.RIGHT);
-        clientGrid.add(portLabelC, 2, 2);
-
-        //Run client button
-        Button btnClient = new Button("Connect to server");
+        
+      //Client button onClick event handler
         btnClient.setOnMouseClicked(e -> {
             String[] args = new String[]{hostnameText.getText(), portTextC.getText(), nameText.getText()};
             ClientMain client = new ClientMain();
@@ -241,7 +253,6 @@ final class LauncherViewCreator {
             
             stage.setIconified(true);
         });
-        clientGrid.add(btnClient, 3, 3);
 
         Tab clientTab = new Tab("Client", clientGrid);
         clientTab.setClosable(false);
