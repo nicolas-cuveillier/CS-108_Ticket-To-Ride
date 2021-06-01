@@ -68,7 +68,7 @@ final class LauncherViewCreator {
         serverGrid.setPadding(new Insets(10, 10, 10, 10));
 
         //Server tab title
-        Text sceneTitleS = new Text("Welcome to the Tchu Game");
+        Text sceneTitleS = new Text("Bienvenue dans tCHu !");
         sceneTitleS.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         GridPane.setHalignment(sceneTitleS, HPos.CENTER);
         serverGrid.add(sceneTitleS, 0, 0, 10, 1);
@@ -83,7 +83,7 @@ final class LauncherViewCreator {
         serverGrid.add(nbPlayers, 1, 2);
 
         //Player number slider text label
-        Label nbPlayersLabel = new Label("number of players : ");
+        Label nbPlayersLabel = new Label("Nombre de joueurs: ");
         nbPlayersLabel.setLabelFor(nbPlayers);
         serverGrid.add(nbPlayersLabel, 0, 2);
 
@@ -93,7 +93,7 @@ final class LauncherViewCreator {
         serverGrid.add(nbPlayerValueLabel, 2, 2);
 
         //Port text box warning label
-        Text portWarntextS = new Text("WARNING: TCP port 0 is reserved !");
+        Text portWarntextS = new Text("ATTENTION: le port TCP 0 est réservé !");
         portWarntextS.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, FontPosture.REGULAR, Font.getDefault().getSize()));
         portWarntextS.setFill(Color.RED);
         portWarntextS.setVisible(false);
@@ -104,12 +104,12 @@ final class LauncherViewCreator {
         serverGrid.add(portTextS, 4, 2);
 
         //Port text box label
-        Label portLabelS = new Label("Server port : ");
+        Label portLabelS = new Label("Port du serveur: ");
         portLabelS.setLabelFor(portTextS);
         serverGrid.add(portLabelS, 3, 2);
 
         //Launch server button
-        Button btnServer = new Button("Launch Server");
+        Button btnServer = new Button("Démarrer le serveur");
         serverGrid.add(btnServer, 4, 3);
         
         //Port text change event handler
@@ -154,7 +154,7 @@ final class LauncherViewCreator {
             
         });
 
-        Tab serverTab = new Tab("Server", serverGrid);
+        Tab serverTab = new Tab("Serveur", serverGrid);
         serverTab.setClosable(false);
 
 
@@ -210,7 +210,7 @@ final class LauncherViewCreator {
         clientGrid.add(portLabelC, 2, 2);
 
         //Run client button
-        Button btnClient = new Button("Connect to server");
+        Button btnClient = new Button("Se connecter au serveur");
         clientGrid.add(btnClient, 3, 3);
         
         //Port text change event handler
@@ -242,7 +242,7 @@ final class LauncherViewCreator {
             client.init(args);
            
             client.start();
-            btnClient.setText("Waiting on server");
+            btnClient.setText("En attente du serveur");
             
             serverTab.setDisable(true);
             btnClient.setDisable(true);
