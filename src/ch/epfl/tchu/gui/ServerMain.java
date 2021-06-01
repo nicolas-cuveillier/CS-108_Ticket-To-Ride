@@ -28,6 +28,7 @@ public final class ServerMain {
     private Boolean localPlayer = false;
     private String localPlayerName = "Ada";
     public static int nbPlayers;
+    private ServerSocket s0;
 
 
     //todo javadoc + supprimer celle du dessus
@@ -53,7 +54,7 @@ public final class ServerMain {
         System.out.printf("Launching a server for %s players\n", nbPlayers);
 
         try {
-            ServerSocket s0 = new ServerSocket(port);
+            s0 = new ServerSocket(port);
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
             Map<PlayerId, String> playerNames = new LinkedHashMap<>(nbPlayers);
 
