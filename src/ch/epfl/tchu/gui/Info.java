@@ -63,25 +63,7 @@ public final class Info {
     }
 
     /**
-     * message when the game end and player are ex æqo.
-     *
-     * @param playerNames the list all player
-     * @param points      the winners point
-     * @return (String)
-     */
-    public static String draw(List<String> playerNames, int points) {
-        final StringBuilder text = new StringBuilder();
-
-        for (int i = 0; i < playerNames.size(); i++) {
-            text.append(playerNames.get(i));
-            if (i != playerNames.size() - 1)
-                text.append(StringsFr.AND_SEPARATOR);
-        }
-        return String.format(StringsFr.DRAW, text, points);
-    }
-
-    /**
-     * message saying that this player is going to play first.
+     * Message saying that this player is going to play first.
      *
      * @return (String)
      */
@@ -90,7 +72,7 @@ public final class Info {
     }
 
     /**
-     * message saying that this player is keeping count billets.
+     * Message saying that this player is keeping count billets.
      *
      * @param count the number of ticket(s)
      * @return (String)
@@ -100,7 +82,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player can now playing.
+     * Message saying that the player can now playing.
      *
      * @return (String)
      */
@@ -109,7 +91,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew count tickets.
+     * Message saying that the player drew count tickets.
      *
      * @param count the number of ticket(s)
      * @return (String)
@@ -119,7 +101,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew a blind card from the deck.
+     * Message saying that the player drew a blind card from the deck.
      *
      * @return (String)
      */
@@ -128,7 +110,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player drew a visible card.
+     * Message saying that the player drew a visible card.
      *
      * @param card the card that is drew
      * @return (String)
@@ -138,7 +120,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player took this Route with these cards.
+     * Message saying that the player took this Route with these cards.
      *
      * @param route the taken Route
      * @param cards the cards that the player used to claim the Route
@@ -149,7 +131,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player claim this tunnel with these cards.
+     * Message saying that the player claim this tunnel with these cards.
      *
      * @param route        the Route that the player want to claim
      * @param initialCards the cards that the player initially used to ask for the Route
@@ -160,6 +142,8 @@ public final class Info {
     }
 
     /**
+     * Message saying that additional cards are draw.
+     *
      * @param drawnCards     the cards that the player drew
      * @param additionalCost the cost implied by the cards
      * @return a message saying that the player drew cards that will imply a additionalCost of cards
@@ -175,7 +159,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the player did not took this tunnel.
+     * Message saying that the player did not took this tunnel.
      *
      * @param route the route that the player didn't claimed
      * @return (String)
@@ -185,7 +169,7 @@ public final class Info {
     }
 
     /**
-     * message saying that the last turn of the game begins.
+     * Message saying that the last turn of the game begins.
      *
      * @param carCount the number of car the player has left
      * @return (String)
@@ -195,24 +179,13 @@ public final class Info {
     }
 
     /**
-     * message saying that the player got the 10 points bonus thanks to the longest Trail
+     * Message saying that the player got the 10 points bonus thanks to the longest Trail
      *
      * @param longestTrail the Trail that allowed the player to have bonus
      * @return (String)
      */
     public String getsLongestTrailBonus(Trail longestTrail) {
         return String.format(StringsFr.GETS_BONUS, playerName, longestTrail.station1() + StringsFr.EN_DASH_SEPARATOR + longestTrail.station2());
-    }
-
-    /**
-     * message saying that the player won.
-     *
-     * @param points      the points of the winner
-     * @param loserPoints the loser's point
-     * @return (String)
-     */
-    public String won(int points, int loserPoints) {
-        return String.format(StringsFr.WINS, playerName, points, StringsFr.plural(points), loserPoints, StringsFr.plural(loserPoints));
     }
 
     private static String routeText(Route route) {

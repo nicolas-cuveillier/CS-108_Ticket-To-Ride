@@ -133,7 +133,6 @@ public final class ObservableGameState {
             cards.get(card).setValue(playerState.cards().countOf(card));
 
         for (Route route : ChMap.routes()) {
-
             claimableRoutes.get(route).setValue(newGameState.currentPlayerId() == playerId
                     && !possibleClaimCards(route).isEmpty()
                     && !newGameState.claimedRoutes().contains(route));

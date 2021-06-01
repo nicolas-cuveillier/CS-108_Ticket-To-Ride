@@ -124,7 +124,7 @@ final class DecksViewCreator {
         //create button use to draw cards and define action when mouse click
         Button cardsButton = makeButtonFromGraphic(StringsFr.CARDS, gameState.cardsInDeckPercentProperty());
         cardsButton.disableProperty().bind(cardHandlerProperty.isNull());
-        cardsButton.setOnMouseClicked(o -> {setOnMouseClickedForCardsButton(gameState, cardHandlerProperty, topCardPane, cardsButton);});
+        cardsButton.setOnMouseClicked(o -> setOnMouseClickedForCardsButton(gameState, cardHandlerProperty, topCardPane, cardsButton));
         view.getChildren().add(cardsButton);
 
         //create the top deck card StackPane and hide it until cardsButton is pressed
@@ -144,22 +144,24 @@ final class DecksViewCreator {
     }
 
     /**
-     * Static method that will handle the transition when the top deck card is draw.
+     * Static method that will handle the animation/transition when the top deck card is draw.
      */
     public static void setOnMouseClickedForCardsButton(ObservableGameState gameState,
                                                        ObjectProperty<ActionHandler.DrawCardHandler> cardHandlerProperty,
                                                        StackPane cardPane, Button btn) {
+
         btn.setMouseTransparent(true);
         cardPane.visibleProperty().setValue(true);
 
+        //initialize the path and the pathTransition
         Path path = new Path();
         path.getElements().add(new MoveTo(0, 0));
         CubicCurveTo curveTo = new CubicCurveTo(0, 0, -315, -125, 0, 100);
-
         path.getElements().add(curveTo);
         PathTransition pathTransition = new PathTransition(Duration.millis(1700), path, cardPane);
         pathTransition.setInterpolator(Interpolator.EASE_OUT);
 
+        //set the X position according to the Card
         switch (gameState.topDeckCardProperty().get()) {
             case RED:
                 curveTo.setX(-440);

@@ -23,7 +23,6 @@ public final class RemotePlayerClient {
     private final Player player;
     private final String proxyName;
     private final int proxyPort;
-    private int nbPlayers = 2;
 
     /**
      * Unique constructor of a RemotePlayerClient, build it with an instance of Player for which it has tout get a proxy,
@@ -64,11 +63,9 @@ public final class RemotePlayerClient {
                 switch (MessageId.valueOf(message[0])) {
 
                     case INIT_CLIENT:
-                        String n = (name.equals("Player_") ? Serdes.STRING.deserialize(message[1]) : name);
-                        name = n;
+                        name = (name.equals("Player_") ? Serdes.STRING.deserialize(message[1]) : name);
                         player.name(name);
-                        nbPlayers = Serdes.INT.deserialize(message[2]);
-                        PlayerId.NUMBER_OF_PLAYER = nbPlayers;
+                        PlayerId.NUMBER_OF_PLAYER = Serdes.INT.deserialize(message[2]);
 
                         writeMessage(writer, Serdes.STRING.serialize(name));
                         break;

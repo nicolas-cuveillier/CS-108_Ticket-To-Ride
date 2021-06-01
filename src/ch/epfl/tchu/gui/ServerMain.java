@@ -25,56 +25,62 @@ public final class ServerMain {
     private final static int DEFAULT_PORT = 5108;
     private final String[] names = new String[]{"Ada", "Charles", "Player_", "Player_", "Player_"};
     private int port;
-    private Boolean localPlayer = false;
+    private Boolean isLocalPlayer = false;
     private String localPlayerName = "Ada";
     public static int nbPlayers;
     private ServerSocket s0;
 
 
-    //todo javadoc + supprimer celle du dessus
+    /**
+     * Method that analyse the arguments passed to the program to determine the number of players, the port and
+     * the name of the local player to initialize attributes.
+     *
+     * @param args arguments that are passed to the program when launched.
+     */
     public void init(String[] args) {
         List<String> parameters = List.of(args);
         nbPlayers = Integer.parseInt(parameters.get(0));
 
         port = parameters.get(1).isBlank() ? DEFAULT_PORT : Integer.parseInt(parameters.get(1));
         PlayerId.NUMBER_OF_PLAYER = nbPlayers;
-        localPlayer = parameters.size() >= 3;
-        localPlayerName = localPlayer ? parameters.get(2).isBlank() ? "Ada" : parameters.get(2) : "Ada";
-
-
+        isLocalPlayer = parameters.size() >= 3;
+        localPlayerName = isLocalPlayer ? parameters.get(2).isBlank() ? "Ada" : parameters.get(2) : "Ada";
     }
 
     /**
-     * Starting point of the server part of the tCHu game. Firstly parsing the arguments passed to the program to
-     * determine the host name and port number of the server. Then, creating a remote client associated with a graphical
-     * player and starting the network access thread, which execute the run method of the remote client.
+     * Method called by {@link Launcher} which create as many instance of RemotePlayerProxy as the number of players
+     * and start the network access thread, which execute the play method of the {@link Game} class with the needed
+     * arguments built according to the given information.
      */
     public void start() {
 
-        System.out.printf("Launching a server for %s players\n", nbPlayers);
+        System.out.printf("Lancement du server pour %s joueurs\n", nbPlayers);
 
         try {
             s0 = new ServerSocket(port);
             Map<PlayerId, Player> players = new LinkedHashMap<>(nbPlayers);
             Map<PlayerId, String> playerNames = new LinkedHashMap<>(nbPlayers);
 
-
             Socket[] sockets = new Socket[nbPlayers];
 
-
             for (int i = 0; i < nbPlayers; i++) {
-                if (localPlayer && i == 0) {
-                    players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], String.format("Player_%s", (i + 1)), nbPlayers));
+                if (isLocalPlayer && i == 0) {
+                    players.put(PlayerId.CURRENT_PLAYERS().get(i),
+                            new RemotePlayerProxy(sockets[i], String.format("Player_%s", (i + 1)), nbPlayers));
                     playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), localPlayerName);
                 } else {
-                    System.out.printf("Waiting on player %s   ---   (%s/%s connected)\n", (i + 1), i, nbPlayers);
+                    System.out.printf("Attente du joueur %s   ---   (%s/%s connecté(s))\n", (i + 1), i, nbPlayers);
                     sockets[i] = s0.accept();
-                    players.put(PlayerId.CURRENT_PLAYERS().get(i), new RemotePlayerProxy(sockets[i], i >= 2 ? String.format("Player_%s", (i + 1)) : names[i], nbPlayers));
-                    playerNames.put(PlayerId.CURRENT_PLAYERS().get(i), players.get(PlayerId.CURRENT_PLAYERS().get(i)).name());
-                    System.out.printf("Player %s connected !   (%s/%s)\n\n", playerNames.get(PlayerId.CURRENT_PLAYERS().get(i)), (i + 1), nbPlayers);
 
+                    players.put(PlayerId.CURRENT_PLAYERS().get(i),
+                            new RemotePlayerProxy(sockets[i], i >= 2 ? String.format("Player_%s", (i + 1)) : names[i], nbPlayers));
+                    playerNames.put(PlayerId.CURRENT_PLAYERS().get(i),
+                            players.get(PlayerId.CURRENT_PLAYERS().get(i)).name());
+
+                    System.out.printf("Player %s connecté !   (%s/%s)\n\n", playerNames.get(PlayerId.CURRENT_PLAYERS().get(i)), (i + 1), nbPlayers);
                 }
             }
+
             new Thread(() -> Game.play(players, playerNames, SortedBag.of(ChMap.tickets()), new Random())).start();
         } catch (Exception e) {
             e.printStackTrace();

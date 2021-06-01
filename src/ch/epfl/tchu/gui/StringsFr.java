@@ -61,10 +61,6 @@ public final class StringsFr {
             "\n%s n'a plus que %s wagon%s, le dernier tour commence !\n";
     public static final String GETS_BONUS =
             "\n%s reçoit un bonus de 10 points pour le plus long trajet (%s).\n";
-    public static final String WINS =
-            "\n%s remporte la victoire avec %s point%s, contre %s point%s !\n";
-    public static final String DRAW =
-            "\n%s sont ex æqo avec %s points !\n";
     public static final String RANKING =
             "\n ===== CLASSEMENT ====\n";
     public static final String PLAYER_POINTS =
@@ -75,7 +71,6 @@ public final class StringsFr {
             " %s :\n– %s billets,\n– %s cartes,\n– %s wagons,\n– %s points.";
 
     // Séparateurs textuels
-    public static final String AND_SEPARATOR = " et ";
     public static final String EN_DASH_SEPARATOR = " – ";
 
     /**
