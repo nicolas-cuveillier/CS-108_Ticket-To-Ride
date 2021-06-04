@@ -44,7 +44,7 @@ public final class GameState extends PublicGameState {
 
         SortedBag.Builder<Card> playerCards;
 
-        for (PlayerId playerId: PlayerId.CURRENT_PLAYERS()) {
+        for (PlayerId playerId : PlayerId.CURRENT_PLAYERS()) {
             playerCards = new SortedBag.Builder<>();
             for (int i = 0; i < Constants.INITIAL_CARDS_COUNT; i++) {
                 playerCards.add(deck.topCard());

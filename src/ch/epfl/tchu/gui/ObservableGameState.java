@@ -140,7 +140,7 @@ public final class ObservableGameState {
 
         topDeckCard.setValue(newGameState.cardState().topDeckCard());
     }
-    
+
     /**
      * Getter for the percentage of Tickets in deck properties.
      *

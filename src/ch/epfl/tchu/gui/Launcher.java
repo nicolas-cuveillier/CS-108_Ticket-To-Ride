@@ -57,7 +57,13 @@ public class Launcher extends Application {
         private LauncherViewCreator() {
         }
 
-        //todo javadoc
+        /**
+         * Method that will build the GUI of the Launcher and is also able to, according to the information entered
+         * by the user, to call the init(String[] args) and start() methods of the ClientMain and ServerMain classes.
+         *
+         * @see ClientMain
+         * @see ServerMain
+         */
         public static void createLauncherView() {
 
             /// ***Main scene UI***

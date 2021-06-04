@@ -14,9 +14,10 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
-/**<h1>MapViewCreator</h1>
+/**
+ * <h1>MapViewCreator</h1>
  * None instantiable class that handle the creation of the map.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 final class MapViewCreator {
@@ -76,7 +77,7 @@ final class MapViewCreator {
         return view;
     }
 
-    private static void makeCar(Group routeCase){
+    private static void makeCar(Group routeCase) {
         Group carGroup = new Group();
         carGroup.getStyleClass().add(STYLE_CAR);
 

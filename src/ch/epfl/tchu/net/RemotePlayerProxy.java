@@ -85,7 +85,7 @@ public final class RemotePlayerProxy implements Player {
         joiner.add(Serdes.STRING.serialize(defaultName)).add(Serdes.INT.serialize(nbPlayers));
         writeMessage(MessageId.INIT_CLIENT, joiner.toString());
     }
-    
+
     @Override
     public void name(String n) {
         name = n;

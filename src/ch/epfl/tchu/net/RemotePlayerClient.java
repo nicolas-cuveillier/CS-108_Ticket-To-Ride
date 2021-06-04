@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public final class RemotePlayerClient {
     public String name;
-    
+
     private final Player player;
     private final String proxyName;
     private final int proxyPort;

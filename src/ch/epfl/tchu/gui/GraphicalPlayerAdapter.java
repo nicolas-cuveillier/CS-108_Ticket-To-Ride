@@ -9,9 +9,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import static javafx.application.Platform.runLater;
 
-/**<h1>GraphicalPlayerAdapter</h1>
+/**
+ * <h1>GraphicalPlayerAdapter</h1>
  * Hides the GraphicalPlayer component behind a Player on server side and bridges the Player's method to the corresponding GraphicalPlayer's method.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class GraphicalPlayerAdapter implements Player {
@@ -39,12 +40,12 @@ public final class GraphicalPlayerAdapter implements Player {
     public void name(String n) {
         name = n;
     }
-    
+
     @Override
     public String name() {
         return name;
     }
-    
+
     /**
      * Build an instance of the JavaFX thread an instance of Graphical player.
      *

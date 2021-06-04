@@ -4,9 +4,10 @@ import ch.epfl.tchu.SortedBag;
 import ch.epfl.tchu.game.Card;
 import javafx.util.StringConverter;
 
-/**<h1>cardBagStringConverter</h1>
+/**
+ * <h1>cardBagStringConverter</h1>
  * Implements a StringConverter for a SortedBag of cards.
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class CardBagStringConverter extends StringConverter<SortedBag<Card>> {
