@@ -64,7 +64,8 @@ public interface Serde<T> {
      * @return a Serde able to (de)serialize object from the list according to its index in it
      */
     static <T> Serde<T> oneOf(List<T> list) {
-        return Serde.of(i -> Integer.toString(list.indexOf(i)), s -> list.get(Integer.parseInt(s)));
+        List<T> copy = List.copyOf(list);
+        return Serde.of(i -> Integer.toString(copy.indexOf(i)), s -> copy.get(Integer.parseInt(s)));
     }
 
     /**

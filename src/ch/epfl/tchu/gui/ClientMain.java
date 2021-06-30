@@ -35,13 +35,9 @@ public final class ClientMain extends Application {
         final String hostname = (parameters.size() == 2) ? parameters.get(0) : DEFAULT_HOSTNAME;
         final int port = (parameters.size() == 2) ? Integer.parseInt(parameters.get(1)) : DEFAULT_PORT;
 
-        try {
-            RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port);
-            new Thread(remotePlayerClient::run).start();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
+        RemotePlayerClient remotePlayerClient = new RemotePlayerClient(new GraphicalPlayerAdapter(), hostname, port);
+        new Thread(remotePlayerClient::run).start();
+
     }
 
 }

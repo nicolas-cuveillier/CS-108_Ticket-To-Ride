@@ -18,9 +18,10 @@ import java.util.Random;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_1;
 import static ch.epfl.tchu.game.PlayerId.PLAYER_2;
 
-/**<h1>ServerMain</h1>
+/**
+ * <h1>ServerMain</h1>
  * Contains the main program of the local client (local player).
- * 
+ *
  * @author Grégory Preisig (299489) & Nicolas Cuveillier (329672)
  */
 public final class ServerMain extends Application {
@@ -41,16 +42,24 @@ public final class ServerMain extends Application {
     public void start(Stage primaryStage) {
         String firstPlayerName = "Ada";
         String secondPlayerName = "Charles";
-        
+
         List<String> parameters = getParameters().getRaw();
-        
-        if(parameters.size() == 2) {
-            firstPlayerName = parameters.get(0);
-            secondPlayerName = parameters.get(1);
+
+        switch (parameters.size()) {
+            case 0:
+                break;
+            case 1:
+                firstPlayerName = parameters.get(0);
+                break;
+            case 2:
+                firstPlayerName = parameters.get(0);
+                secondPlayerName = parameters.get(1);
+                break;
+            default:
+                throw new IllegalArgumentException("Not the right number of parameters !");
         }
 
-        try {
-            ServerSocket s0 = new ServerSocket(5108);
+        try (ServerSocket s0 = new ServerSocket(5108)) {
             Socket s = s0.accept();
 
             GraphicalPlayerAdapter graphicalPlayer = new GraphicalPlayerAdapter();

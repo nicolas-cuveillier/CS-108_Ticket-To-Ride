@@ -87,11 +87,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public SortedBag<Ticket> chooseInitialTickets() {
-        try {
-            return blockingTicketsQueue.take();
-        } catch (InterruptedException e) {
-            throw new Error();
-        }
+        return take(blockingTicketsQueue);
     }
 
     /**
@@ -114,11 +110,7 @@ public final class GraphicalPlayerAdapter implements Player {
                     blockingCardsQueue.add(cards);
                     blockingTurnKindQueue.add(TurnKind.CLAIM_ROUTE);
                 }));
-        try {
-            return blockingTurnKindQueue.take();
-        } catch (InterruptedException e) {
-            throw new Error();
-        }
+        return take(blockingTurnKindQueue);
     }
 
     /**
@@ -148,11 +140,7 @@ public final class GraphicalPlayerAdapter implements Player {
         if (!blockingCardIndexQueue.isEmpty()) return blockingCardIndexQueue.remove();
         else {
             runLater(() -> graphicalPlayer.drawCard(blockingCardIndexQueue::add));
-            try {
-                return blockingCardIndexQueue.take();
-            } catch (InterruptedException e) {
-                throw new Error();
-            }
+            return take(blockingCardIndexQueue);
         }
 
     }
@@ -165,11 +153,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public Route claimedRoute() {
-        try {
-            return blockingRouteQueue.take();
-        } catch (InterruptedException e) {
-            throw new Error();
-        }
+        return take(blockingRouteQueue);
     }
 
     /**
@@ -180,11 +164,7 @@ public final class GraphicalPlayerAdapter implements Player {
      */
     @Override
     public SortedBag<Card> initialClaimCards() {
-        try {
-            return blockingCardsQueue.take();
-        } catch (InterruptedException e) {
-            throw new Error();
-        }
+        return take(blockingCardsQueue);
     }
 
     /**
@@ -198,8 +178,12 @@ public final class GraphicalPlayerAdapter implements Player {
     @Override
     public SortedBag<Card> chooseAdditionalCards(List<SortedBag<Card>> options) {
         runLater(() -> graphicalPlayer.chooseAdditionalCards(options, blockingCardsQueue::add));
+        return take(blockingCardsQueue);
+    }
+
+    private static <E> E take(BlockingQueue<E> queue){
         try {
-            return blockingCardsQueue.take();
+            return queue.take();
         } catch (InterruptedException e) {
             throw new Error();
         }

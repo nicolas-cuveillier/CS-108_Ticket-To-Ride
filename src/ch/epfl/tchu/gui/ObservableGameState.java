@@ -269,7 +269,7 @@ public final class ObservableGameState {
      * @return (boolean) true iff the PublicGameState tickets' count is different from 0
      * @see PublicGameState
      */
-    protected boolean canDrawTickets() {
+    boolean canDrawTickets() {
         return publicGameState.canDrawTickets();
     }
 
@@ -279,7 +279,7 @@ public final class ObservableGameState {
      * @return (boolean) true iff the PublicGameState cards overall are more or equal to five
      * @see PublicGameState
      */
-    protected boolean canDrawCards() {
+    boolean canDrawCards() {
         return publicGameState.canDrawCards();
     }
 }

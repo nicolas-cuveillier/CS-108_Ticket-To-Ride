@@ -29,6 +29,10 @@ final class MapViewCreator {
     private static final String STYLE_ROUTE = "route";
     private static final String STYLE_CAR = "car";
     private static final String STYLE_FILLED = "filled";
+    private static final int CIRCLE_CENTER_X_1 = 12;
+    private static final int CIRCLE_CENTER_X_2 = 24;
+    private static final int CIRCLE_CENTER_Y = 6;
+    private static final int CIRCLE_RADIUS = 3;
 
     /**
      * Static method that will create a node containing all the different component of the tchu's map.
@@ -86,8 +90,8 @@ final class MapViewCreator {
 
         Rectangle carRectangle = new Rectangle(36, 12);
         carRectangle.getStyleClass().add(STYLE_FILLED);
-        Circle carCircle1 = new Circle(12, 6, 3);
-        Circle carCircle2 = new Circle(24, 6, 3);
+        Circle carCircle1 = new Circle(CIRCLE_CENTER_X_1, CIRCLE_CENTER_Y, CIRCLE_RADIUS);
+        Circle carCircle2 = new Circle(CIRCLE_CENTER_X_2, CIRCLE_CENTER_Y, CIRCLE_RADIUS);
 
         Rectangle trackRectangle = new Rectangle(36, 12);
         trackRectangle.getStyleClass().addAll("track", STYLE_FILLED);

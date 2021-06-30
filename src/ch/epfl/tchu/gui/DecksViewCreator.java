@@ -56,7 +56,7 @@ final class DecksViewCreator {
         for (Card card : Card.ALL) {
             StackPane cardPane = new StackPane();
 
-            cardPane.getStyleClass().addAll((card.name().equals("LOCOMOTIVE")) ? STYLE_NEUTRAL : card.color().name(), STYLE_CARD);
+            cardPane.getStyleClass().addAll((card == Card.LOCOMOTIVE) ? STYLE_NEUTRAL : card.color().name(), STYLE_CARD);
 
             ReadOnlyIntegerProperty count = gameState.cardProperty(card);
             cardPane.visibleProperty().bind(Bindings.greaterThan(count, 0));

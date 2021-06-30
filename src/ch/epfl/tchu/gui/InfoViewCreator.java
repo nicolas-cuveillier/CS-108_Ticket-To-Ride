@@ -24,6 +24,7 @@ import java.util.Map;
 final class InfoViewCreator {
     private final static String STYLE_COLORS = "colors.css";
     private final static String STYLE_INFO = "info.css";
+    private final static int CIRCLE_RADIUS = 5;
 
     private InfoViewCreator() {
     }
@@ -54,7 +55,7 @@ final class InfoViewCreator {
             TextFlow text = new TextFlow();
             text.getStyleClass().add(pId.name());
 
-            Circle coloredCircle = new Circle(5);
+            Circle coloredCircle = new Circle(CIRCLE_RADIUS);
             coloredCircle.getStyleClass().add("filled");
 
             //make the text and update it

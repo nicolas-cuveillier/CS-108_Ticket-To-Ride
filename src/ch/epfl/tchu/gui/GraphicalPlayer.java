@@ -52,6 +52,8 @@ public final class GraphicalPlayer {
      * @param playersName a map containing the id of all players linked to their name
      */
     public GraphicalPlayer(PlayerId player, Map<PlayerId, String> playersName) {
+        assert isFxApplicationThread();
+
         this.gameState = new ObservableGameState(player);
         this.information = FXCollections.observableArrayList();
 
