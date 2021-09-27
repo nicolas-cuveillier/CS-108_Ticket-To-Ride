@@ -3,7 +3,6 @@ package ch.epfl.tchu.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**<h1>Trail</h1>
  * Implements a Trail of the game.
@@ -36,8 +35,7 @@ public final class Trail {
      */
     public static Trail longest(List<Route> routes) {
 
-        if (routes.isEmpty())
-            return new Trail(List.of(), null, null);
+        if (routes.isEmpty()) return new Trail(List.of(), null, null);
 
         List<Trail> cs;
         Trail longestTrail = null;
@@ -50,17 +48,16 @@ public final class Trail {
 
             for (Trail c : cs) {
 
-                if (longestTrail != null)
-                    length = longestTrail.length;
+                if (longestTrail != null) length = longestTrail.length;
 
                 //go through all routes and search possible candidate to continue the trail
                 routes.stream()
                         .filter(route -> !c.routes().contains(route))
                         .forEach(route -> {
-                            if ((c.station2().id() == route.station1().id()) && (Objects.equals(c.station2().name(), route.station1().name()))) {
-                                addTrailBuildWithRouteAccordingToSt2(c, cs2, route);
-                            } else if ((c.station2().id() == route.station2().id()) && (Objects.equals(c.station2().name(), route.station2().name()))) {
+                            if ((c.station2().id() == route.station1().id()) && c.station2().name().equals(route.station1().name())) {
                                 addTrailBuildWithRouteAccordingToSt1(c, cs2, route);
+                            } else if ((c.station2().id() == route.station2().id()) && c.station2().name().equals(route.station2().name())) {
+                                addTrailBuildWithRouteAccordingToSt2(c, cs2, route);
                             }
                         });
 
@@ -71,25 +68,25 @@ public final class Trail {
         return longestTrail;
     }
 
-    private static void addTrailBuildWithRouteAccordingToSt1(Trail c, List<Trail> cs2, Route toAdd) {
-        List<Route> routeList = new ArrayList<>(c.routes());
-        routeList.add(toAdd);
-        Trail t = new Trail(routeList, c.station1(), toAdd.station1());
-        cs2.add(t);
-    }
-
     private static void addTrailBuildWithRouteAccordingToSt2(Trail c, List<Trail> cs2, Route toAdd) {
         List<Route> routeList = new ArrayList<>(c.routes());
         routeList.add(toAdd);
-        Trail t = new Trail(routeList, c.station1(), toAdd.station2());
-        cs2.add(t);
+        cs2.add(new Trail(routeList, c.station1(), toAdd.station1()));
+    }
+
+    private static void addTrailBuildWithRouteAccordingToSt1(Trail c, List<Trail> cs2, Route toAdd) {
+        List<Route> routeList = new ArrayList<>(c.routes());
+        routeList.add(toAdd);
+        cs2.add(new Trail(routeList, c.station1(), toAdd.station2()));
     }
 
     private static List<Trail> getSingleRoutes(List<Route> routes) {
         final List<Trail> trails = new ArrayList<>();
 
-        routes.forEach(r -> trails.add(new Trail(List.of(r), r.station1(), r.station2())));
-        routes.forEach(r -> trails.add(new Trail(List.of(r), r.station2(), r.station1())));
+        routes.forEach(r -> {
+            trails.add(new Trail(List.of(r), r.station1(), r.station2()));
+            trails.add(new Trail(List.of(r), r.station2(), r.station1()));
+        });
         return trails;
     }
 

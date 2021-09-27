@@ -56,7 +56,7 @@ public final class ServerMain extends Application {
                 secondPlayerName = parameters.get(1);
                 break;
             default:
-                throw new IllegalArgumentException("Not the right number of parameters !");
+                throw new IllegalArgumentException("Wrong number of parameters !");
         }
 
         try (ServerSocket s0 = new ServerSocket(5108)) {

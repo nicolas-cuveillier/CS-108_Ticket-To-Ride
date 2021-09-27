@@ -81,8 +81,7 @@ public final class StationPartition implements StationConnectivity {
          */
         public StationPartition build() {
 
-            for (int i = 0; i < representativeId.length; i++)
-                representativeId[i] = representative(i);
+            for (int i = 0; i < representativeId.length; i++) representativeId[i] = representative(i);
 
             return new StationPartition(Arrays.copyOf(representativeId,representativeId.length));
         }

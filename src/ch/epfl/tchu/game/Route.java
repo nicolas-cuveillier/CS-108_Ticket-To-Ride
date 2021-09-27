@@ -84,7 +84,7 @@ public final class Route {
     }
 
     /**
-     * Computes from a List of SortedBag of Cards all the possible cards the player can choose to take the route.
+     * Computes a List of SortedBag of Cards of all the possible cards that the player can choose to take the route.
      *
      * @return (List < SortedBag < Card > >) a List of SortedBag of all possible Cards to claim the Route
      */
@@ -92,16 +92,11 @@ public final class Route {
         final List<SortedBag<Card>> possibleClaimCards = new ArrayList<>();
 
         if (color == null) {
-            if (level.equals(Level.UNDERGROUND))
-                unColorUnderGroundPossibleClaimCards(possibleClaimCards);
-            else
-                unColorOverGroundPossibleClaimCards(possibleClaimCards);
-
+            if (level.equals(Level.UNDERGROUND)) unColorUnderGroundPossibleClaimCards(possibleClaimCards);
+            else unColorOverGroundPossibleClaimCards(possibleClaimCards);
         } else {
-            if (level.equals(Level.UNDERGROUND))
-                colorUndergroundPossibleClaimCards(possibleClaimCards);
-            else
-                colorOvergroundPossibleClaimCards(possibleClaimCards);
+            if (level.equals(Level.UNDERGROUND)) colorUndergroundPossibleClaimCards(possibleClaimCards);
+            else colorOvergroundPossibleClaimCards(possibleClaimCards);
         }
         return possibleClaimCards;
     }
